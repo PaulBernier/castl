@@ -1,6 +1,6 @@
 CAST(L): compile JavaScript to Lua
 ==========
-CASTL (Compile Abstract Syntax Tree to Lua) is a free and open source project that allows you to "compile" some JavaScript code to Lua code and run it.
+CASTL (Compile Abstract Syntax Tree to Lua) is a free and open source project that allows you to "compile" some JavaScript code to Lua 5.2 code and run it.
 
 In order to do so you'll need a JavaScript parser able to produce an AST (Abstract Syntax Tree) compliant with the SpiderMonkey AST structure. You can use Esprima or Acorn for instance (if you install CASTL via npm Esprima and Acorn are automatically downloaded as dependencies but feel free to use any other parser).
 
@@ -65,7 +65,7 @@ If the JS script you want to compile uses regular expressions you'll have to ins
 
 ### What the hell could it be useful for?
 
-CASTL lets you execute JS scripts on Lua VM. Lua VM is known to be fast and lightweight, and especially it is often used in embedded systems. Thus it could allow you to execute your JS scripts on micro-controllers for example.
+CASTL lets you execute JS scripts on Lua 5.2 VM. Lua VM is known to be fast and lightweight, and especially it is often used in embedded systems. Thus it could allow you to execute your JS scripts on micro-controllers for example.
 
 The probably best known example is [Tessel](https://tessel.io/) which sells a board that "runs JavaScript". In fact they do the same as CASTL, the JS code is converted to Lua and then executed in a specific environment. They call it Colony.
 
