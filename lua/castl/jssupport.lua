@@ -107,11 +107,13 @@ function jssupport.isNaN(this, n)
         return true
     elseif type(n) == "string" then
         -- trim to compare with ""
-        local s = match(n,'^()%s*$') and '' or match(n,'^%s*(.*%S)')
+        local s = match(n, '^()%s*$') and '' or match(n, '^%s*(.*%S)')
         if s == "" then return false end
         -- Warning!: tonumber() expects decimal numbers with the country-specific decimal separator instead of always the dot separator
         s = tonumber(s)
-        if s == nil then return true else return false end
+        -- LuaJIT return nan when tonumber fails
+        local castfailed = s == nil or s ~= s
+        if castfailed then return true else return false end
     end
 
     return false

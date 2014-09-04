@@ -18,6 +18,10 @@ And then you may want to try:
     castl -e code.js
     npm test
 
+#### Dependencies
+
+If the JS script you want to compile uses regular expressions you'll have to install [Lrexlib](http://rrthomas.github.io/lrexlib/) with the PCRE flavor. CASTL uses this library to deal with RegExps.
+
 ## Example:
 
 *Compile code in "file.js" (using Esprima to parse), print and execute the compiled code:*
@@ -33,24 +37,21 @@ And then you may want to try:
 * *filename*: name of the file to compile.
 * -q: quiet, does not print the compiled code.
 * -o: output the plain text Lua code in a file named output.lua.
-* -c: if -o option is active the outputted code is Lua bytecode.
+* -c: if -o option is active the outputted code is Lua bytecode (luac).
 * -e: execute the Lua code compiled.
 * -h, --help: display help.
 * --acorn: use Acorn parser. If not specified Esprima is used.
 * --node: add a very basic support of NodeJS 'require' system.
+* --jit: use LuaJIT instead of Lua interpreter to execute compiled code.
 
 ## CASTL components
 
 CASTL is made of two parts:
 
 * a JavaScript script (`castl.js`) which converts a SpiderMonkey AST to lua code
-* a Lua runtime library which allows the execution of the code compiled by `castl.js`
+* a Lua runtime library (located in `lua/castl/`) which allows the execution of the code compiled by `castl.js`
 
 There is also a useful bash script `bin/castl.sh` to easily compile and execute JS files.
-
-**Important:**
-
-If the JS script you want to compile uses regular expressions you'll have to install [Lrexlib](http://rrthomas.github.io/lrexlib/) with the PCRE flavor. CASTL uses this library to deal with RegExps.
 
 ## Not Supported yet
 

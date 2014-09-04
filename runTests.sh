@@ -3,13 +3,15 @@
 # Set environment varialbe
 export LUA_PATH=$LUA_PATH";lua/?.lua;"
 
+luajit=false;
 success=0;
 total=0;
 
 rm test/*.lua 2>/dev/null 1>/dev/null
 
-# Test all .js files
-for f in test/*.js; do 
+function testFile {
+    f=$1
+    
     ((total++));
     echo "********************************************";
     echo $f;
@@ -29,7 +31,7 @@ for f in test/*.js; do
     
     # Compile js script to lua
     echo -n "Compile test $f... ";
-    nodejs "compileTest.js" $f;
+    nodejs "compileTest.js" $f $luajit;
     
     if (($? > 0)); then
         echo "--> Compilation of js code failed!";
@@ -42,7 +44,12 @@ for f in test/*.js; do
     # Execute lua code compiled
     luaScript="${f:0:(${#f}-2)}lua";
     echo -n "Execute test $luaScript... ";
-    lua $luaScript;
+    if [ "$luajit" = true ]; then
+        luajit $luaScript;
+    else
+        lua $luaScript;
+    fi
+    
     
     if (($? > 0)); then
         echo "--> Execution of lua code failed!";
@@ -54,7 +61,34 @@ for f in test/*.js; do
     
     echo "--> Everything Is AWESOME!!!";
     ((success++));
-done
+}
+
+files=()
+# handle arguments
+if [ "$#" -ne 0 ]; then
+    for arg in "$@"; do
+    
+        if [[ $arg == --* ]] ; then
+            if [ $arg = "--jit" ]; then
+                luajit=true
+            fi
+        else
+            files+=("test/$arg.js")
+        fi
+    done
+fi
+
+# if some files were specified test them
+if [ "${#files[@]}" -ne 0 ]; then
+    for f in "$files"; do
+        testFile $f
+    done
+else
+    # Else test all .js files
+    for f in test/*.js; do 
+        testFile $f
+    done
+fi
 
 echo "----------------------------------------------";
 echo "Report:";

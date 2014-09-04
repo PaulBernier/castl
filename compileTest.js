@@ -4,6 +4,7 @@ var fs = require('fs');
 var parser = require('esprima');
 // var parser = require('acorn');
 var filename = process.argv[2];
+var luajit = process.argv[3];
 
 // Read code from js file
 fs.readFile(filename, 'utf8', function (err, data) {
@@ -30,15 +31,25 @@ fs.readFile(filename, 'utf8', function (err, data) {
 
             var compiledCode = castl.compileAST(syntax).compiled;
             compiledCode = compiledCode.replace(/assert\(this,/g, "assert(");
-            compiledCode = "local assert, print = assert, print\n" + compiledCode;
-
+            var finalCode = ["local assert, print = assert, print"];
+            
+            // Set environment
+            if (luajit === "true") {
+                finalCode.push("return setfenv(function(...)");
+                finalCode.push(compiledCode);
+                finalCode.push("end, require(\"castl.runtime\"))()");
+            } else {
+                finalCode.push("_ENV = require(\"castl.runtime\")");
+                finalCode.push(compiledCode);
+            }
+            
             // Write compiled code
             var luaFilename = filename;
             // Remove js extension
             luaFilename = luaFilename.substring(0, luaFilename.length - 2);
             luaFilename += "lua";
 
-            fs.writeFile(luaFilename, compiledCode, function (err) {
+            fs.writeFile(luaFilename, finalCode.join("\n"), function (err) {
                 if (err) { // if error, report
                     console.log(err);
                 }

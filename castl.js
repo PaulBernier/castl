@@ -139,8 +139,8 @@
 
         // Compile top level
         if (ast.type === 'Program') {
-            // Runtime environment
-            var compiledProgram = ["_ENV = require('castl.runtime');"];
+            var compiledProgram = [];
+
             localVarManager.createLocalContext();
             var topLevelStatements = compileListOfStatements(ast.body);
 
