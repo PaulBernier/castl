@@ -37,9 +37,9 @@ fs.readFile(filename, 'utf8', function (err, data) {
             if (luajit === "true") {
                 finalCode.push("return setfenv(function(...)");
                 finalCode.push(compiledCode);
-                finalCode.push("end, require(\"castl.runtime\"))()");
+                finalCode.push("end, require(\"castl.runtime\"))();");
             } else {
-                finalCode.push("_ENV = require(\"castl.runtime\")");
+                finalCode.push("_ENV = require(\"castl.runtime\");");
                 finalCode.push(compiledCode);
             }
             

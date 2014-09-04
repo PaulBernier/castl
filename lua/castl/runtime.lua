@@ -26,6 +26,7 @@ local String = require("castl.constructor.string")
 local Date = require("castl.constructor.date")
 local RegExp = require("castl.constructor.regexp")
 local Math = require("castl.math")
+local eval = require("castl.eval")
 
 -- Exported environment
 local export = {
@@ -39,6 +40,7 @@ local export = {
     _in = jssupport.inOp,
     _with = jssupport.with,
     _void = jssupport.void,
+    _e = jssupport.e,
     null = jssupport.null,
     NaN = jssupport.NaN,
     Infinity = jssupport.Infinity,
@@ -50,6 +52,7 @@ local export = {
     encodeURIComponent = jssupport.encodeURIComponent,
     decodeURI = jssupport.decodeURI,
     decodeURIComponent = jssupport.decodeURIComponent,
+    eval = eval.eval,
 
     -- core object
     _obj = coreObjects.obj,

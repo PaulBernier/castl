@@ -26,6 +26,7 @@ local gsub, sub, match, format, sbyte, find, char = string.gsub, string.sub, str
 _ENV = nil
 
 jssupport.void = function() end
+jssupport.e = function(...) return ... end
 jssupport.NaN = 0/0
 jssupport.Infinity = huge
 

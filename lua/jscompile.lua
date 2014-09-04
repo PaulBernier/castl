@@ -1,5 +1,5 @@
-local esprima = require("jscompile.esprima")
-local castl = require("jscompile.castl")
+local esprima = require("castl.jscompile.esprima")
+local castl = require("castl.jscompile.castl")
 
 local file = io.open("../code.js", "r")
 local str = file:read("*all")

@@ -74,6 +74,7 @@ Note that by using LuaJIT instead of Lua 5.2 VM you'll unfortunately lose:
 
 * regular expressions since [Lrexlib](http://rrthomas.github.io/lrexlib/) does not support LuaJIT for now
 * _with_ statement (not a big loss normally...)
+* eval() global function and Function() constructor (idem)
 
 ## Q&A
 
@@ -91,6 +92,7 @@ I have definitively been inspired on many points by Colony. Nonetheless there is
 
 * CASTL is aimed to run on a native Lua 5.2 (unmodified VM) whereas Colony rely on a fork of Lua 5.1.
 * CASTL may run to a certain extent on LuaJIT.
+* CASTL support eval() function and Function() constructor :) (yes, it uses a Lua version of CASTL and Esprima...)
 * `castl.js` is not bound to any parser whereas Colony is bound to an old modified version of Acorn.
 * `castl.js` is NodeJS independent, it can be executed in Node as well as in a web browser.
 * `castl.js` is much more readable than `colonize.js` allowing easy improvement in the future.
@@ -99,7 +101,7 @@ I have definitively been inspired on many points by Colony. Nonetheless there is
 
 ### I'd prefer a version of CASTL written in Lua
 
-Easy, just compile CASTL by itself (and also Esprima for the parsing)! By the way you can find a version already compiled in folder `lua/jscompile/`.
+Easy, just compile CASTL by itself (and also Esprima for the parsing)! By the way you can find a version already compiled in folder `lua/castl/jscompile/` which is used for the eval() function.
 
 ## Info
 

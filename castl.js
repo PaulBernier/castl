@@ -775,12 +775,8 @@
     // Add a semi-colon at the end of ExpressionStatements
     function compileExpressionStatement(expression) {
         switch (expression.type) {
-        case "CallExpression":
-            return compileCallExpression(expression) + ";";
         case "AssignmentExpression":
-            return compileNoReturnAssignmentExpression(expression) + ";";
         case "UpdateExpression":
-            return compileNoReturnUpdateExpression(expression) + ";";
         case "Literal":
         case "Identifier":
         case "ThisExpression":
@@ -790,7 +786,7 @@
         case "ConditionalExpression":
         case "MemberExpression":
             // Enclose the statement in a _void to be evaluated
-            var compiledExpressionStatement = ["_void("];
+            var compiledExpressionStatement = ["_e("];
             compiledExpressionStatement.push(compileExpression(expression));
             compiledExpressionStatement.push(");");
             return compiledExpressionStatement.join("");
@@ -826,33 +822,6 @@
             compiledAssignmentExpression.push("; ");
             compiledAssignmentExpression.push(left);
             compiledAssignmentExpression.push("  = _tmp; return _tmp; end)()");
-        }
-
-        return compiledAssignmentExpression.join('');
-    }
-
-    function compileNoReturnAssignmentExpression(expression) {
-        var compiledAssignmentExpression = [];
-
-        var left = compileExpression(expression.left);
-
-        compiledAssignmentExpression.push(left);
-        compiledAssignmentExpression.push(" = ");
-
-        switch (expression.operator) {
-        case "=":
-            var right = compileExpression(expression.right);
-            compiledAssignmentExpression.push(right);
-            break;
-        default:
-            // Build a binary expression node to compile
-            var binaryExpression = [];
-            binaryExpression.type = "BinaryExpression";
-            binaryExpression.operator = extractBinaryOperator(expression.operator);
-            binaryExpression.left = expression.left;
-            binaryExpression.right = expression.right;
-            var compiledBinaryExpression = compileBinaryExpression(binaryExpression);
-            compiledAssignmentExpression.push(compiledBinaryExpression);
         }
 
         return compiledAssignmentExpression.join('');
@@ -904,30 +873,6 @@
         }
 
         compiledUpdateExpression.push("; return _tmp; end)()");
-
-        return compiledUpdateExpression.join('');
-    }
-
-    function compileNoReturnUpdateExpression(expression) {
-        var compiledUpdateExpression = [];
-        var compiledArgument = compileExpression(expression.argument);
-
-        compiledUpdateExpression.push(compiledArgument);
-        compiledUpdateExpression.push(" = ");
-
-        switch (expression.operator) {
-        case "++":
-            compiledUpdateExpression.push("_add(");
-            compiledUpdateExpression.push(compiledArgument);
-            compiledUpdateExpression.push(", 1)");
-            break;
-        case "--":
-            compiledUpdateExpression.push(compiledArgument);
-            compiledUpdateExpression.push(" - 1");
-            break;
-        default:
-            throw new Error("Unknown UpdateOperator: " + expression.operator);
-        }
 
         return compiledUpdateExpression.join('');
     }

@@ -24,20 +24,20 @@ fs.readFile(filename, 'utf8', function (err, data) {
 
     // Set environment
     if (nodejs === "true") {
-        finalCode.push("_nodejs = true");
+        finalCode.push("_nodejs = true;");
     }
     if (luajit === "true") {
         finalCode.push("return setfenv(function(...)");
         finalCode.push(compiledCode);
         if (nodejs === "true") {
-            finalCode.push("return exports");
+            finalCode.push("return exports;");
         }
-        finalCode.push("end, require(\"castl.runtime\"))()");
+        finalCode.push("end, require(\"castl.runtime\"))();");
     } else {
-        finalCode.push("_ENV = require(\"castl.runtime\")");
+        finalCode.push("_ENV = require(\"castl.runtime\");");
         finalCode.push(compiledCode);
         if (nodejs === "true") {
-            finalCode.push("return exports");
+            finalCode.push("return exports;");
         }
     }
     
