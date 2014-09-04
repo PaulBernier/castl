@@ -26,11 +26,11 @@ If the JS script you want to compile uses regular expressions you'll have to ins
 
 *Compile code in "file.js" (using Esprima to parse), print and execute the compiled code:*
 
-    $ castl -e file.js
+    $ castl -e <file.js>
     
 *Compile code in "file.js", does not print anything but save the compiled code to "output.lua"*
 
-    $ castl -qo file.js
+    $ castl -qo <file.js>
 
 **The options of the command line are:**
 
@@ -62,6 +62,19 @@ There is also a useful bash script `bin/castl.sh` to easily compile and execute 
 * Property descriptor (enumerable/writable/configurable)
 * Other little things...
 
+## LuaJIT
+
+If you want to use LuaJIT to execute code compiled with CASTL you can, but with some little drawbacks. 
+
+First of all you'll have to compile LuaJIT with the -DLUAJIT\_ENABLE\_LUA52COMPAT option [http://luajit.org/extensions.html#lua52](http://luajit.org/extensions.html#lua52). Then you can use the `--jit` option of the castl command line:
+
+     castl -qe --jit <file.js>
+
+Note that by using LuaJIT instead of Lua 5.2 VM you'll unfortunately lose:
+
+* regular expressions since [Lrexlib](http://rrthomas.github.io/lrexlib/) does not support LuaJIT for now
+* _with_ statement (not a big loss normally...)
+
 ## Q&A
 
 ### What the hell could it be useful for?
@@ -77,6 +90,7 @@ Note that CASTL will always be slower than a native Lua script, so take time to 
 I have definitively been inspired on many points by Colony. Nonetheless there is some important points of divergence: 
 
 * CASTL is aimed to run on a native Lua 5.2 (unmodified VM) whereas Colony rely on a fork of Lua 5.1.
+* CASTL may run to a certain extent on LuaJIT.
 * `castl.js` is not bound to any parser whereas Colony is bound to an old modified version of Acorn.
 * `castl.js` is NodeJS independent, it can be executed in Node as well as in a web browser.
 * `castl.js` is much more readable than `colonize.js` allowing easy improvement in the future.
