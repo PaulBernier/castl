@@ -24,19 +24,19 @@ If the JS script you want to compile uses regular expressions you'll have to ins
 
 ## Example:
 
-*Compile code in "file.js" (using Esprima to parse), print and execute the compiled code:*
+*Compile code in <file.js> (using Esprima to parse), print and execute the compiled code:*
 
     $ castl -e <file.js>
     
-*Compile code in "file.js", does not print anything but save the compiled code to "output.lua"*
+*Compile code in <file.js>, does not print anything but save the compiled code to "mycode.lua"*
 
-    $ castl -qo <file.js>
+    $ castl -qo "mycode.lua" <file.js>
 
 **The options of the command line are:**
 
 * *filename*: name of the file to compile.
 * -q: quiet, does not print the compiled code.
-* -o: output the plain text Lua code in a file named output.lua.
+* -o: output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named _output.lua_.
 * -c: if -o option is active the outputted code is Lua bytecode (luac).
 * -e: execute the Lua code compiled.
 * -h, --help: display help.

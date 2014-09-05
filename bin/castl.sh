@@ -24,6 +24,7 @@ compiled=false
 tolerant=false
 node=false
 luajit=false
+outputname="output.lua"
 parser="esprima"
 filename="code.js"
 
@@ -32,7 +33,7 @@ function help {
     echo "Options:"
     printf "\t%-15s %s\n" "-e" "execute the Lua code compiled"
     printf "\t%-15s %s\n" "-q" "quiet, does not print the compiled code"
-    printf "\t%-15s %s\n" "-o" "output the plain text Lua code in a file named output.lua"
+    printf "\t%-15s %s\n" "-o" "output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named output.lua"
     printf "\t%-15s %s\n" "-c" "if -o option is active the outputted code is Lua bytecode (luac)"
     printf "\t%-15s %s\n" "-h, --help" "display this help"
     printf "\t%-15s %s\n" "--acorn" "use Acorn parser. If not specified Esprima is used"
@@ -42,9 +43,11 @@ function help {
     exit 0
 }
 
+waitname=false
 for arg in "$@"; do
 
     if [[ $arg == --* ]] ; then
+        waitname=false
         if [ $arg = "--acorn" ]; then
             parser="acorn"
         elif [ $arg = "--tolerant" ]; then
@@ -52,13 +55,14 @@ for arg in "$@"; do
         elif [ $arg = "--node" ]; then
             node=true
         elif [ $arg = "--jit" ]; then
-            luajit=true
+            luajit=true            
         elif [ $arg = "--help" ]; then
             help
         else
             help
         fi
     elif [[ $arg == -* ]] ; then
+        waitname=false
         for i in `seq 1 ${#arg}` ; do
             c="${arg:$i:1}"
             
@@ -68,6 +72,8 @@ for arg in "$@"; do
                 help
             elif [ "$c" = "o" ]; then
                 output=true
+                waitname=true
+                continue;
             elif [ "$c" = "q" ]; then
                 quiet=true
             elif [ "$c" = "c" ]; then
@@ -77,7 +83,12 @@ for arg in "$@"; do
             fi
         done
     else
-        filename=$arg
+        if [ "$waitname" = true ]; then
+            outputname=$arg
+        else
+            filename=$arg
+        fi
+        waitname=false
     fi
 done
 
@@ -94,10 +105,10 @@ fi
 if [ "$output" = true ]; then    
     if [ "$compiled" = true ]; then
         printf "%s" "$code" > ".tmp.lua"
-        luac -o "output.out" ".tmp.lua"
+        luac -o $outputname ".tmp.lua"
         rm ".tmp.lua"
     else
-        printf "%s" "$code" > "output.lua"
+        printf "%s" "$code" > $outputname
     fi
 fi
 
