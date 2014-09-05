@@ -96,7 +96,7 @@ echo "Report:";
 echo "Passed: $success / $total";
 
 if (($success != $total)); then
-    echo "Failed:";
+    echo "Failed: ${#failed[@]} ";
     for name in "${failed[@]}"; do
         echo "-$name";
     done

@@ -1,7 +1,7 @@
 _ENV = require("castl.runtime");
 (function (this, root, factory)
 _e("use strict");
-if _bool((_type(define) == "function") and define.amd) then
+if _bool(((_type(define) == "function") and define.amd)) then
 define(this,_arr({[0]="exports"},1),factory);
 elseif _bool((exports ~= undefined)) then
 factory(this,exports);
@@ -13,89 +13,20 @@ factory(this,root.castl);
 end
 
 end)(this,this,(function (this, exports)
-local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileUnaryExpression,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,extractBinaryOperator,compileAssignmentExpression,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileListOfStatements,compileStatement,compileAST,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,continueNoLabelTracker,labelTracker,luaKeywords;
-_e("use strict");
-luaKeywords = _arr({[0]="and","break","do","else","elseif","end","false","for","function","goto","if","in","local","nil","not","or","repeat","return","then","true","until","while"},22);
-labelTracker = _arr({},0);
-continueNoLabelTracker = _arr({},0);
+local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileUnaryExpression,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,extractBinaryOperator,compileAssignmentExpression,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileListOfStatements,compileStatement,compileAST,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,continueNoLabelTracker,labelTracker,luaKeywords;
 ProtectedCallManager = (function (this)
 _e((function () local _tmp = false; this.isInProtectedCallContext  = _tmp; return _tmp; end)());
 _e((function () local _tmp = false; this.mayReturn  = _tmp; return _tmp; end)());
 _e((function () local _tmp = false; this.mayBreak  = _tmp; return _tmp; end)());
 _e((function () local _tmp = false; this.mayContinue  = _tmp; return _tmp; end)());
 end)
-_e((function () local _tmp = _obj({
-["openContext"] = (function (this)
-_e((function () local _tmp = true; this.isInProtectedCallContext  = _tmp; return _tmp; end)());
-end),
-["closeContext"] = (function (this)
-_e((function () local _tmp = false; this.isInProtectedCallContext  = _tmp; return _tmp; end)());
-end),
-["reset"] = (function (this)
-this:closeContext();
-_e((function () local _tmp = false; this.mayReturn  = _tmp; return _tmp; end)());
-_e((function () local _tmp = false; this.mayBreak  = _tmp; return _tmp; end)());
-_e((function () local _tmp = false; this.mayContinue  = _tmp; return _tmp; end)());
-end),
-["returnStatement"] = (function (this)
-if _bool(this.isInProtectedCallContext) then
-_e((function () local _tmp = true; this.mayReturn  = _tmp; return _tmp; end)());
-end
-
-end),
-["breakStatement"] = (function (this)
-if _bool(this.isInProtectedCallContext) then
-_e((function () local _tmp = true; this.mayBreak  = _tmp; return _tmp; end)());
-end
-
-end),
-["continueStatement"] = (function (this)
-if _bool(this.isInProtectedCallContext) then
-_e((function () local _tmp = true; this.mayContinue  = _tmp; return _tmp; end)());
-end
-
-end),
-["mayModifyFlow"] = (function (this)
- do return this.mayReturn or this.mayBreak or this.mayContinue; end
-end)
-}); ProtectedCallManager.prototype  = _tmp; return _tmp; end)());
-protectedCallManager = _new(ProtectedCallManager);
 LocalVarManager = (function (this)
-_e((function () local _tmp = _arr({},0); this.stack  = _tmp; return _tmp; end)());
+_e((function () local _tmp = _arr({},0); this.locals  = _tmp; return _tmp; end)());
+_e((function () local _tmp = _arr({},0); this.functions  = _tmp; return _tmp; end)());
 _e((function () local _tmp = _arr({},0); this.args  = _tmp; return _tmp; end)());
 end)
-_e((function () local _tmp = _obj({
-["popLocalContext"] = (function (this)
-if _bool((this.stack.length > 0)) then
- do return _arr({[0]=this.stack:pop(),this.args:pop()},2); end
-end
-
-_error(_new(Error,"LocalVarManager error: no current local context"),0)
-end),
-["createLocalContext"] = (function (this)
-this.stack:push(_arr({},0));
-this.args:push(false);
-end),
-["pushLocal"] = (function (this, varName)
-if _bool((this.stack.length > 0)) then
-this.stack[(this.stack.length - 1)]:push(varName);
-else
-_error(_new(Error,"LocalVarManager error: no current local context"),0)
-end
-
-end),
-["useArguments"] = (function (this)
-if _bool((this.args.length > 0)) then
-_e((function () local _tmp = true; this.args[(this.args.length - 1)]  = _tmp; return _tmp; end)());
-else
-_error(_new(Error,"LocalVarManager error: no current local context"),0)
-end
-
-end)
-}); LocalVarManager.prototype  = _tmp; return _tmp; end)());
-localVarManager = _new(LocalVarManager);
 compileAST = (function (this, ast)
-local compiledLocalsDeclaration,locals,useArguments,context,topLevelStatements,compiledProgram;
+local i,compiledFunctionsDeclaration,functions,compiledLocalsDeclaration,locals,useArguments,context,topLevelStatements,compiledProgram;
 if _bool((ast.type == "Program")) then
 compiledProgram = _arr({},0);
 localVarManager:createLocalContext();
@@ -110,6 +41,18 @@ locals = context[0];
 if _bool((locals.length > 0)) then
 compiledLocalsDeclaration = buildLocalsDeclarationString(this,locals);
 compiledProgram:push(compiledLocalsDeclaration);
+end
+
+functions = context[2];
+if _bool((functions.length > 0)) then
+compiledFunctionsDeclaration = _arr({},0);
+_e((function () local _tmp = 0; i  = _tmp; return _tmp; end)());
+while _bool((i < functions.length)) do
+compiledFunctionsDeclaration:push(functions[i]);
+_e((function () local _tmp = _add(i, 1); i = _tmp; return _tmp; end)());
+end
+
+compiledProgram:push(compiledFunctionsDeclaration:join("\10"));
 end
 
 compiledProgram:push(topLevelStatements);
@@ -141,11 +84,11 @@ if _into or (statement.type == "BlockStatement") then
 _into = true;
 end
 if _into or (statement.type == "FunctionDeclaration") then
-
+ do return compileFunctionDeclaration(this,statement); end
 _into = true;
 end
 if _into or (statement.type == "VariableDeclaration") then
- do return compileDeclaration(this,statement); end
+ do return compileVariableDeclaration(this,statement); end
 _into = true;
 end
 if _into or (statement.type == "IfStatement") then
@@ -221,7 +164,7 @@ compiledStatements = _arr({},0);
 _e((function () local _tmp = 0; i  = _tmp; return _tmp; end)());
 while _bool((i < statementList.length)) do
 _e((function () local _tmp = compileStatement(this,statementList[i]); compiledStatement  = _tmp; return _tmp; end)());
-if _bool((compiledStatement ~= "")) then
+if _bool(((compiledStatement ~= "") and (compiledStatement ~= undefined))) then
 compiledStatements:push(compiledStatement);
 end
 
@@ -344,7 +287,7 @@ if _bool(continueNoLabelTracker[(continueNoLabelTracker.length - 1)]) then
 compiledForStatement:push("::_continue::\10");
 end
 
-if _bool(compiledLabel and labelTracker[compiledLabel].mayContinue) then
+if _bool((compiledLabel and labelTracker[compiledLabel].mayContinue)) then
 compiledForStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
 end
 
@@ -373,7 +316,7 @@ compiledForInStatement:push(compiledLeft);
 compiledForInStatement:push(");\10");
 compiledForInStatement:push(compileStatement(this,statement.body));
 compiledForInStatement:push("::_continue::\10");
-if _bool(compiledLabel and labelTracker[compiledLabel].mayContinue) then
+if _bool((compiledLabel and labelTracker[compiledLabel].mayContinue)) then
 compiledForInStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
 end
 
@@ -388,7 +331,7 @@ compiledWhileStatement:push(") do\10");
 compiledWhileStatement:push(compileStatement(this,statement.body));
 compiledWhileStatement:push("\10");
 compiledWhileStatement:push("::_continue::\10");
-if _bool(compiledLabel and labelTracker[compiledLabel].mayContinue) then
+if _bool((compiledLabel and labelTracker[compiledLabel].mayContinue)) then
 compiledWhileStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
 end
 
@@ -401,7 +344,7 @@ compiledDoWhileStatement = _arr({[0]="repeat\10"},1);
 compiledDoWhileStatement:push(compileStatement(this,statement.body));
 compiledDoWhileStatement:push("\10");
 compiledDoWhileStatement:push("::_continue::\10");
-if _bool(compiledLabel and labelTracker[compiledLabel].mayContinue) then
+if _bool((compiledLabel and labelTracker[compiledLabel].mayContinue)) then
 compiledDoWhileStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
 end
 
@@ -411,7 +354,7 @@ compiledDoWhileStatement:push(")\10");
  do return compiledDoWhileStatement:join(""); end
 end)
 isIterationStatement = (function (this, statement)
- do return (statement.type == "ForStatement") or (statement.type == "DoWhileStatement") or (statement.type == "WhileStatement") or (statement.type == "ForInStatement"); end
+ do return ((((statement.type == "ForStatement") or (statement.type == "DoWhileStatement")) or (statement.type == "WhileStatement")) or (statement.type == "ForInStatement")); end
 end)
 compileLabeledStatement = (function (this, statement)
 local compiledLabel,label,compiledLabeledStatement;
@@ -546,7 +489,7 @@ compiledTryStatement:push(compileListOfStatements(this,statement.block.body));
 compiledTryStatement:push("\10");
 compiledTryStatement:push("end);\10");
 protectedCallManager:closeContext();
-if _bool(hasFinalizer or protectedCallManager:mayModifyFlow()) then
+if _bool((hasFinalizer or protectedCallManager:mayModifyFlow())) then
 compiledTryStatement:push("if _status then\10");
 if _bool(hasFinalizer) then
 _e((function () local _tmp = compileListOfStatements(this,statement.finalizer.body); finallyStatements  = _tmp; return _tmp; end)());
@@ -554,7 +497,7 @@ compiledTryStatement:push(finallyStatements);
 compiledTryStatement:push("\10");
 end
 
-if _bool(protectedCallManager.mayBreak and protectedCallManager.mayContinue) then
+if _bool((protectedCallManager.mayBreak and protectedCallManager.mayContinue)) then
 compiledTryStatement:push("if _return == _break then break; elseif _return == _continue then goto _continue end\10");
 elseif _bool(protectedCallManager.mayBreak) then
 compiledTryStatement:push("if _return == _break then break; end\10");
@@ -592,7 +535,7 @@ end
 
 if _bool(hasHandler) then
 compiledTryStatement:push("if _cstatus then\10");
-if _bool(protectedCallManager.mayBreak and protectedCallManager.mayContinue) then
+if _bool((protectedCallManager.mayBreak and protectedCallManager.mayContinue)) then
 compiledTryStatement:push("if _return == _break then break; elseif _return == _continue then goto _continue end\10");
 elseif _bool(protectedCallManager.mayBreak) then
 compiledTryStatement:push("if _return == _break then break; end\10");
@@ -964,7 +907,7 @@ end
 end)
 compileLogicalExpression = (function (this, expression)
 local right,left,compiledLogicalExpression;
-compiledLogicalExpression = _arr({},0);
+compiledLogicalExpression = _arr({[0]="("},1);
 left = compileExpression(this,expression.left);
 right = compileExpression(this,expression.right);
 compiledLogicalExpression:push(left);
@@ -992,6 +935,7 @@ _into = true;
 end
 until true
 compiledLogicalExpression:push(right);
+compiledLogicalExpression:push(")");
  do return compiledLogicalExpression:join(""); end
 end)
 compileUnaryExpression = (function (this, expression)
@@ -1284,7 +1228,7 @@ _e((function () local _tmp = 0; i  = _tmp; return _tmp; end)());
 while _bool((i < length)) do
 _e((function () local _tmp = _arr({[0]="["},1); compiledProperty  = _tmp; return _tmp; end)());
 _e((function () local _tmp = expression.properties[i]; property  = _tmp; return _tmp; end)());
-if _bool((property.kind == "get") or (property.kind == "set")) then
+if _bool(((property.kind == "get") or (property.kind == "set"))) then
 _error(_new(Error,"Getters/setters not handled yet"),0)
 end
 
@@ -1382,28 +1326,15 @@ compiledArrayExpression:push(length);
 compiledArrayExpression:push(")");
  do return compiledArrayExpression:join(""); end
 end)
-compileDeclaration = (function (this, declaration)
-repeat
-local _into = false;
-local _cases = {["FunctionDeclaration"] = true,["VariableDeclaration"] = true};
-if (not _cases[declaration.type]) then
-_into = true;
-goto _default
-end
-if _into or (declaration.type == "FunctionDeclaration") then
- do return compileFunction(this,declaration); end
-_into = true;
-end
-if _into or (declaration.type == "VariableDeclaration") then
- do return compileVariableDeclaration(this,declaration); end
-_into = true;
-end
-::_default::
-if _into then
-_error(_new(Error,(_add("Unknwown Declaration type: ",declaration.type))),0)
-_into = true;
-end
-until true
+compileFunctionDeclaration = (function (this, declaration)
+local compiledId,compiledFunctionDeclaration;
+compiledFunctionDeclaration = _arr({},0);
+compiledId = compileIdentifier(this,declaration.id);
+compiledFunctionDeclaration:push(compiledId);
+compiledFunctionDeclaration:push(" = ");
+compiledFunctionDeclaration:push(compileFunction(this,declaration));
+localVarManager:pushLocal(compiledId);
+localVarManager:pushFunction(compiledFunctionDeclaration:join(""));
 end)
 compileVariableDeclaration = (function (this, variableDeclaration)
 local compiledDeclarationInit,expression,pattern,declarator,i,declarations,compiledDeclarations;
@@ -1470,16 +1401,9 @@ end
 until true
 end)
 compileFunction = (function (this, fun)
-local compiledLocalsDeclaration,locals,compiledParams,compiledLocalParams,i,params,useArguments,context,functionName,compiledBody,compiledFunction;
-compiledFunction = _arr({[0]="(function"},1);
+local compiledFunctionsDeclaration,functions,compiledLocalsDeclaration,locals,compiledParams,compiledLocalParams,i,params,useArguments,context,compiledBody,compiledFunction;
+compiledFunction = _arr({[0]="(function ("},1);
 compiledBody = "";
-if _bool((fun.id ~= null)) then
-functionName = compileIdentifier(this,fun.id);
-localVarManager:pushLocal(functionName);
-compiledFunction:unshift((_add(functionName," = ")));
-end
-
-compiledFunction:push(" (");
 localVarManager:createLocalContext();
 if _bool((fun.body.type == "BlockStatement")) then
 _e((function () local _tmp = compileStatement(this,fun.body); compiledBody  = _tmp; return _tmp; end)());
@@ -1517,6 +1441,18 @@ locals = context[0];
 if _bool((locals.length > 0)) then
 compiledLocalsDeclaration = buildLocalsDeclarationString(this,locals);
 compiledFunction:push(compiledLocalsDeclaration);
+end
+
+functions = context[2];
+if _bool((functions.length > 0)) then
+compiledFunctionsDeclaration = _arr({},0);
+_e((function () local _tmp = 0; i  = _tmp; return _tmp; end)());
+while _bool((i < functions.length)) do
+compiledFunctionsDeclaration:push(functions[i]);
+_e((function () local _tmp = _add(i, 1); i = _tmp; return _tmp; end)());
+end
+
+compiledFunction:push(compiledFunctionsDeclaration:join("\10"));
 end
 
 compiledFunction:push(compiledBody);
@@ -1566,7 +1502,7 @@ if _bool((charcode < 128)) then
 utf8:push(charcode);
 elseif _bool((charcode < 2048)) then
 utf8:push((_bit.bor(192,(_bit.arshift(charcode,6)))),(_bit.bor(128,(_bit.band(charcode,63)))));
-elseif _bool((charcode < 55296) or (charcode >= 57344)) then
+elseif _bool(((charcode < 55296) or (charcode >= 57344))) then
 utf8:push((_bit.bor(224,(_bit.arshift(charcode,12)))),(_bit.bor(128,(_bit.band((_bit.arshift(charcode,6)),63)))),(_bit.bor(128,(_bit.band(charcode,63)))));
 else
 _e((function () local _tmp = i; i = _add(_tmp, 1); return _tmp; end)());
@@ -1618,7 +1554,85 @@ _e((function () local _tmp = JSON:stringify(literal.value); ret  = _tmp; return 
 end
 
  do return ret; end
+end)_e("use strict");
+luaKeywords = _arr({[0]="and","break","do","else","elseif","end","false","for","function","goto","if","in","local","nil","not","or","repeat","return","then","true","until","while"},22);
+labelTracker = _arr({},0);
+continueNoLabelTracker = _arr({},0);
+_e((function () local _tmp = _obj({
+["openContext"] = (function (this)
+_e((function () local _tmp = true; this.isInProtectedCallContext  = _tmp; return _tmp; end)());
+end),
+["closeContext"] = (function (this)
+_e((function () local _tmp = false; this.isInProtectedCallContext  = _tmp; return _tmp; end)());
+end),
+["reset"] = (function (this)
+this:closeContext();
+_e((function () local _tmp = false; this.mayReturn  = _tmp; return _tmp; end)());
+_e((function () local _tmp = false; this.mayBreak  = _tmp; return _tmp; end)());
+_e((function () local _tmp = false; this.mayContinue  = _tmp; return _tmp; end)());
+end),
+["returnStatement"] = (function (this)
+if _bool(this.isInProtectedCallContext) then
+_e((function () local _tmp = true; this.mayReturn  = _tmp; return _tmp; end)());
+end
+
+end),
+["breakStatement"] = (function (this)
+if _bool(this.isInProtectedCallContext) then
+_e((function () local _tmp = true; this.mayBreak  = _tmp; return _tmp; end)());
+end
+
+end),
+["continueStatement"] = (function (this)
+if _bool(this.isInProtectedCallContext) then
+_e((function () local _tmp = true; this.mayContinue  = _tmp; return _tmp; end)());
+end
+
+end),
+["mayModifyFlow"] = (function (this)
+ do return ((this.mayReturn or this.mayBreak) or this.mayContinue); end
 end)
+}); ProtectedCallManager.prototype  = _tmp; return _tmp; end)());
+protectedCallManager = _new(ProtectedCallManager);
+_e((function () local _tmp = _obj({
+["popLocalContext"] = (function (this)
+if _bool((this.locals.length > 0)) then
+ do return _arr({[0]=this.locals:pop(),this.args:pop(),this.functions:pop()},3); end
+end
+
+_error(_new(Error,"LocalVarManager error: no current local context"),0)
+end),
+["createLocalContext"] = (function (this)
+this.locals:push(_arr({},0));
+this.functions:push(_arr({},0));
+this.args:push(false);
+end),
+["pushLocal"] = (function (this, varName)
+if _bool((this.locals.length > 0)) then
+this.locals[(this.locals.length - 1)]:push(varName);
+else
+_error(_new(Error,"LocalVarManager error: no current local context"),0)
+end
+
+end),
+["pushFunction"] = (function (this, functionDeclaration)
+if _bool((this.functions.length > 0)) then
+this.functions[(this.functions.length - 1)]:push(functionDeclaration);
+else
+_error(_new(Error,"LocalVarManager error: no current local context"),0)
+end
+
+end),
+["useArguments"] = (function (this)
+if _bool((this.args.length > 0)) then
+_e((function () local _tmp = true; this.args[(this.args.length - 1)]  = _tmp; return _tmp; end)());
+else
+_error(_new(Error,"LocalVarManager error: no current local context"),0)
+end
+
+end)
+}); LocalVarManager.prototype  = _tmp; return _tmp; end)());
+localVarManager = _new(LocalVarManager);
 _e((function () local _tmp = compileAST; exports.compileAST  = _tmp; return _tmp; end)());
 end));
 

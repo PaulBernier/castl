@@ -90,14 +90,15 @@
      * ******************************/
 
     function LocalVarManager() {
-        this.stack = []; // Array of arrays
+        this.locals = []; // Array of arrays
+        this.functions = []; // Array of arrays
         this.args = []; // Array of booleans
     }
 
     LocalVarManager.prototype = {
         popLocalContext: function () {
-            if (this.stack.length > 0) {
-                return [this.stack.pop(), this.args.pop()];
+            if (this.locals.length > 0) {
+                return [this.locals.pop(), this.args.pop(), this.functions.pop()];
             }
 
             throw new Error("LocalVarManager error: no current local context");
@@ -105,13 +106,22 @@
 
         // Using a set as context would be better (ECMA6)
         createLocalContext: function () {
-            this.stack.push([]);
+            this.locals.push([]);
+            this.functions.push([]);
             this.args.push(false);
         },
 
         pushLocal: function (varName) {
-            if (this.stack.length > 0) {
-                this.stack[this.stack.length - 1].push(varName);
+            if (this.locals.length > 0) {
+                this.locals[this.locals.length - 1].push(varName);
+            } else {
+                throw new Error("LocalVarManager error: no current local context");
+            }
+        },
+
+        pushFunction: function (functionDeclaration) {
+            if (this.functions.length > 0) {
+                this.functions[this.functions.length - 1].push(functionDeclaration);
             } else {
                 throw new Error("LocalVarManager error: no current local context");
             }
@@ -144,7 +154,7 @@
             localVarManager.createLocalContext();
             var topLevelStatements = compileListOfStatements(ast.body);
 
-            // Get local variables and arguments
+            // Get local variables, function declarations and arguments
             var context = localVarManager.popLocalContext();
             var useArguments = context[1];
 
@@ -152,10 +162,23 @@
                 compiledProgram.push("local arguments = _args(...);");
             }
 
+            // Locals
             var locals = context[0];
             if (locals.length > 0) {
                 var compiledLocalsDeclaration = buildLocalsDeclarationString(locals);
                 compiledProgram.push(compiledLocalsDeclaration);
+            }
+
+            // Function declarations
+            var functions = context[2];
+            if (functions.length > 0) {
+                var compiledFunctionsDeclaration = [];
+                var i;
+                for (i = 0; i < functions.length; ++i) {
+                    compiledFunctionsDeclaration.push(functions[i]);
+                }
+
+                compiledProgram.push(compiledFunctionsDeclaration.join("\n"));
             }
 
             // Body of the program
@@ -186,10 +209,10 @@
             return compileExpressionStatement(statement.expression);
         case "BlockStatement":
             return compileListOfStatements(statement.body);
-            // Declarations are statements
         case "FunctionDeclaration":
+            return compileFunctionDeclaration(statement);
         case "VariableDeclaration":
-            return compileDeclaration(statement);
+            return compileVariableDeclaration(statement);
         case "IfStatement":
             return compileIfStatement(statement);
         case "ForStatement":
@@ -229,8 +252,8 @@
             compiledStatement = compileStatement(statementList[i]);
 
             // After compilation some statements may become empty strings
-            // such as VariableDeclaration
-            if (compiledStatement !== "") {
+            // or 'undefined' such as VariableDeclaration and FunctionDeclaration
+            if (compiledStatement !== "" && compiledStatement !== undefined) {
                 compiledStatements.push(compiledStatement);
             }
         }
@@ -1326,15 +1349,16 @@
      *
      * ******************/
 
-    function compileDeclaration(declaration) {
-        switch (declaration.type) {
-        case "FunctionDeclaration":
-            return compileFunction(declaration);
-        case "VariableDeclaration":
-            return compileVariableDeclaration(declaration);
-        default:
-            throw new Error("Unknwown Declaration type: " + declaration.type);
-        }
+    function compileFunctionDeclaration(declaration) {
+        var compiledFunctionDeclaration = [];
+        var compiledId = compileIdentifier(declaration.id);
+
+        compiledFunctionDeclaration.push(compiledId);
+        compiledFunctionDeclaration.push(" = ");
+        compiledFunctionDeclaration.push(compileFunction(declaration));
+
+        localVarManager.pushLocal(compiledId);
+        localVarManager.pushFunction(compiledFunctionDeclaration.join(""));
     }
 
     function compileVariableDeclaration(variableDeclaration) {
@@ -1400,18 +1424,8 @@
 
     function compileFunction(fun) {
 
-        var compiledFunction = ["(function"];
+        var compiledFunction = ["(function ("];
         var compiledBody = "";
-
-        if (fun.id !== null) {
-            var functionName = compileIdentifier(fun.id);
-            localVarManager.pushLocal(functionName);
-            compiledFunction.unshift(functionName + " = ");
-        }
-        compiledFunction.push(" (");
-
-        // We have to first compile the body of the function before to construct prototype of the function
-        // as it depends on the use or not of 'arguments' variable in the body
 
         // New context
         localVarManager.createLocalContext();
@@ -1456,6 +1470,18 @@
         if (locals.length > 0) {
             var compiledLocalsDeclaration = buildLocalsDeclarationString(locals);
             compiledFunction.push(compiledLocalsDeclaration);
+        }
+
+        // Function declarations
+        var functions = context[2];
+        if (functions.length > 0) {
+            var compiledFunctionsDeclaration = [];
+
+            for (i = 0; i < functions.length; ++i) {
+                compiledFunctionsDeclaration.push(functions[i]);
+            }
+
+            compiledFunction.push(compiledFunctionsDeclaration.join("\n"));
         }
 
         // Append body and close function
