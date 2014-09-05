@@ -1,4 +1,6 @@
-var castl = require("./castl.js");
+#!/usr/bin/env node
+
+var castl = require("../castl.js");
 var fs = require('fs');
 var filename = process.argv[2];
 var parserName = process.argv[3];

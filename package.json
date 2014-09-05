@@ -21,7 +21,8 @@
     "test": "./runTests.sh"
   },
   "bin": {
-    "castl": "./bin/castl.sh"
+    "castl": "./bin/castl.sh",
+    "castl-compiler": "./bin/castl-compiler.js"
   },
   "dependencies": {
     "esprima": "~1.2.2",

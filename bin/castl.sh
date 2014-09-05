@@ -92,7 +92,7 @@ for arg in "$@"; do
     fi
 done
 
-code=$(nodejs compile.js $filename $parser $node $luajit $tolerant)
+code=$(castl-compiler $filename $parser $node $luajit $tolerant)
 
 # compilation failed
 if (($? > 0)); then
