@@ -153,7 +153,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_error(_new(Error,(_add("Unknown Statement type: ",statement.type))),0)
+_throw(_new(Error,(_add("Unknown Statement type: ",statement.type))),0)
 _into = true;
 end
 until true
@@ -261,7 +261,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_error(_new(Error,(_add("Not an IterationStatement ",statement.type))),0)
+_throw(_new(Error,(_add("Not an IterationStatement ",statement.type))),0)
 _into = true;
 end
 until true
@@ -547,7 +547,7 @@ if _bool(protectedCallManager.mayReturn) then
 compiledTryStatement:push("if _creturn ~= nil then return _creturn; end\10");
 end
 
-compiledTryStatement:push("else _error(_creturn,0); end\10");
+compiledTryStatement:push("else _throw(_creturn,0); end\10");
 end
 
 compiledTryStatement:push("end\10");
@@ -556,7 +556,7 @@ protectedCallManager:reset();
 end)
 compileThrowStatement = (function (this, statement)
 local compiledThrowStatement;
-compiledThrowStatement = _arr({[0]="_error("},1);
+compiledThrowStatement = _arr({[0]="_throw("},1);
 compiledThrowStatement:push(compileExpression(this,statement.argument));
 compiledThrowStatement:push(",0)");
  do return compiledThrowStatement:join(""); end
@@ -653,7 +653,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_error(_new(Error,(_add("Unknown Expression type: ",expression.type))),0)
+_throw(_new(Error,(_add("Unknown Expression type: ",expression.type))),0)
 _into = true;
 end
 until true
@@ -788,7 +788,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_error(_new(Error,(_add("Unknown UpdateOperator: ",expression.operator))),0)
+_throw(_new(Error,(_add("Unknown UpdateOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
@@ -818,7 +818,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_error(_new(Error,(_add("Unknown UpdateOperator: ",expression.operator))),0)
+_throw(_new(Error,(_add("Unknown UpdateOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
@@ -930,7 +930,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_error(_new(Error,(_add("Unknown LogicalOperator: ",expression.operator))),0)
+_throw(_new(Error,(_add("Unknown LogicalOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
@@ -1003,12 +1003,12 @@ _into = true;
 end
 ::_default::
 if _into then
-_error(_new(Error,(_add("Unknown UnaryOperator: ",expression.operator))),0)
+_throw(_new(Error,(_add("Unknown UnaryOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
 else
-_error(_new(Error,"UnaryExpression: postfix ?!"),0)
+_throw(_new(Error,"UnaryExpression: postfix ?!"),0)
 end
 
  do return compiledUnaryExpression:join(""); end
@@ -1180,7 +1180,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_error(_new(Error,(_add("Unknown BinaryOperator: ",expression.operator))),0)
+_throw(_new(Error,(_add("Unknown BinaryOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
@@ -1229,7 +1229,7 @@ while _bool((i < length)) do
 _e((function () local _tmp = _arr({[0]="["},1); compiledProperty  = _tmp; return _tmp; end)());
 _e((function () local _tmp = expression.properties[i]; property  = _tmp; return _tmp; end)());
 if _bool(((property.kind == "get") or (property.kind == "set"))) then
-_error(_new(Error,"Getters/setters not handled yet"),0)
+_throw(_new(Error,"Getters/setters not handled yet"),0)
 end
 
 if _bool((property.key.type == "Literal")) then
@@ -1239,7 +1239,7 @@ compiledProperty:push("\"");
 compiledProperty:push(sanitizeLiteralString(this,property.key.name));
 compiledProperty:push("\"");
 else
-_error(_new(Error,(_add("Unexpected property key type: ",property.key.type))),0)
+_throw(_new(Error,(_add("Unexpected property key type: ",property.key.type))),0)
 end
 
 compiledProperty:push("] = ");
@@ -1374,7 +1374,7 @@ break;
 _into = true;
 end
 if _into or (variableDeclaration.kind == "let") then
-_error(_new(Error,"let instruction is not supported yet"),0)
+_throw(_new(Error,"let instruction is not supported yet"),0)
 _into = true;
 end
 ::_default::
@@ -1395,7 +1395,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_error(_new(Error,(_add("Unknwown Pattern type",pattern.type))),0)
+_throw(_new(Error,(_add("Unknwown Pattern type",pattern.type))),0)
 _into = true;
 end
 until true
@@ -1600,7 +1600,7 @@ if _bool((this.locals.length > 0)) then
  do return _arr({[0]=this.locals:pop(),this.args:pop(),this.functions:pop()},3); end
 end
 
-_error(_new(Error,"LocalVarManager error: no current local context"),0)
+_throw(_new(Error,"LocalVarManager error: no current local context"),0)
 end),
 ["createLocalContext"] = (function (this)
 this.locals:push(_arr({},0));
@@ -1611,7 +1611,7 @@ end),
 if _bool((this.locals.length > 0)) then
 this.locals[(this.locals.length - 1)]:push(varName);
 else
-_error(_new(Error,"LocalVarManager error: no current local context"),0)
+_throw(_new(Error,"LocalVarManager error: no current local context"),0)
 end
 
 end),
@@ -1619,7 +1619,7 @@ end),
 if _bool((this.functions.length > 0)) then
 this.functions[(this.functions.length - 1)]:push(functionDeclaration);
 else
-_error(_new(Error,"LocalVarManager error: no current local context"),0)
+_throw(_new(Error,"LocalVarManager error: no current local context"),0)
 end
 
 end),
@@ -1627,7 +1627,7 @@ end),
 if _bool((this.args.length > 0)) then
 _e((function () local _tmp = true; this.args[(this.args.length - 1)]  = _tmp; return _tmp; end)());
 else
-_error(_new(Error,"LocalVarManager error: no current local context"),0)
+_throw(_new(Error,"LocalVarManager error: no current local context"),0)
 end
 
 end)

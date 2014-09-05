@@ -707,7 +707,7 @@
                 compiledTryStatement.push("if _creturn ~= nil then return _creturn; end\n");
             }
 
-            compiledTryStatement.push("else _error(_creturn,0); end\n");
+            compiledTryStatement.push("else _throw(_creturn,0); end\n");
         }
 
         compiledTryStatement.push("end\n");
@@ -717,7 +717,7 @@
     }
 
     function compileThrowStatement(statement) {
-        var compiledThrowStatement = ["_error("];
+        var compiledThrowStatement = ["_throw("];
         compiledThrowStatement.push(compileExpression(statement.argument));
         compiledThrowStatement.push(",0)");
 

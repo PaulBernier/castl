@@ -15,7 +15,7 @@ end)(this,this,(function (this, exports)
 local parse,tokenize,filterTokenLocation,parseProgram,parseSourceElements,parseSourceElement,parseFunctionExpression,parseFunctionDeclaration,parseParams,parseFunctionSourceElements,parseStatement,parseDebuggerStatement,parseTryStatement,parseCatchClause,parseThrowStatement,parseSwitchStatement,parseSwitchCase,parseWithStatement,parseReturnStatement,parseBreakStatement,parseContinueStatement,parseForStatement,parseForVariableDeclaration,parseWhileStatement,parseDoWhileStatement,parseIfStatement,parseExpressionStatement,parseEmptyStatement,parseConstLetDeclaration,parseVariableStatement,parseVariableDeclarationList,parseVariableDeclaration,parseVariableIdentifier,parseBlock,parseStatementList,parseExpression,parseAssignmentExpression,parseConditionalExpression,parseBinaryExpression,binaryPrecedence,parseUnaryExpression,parsePostfixExpression,parseLeftHandSideExpression,parseLeftHandSideExpressionAllowCall,parseNewExpression,parseComputedMember,parseNonComputedMember,parseNonComputedProperty,parseArguments,parsePrimaryExpression,parseGroupExpression,parseObjectInitialiser,parseObjectProperty,parseObjectPropertyKey,parsePropertyFunction,parseArrayInitialiser,isLeftHandSide,consumeSemicolon,matchAssign,matchKeyword,match,expectKeyword,expect,throwUnexpected,throwErrorTolerant,throwError,peekLineTerminator,SourceLocation,Position,peek,lex,collectToken,advance,advanceSlash,isIdentifierName,collectRegex,scanRegExp,scanRegExpFlags,scanRegExpBody,testRegExp,scanStringLiteral,scanNumericLiteral,scanOctalLiteral,scanHexLiteral,scanPunctuator,scanIdentifier,getIdentifier,getEscapedIdentifier,scanHexEscape,skipComment,skipMultiLineComment,skipSingleLineComment,addComment,isKeyword,isRestrictedWord,isStrictModeReservedWord,isFutureReservedWord,isIdentifierPart,isIdentifierStart,isLineTerminator,isWhiteSpace,isOctalDigit,isHexDigit,isDecimalDigit,assert,extra,state,lookahead,delegate,length,lineStart,lineNumber,index,strict,source,SyntaxTreeDelegate,Regex,Messages,PropertyKind,Syntax,FnExprTokens,TokenName,Token;
 assert = (function (this, condition, message)
 if _bool(not _bool(condition)) then
-_error(_new(Error,(_add("ASSERT: ",message))),0)
+_throw(_new(Error,(_add("ASSERT: ",message))),0)
 end
 
 end)
@@ -994,7 +994,7 @@ throwError(this,_obj({
 }),Messages.InvalidRegExp);
 end);
 if _cstatus then
-else _error(_creturn,0); end
+else _throw(_creturn,0); end
 end
 
  do return value; end
@@ -1360,7 +1360,7 @@ _e((function () local _tmp = (_add((index - lineStart),1)); error.column  = _tmp
 end
 
 _e((function () local _tmp = msg; error.description  = _tmp; return _tmp; end)());
-_error(error,0)
+_throw(error,0)
 end)
 throwErrorTolerant = (function (...)
 local this = ...;
@@ -1374,12 +1374,12 @@ local e = _return;
 if _bool(extra.errors) then
 extra.errors:push(e);
 else
-_error(e,0)
+_throw(e,0)
 end
 
 end);
 if _cstatus then
-else _error(_creturn,0); end
+else _throw(_creturn,0); end
 end
 
 end)
@@ -3086,13 +3086,13 @@ if _bool(extra.errors) then
 extra.errors:push(lexError);
 do return _break; end
 else
-_error(lexError,0)
+_throw(lexError,0)
 end
 
 end);
 if _cstatus then
 if _return == _break then break; end
-else _error(_creturn,0); end
+else _throw(_creturn,0); end
 end
 
 ::_continue::
@@ -3116,13 +3116,13 @@ _e((function () local _tmp = _obj({
 else
 local _cstatus, _creturn = _pcall(function()
 local e = _return;
-_error(e,0)
+_throw(e,0)
 end);
 _e((function () local _tmp = _obj({
 
 }); extra  = _tmp; return _tmp; end)());
 if _cstatus then
-else _error(_creturn,0); end
+else _throw(_creturn,0); end
 end
 
  do return tokens; end
@@ -3207,13 +3207,13 @@ _e((function () local _tmp = _obj({
 else
 local _cstatus, _creturn = _pcall(function()
 local e = _return;
-_error(e,0)
+_throw(e,0)
 end);
 _e((function () local _tmp = _obj({
 
 }); extra  = _tmp; return _tmp; end)());
 if _cstatus then
-else _error(_creturn,0); end
+else _throw(_creturn,0); end
 end
 
  do return program; end

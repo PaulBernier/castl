@@ -34,7 +34,8 @@ local getmetatable, setmetatable, rawget, rawset = getmetatable, setmetatable, r
 local debug = debug
 local type, max, strlen, strsub, tonumber, pack, tinsert, concat = type, math.max, string.len, string.sub, tonumber, table.pack, table.insert, table.concat
 local next, tostring = next, tostring
-local require = require
+local require, error = require, error
+
 _ENV = nil
 
 -- Core objects metatables
@@ -406,6 +407,9 @@ end
 
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
 function coreObjects.new(f, ...)
+    if f == nil then
+        error("new: The constructor is undefined")
+    end
 
     local o = {}
     local mt = {

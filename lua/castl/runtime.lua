@@ -25,6 +25,7 @@ local Boolean = require("castl.constructor.boolean")
 local Number = require("castl.constructor.number")
 local String = require("castl.constructor.string")
 local Date = require("castl.constructor.date")
+local Error = require("castl.constructor.error")
 local RegExp = require("castl.constructor.regexp")
 local Math = require("castl.math")
 local eval = require("castl.eval")
@@ -75,6 +76,7 @@ local export = {
     String = String,
     Date = Date,
     RegExp = RegExp,
+    Error = Error,
 
     -- others
     console = others.console,
@@ -85,7 +87,7 @@ local export = {
     -- standard library export
     _tostr = tostring,
     _pcall = pcall,
-    _error = error,
+    _throw = error,
     _seq = table.remove
 }
 

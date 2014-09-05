@@ -59,7 +59,6 @@ There is also a useful bash script `bin/castl.sh` to easily compile and execute 
 * Weak typing of JS when accessing attribute of an object (o[1] is different from o["1"])
 * Getters/setters
 * Eval() and Function constructor
-* Error classes
 * Property descriptor (enumerable/writable/configurable)
 * Other little things...
 
