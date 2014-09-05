@@ -452,12 +452,14 @@ end
 
 function coreObjects.arguments(...)
     local args, obj = pack(...), {}
+
     -- make a 0 based numbering array like
-    for i = 1, args.n do
-        obj[i - 1] = args[i]
+    -- and we ignore the first argument (= this)
+    for i = 2, args.n do
+        obj[i - 2] = args[i]
     end
 
-    obj.length = args.n
+    obj.length = args.n - 1
 
     local mt = {
         __index = function (self, key)
@@ -510,7 +512,15 @@ function coreObjects.next (o, previous)
     if isArray or type(o) == "string" then
         -- start iteration at 0
         if previous == nil then
-            return 0
+            if o[0] then
+                return 0
+            else
+                local ret = nil
+                repeat
+                    ret = next(o, ret)
+                until (type(ret) ~= 'number') and not (ret == 'length')
+                return ret
+            end
         end
 
         -- if previous was a number

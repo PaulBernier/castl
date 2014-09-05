@@ -3,6 +3,7 @@
 # Set environment varialbe
 export LUA_PATH=$LUA_PATH";lua/?.lua;"
 
+parser=esprima
 luajit=false;
 success=0;
 total=0;
@@ -14,8 +15,6 @@ function testFile {
     
     ((total++));
     echo "********************************************";
-    echo $f;
-
     
     # Execution of js script
     echo -n "Execute test $f... ";
@@ -31,7 +30,7 @@ function testFile {
     
     # Compile js script to lua
     echo -n "Compile test $f... ";
-    nodejs "compileTest.js" $f $luajit;
+    nodejs "compileTest.js" $f $luajit $parser;
     
     if (($? > 0)); then
         echo "--> Compilation of js code failed!";
@@ -71,6 +70,8 @@ if [ "$#" -ne 0 ]; then
         if [[ $arg == --* ]] ; then
             if [ $arg = "--jit" ]; then
                 luajit=true
+            elif [ $arg = "--acorn" ]; then
+                parser="acorn"
             fi
         else
             files+=("test/$arg.js")

@@ -41,8 +41,9 @@ If the JS script you want to compile uses regular expressions you'll have to ins
 * -e: execute the Lua code compiled.
 * -h, --help: display help.
 * --acorn: use Acorn parser. If not specified Esprima is used.
-* --node: add a very basic support of NodeJS 'require' system.
+* --tolerant: make Esprima and Acorn error-tolerant.
 * --jit: use LuaJIT instead of Lua interpreter to execute compiled code.
+* --node: add a very basic support of NodeJS 'require' system.
 
 ## CASTL components
 
@@ -74,11 +75,11 @@ Note that by using LuaJIT instead of Lua 5.2 VM you'll unfortunately lose:
 
 * regular expressions since [Lrexlib](http://rrthomas.github.io/lrexlib/) does not support LuaJIT for now
 * _with_ statement (not a big loss normally...)
-* eval() global function and Function() constructor (idem)
+* eval() global function and Function() constructor
 
 ## Q&A
 
-### What the hell could it be useful for?
+### What could it be useful for?!
 
 CASTL lets you execute JS scripts on Lua 5.2 VM. Lua VM is known to be fast and lightweight, and especially it is often used in embedded systems. Thus it could allow you to execute your JS scripts on micro-controllers for example.
 
@@ -95,7 +96,6 @@ I have definitively been inspired on many points by Colony. Nonetheless there is
 * CASTL support eval() function and Function() constructor :) (yes, it uses a Lua version of CASTL and Esprima...)
 * `castl.js` is not bound to any parser whereas Colony is bound to an old modified version of Acorn.
 * `castl.js` is NodeJS independent, it can be executed in Node as well as in a web browser.
-* `castl.js` is much more readable than `colonize.js` allowing easy improvement in the future.
 * Colony has a good support of NodeJS (objects, libraries...) whereas it's almost nonexistent in CASTL.
 * License is different (CASTL is under LGPLv3 and Colony is under MIT/Apache).
 

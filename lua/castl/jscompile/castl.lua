@@ -719,12 +719,12 @@ compileExpressionStatement = (function (this, expression)
 local compiledExpressionStatement;
 repeat
 local _into = false;
-local _cases = {["AssignmentExpression"] = true,["UpdateExpression"] = true,["Literal"] = true,["Identifier"] = true,["ThisExpression"] = true,["UnaryExpression"] = true,["BinaryExpression"] = true,["LogicalExpression"] = true,["ConditionalExpression"] = true,["MemberExpression"] = true};
+local _cases = {["FunctionExpression"] = true,["UpdateExpression"] = true,["Literal"] = true,["Identifier"] = true,["ThisExpression"] = true,["UnaryExpression"] = true,["BinaryExpression"] = true,["LogicalExpression"] = true,["ConditionalExpression"] = true,["MemberExpression"] = true,["AssignmentExpression"] = true};
 if (not _cases[expression.type]) then
 _into = true;
 goto _default
 end
-if _into or (expression.type == "AssignmentExpression") then
+if _into or (expression.type == "FunctionExpression") then
 
 _into = true;
 end
@@ -761,6 +761,10 @@ if _into or (expression.type == "ConditionalExpression") then
 _into = true;
 end
 if _into or (expression.type == "MemberExpression") then
+
+_into = true;
+end
+if _into or (expression.type == "AssignmentExpression") then
 compiledExpressionStatement = _arr({[0]="_e("},1);
 compiledExpressionStatement:push(compileExpression(this,expression));
 compiledExpressionStatement:push(");");
@@ -915,8 +919,8 @@ end
 
  do return compiledArguments:join(","); end
 end)
-compileCallExpression = (function (this, ...)
-local expression = ...;
+compileCallExpression = (function (...)
+local this, expression = ...;
 local arguments = _args(...);
 local lastPointIndex,member,base,startIndex,compiledArguments,compiledCallee,compiledCallExpression;
 compiledCallExpression = _arr({},0);
@@ -1332,8 +1336,8 @@ end
 
  do return compiledMemberExpression:join(""); end
 end)
-compileNewExpression = (function (this, ...)
-local expression = ...;
+compileNewExpression = (function (...)
+local this, expression = ...;
 local arguments = _args(...);
 local length,i,newArguments,compiledNewExpression;
 compiledNewExpression = _arr({[0]="_new("},1);
@@ -1487,9 +1491,8 @@ context = localVarManager:popLocalContext();
 useArguments = context[1];
 params = fun.params;
 if _bool(useArguments) then
-compiledFunction:push("this, ...)\10");
-if _bool((params.length > 0)) then
-compiledLocalParams = _arr({},0);
+compiledFunction:push("...)\10");
+compiledLocalParams = _arr({[0]="this"},1);
 _e((function () local _tmp = 0; i  = _tmp; return _tmp; end)());
 while _bool((i < params.length)) do
 compiledLocalParams:push(compilePattern(this,params[i]));
@@ -1497,8 +1500,6 @@ _e((function () local _tmp = _add(i, 1); i = _tmp; return _tmp; end)());
 end
 
 compiledFunction:push((_add((_add("local ",compiledLocalParams:join(", ")))," = ...;\10")));
-end
-
 compiledFunction:push("local arguments = _args(...);\10");
 else
 compiledParams = _arr({[0]="this"},1);

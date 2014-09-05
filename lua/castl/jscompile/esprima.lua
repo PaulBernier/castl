@@ -1813,8 +1813,8 @@ _e((function () local _tmp = line; lineNumber  = _tmp; return _tmp; end)());
 _e((function () local _tmp = start; lineStart  = _tmp; return _tmp; end)());
  do return found; end
 end)
-throwError = (function (this, ...)
-local token, messageFormat = ...;
+throwError = (function (...)
+local this, token, messageFormat = ...;
 local arguments = _args(...);
 local msg,args,error;
 args = Array.prototype.slice:call(arguments,2);
@@ -1837,7 +1837,8 @@ end
 _e((function () local _tmp = msg; error.description  = _tmp; return _tmp; end)());
 _error(error,0)
 end)
-throwErrorTolerant = (function (this, ...)
+throwErrorTolerant = (function (...)
+local this = ...;
 local arguments = _args(...);
 local _status, _return = _pcall(function()
 throwError:apply(null,arguments);

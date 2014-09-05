@@ -1,10 +1,10 @@
 var castl = require("./castl.js");
 var fs = require('fs');
-// Require Esprima as default parser
-var parser = require('esprima');
-// var parser = require('acorn');
 var filename = process.argv[2];
 var luajit = process.argv[3];
+var parserName = process.argv[4];
+
+var parser = require(parserName);
 
 // Read code from js file
 fs.readFile(filename, 'utf8', function (err, data) {

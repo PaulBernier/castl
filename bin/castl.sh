@@ -21,6 +21,7 @@ quiet=false
 execute=false
 output=false
 compiled=false
+tolerant=false
 node=false
 luajit=false
 parser="esprima"
@@ -35,8 +36,9 @@ function help {
     printf "\t%-15s %s\n" "-c" "if -o option is active the outputted code is Lua bytecode (luac)"
     printf "\t%-15s %s\n" "-h, --help" "display this help"
     printf "\t%-15s %s\n" "--acorn" "use Acorn parser. If not specified Esprima is used"
-    printf "\t%-15s %s\n" "--node" "add a very basic support of NodeJS 'require' system"
+    printf "\t%-15s %s\n" "--tolerant" "make Esprima and Acorn error-tolerant"
     printf "\t%-15s %s\n" "--jit" "use LuaJIT instead of Lua interpreter to execute compiled code"
+    printf "\t%-15s %s\n" "--node" "add a very basic support of NodeJS 'require' system"
     exit 0
 }
 
@@ -45,6 +47,8 @@ for arg in "$@"; do
     if [[ $arg == --* ]] ; then
         if [ $arg = "--acorn" ]; then
             parser="acorn"
+        elif [ $arg = "--tolerant" ]; then
+            tolerant=true
         elif [ $arg = "--node" ]; then
             node=true
         elif [ $arg = "--jit" ]; then
@@ -77,7 +81,7 @@ for arg in "$@"; do
     fi
 done
 
-code=$(nodejs compile.js $filename $parser $node $luajit)
+code=$(nodejs compile.js $filename $parser $node $luajit $tolerant)
 
 if [ "$quiet" = false ]; then
     echo "-- Lua code:"
@@ -98,10 +102,11 @@ if [ "$output" = true ]; then
 fi
 
 if [ "$execute" = true ]; then
-    echo "-- Execution output:"
     if [ "$luajit" = true ]; then
+        echo "-- Execution output (LuaJIT):"
         luajit -e "$code";
     else
+        echo "-- Execution output (Lua 5.2):"
         lua -e "$code";
     fi
 fi

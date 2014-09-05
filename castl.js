@@ -775,7 +775,7 @@
     // Add a semi-colon at the end of ExpressionStatements
     function compileExpressionStatement(expression) {
         switch (expression.type) {
-        case "AssignmentExpression":
+        case "FunctionExpression":
         case "UpdateExpression":
         case "Literal":
         case "Identifier":
@@ -785,6 +785,7 @@
         case "LogicalExpression":
         case "ConditionalExpression":
         case "MemberExpression":
+        case "AssignmentExpression":
             // Enclose the statement in a _void to be evaluated
             var compiledExpressionStatement = ["_e("];
             compiledExpressionStatement.push(compileExpression(expression));
@@ -1428,17 +1429,16 @@
         var params = fun.params;
         var i;
         if (useArguments) {
-            compiledFunction.push("this, ...)\n");
+            compiledFunction.push("...)\n");
 
-            if (params.length > 0) {
-                var compiledLocalParams = [];
+            var compiledLocalParams = ["this"];
 
-                for (i = 0; i < params.length; ++i) {
-                    compiledLocalParams.push(compilePattern(params[i]));
-                }
-
-                compiledFunction.push("local " + compiledLocalParams.join(", ") + " = ...;\n");
+            for (i = 0; i < params.length; ++i) {
+                compiledLocalParams.push(compilePattern(params[i]));
             }
+
+            compiledFunction.push("local " + compiledLocalParams.join(", ") + " = ...;\n");
+
             compiledFunction.push("local arguments = _args(...);\n");
         } else {
             var compiledParams = ["this"];
