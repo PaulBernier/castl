@@ -31,3 +31,9 @@ assert(!Number.isNaN(""));
 assert(!Number.isNaN(" "));
 assert(!Number.isNaN("NaN"));
 assert(!Number.isNaN("blabla"));
+
+// + and - as unary operator:
+assert(typeof(-"4") === "number");
+assert(typeof(+"4") === "number");
+assert(typeof(+(new Date())) === "number");
+assert(typeof(-(new Date())) === "number");

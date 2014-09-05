@@ -67,6 +67,9 @@ Date = function(this, ...)
             return common.prototype_index(dateProto, key)
         end,
         __tostring = dateProto.toString,
+        __tonumber = function(self)
+            return self:getTime()
+        end,
         _prototype = dateProto
     })
 

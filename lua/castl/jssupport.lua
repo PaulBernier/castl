@@ -30,6 +30,15 @@ jssupport.e = function(...) return ... end
 jssupport.NaN = 0/0
 jssupport.Infinity = huge
 
+function jssupport.tonumber(value)
+    local mt = getmetatable(value)
+    if (mt or {}).__tonumber then
+        return mt.__tonumber(value)
+    end
+
+    return tonumber(value)
+end
+
 jssupport.null = setmetatable({},{
     __tostring = function ()
         return 'null'

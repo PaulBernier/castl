@@ -16,7 +16,8 @@
 local jssupport = require("castl.jssupport")
 local coreObjects = require("castl.core_objects")
 local bit = require("castl.modules.bit")
-local others = require("castl.other_objects")
+local others = require("castl.others")
+local json = require("castl.json")
 local Object = require("castl.constructor.object")
 local Function = require("castl.constructor.function")
 local Array = require("castl.constructor.array")
@@ -41,6 +42,7 @@ local export = {
     _with = jssupport.with,
     _void = jssupport.void,
     _e = jssupport.e,
+    _tonum = jssupport.tonumber,
     null = jssupport.null,
     NaN = jssupport.NaN,
     Infinity = jssupport.Infinity,
@@ -76,12 +78,11 @@ local export = {
 
     -- others
     console = others.console,
-    JSON = others.JSON,
+    JSON = json,
     Math = Math,
     _bit = bit,
 
     -- standard library export
-    _tonum = tonumber,
     _tostr = tostring,
     _pcall = pcall,
     _error = error,
