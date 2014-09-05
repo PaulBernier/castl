@@ -442,8 +442,11 @@ function coreObjects.new(f, ...)
 
     -- http://stackoverflow.com/a/3658673
     if type(ret) == "table" or type(ret) == "function"
-        -- special case, type string and object String are mixed up in CASTL
-        or f.prototype == stringProto then
+        -- special cases,
+        -- type string and object String are mixed up
+        or f.prototype == stringProto
+        -- type boolean and object Boolean are mixed up
+        or f.prototype == booleanProto then
         return ret
     end
 

@@ -20,3 +20,9 @@ assert(!f);
 
 var g = Boolean({});
 assert(g);
+
+var h = Boolean();
+assert(!h);
+
+var i = new Boolean();
+assert(i);

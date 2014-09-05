@@ -958,7 +958,7 @@
     }
 
     function compileLogicalExpression(expression) {
-        var compiledLogicalExpression = [];
+        var compiledLogicalExpression = ["("];
 
         var left = compileExpression(expression.left);
         var right = compileExpression(expression.right);
@@ -977,6 +977,7 @@
         }
 
         compiledLogicalExpression.push(right);
+        compiledLogicalExpression.push(")");
 
         return compiledLogicalExpression.join('');
     }
