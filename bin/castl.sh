@@ -94,6 +94,12 @@ done
 
 code=$(nodejs compile.js $filename $parser $node $luajit $tolerant)
 
+# compilation failed
+if (($? > 0)); then
+    >&2 echo $code;
+    exit $?;
+fi
+
 if [ "$quiet" = false ]; then
     echo "-- Lua code:"
     echo "--------------------------------------------------------------------"
