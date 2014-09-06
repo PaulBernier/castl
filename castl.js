@@ -970,7 +970,7 @@
             }
         } else {
             compiledCallExpression.push(compiledCallee);
-            compiledCallExpression.push("(this");
+            compiledCallExpression.push("(_ENV");
             if (compiledArguments) {
                 compiledCallExpression.push("," + compiledArguments);
             }

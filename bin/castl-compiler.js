@@ -42,14 +42,15 @@ fs.readFile(filename, 'utf8', function (err, data) {
         finalCode.push("_nodejs = true;");
     }
     if (luajit === "true") {
+        finalCode.push("local _ENV = require(\"castl.runtime\");");
         finalCode.push("return setfenv(function(...)");
         finalCode.push(compiledCode);
         if (nodejs === "true") {
             finalCode.push("return exports;");
         }
-        finalCode.push("end, require(\"castl.runtime\"))();");
+        finalCode.push("end, _ENV)();");
     } else {
-        finalCode.push("_ENV = require(\"castl.runtime\");");
+        finalCode.push("local _ENV = require(\"castl.runtime\");");
         finalCode.push(compiledCode);
         if (nodejs === "true") {
             finalCode.push("return exports;");

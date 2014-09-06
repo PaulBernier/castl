@@ -30,16 +30,17 @@ fs.readFile(filename, 'utf8', function (err, data) {
             }
 
             var compiledCode = castl.compileAST(syntax).compiled;
-            compiledCode = compiledCode.replace(/assert\(this,/g, "assert(");
+            compiledCode = compiledCode.replace(/assert\(_ENV,/g, "assert(");
             var finalCode = ["local assert, print = assert, print"];
             
             // Set environment
             if (luajit === "true") {
+                finalCode.push("local _ENV = require(\"castl.runtime\");");
                 finalCode.push("return setfenv(function(...)");
                 finalCode.push(compiledCode);
-                finalCode.push("end, require(\"castl.runtime\"))();");
+                finalCode.push("end, _ENV)();");
             } else {
-                finalCode.push("_ENV = require(\"castl.runtime\");");
+                finalCode.push("local _ENV = require(\"castl.runtime\");");
                 finalCode.push(compiledCode);
             }
             
