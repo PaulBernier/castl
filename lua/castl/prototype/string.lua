@@ -18,6 +18,7 @@
 
 local stringPrototype = {}
 
+local runtime
 local jssupport = require("castl.jssupport")
 local regexpHelper = require("castl.modules.regexphelper")
 local common = require("castl.modules.common")
@@ -273,11 +274,31 @@ stringPrototype.split = function (this, separator, limit)
     return array(ret, limit)
 end
 
+local replacerToString = function(replacer)
+    if type(replacer) == "table" and
+        type(replacer.toString) == "function" then
+        replacer = replacer:toString()
+    else
+        replacer = tostring(replacer)
+    end
+
+    return replacer
+end
+
 local getReplacerRegExp = function(newSubStr)
     local replacer = ""
-    if type(newSubStr) == "string" then
+
+    if type(newSubStr) == "function" then
+        runtime = runtime or require("castl.runtime")
+        replacer = function(...)
+            -- call with an empty this
+            return replacerToString(newSubStr(runtime, ...))
+        end
+    else
+        replacer = replacerToString(newSubStr)
+
         -- handle $ parameters
-        replacer = string.gsub(newSubStr, "%$&", "$0")
+        replacer = string.gsub(replacer, "%$&", "$0")
         replacer = string.gsub(replacer, "([%$]+)(.?)",
             function(dollars, follow)
                 local length = string.len(dollars)
@@ -295,19 +316,17 @@ local getReplacerRegExp = function(newSubStr)
                 return concat(ret)
             end
         )
-    elseif type(newSubStr) == "function" then
-        replacer = function(...)
-            -- call with an empty this
-            return newSubStr({}, ...)
-        end
     end
+
 
     return replacer
 end
 
 local getReplacerString = function(newSubStr)
+    local replacer = replacerToString(newSubStr)
+
     -- handle $ parameters
-    local replacer = string.gsub(newSubStr, "%$&", "%%0")
+    replacer = string.gsub(replacer, "%$&", "%%0")
     replacer = string.gsub(replacer, "([%$]+)",
         function(dollars)
             local length = string.len(dollars)
