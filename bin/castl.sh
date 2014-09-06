@@ -38,7 +38,7 @@ function help {
     printf "\t%-15s %s\n" "-h, --help" "display this help"
     printf "\t%-15s %s\n" "--acorn" "use Acorn parser. If not specified Esprima is used"
     printf "\t%-15s %s\n" "--tolerant" "make Esprima and Acorn error-tolerant"
-    printf "\t%-15s %s\n" "--jit" "use LuaJIT instead of Lua interpreter to execute compiled code"
+    printf "\t%-15s %s\n" "--jit" "compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active)"
     printf "\t%-15s %s\n" "--node" "add a very basic support of NodeJS 'require' system"
     exit 0
 }
@@ -101,7 +101,12 @@ if (($? > 0)); then
 fi
 
 if [ "$quiet" = false ]; then
-    echo "-- Lua code:"
+    if [ "$luajit" = true ]; then
+        echo "-- Lua code (LuaJIT):"
+    else
+        echo "-- Lua code (Lua 5.2):"
+    fi
+    
     echo "--------------------------------------------------------------------"
     printf "%s" "$code"
     echo ""
@@ -124,7 +129,7 @@ if [ "$execute" = true ]; then
         luajit -e "$code";
     else
         echo "-- Execution output (Lua 5.2):"
-        lua -e "$code";
+        lua5.2 -e "$code";
     fi
 fi
 echo ""

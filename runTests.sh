@@ -46,7 +46,7 @@ function testFile {
     if [ "$luajit" = true ]; then
         luajit $luaScript;
     else
-        lua $luaScript;
+        lua5.2 $luaScript;
     fi
     
     
@@ -92,7 +92,11 @@ else
 fi
 
 echo "----------------------------------------------";
-echo "Report:";
+if [ "$luajit" = true ]; then
+    echo "Report (LuaJIT):"
+else
+    echo "Report (Lua 5.2):"
+fi
 echo "Passed: $success / $total";
 
 if (($success != $total)); then

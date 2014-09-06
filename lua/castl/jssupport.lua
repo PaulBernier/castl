@@ -13,7 +13,7 @@
     along with CASTL. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
--- [[ CASTL Js Support submodule]] --
+-- [[ CASTL JS Support submodule]] --
 
 local jssupport = {}
 
@@ -22,6 +22,7 @@ local type, tonumber, tostring, error, pairs = type, tonumber, tostring, error, 
 local getmetatable,setmetatable = getmetatable, setmetatable
 local huge, floor, abs = math.huge, math.floor, math.abs
 local gsub, sub, match, format, sbyte, find, char = string.gsub, string.sub, string.match, string.format, string.byte, string.find, string.char
+
 -- Prevent modification of global environment
 _ENV = nil
 

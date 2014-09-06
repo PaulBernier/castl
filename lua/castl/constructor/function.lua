@@ -17,6 +17,7 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function
 
 local esprima, castl, runtime
+local luajit = jit ~= nil
 
 local jssupport = require("castl.jssupport")
 local coreObjects = require("castl.core_objects")
@@ -33,8 +34,15 @@ Function = function(this, ...)
         local args = pack(...)
         local body = args[args.n]
 
+        if luajit then
+            castl = castl or require("castl.jscompile.castl_jit")
+            esprima = esprima or require("castl.jscompile.esprima_jit")
+        else
+            castl = castl or require("castl.jscompile.castl")
+            esprima = esprima or require("castl.jscompile.esprima")
+        end
+
         -- parse body of the function in error-tolerant mode
-        esprima = esprima or require("castl.jscompile.esprima")
         local options = coreObjects.obj({tolerant = true})
         local ast = esprima:parse(body, options)
 
@@ -47,7 +55,6 @@ Function = function(this, ...)
         tinsert(params, " = ...;\n")
 
         -- compile the ast
-        castl = castl or require("castl.jscompile.castl")
         local castResult = castl:compileAST(ast)
 
         local compiledFunction

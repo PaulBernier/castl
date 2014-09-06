@@ -30,7 +30,7 @@ If the JS script you want to compile uses regular expressions you'll have to ins
     
 *Compile code in <file.js>, does not print anything but save the compiled code to "mycode.lua"*
 
-    $ castl -qo "mycode.lua" <file.js>
+    $ castl -q <file.js> -o "mycode.lua"
 
 **The options of the command line are:**
 
@@ -42,7 +42,7 @@ If the JS script you want to compile uses regular expressions you'll have to ins
 * -h, --help: display help.
 * --acorn: use Acorn parser. If not specified Esprima is used.
 * --tolerant: make Esprima and Acorn error-tolerant.
-* --jit: use LuaJIT instead of Lua interpreter to execute compiled code.
+* --jit: compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active).
 * --node: add a very basic support of NodeJS 'require' system.
 
 ## CASTL components
@@ -64,17 +64,15 @@ There is also a useful bash script `bin/castl.sh` to easily compile and execute 
 
 ## LuaJIT
 
-If you want to use LuaJIT to execute code compiled with CASTL you can, but with some little drawbacks. 
+Good news, if you want to use CASTL with LuaJIT, you can!
 
-First of all you'll have to compile LuaJIT with the -DLUAJIT\_ENABLE\_LUA52COMPAT option [http://luajit.org/extensions.html#lua52](http://luajit.org/extensions.html#lua52). Then you can use the `--jit` option of the castl command line:
+The only point is that you'll have to compile LuaJIT with the -DLUAJIT\_ENABLE\_LUA52COMPAT option [http://luajit.org/extensions.html#lua52](http://luajit.org/extensions.html#lua52). Then you can use the `--jit` option of the castl command line:
 
      castl -qe --jit <file.js>
 
-Note that by using LuaJIT instead of Lua 5.2 VM you'll unfortunately lose:
+Note that by using LuaJIT instead of Lua 5.2 VM you'll unfortunately lose (for now):
 
-* regular expressions since [Lrexlib](http://rrthomas.github.io/lrexlib/) does not support LuaJIT for now
 * _with_ statement (not a big loss normally...)
-* eval() global function and Function() constructor
 
 ## Q&A
 

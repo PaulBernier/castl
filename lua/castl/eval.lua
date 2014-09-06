@@ -14,6 +14,7 @@
 --]]
 
 local castl, esprima, runtime
+local luajit = jit ~= nil
 
 local eval = {}
 
@@ -133,9 +134,16 @@ end
 
 function eval.eval(this, str)
     runtime = runtime or require("castl.runtime")
-    castl = castl or require("castl.jscompile.castl")
-    esprima = esprima or require("castl.jscompile.esprima")
 
+    if luajit then
+        castl = castl or require("castl.jscompile.castl_jit")
+        esprima = esprima or require("castl.jscompile.esprima_jit")
+    else
+        castl = castl or require("castl.jscompile.castl")
+        esprima = esprima or require("castl.jscompile.esprima")
+    end
+
+    -- parse and compile JS code
     local ast = esprima:parse(str)
     local castlResult = castl:compileAST(ast)
     local ret
