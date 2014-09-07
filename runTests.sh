@@ -14,35 +14,28 @@ function testFile {
     f=$1
     
     ((total++));
-    echo "********************************************";
+    echo -n "$total. $f: ";
     
     # Execution of js script
-    echo -n "Execute test $f... ";
     nodejs $f 2>/dev/null 1>/dev/null;
     
     if (($? > 0)); then
         echo "--> Execution of js code failed!";
         failed=("${failed[@]}" "${f:0:(${#f}-3)} - Code: 1");
         continue;
-    else
-        echo "*OK";
     fi
     
     # Compile js script to lua
-    echo -n "Compile test $f... ";
     nodejs "compileTest.js" $f $luajit $parser;
     
     if (($? > 0)); then
         echo "--> Compilation of js code failed!";
         failed=("${failed[@]}" "${f:0:(${#f}-3)} - Code: 2");
         continue;
-    else
-        echo "*OK";
     fi
     
     # Execute lua code compiled
     luaScript="${f:0:(${#f}-2)}lua";
-    echo -n "Execute test $luaScript... ";
     if [ "$luajit" = true ]; then
         luajit $luaScript;
     else
@@ -54,8 +47,6 @@ function testFile {
         echo "--> Execution of lua code failed!";
         failed=("${failed[@]}" "${f:0:(${#f}-3)} - Code: 3");
         continue;
-    else
-        echo "*OK";
     fi
     
     echo "--> Everything Is AWESOME!!!";
@@ -66,7 +57,6 @@ files=()
 # handle arguments
 if [ "$#" -ne 0 ]; then
     for arg in "$@"; do
-    
         if [[ $arg == --* ]] ; then
             if [ $arg = "--jit" ]; then
                 luajit=true
@@ -81,7 +71,7 @@ fi
 
 # if some files were specified test them
 if [ "${#files[@]}" -ne 0 ]; then
-    for f in "$files"; do
+    for f in "${files[@]}"; do
         testFile $f
     done
 else
