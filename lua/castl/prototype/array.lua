@@ -19,7 +19,7 @@
 local arrayPrototype = {}
 
 local jssupport = require("castl.jssupport")
-local _arr
+local makeArray, runtime
 
 local rawget, rawset, require, getmetatable, error = rawget, rawset, require, getmetatable, error
 local table = table
@@ -134,8 +134,8 @@ arrayPrototype.splice = function (this, index, howMany, ...)
     rawset(this, 'length', length - howMany + elements.n)
 
     -- return array object
-    _arr = _arr or require("castl.core_objects").array
-    return _arr(ret, howMany)
+    makeArray = makeArray or require("castl.core_objects").array
+    return makeArray(ret, howMany)
 end
 
 arrayPrototype.reverse = function (this)
@@ -170,8 +170,8 @@ arrayPrototype.slice = function (this, beginSlice, endSlice)
         j = j + 1
     end
 
-    _arr = _arr or require("castl.core_objects").array
-    return _arr(ret, j)
+    makeArray = makeArray or require("castl.core_objects").array
+    return makeArray(ret, j)
 end
 
 arrayPrototype.concat = function (this, ...)
@@ -209,8 +209,8 @@ arrayPrototype.concat = function (this, ...)
     rawset(ret, 0, tmp)
 
     -- convert to array object
-    _arr = _arr or require("castl.core_objects").array
-    return _arr(ret, length)
+    makeArray = makeArray or require("castl.core_objects").array
+    return makeArray(ret, length)
 end
 
 -- doesn't work if two nil follow in the array
@@ -298,13 +298,24 @@ arrayPrototype.indexOf = function (this, searchElement, fromIndex)
     return -1
 end
 
+local getThisArg = function(arg)
+    -- if thisArg's not defined, use default this
+    if arg == nil then
+        runtime = runtime or require("castl.runtime")
+        return runtime
+    end
+
+    return arg
+end
+
 arrayPrototype.map = function (this, callback, thisArg)
     local ret = {}
-    thisArg = thisArg or {}
+
+    thisArg = getThisArg(thisArg)
 
     for i = 0, this.length - 1 do
-        local v = callback(thisArg, this[i], i, this)
-        if v ~= nil then
+        if this[i] ~= nil then
+            local v = callback(thisArg, this[i], i, this)
             table.insert(ret, v)
         end
     end
@@ -315,13 +326,14 @@ arrayPrototype.map = function (this, callback, thisArg)
     rawset(ret, 0, tmp)
 
     -- convert to array object
-    _arr = _arr or require("castl.core_objects").array
-    return _arr(ret, this.length)
+    makeArray = makeArray or require("castl.core_objects").array
+    return makeArray(ret, this.length)
 end
 
 arrayPrototype.filter = function (this, callback, thisArg)
     local ret, length = {}, 0
-    thisArg = thisArg or {}
+
+    thisArg = getThisArg(thisArg)
 
     for i = 0, this.length - 1 do
         -- filter
@@ -337,8 +349,8 @@ arrayPrototype.filter = function (this, callback, thisArg)
     rawset(ret, 0, tmp)
 
     -- convert to array object
-    _arr = _arr or require("castl.core_objects").array
-    return _arr(ret, length)
+    makeArray = makeArray or require("castl.core_objects").array
+    return makeArray(ret, length)
 end
 
 local empty = function(array)
@@ -356,7 +368,7 @@ arrayPrototype.reduce = function (this, callback, initialValue)
 
     local value = initialValue or this[0]
     local start = initialValue and 0 or 1
-    local thisArg = {}
+    local thisArg = getThisArg()
     local length = this.length
     for i = start, length - 1 do
         -- if not nil (else ignore)
@@ -373,7 +385,8 @@ arrayPrototype.forEach = function (this, callback, thisArg)
         error("Array.prototype.forEach called on null or undefined")
     end
 
-    thisArg = thisArg or {}
+    thisArg = getThisArg(thisArg)
+
     if type(this) == "table" or type(this) == "string" then
         local bound = this.length - 1
         for i = 0, bound do
@@ -385,7 +398,7 @@ arrayPrototype.forEach = function (this, callback, thisArg)
 end
 
 arrayPrototype.some = function (this, callback, thisArg)
-    thisArg = thisArg or {}
+    thisArg = getThisArg(thisArg)
 
     for i = 0, this.length - 1 do
         if this[i] ~= nil and callback(thisArg, this[i], i, this) then
@@ -397,7 +410,7 @@ arrayPrototype.some = function (this, callback, thisArg)
 end
 
 arrayPrototype.every = function (this, callback, thisArg)
-    thisArg = thisArg or {}
+    thisArg = getThisArg(thisArg)
 
     for i = 0, this.length - 1 do
         if not callback(thisArg, this[i], i, this) then

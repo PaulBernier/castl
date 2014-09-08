@@ -526,7 +526,7 @@ a.forEach(function(value, index, object) {
 });
 
 a.map(function(value, index, object) {
-  return null
+    result++;
 });
 
 a.some(function(value, index, object) {
@@ -540,3 +540,13 @@ a.filter(function(value, index, object) {
 // None of these should have iterated.
 assert(result === 0);
 
+// Test this in callback function when no thisArf is specified
+
+var a = [1,2,3,4]
+
+a.map(function(e){return this.parseInt("2") * e});
+a.filter(function(e){return this.parseInt("2") * e > 4});
+a.reduce(function(p, c){return this.parseInt("2") * (p + c)});
+a.forEach(function(e) {this.parseInt("77")});
+a.some(function(){this.parseInt("77")});
+a.every(function(){this.parseInt("77")});
