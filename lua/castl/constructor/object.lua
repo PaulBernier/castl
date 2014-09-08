@@ -87,6 +87,11 @@ Object.freeze = function (this, obj)
 end
 
 Object.keys = function (this, obj)
+    local t = type(obj)
+    if t == "boolean" or obj == nil or t == "number" or t == "string" then
+        error("TypeError: Object.keys called on non-object", 2)
+    end
+
     local ret, i = {}, 0
 
     for key in coreObjects.props(obj) do
