@@ -515,6 +515,10 @@ local getPrototype = function(o)
 end
 
 function coreObjects.instanceof(object, class)
+    if type(class) ~= "function" then
+        error("TypeError: Expecting a function in instanceof check, but got " .. tostring(class))
+    end
+
     if class.prototype then
         local classPrototypeAttribute = class.prototype
         local objectPrototype = getPrototype(object)

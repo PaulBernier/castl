@@ -31,7 +31,11 @@ local setmetatable, getmetatable = setmetatable, getmetatable
 _ENV = nil
 
 String = function(this, arg)
-    arg = coreObjects.defaultValue(arg)
+    if arg == nil then
+        arg = ""
+    else
+        arg = coreObjects.defaultValue(arg)
+    end
 
     -- String constructor not called within a new
     if not common.withinNew(this, stringProto) then

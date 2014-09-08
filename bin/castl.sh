@@ -13,8 +13,8 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with CASTL. If not, see <http://www.gnu.org/licenses/>.
 
-# Set environment varialbe
-export LUA_PATH=$LUA_PATH";lua/?.lua;"
+# Set environment variable
+export LUA_PATH=$LUA_PATH";/usr/local/lib/node_modules/castl/lua/?.lua;"
 
 # Options
 quiet=false
@@ -93,11 +93,12 @@ for arg in "$@"; do
 done
 
 code=$(castl-compiler $filename $parser $node $luajit $tolerant)
+compileStatus=$?
 
 # compilation failed
-if (($? > 0)); then
+if (($compileStatus > 0)); then
     >&2 echo $code;
-    exit $?;
+    exit $compileStatus;
 fi
 
 if [ "$quiet" = false ]; then
@@ -131,5 +132,9 @@ if [ "$execute" = true ]; then
         echo "-- Execution output (Lua 5.2):"
         lua5.2 -e "$code";
     fi
+    execStatus=$?
 fi
+
 echo ""
+
+exit $execStatus;

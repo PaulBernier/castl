@@ -26,7 +26,7 @@ fs.readFile(filename, 'utf8', function (err, data) {
             try {
                 syntax = parser.parse(data);
             } catch (e) {
-                throw new Error("Couldn't parse JS code");
+                throw new SyntaxError("Couldn't parse JS code");
             }
 
             var compiledCode = castl.compileAST(syntax).compiled;
