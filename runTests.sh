@@ -14,7 +14,8 @@ function testFile {
     f=$1
     
     ((total++));
-    echo -n "$total. $f: ";
+    testString="$total. $f: "
+    echo -n $testString;
     
     # Execution of js script
     nodejs $f 2>/dev/null 1>/dev/null;
@@ -49,7 +50,9 @@ function testFile {
         continue;
     fi
     
-    echo "--> Everything Is AWESOME!!!";
+    offset=$((60 - ${#testString}))
+    printf "%-"$offset"s %s\n" "" "--> Everything Is AWESOME!!!";
+    #echo "--> Everything Is AWESOME!!!";
     ((success++));
 }
 
