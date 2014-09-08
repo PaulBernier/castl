@@ -23,7 +23,11 @@ local booleanProto = require("castl.prototype.boolean")
 local numberProto = require("castl.prototype.number")
 local stringProto = require("castl.prototype.string")
 local dateProto = require("castl.prototype.date")
-local errorProto = require("castl.prototype.error")
+local errorProto = require("castl.prototype.error.error")
+local rangeErrorProto = require("castl.prototype.error.range_error")
+local referenceErrorProto = require("castl.prototype.error.reference_error")
+local syntaxErrorProto = require("castl.prototype.error.syntax_error")
+local typeErrorProto = require("castl.prototype.error.type_error")
 local regexpProto = require("castl.prototype.regexp")
 local jssupport = require("castl.jssupport")
 
@@ -659,6 +663,12 @@ coreObjects.obj(stringProto)
 coreObjects.obj(dateProto)
 coreObjects.obj(regexpProto)
 coreObjects.obj(errorProto)
+
+coreObjects.obj(rangeErrorProto)
+coreObjects.obj(referenceErrorProto)
+coreObjects.obj(syntaxErrorProto)
+coreObjects.obj(typeErrorProto)
+coreObjects.obj(regexpProto)
 
 --[[
     Export objectMt and arrayMt for JSON.parse

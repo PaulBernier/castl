@@ -25,7 +25,11 @@ local Boolean = require("castl.constructor.boolean")
 local Number = require("castl.constructor.number")
 local String = require("castl.constructor.string")
 local Date = require("castl.constructor.date")
-local Error = require("castl.constructor.error")
+local Error = require("castl.constructor.error.error")
+local SyntaxError = require("castl.constructor.error.syntax_error")
+local TypeError = require("castl.constructor.error.type_error")
+local ReferenceError = require("castl.constructor.error.reference_error")
+local RangeError = require("castl.constructor.error.range_error")
 local RegExp = require("castl.constructor.regexp")
 local Math = require("castl.math")
 local eval = require("castl.eval")
@@ -77,6 +81,10 @@ local export = {
     Date = Date,
     RegExp = RegExp,
     Error = Error,
+    TypeError = TypeError,
+    SyntaxError = SyntaxError,
+    ReferenceError = ReferenceError,
+    RangeError = RangeError,
 
     -- others
     console = others.console,

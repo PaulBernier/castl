@@ -13,13 +13,13 @@
     along with CASTL. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
--- [[ CASTL Error constructor submodule]] --
--- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+-- [[ CASTL SyntaxError constructor submodule]] --
+-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError
 
-local Error
+local SyntaxError
 
 local jssupport = require("castl.jssupport")
-local errorProto = require("castl.prototype.error")
+local syntaxErrorProto = require("castl.prototype.error.syntax_error")
 local common = require("castl.modules.common")
 
 local setmetatable = setmetatable
@@ -28,13 +28,13 @@ local traceback = debug.traceback
 
 _ENV = nil
 
-Error = function(this, message)
+SyntaxError = function(this, message)
     local o = {}
     o.message = message
 
     return setmetatable(o, {
         __index = function (self, key)
-            return common.prototype_index(errorProto, key)
+            return common.prototype_index(syntaxErrorProto, key)
         end,
         __tostring = function(self)
             return traceback(self:toString(), 4)
@@ -42,10 +42,10 @@ Error = function(this, message)
         __tonumber = function(self)
             return jssupport.NaN
         end,
-        _prototype = errorProto})
+        _prototype = syntaxErrorProto})
 end
 
-Error.prototype = errorProto
-errorProto.constructor = Error
+SyntaxError.prototype = syntaxErrorProto
+syntaxErrorProto.constructor = SyntaxError
 
-return Error
+return SyntaxError

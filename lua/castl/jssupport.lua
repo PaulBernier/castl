@@ -20,7 +20,7 @@ local jssupport = {}
 local coreObjects
 
 -- Dependencies
-local type, tonumber, tostring, error, pairs = type, tonumber, tostring, error, pairs
+local type, tonumber, tostring, pairs = type, tonumber, tostring, pairs
 local getmetatable,setmetatable, require = getmetatable, setmetatable, require
 local huge, floor, abs = math.huge, math.floor, math.abs
 local gsub, sub, match, format, sbyte, find, char = string.gsub, string.sub, string.match, string.format, string.byte, string.find, string.char
@@ -232,10 +232,6 @@ function jssupport.parseInt(this, str, radix)
     end
 
     return 0/0
-end
-
-jssupport.eval = function()
-    error("eval() not supported yet")
 end
 
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3
