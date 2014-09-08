@@ -25,12 +25,7 @@ _ENV = nil
 
 numberPrototype.toString = function(this, radix)
     local mt = getmetatable(this)
-    local value
-    if mt and type(mt._primitive) == "number" then
-        value = mt._primitive
-    else
-        value = this
-    end
+    local value = this:valueOf()
 
     if not radix then
         return tostring(value)
@@ -54,6 +49,15 @@ numberPrototype.toString = function(this, radix)
     until n == 0
 
     return sign .. concat(t, "")
+end
+
+numberPrototype.valueOf = function (this)
+    local mt = getmetatable(this)
+    if mt and type(mt._primitive) == "number" then
+        return mt._primitive
+    else
+        return this
+    end
 end
 
 numberPrototype.toFixed = function(this, digits)

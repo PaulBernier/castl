@@ -23,11 +23,15 @@ local getmetatable, tostring, type = getmetatable, tostring, type
 _ENV = nil
 
 booleanPrototype.toString = function (this)
+    return tostring(this:valueOf())
+end
+
+booleanPrototype.valueOf = function (this)
     local mt = getmetatable(this)
     if mt and type(mt._primitive) == "boolean" then
-        return tostring(mt._primitive)
+        return mt._primitive
     else
-        return tostring(this)
+        return this
     end
 end
 

@@ -187,11 +187,20 @@ stringPrototype.toString = function (this)
     -- Object String
     if mt and type(mt._primitive) == "string" then
         return mt._primitive
-    -- primitive string
+            -- primitive string
     elseif type(this) == 'string' then
         return this
     else
         return "[object Object]"
+    end
+end
+
+stringPrototype.valueOf = function (this)
+    local mt = getmetatable(this)
+    if mt and type(mt._primitive) == "string" then
+        return mt._primitive
+    else
+        return this
     end
 end
 

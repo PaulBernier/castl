@@ -37,6 +37,9 @@ jssupport.null = setmetatable({},{
     __tostring = function ()
         return 'null'
     end,
+    __tonumber = function()
+        return 0
+    end,
     __sub = function(a, b)
         a = (a == jssupport.null) and 0 or tonumber(a)
         b = (b == jssupport.null) and 0 or tonumber(b)
@@ -288,8 +291,9 @@ function jssupport.add(x , y)
     if type(x) == "string" or type(y) == "string" then
         return tostring(x) .. tostring(y)
     else
-        x = (x == jssupport.null) and 0 or x
-        y = (y == jssupport.null) and 0 or y
+        coreObjects = coreObjects or require("castl.core_objects")
+        x = coreObjects.toNumber(x)
+        y = coreObjects.toNumber(y)
         return x + y
     end
 end
