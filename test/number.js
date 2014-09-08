@@ -38,6 +38,13 @@ assert(typeof(+"4") === "number");
 assert(typeof(+(new Date())) === "number");
 assert(typeof(-(new Date())) === "number");
 
+// Static properties
+assert(Number.MAX_VALUE === 1.7976931348623157e+308);
+assert(Number.MIN_VALUE === 5e-324);
+assert(Number.isNaN(Number.NaN));
+assert(Number.NEGATIVE_INFINITY === -Infinity);
+assert(Number.POSITIVE_INFINITY === Infinity);
+
 /////
 var n = Number(7)
 var m = new Number(77)

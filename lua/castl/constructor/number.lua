@@ -78,7 +78,12 @@ Number.parseFloat = function (this, str)
     return jssupport.parseFloat(this, str)
 end
 
-Number.NaN = 0/0
+-- Static properties
+Number.NaN = jssupport.NaN
+Number.MAX_VALUE = 1.7976931348623157e+308
+Number.MIN_VALUE = 5e-324
+Number.NEGATIVE_INFINITY = -jssupport.Infinity
+Number.POSITIVE_INFINITY = jssupport.Infinity
 
 Number.prototype = numberProto
 numberProto.constructor = Number
