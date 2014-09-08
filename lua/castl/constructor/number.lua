@@ -31,7 +31,7 @@ _ENV = nil
 Number = function(this, arg)
     -- Number constructor not called within a new
     if not common.withinNew(this, numberProto) then
-        return tonumber(arg)
+        return tonumber(arg) or jssupport.NaN
     end
 
     local o = {}
