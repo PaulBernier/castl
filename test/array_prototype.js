@@ -515,3 +515,28 @@ assert(flattened[2] === 2);
 assert(flattened[3] === 3);
 assert(flattened[4] === 4);
 assert(flattened[5] === 5);
+
+// Handle holes
+
+var a = new Array(1);
+var result = 0;
+
+a.forEach(function(value, index, object) {
+  result++;
+});
+
+a.map(function(value, index, object) {
+  return null
+});
+
+a.some(function(value, index, object) {
+  result++;
+});
+
+a.filter(function(value, index, object) {
+  result++;
+});
+
+// None of these should have iterated.
+assert(result === 0);
+

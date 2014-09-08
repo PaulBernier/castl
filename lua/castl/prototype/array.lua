@@ -84,7 +84,7 @@ arrayPrototype.unshift = function (this, ...)
     local args = table.pack(...)
     local newLength = this["length"] + args.n
 
-    for i = args.n,1,-1 do
+    for i = args.n, 1, -1 do
         table.insert(this, 1, rawget(this, 0))
         rawset(this, 0, args[i])
     end
@@ -193,7 +193,7 @@ arrayPrototype.concat = function (this, ...)
     for i = 1, args.n do
         -- test if is array
         if (getmetatable(args[i]) or {})._prototype == arrayPrototype then
-            for j = 0,args[i].length -1 do
+            for j = 0, args[i].length -1 do
                 table.insert(ret, args[i][j])
             end
             length = length + args[i].length
@@ -303,7 +303,10 @@ arrayPrototype.map = function (this, callback, thisArg)
     thisArg = thisArg or {}
 
     for i = 0, this.length - 1 do
-        table.insert(ret, callback(thisArg, this[i], i, this))
+        local v = callback(thisArg, this[i], i, this)
+        if v ~= nil then
+            table.insert(ret, v)
+        end
     end
 
     -- shift to 0-based index
@@ -322,7 +325,7 @@ arrayPrototype.filter = function (this, callback, thisArg)
 
     for i = 0, this.length - 1 do
         -- filter
-        if callback(thisArg, this[i], i, this) then
+        if this[i] ~= nil and callback(thisArg, this[i], i, this) then
             table.insert(ret, this[i])
             length = length + 1
         end
@@ -338,20 +341,23 @@ arrayPrototype.filter = function (this, callback, thisArg)
     return _arr(ret, length)
 end
 
+local empty = function(array)
+    return array.length == 0 or array:every(function(_,e) return e == nil end)
+end
+
 arrayPrototype.reduce = function (this, callback, initialValue)
     if this == nil or this == jssupport.null then
         error("Array.prototype.forEach called on null or undefined")
     end
 
-    local length = this.length
-
-    if length == 0 and not initialValue then
+    if empty(this) and initialValue == nil then
         error("Reduce of empty array with no initial value")
     end
 
     local value = initialValue or this[0]
     local start = initialValue and 0 or 1
     local thisArg = {}
+    local length = this.length
     for i = start, length - 1 do
         -- if not nil (else ignore)
         if this[i] then
@@ -371,7 +377,9 @@ arrayPrototype.forEach = function (this, callback, thisArg)
     if type(this) == "table" or type(this) == "string" then
         local bound = this.length - 1
         for i = 0, bound do
-            callback(thisArg, this[i], i, this)
+            if this[i] ~= nil then
+                callback(thisArg, this[i], i, this)
+            end
         end
     end
 end
@@ -380,7 +388,7 @@ arrayPrototype.some = function (this, callback, thisArg)
     thisArg = thisArg or {}
 
     for i = 0, this.length - 1 do
-        if callback(thisArg, this[i], i, this) then
+        if this[i] ~= nil and callback(thisArg, this[i], i, this) then
             return true
         end
     end
