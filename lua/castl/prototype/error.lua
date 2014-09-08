@@ -24,7 +24,11 @@ errorPrototype.name = "Error"
 errorPrototype.message = ""
 
 errorPrototype.toString = function (this)
-    return this.name .. ": " .. this.message
+    if this.message ~= "" then
+        return this.name .. ": " .. this.message
+    else
+        return this.name
+    end
 end
 
 return errorPrototype

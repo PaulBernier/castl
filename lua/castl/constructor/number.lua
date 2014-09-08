@@ -18,15 +18,40 @@
 
 local Number
 
+local coreObjects = require("castl.core_objects")
+local common = require("castl.modules.common")
 local numberProto = require("castl.prototype.number")
 local jssupport = require("castl.jssupport")
 
 local huge = math.huge
-local tonumber, type = tonumber, type
+local tonumber, type, tostring, getmetatable, setmetatable = tonumber, type, tostring, getmetatable, setmetatable
+
 _ENV = nil
 
 Number = function(this, arg)
-    return tonumber(arg)
+    -- Number constructor not called within a new
+    if not common.withinNew(this, numberProto) then
+        return tonumber(arg)
+    end
+
+    local o = {}
+
+    setmetatable(o, {
+        __index = function (self, key)
+            return common.prototype_index(numberProto, key)
+        end,
+        __tostring = function(self)
+            return coreObjects.objectToString(self)
+        end,
+        __tonumber = function(self)
+            local mt = getmetatable(self)
+            return mt._primitive
+        end,
+        _primitive = tonumber(arg),
+        _prototype = numberProto
+    })
+
+    return o
 end
 
 Number.isFinite = function(this, arg)

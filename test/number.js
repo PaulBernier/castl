@@ -37,3 +37,25 @@ assert(typeof(-"4") === "number");
 assert(typeof(+"4") === "number");
 assert(typeof(+(new Date())) === "number");
 assert(typeof(-(new Date())) === "number");
+
+/////
+var n = Number(7)
+var m = new Number(77)
+var o = 88
+
+assert(n == 7);
+assert(m == 77);
+assert(o == 88);
+assert(n === 7);
+assert(!(m === 77));
+assert(o === 88);
+assert(typeof(n) === "number");
+assert(typeof(m) === "object");
+assert(typeof(o) === "number");
+assert(n.toString() === "7");
+assert(m.toString() === "77");
+assert(o.toString() === "88");
+assert(-n === -7);
+assert(-m === -77);
+assert(-o === -88);
+

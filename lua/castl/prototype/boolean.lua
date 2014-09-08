@@ -18,10 +18,17 @@
 
 local booleanPrototype = {}
 
+local getmetatable, tostring, type = getmetatable, tostring, type
+
 _ENV = nil
 
 booleanPrototype.toString = function (this)
-    return this and "true" or "false"
+    local mt = getmetatable(this)
+    if mt and type(mt._primitive) == "boolean" then
+        return tostring(mt._primitive)
+    else
+        return tostring(this)
+    end
 end
 
 return booleanPrototype

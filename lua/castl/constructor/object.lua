@@ -29,7 +29,11 @@ local tinsert = table.insert
 _ENV = nil
 
 Object = function (this, obj)
-    return obj or coreObjects.obj({})
+    if obj == nil or obj == jssupport.null then
+        return coreObjects.obj({})
+    end
+
+    return coreObjects.toObject(obj)
 end
 
 Object.create = function (this, prototype, props)

@@ -8,6 +8,8 @@ assert(numObj.toFixed(6) === "12345.678900");
 
 numObj = 1.23e+20;
 assert(numObj.toFixed(2) === "123000000000000000000.00");
+numObj = 123000000000000000000;
+assert(numObj.toFixed(2) === "123000000000000000000.00");
 numObj = 1.23e-10;
 assert(numObj.toFixed(2) === "0.00");
 numObj = 2.34;

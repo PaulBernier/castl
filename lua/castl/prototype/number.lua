@@ -19,17 +19,26 @@
 local numberPrototype = {}
 
 local tonumber, format, tostring, floor, concat, insert = tonumber, string.format, tostring, math.floor, table.concat, table.insert
-local strsub = string.sub
+local strsub, getmetatable, type = string.sub, getmetatable, type
+
 _ENV = nil
 
 numberPrototype.toString = function(this, radix)
+    local mt = getmetatable(this)
+    local value
+    if mt and type(mt._primitive) == "number" then
+        value = mt._primitive
+    else
+        value = this
+    end
+
     if not radix then
-        return tostring(this)
+        return tostring(value)
     end
 
     -- TODO: do not handle floating point numbers
     -- http://stackoverflow.com/a/3554821
-    local n = floor(this)
+    local n = floor(value)
     if not radix or radix == 10 then return tostring(n) end
     local digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     local t = {}
@@ -43,7 +52,7 @@ numberPrototype.toString = function(this, radix)
         n = floor(n / radix)
         insert(t, 1, strsub(digits, d, d))
     until n == 0
-    
+
     return sign .. concat(t, "")
 end
 

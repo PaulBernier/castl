@@ -19,7 +19,9 @@
 local RegExp
 
 local regexpProto = require("castl.prototype.regexp")
+local coreObjects = require("castl.core_objects")
 local common = require("castl.modules.common")
+local jssupport = require("castl.jssupport")
 
 local find = string.find
 local setmetatable = setmetatable
@@ -30,7 +32,8 @@ RegExp = function(this, pattern, flags)
     flags = flags or ""
 
     local o = {}
-    o.source = pattern
+
+    o.source = coreObjects.toString(pattern)
     o.global = find(flags, "g") and true
     o.ignoreCase = find(flags, "i") and true
     o.multiline = find(flags, "m") and true
@@ -40,6 +43,7 @@ RegExp = function(this, pattern, flags)
             return common.prototype_index(regexpProto, key)
         end,
         __tostring = regexpProto.toString,
+        __tonumber = function() return jssupport.NaN end,
         _prototype = regexpProto
     })
 

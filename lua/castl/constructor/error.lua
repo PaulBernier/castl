@@ -39,6 +39,9 @@ Error = function(this, message)
         __tostring = function(self)
             return traceback(self:toString(), 4)
         end,
+        __tonumber = function(self)
+            return jssupport.NaN
+        end,
         _prototype = errorProto})
 end
 

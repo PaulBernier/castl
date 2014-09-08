@@ -16,15 +16,42 @@
 -- [[ CASTL Boolean constructor submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-local Boolean
 
+local coreObjects = require("castl.core_objects")
+local common = require("castl.modules.common")
 local jssupport = require("castl.jssupport")
 local booleanProto = require("castl.prototype.boolean")
+
+local Boolean
+
+local setmetatable, getmetatable = setmetatable, getmetatable
 
 _ENV = nil
 
 Boolean = function(this, arg)
-    return jssupport.boolean(arg)
+    -- Boolean constructor not called within a new
+    if not common.withinNew(this, booleanProto) then
+        return jssupport.boolean(arg)
+    end
+
+    local o = {}
+
+    setmetatable(o, {
+        __index = function (self, key)
+            return common.prototype_index(booleanProto, key)
+        end,
+        __tostring = function(self)
+            return coreObjects.objectToString(self)
+        end,
+        __tonumber = function(self)
+            local mt = getmetatable(self)
+            return mt._primitive and 1 or 0
+        end,
+        _primitive = jssupport.boolean(arg),
+        _prototype = booleanProto
+    })
+
+    return o
 end
 
 Boolean.prototype = booleanProto

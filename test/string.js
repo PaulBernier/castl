@@ -25,14 +25,14 @@ assert(str3[1] === "u");
 //assert(!(str3 instanceof Object));
 
 var str4 = new String(72);
-//assert(typeof str4 === "object");
+assert(typeof str4 === "object");
 assert(str4.toString() === "72");
 assert(str4[1] === "2");
 assert(str4 instanceof String);
 assert(str4 instanceof Object);
 
 var str5 = new String("hum");
-//assert(typeof str5 === "object");
+assert(typeof str5 === "object");
 assert(str5.toString() === "hum");
 assert(str5[1] === "u");
 assert(str5 instanceof String);
@@ -59,3 +59,25 @@ assert(str8[0] === "b");
 // fromCharCode
 assert(String.fromCharCode(65, 66, 67) === "ABC");
 assert(String.fromCharCode(65, "66", 67) === "ABC");
+
+
+///////
+var n = String("foo");
+var m = new String("bar");
+var o = "abwabwa";
+
+assert(n == "foo");
+assert(m == "bar");
+assert(o == "abwabwa");
+assert(n === "foo");
+assert(!(m === "bar"));
+assert(o === "abwabwa");
+assert(typeof(n) === "string");
+assert(typeof(m) === "object");
+assert(typeof(o) === "string");
+assert(n.toString() === "foo");
+assert(m.toString() === "bar");
+assert(o.toString() === "abwabwa");
+assert(Number.isNaN(-n));
+assert(Number.isNaN(-m));
+assert(Number.isNaN(-o));

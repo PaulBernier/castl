@@ -2,6 +2,36 @@ var assert = require("assert");
 
 var o = {};
 
+// Constructor
+
+var n = Object(7);
+var m = new Object(7);
+var o = {};
+
+assert(n == 7);
+assert(m == 7);
+assert(!(n === 7));
+assert(!(m === 7));
+assert(typeof(n) === "object");
+assert(typeof(m) === "object");
+assert(n instanceof Number);
+assert(m instanceof Number);
+assert(n.toString() === "7");
+assert(m.toString() === "7");
+assert(-n === -7);
+assert(-m === -7);
+assert(Number.isNaN(-o));
+
+var s = Object("str");
+var s2 = new Object("str");
+assert(s instanceof String);
+assert(s2 instanceof String);
+
+var b = Object(true);
+var b2 = new Object(true);
+assert(b instanceof Boolean);
+assert(b2 instanceof Boolean);
+
 // definedProperty
 Object.defineProperty(o, "a", {
     value: 37,

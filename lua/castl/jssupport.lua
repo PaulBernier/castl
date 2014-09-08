@@ -17,9 +17,11 @@
 
 local jssupport = {}
 
+local coreObjects
+
 -- Dependencies
 local type, tonumber, tostring, error, pairs = type, tonumber, tostring, error, pairs
-local getmetatable,setmetatable = getmetatable, setmetatable
+local getmetatable,setmetatable, require = getmetatable, setmetatable, require
 local huge, floor, abs = math.huge, math.floor, math.abs
 local gsub, sub, match, format, sbyte, find, char = string.gsub, string.sub, string.match, string.format, string.byte, string.find, string.char
 
@@ -30,15 +32,6 @@ jssupport.void = function() end
 jssupport.e = function(...) return ... end
 jssupport.NaN = 0/0
 jssupport.Infinity = huge
-
-function jssupport.tonumber(value)
-    local mt = getmetatable(value)
-    if (mt or {}).__tonumber then
-        return mt.__tonumber(value)
-    end
-
-    return tonumber(value)
-end
 
 jssupport.null = setmetatable({},{
     __tostring = function ()
@@ -244,6 +237,10 @@ end
 
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3
 function jssupport.equal(x, y)
+    coreObjects = coreObjects or require("castl.core_objects")
+    x = coreObjects.toPrimitive(x)
+    y = coreObjects.toPrimitive(y)
+
     -- case 1
     if type(x) == type(y) then
         -- a

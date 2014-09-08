@@ -23,10 +23,11 @@ local booleanProto = require("castl.prototype.boolean")
 local numberProto = require("castl.prototype.number")
 local stringProto = require("castl.prototype.string")
 local dateProto = require("castl.prototype.date")
+local errorProto = require("castl.prototype.error")
 local regexpProto = require("castl.prototype.regexp")
 local jssupport = require("castl.jssupport")
 
-local RegExp
+local RegExp, Boolean, Number, String
 
 local coreObjects = {}
 -- Dependencies
@@ -49,7 +50,7 @@ booleanMt._prototype = booleanProto
 numberMt._prototype = numberProto
 stringMt._prototype = stringProto
 
-local objectToString = function(o)
+coreObjects.objectToString = function(o)
     local ret = {"{ "}
     local elements = {}
 
@@ -103,7 +104,11 @@ objectMt.__newindex = function(self, key, value)
 end
 
 objectMt.__tostring = function(self)
-    return objectToString(self)
+    return coreObjects.objectToString(self)
+end
+
+objectMt.__tonumber = function(self)
+    return jssupport.NaN
 end
 
 --[[
@@ -152,6 +157,10 @@ functionMt.__tostring = function(self)
     return "[Function]"
 end
 
+functionMt.__tonumber = function(self)
+    return jssupport.NaN
+end
+
 debug.setmetatable((function () end), functionMt)
 
 --[[
@@ -189,6 +198,10 @@ arrayMt.__tostring = function(self)
     return "[ " .. str .. " ]"
 end
 
+arrayMt.__tonumber = function(self)
+    return jssupport.NaN
+end
+
 --[[
     Boolean metatable
 --]]
@@ -206,6 +219,10 @@ booleanMt.__lt = function(a, b)
     end
 
     return numValueA < b
+end
+
+booleanMt.__tonumber = function(self)
+    return self and 1 or 0
 end
 
 booleanMt.__le = function(a, b)
@@ -330,10 +347,14 @@ stringMt.__le = function(a, b)
 end
 
 -- immutable
-stringMt.__newindex = function(self)end
+stringMt.__newindex = function(self) end
 
 stringMt.__add= function(a, b)
     return tostring(a) .. tostring(b)
+end
+
+stringMt.__tonumber = function(self)
+    return tonumber(self) or jssupport.NaN
 end
 
 debug.setmetatable("", stringMt)
@@ -380,6 +401,10 @@ undefinedMt.__lt = function (a, b)
 end
 undefinedMt.__le = function (a, b)
     return false
+end
+
+undefinedMt.__tonumber = function (a, b)
+    return jssupport.NaN
 end
 
 debug.setmetatable(nil, undefinedMt)
@@ -438,7 +463,7 @@ function coreObjects.new(f, ...)
     if protoMt and protoMt.__tostring then
         mt.__tostring = protoMt.__tostring
     else
-        mt.__tostring = objectToString
+        mt.__tostring = coreObjects.objectToString
     end
 
     setmetatable(o, mt)
@@ -448,9 +473,7 @@ function coreObjects.new(f, ...)
     if type(ret) == "table" or type(ret) == "function"
         -- special cases,
         -- type string and object String are mixed up
-        or f.prototype == stringProto
-        -- type boolean and object Boolean are mixed up
-        or f.prototype == booleanProto then
+        or f.prototype == stringProto then
         return ret
     end
 
@@ -473,7 +496,7 @@ function coreObjects.arguments(...)
             return common.prototype_index(objectProto, key)
         end,
         __tostring = function(self)
-            return objectToString(self)
+            return coreObjects.objectToString(self)
         end,
         _prototype = "Arguments"
     }
@@ -571,8 +594,56 @@ function coreObjects.props (arg)
     return coreObjects.next, arg
 end
 
+-- ToPrimitive, ToObject, toString, toNumber
+
+function coreObjects.toPrimitive(o)
+    local mt = getmetatable(o)
+
+    if mt._primitive then
+        return mt._primitive
+    end
+
+    return o
+end
+
+function coreObjects.toObject(v)
+    if v == nil or v == jssupport.null then
+        error("ToObject: undefined or null")
+    end
+
+    if type(v) == "boolean" then
+        Boolean = Boolean or require("castl.constructor.boolean")
+        return coreObjects.new(Boolean, v)
+    elseif type(v) == "number" then
+        Number = Number or require("castl.constructor.number")
+        return coreObjects.new(Number, v)
+    elseif type(v) == "string" then
+        String = String or require("castl.constructor.string")
+        return coreObjects.new(String, v)
+    end
+
+    return v
+end
+
+function coreObjects.toString(v)
+    if type(v) == "table" and type(v.toString) == "function" then
+        return v:toString()
+    else
+        return tostring(v)
+    end
+end
+
+function coreObjects.toNumber(value)
+    local mt = getmetatable(value)
+    if (mt or {}).__tonumber then
+        return mt.__tonumber(value)
+    end
+
+    return tonumber(value)
+end
+
 --[[
-    Prototypes inherit from object 
+    Prototypes inherit from object (not the same as ECMAScript spec)
 --]]
 
 coreObjects.obj(functionProto)
@@ -582,6 +653,7 @@ coreObjects.obj(numberProto)
 coreObjects.obj(stringProto)
 coreObjects.obj(dateProto)
 coreObjects.obj(regexpProto)
+coreObjects.obj(errorProto)
 
 --[[
     Export objectMt and arrayMt for JSON.parse

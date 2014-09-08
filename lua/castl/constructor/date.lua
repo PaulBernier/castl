@@ -20,7 +20,6 @@ local Date
 
 local common = require("castl.modules.common")
 local dateparser = require("castl.modules.dateparser")
-local coreObjects = require("castl.core_objects")
 local dateProto = require("castl.prototype.date")
 
 local date, time, difftime = os.date, os.time, os.difftime
@@ -29,8 +28,9 @@ local pack, type, setmetatable = table.pack, type, setmetatable
 _ENV = nil
 
 Date = function(this, ...)
-    -- Date constructor not called with a new
-    if not coreObjects.instanceof(this, Date) then
+
+    -- Date constructor not called within a new
+    if not common.withinNew(this, dateProto) then
         return date("%a %h %d %Y %H:%M:%S GMT%z (%Z)")
     end
 
@@ -48,6 +48,10 @@ Date = function(this, ...)
             timestamp = Date.parse(arg)
         end
     else
+		-- special behavior for year between 0 and 100
+        if args[1] >= 0 and args[1] <100 then
+            args[1] = 1900 + args[1]
+        end
         -- more than 1 arguments
         -- year, month, day, hour, minute, second, millisecond
         timestamp = time{year=args[1],

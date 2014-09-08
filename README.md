@@ -84,7 +84,7 @@ There is also a useful bash script `bin/castl.sh` to easily compile and execute 
 
 Good news, if you want to use CASTL with LuaJIT, you can!
 
-The only point is that you'll have to compile LuaJIT with the -DLUAJIT\_ENABLE\_LUA52COMPAT option [http://luajit.org/extensions.html#lua52](http://luajit.org/extensions.html#lua52). Then you can use the `--jit` option of the castl command line:
+The only point is that you'll have to compile LuaJIT with the -DLUAJIT\_ENABLE\_LUA52COMPAT option [http://luajit.org/extensions.html#lua52](http://luajit.org/extensions.html#lua52) (i.e. uncomment line 'XCFLAGS+= -DLUAJIT_ENABLE_LUA52COMPAT' in `src/Makefile`). Then you can use the `--jit` option of the castl command line:
 
 ```
 castl -e --jit <file.js>

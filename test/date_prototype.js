@@ -77,3 +77,13 @@ theBigDay = new Date(1980, 6, 7);
 var sameAsBigDay = new Date();
 sameAsBigDay.setTime(theBigDay.getTime());
 assert(theBigDay.getTime() === sameAsBigDay.getTime());
+
+// Year between 0 and 100
+date = new Date(55, 2, 15);
+assert(date.getFullYear() === 1955);
+date = new Date(0, 2, 15);
+assert(date.getFullYear() === 1900);
+date = new Date(99, 2, 15);
+assert(date.getFullYear() === 1999);
+date = new Date(100, 2, 15);
+assert(date.getFullYear() === 100)

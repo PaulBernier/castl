@@ -1,5 +1,8 @@
 var assert = require("assert");
 
+// tonumber
+assert(Number.isNaN(-(/g/)));
+
 // instanceof
 var re = /\d/g;
 assert(re instanceof RegExp);

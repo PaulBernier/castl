@@ -43,7 +43,6 @@ local export = {
     _with = jssupport.with,
     _void = jssupport.void,
     _e = jssupport.e,
-    _tonum = jssupport.tonumber,
     null = jssupport.null,
     NaN = jssupport.NaN,
     Infinity = jssupport.Infinity,
@@ -65,6 +64,7 @@ local export = {
     _new = coreObjects.new,
     _instanceof = coreObjects.instanceof,
     _props = coreObjects.props,
+    _tonum = coreObjects.toNumber,
     this = coreObjects.this,
 
     -- constructors

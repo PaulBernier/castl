@@ -18,7 +18,7 @@
 
 local common = {}
 
-local pairs = pairs
+local pairs, getmetatable = pairs, getmetatable
 local gsub = string.gsub
 
 _ENV = nil
@@ -50,6 +50,11 @@ common.prototype_index = function(prototype, key)
     end
 
     return prototype[key]
+end
+
+common.withinNew = function(this, proto)
+    local mt = getmetatable(this)
+    return mt and mt._prototype == proto
 end
 
 return common
