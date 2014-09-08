@@ -625,11 +625,12 @@ function coreObjects.toObject(v)
     return v
 end
 
-function coreObjects.toString(v)
-    if type(v) == "table" and type(v.toString) == "function" then
-        return v:toString()
+-- http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.8
+function coreObjects.defaultValue(o)
+    if type(o) == "table" and type(o.toString) == "function" then
+        return o:toString()
     else
-        return tostring(v)
+        return tostring(o)
     end
 end
 

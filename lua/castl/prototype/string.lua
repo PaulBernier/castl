@@ -23,7 +23,7 @@ local jssupport = require("castl.jssupport")
 local regexpHelper = require("castl.modules.regexphelper")
 local common = require("castl.modules.common")
 
-local RegExp, instanceof, toString, array, _regexp, new
+local RegExp, instanceof, defaultValue, array, _regexp, new
 local type, tostring, tonumber, min, max, rawget, rawset = type, tostring, tonumber, math.min, math.max, rawget, rawset
 local pack, tinsert, tremove, concat = table.pack, table.insert, table.remove, table.concat
 local string, error, require, gmatch, pairs, getmetatable = string, error, require, string.gmatch, pairs, getmetatable
@@ -295,10 +295,10 @@ local getReplacerRegExp = function(newSubStr)
         runtime = runtime or require("castl.runtime")
         replacer = function(...)
             -- call with an empty this
-            return toString(newSubStr(runtime, ...))
+            return defaultValue(newSubStr(runtime, ...))
         end
     else
-        replacer = toString(newSubStr)
+        replacer = defaultValue(newSubStr)
 
         -- handle $ parameters
         replacer = string.gsub(replacer, "%$&", "$0")
@@ -326,7 +326,7 @@ local getReplacerRegExp = function(newSubStr)
 end
 
 local getReplacerString = function(newSubStr)
-    local replacer = toString(newSubStr)
+    local replacer = defaultValue(newSubStr)
 
     -- handle $ parameters
     replacer = string.gsub(replacer, "%$&", "%%0")
@@ -348,7 +348,7 @@ end
 stringPrototype.replace = function (this, match, newSubStr, flags)
     RegExp = RegExp or require("castl.constructor.regexp")
     instanceof = instanceof or require("castl.core_objects").instanceof
-    toString = toString or require("castl.core_objects").toString
+    defaultValue = defaultValue or require("castl.core_objects").defaultValue
 
     -- if flags are passed, match is converted to a regexp
     if type(match) == "string" and flags then

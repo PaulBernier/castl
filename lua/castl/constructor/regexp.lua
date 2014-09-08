@@ -33,7 +33,7 @@ RegExp = function(this, pattern, flags)
 
     local o = {}
 
-    o.source = coreObjects.toString(pattern)
+    o.source = coreObjects.defaultValue(pattern)
     o.global = find(flags, "g") and true
     o.ignoreCase = find(flags, "i") and true
     o.multiline = find(flags, "m") and true
