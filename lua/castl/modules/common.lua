@@ -52,6 +52,7 @@ common.prototype_index = function(prototype, key)
     return prototype[key]
 end
 
+-- test if constructor called within a new
 common.withinNew = function(this, proto)
     local mt = getmetatable(this)
     return mt and mt._prototype == proto

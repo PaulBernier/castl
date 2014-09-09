@@ -2,3 +2,4 @@ node_modules/
 .buildpath
 .project
 generateLuaCastl.sh
+lua/script.lua
