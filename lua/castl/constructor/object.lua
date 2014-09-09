@@ -62,9 +62,36 @@ Object.defineProperty = function(this, obj, prop, descriptor)
     if type(descriptor) ~= 'table' then
         error(errorHelper.newTypeError("Property description must be an object: " .. tostring(descriptor)))
     end
+    if descriptor.value ~= nil and (descriptor.get ~= nil or descriptor.set ~= nil) then
+        error(errorHelper.newTypeError("TypeError: Invalid property.  A property cannot both have accessors and be writable or have a value"))
+    end
 
+    -- value
     if descriptor.value ~= nil then
+        -- TODO: related to weak typing
+        if type(prop) ~= "number" then
+            prop = internal.defaultValue(prop)
+        end
         rawset(obj, prop, descriptor.value)
+        return obj
+    end
+
+    prop = internal.defaultValue(prop)
+
+    -- getter
+    if descriptor.get ~= nil then
+        if type(prop) == "number" then
+            error("Getters the key of which is number are not supported yet")
+        end
+        rawset(obj, "_g" .. prop, descriptor.get)
+    end
+
+    -- setter
+    if descriptor.set ~= nil then
+        if type(prop) == "number" then
+            error("Setters the key of which is number are not supported yet")
+        end
+        rawset(obj, "_s" .. prop, descriptor.set)
     end
 
     return obj

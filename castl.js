@@ -1239,25 +1239,38 @@
         var property;
         var compiledProperty = [],
             compiledProperties = [];
+        var compiledKey = "";
+
         for (i = 0; i < length; ++i) {
             compiledProperty = ["["];
             property = expression.properties[i];
 
-            // TODO: getters, setters
-            if (property.kind === "get" || property.kind === "set") {
-                throw new Error("Getters/setters not handled yet");
-            }
-
             if (property.key.type === "Literal") {
-                compiledProperty.push(compileLiteral(property.key));
+                compiledKey = compileLiteral(property.key);
             } else if (property.key.type === "Identifier") {
-                compiledProperty.push("\"");
+                compiledKey = '"';
                 // compile the identifier as a string literal
-                compiledProperty.push(sanitizeLiteralString(property.key.name));
-                compiledProperty.push("\"");
+                compiledKey += sanitizeLiteralString(property.key.name);
+                compiledKey += '"';
             } else {
                 throw new Error("Unexpected property key type: " + property.key.type);
             }
+
+            if (property.kind === "get") {
+                // TODO: related to weak typing
+                if (typeof (property.key.value) === "number") {
+                    compiledKey = '"' + compiledKey + '"';
+                }
+                compiledKey = compiledKey.replace(/^"/, '"_g');
+            } else if (property.kind === "set") {
+                // TODO: related to weak typing
+                if (typeof (property.key.value) === "number") {
+                    compiledKey = '"' + compiledKey + '"';
+                }
+                compiledKey = compiledKey.replace(/^"/, '"_s');
+            }
+
+            compiledProperty.push(compiledKey);
             compiledProperty.push("] = ");
             compiledProperty.push(compileExpression(property.value));
 

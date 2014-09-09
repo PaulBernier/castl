@@ -42,6 +42,16 @@ Object.defineProperty(o, "a", {
 
 assert(o.a === 37);
 
+var tostr = {toString: function(){return "mark"}}
+Object.defineProperty(o, tostr, {
+    value: 33,
+    writable: true,
+    enumerable: true,
+    configurable: true
+});
+
+assert(o.mark === 33);
+
 // definedProperties
 Object.defineProperties(o, {
     "property1": {

@@ -15,8 +15,7 @@
 
 local internal = {}
 
-local Boolean, Number, String, new, objectToString
-local jssupport = require("castl.jssupport")
+local Boolean, Number, String, new, objectToString, jssupport
 
 local getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset
 
@@ -57,6 +56,7 @@ function internal.setNewMetatable(o, prototype)
             internal.put(self, key, value)
         end,
         __tonumber = function(self)
+            jssupport = jssupport or require("castl.jssupport")
             return tonumber(internal.toPrimitive(self)) or jssupport.NaN
         end,
         _prototype = prototype
@@ -87,6 +87,7 @@ end
 
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-9.9
 function internal.toObject(v)
+    jssupport = jssupport or require("castl.jssupport")
     if v == nil or v == jssupport.null then
         error("ToObject: undefined or null")
     end
