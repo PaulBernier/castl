@@ -35,12 +35,12 @@ npm test
 
 ## Usage:
 
-* Compile code in <file.js> (using Esprima to parse), print and execute the compiled code:
+* Compile code in `<file.js>`, print and execute the compiled code:
 ```
 $ castl -v <file.js>
 ```
 
-* Compile code in <file.js>, does not print anything but save the compiled code to "mycode.lua":
+* Compile code in `<file.js>`, does not print anything but save the compiled code to "mycode.lua":
 ```
 $ castl <file.js> -o "mycode.lua"
 ```
