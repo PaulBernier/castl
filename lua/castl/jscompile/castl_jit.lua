@@ -14,7 +14,7 @@ factory(_ENV,root.castl);
 end
 
 end)(_ENV,this,(function (this, exports)
-local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileUnaryExpression,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,extractBinaryOperator,compileAssignmentExpression,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileListOfStatements,compileStatement,compileAST,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,continueNoLabelTracker,labelTracker,luaKeywords;
+local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,extractBinaryOperator,compileAssignmentExpression,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileListOfStatements,compileStatement,compileAST,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,continueNoLabelTracker,labelTracker,luaKeywords;
 ProtectedCallManager = (function (this)
 _e((function () local _tmp = false; this.isInProtectedCallContext  = _tmp; return _tmp; end)());
 _e((function () local _tmp = false; this.mayReturn  = _tmp; return _tmp; end)());
@@ -372,7 +372,8 @@ if _bool(labelTracker[compiledLabel].mayBreak) then
 compiledLabeledStatement:push((_add((_add("::",compiledLabel)),"_b::\10")));
 end
 
-_e((function () local _tmp = labelTracker[compiledLabel]; labelTracker[compiledLabel] = nil; return _tmp ~= nil; end)());
+_e((function () local _r = false; local _g, _s = labelTracker._gcompiledLabel, labelTracker._scompiledLabel; labelTracker._gcompiledLabel, labelTracker._scompiledLabel = nil, nil; _r = _g ~= nil or _s ~= nil;
+local _v = labelTracker[compiledLabel]; labelTracker[compiledLabel] = nil; return _r or _v ~= nil; end)());
 else
 compiledLabeledStatement:push(compileStatement(_ENV,statement.body));
 end
@@ -939,8 +940,34 @@ compiledLogicalExpression:push(right);
 compiledLogicalExpression:push(")");
  do return compiledLogicalExpression:join(""); end
 end)
+getBaseMember = (function (this, expession)
+local startIndex;
+startIndex = 0;
+if _bool(expession:match(_regexp("\\]$",""))) then
+_e((function () local _tmp = lastTopLevelBracketedGroupStartIndex(_ENV,expession); startIndex  = _tmp; return _tmp; end)());
+ do return _obj({
+["base"] = expession:slice(0,startIndex),
+["member"] = expession:slice((_add(startIndex,1)),-_tonum(1))
+}); end
+else
+_e((function () local _tmp = expession:lastIndexOf("."); startIndex  = _tmp; return _tmp; end)());
+ do return _obj({
+["base"] = expession:slice(0,startIndex),
+["member"] = expession:slice((_add(startIndex,1)))
+}); end
+end
+
+end)
+getGetterSetterExpression = (function (this, expression)
+local split;
+split = getBaseMember(_ENV,expression);
+ do return _obj({
+["getter"] = (_add((_add(split.base,"._g")),split.member)),
+["setter"] = (_add((_add(split.base,"._s")),split.member))
+}); end
+end)
 compileUnaryExpression = (function (this, expression)
-local compiledExpression,compiledUnaryExpression;
+local gs,scope,compiledExpression,compiledUnaryExpression;
 compiledUnaryExpression = _arr({},0);
 compiledExpression = compileExpression(_ENV,expression.argument);
 if _bool(expression.prefix) then
@@ -987,11 +1014,27 @@ break;
 _into = true;
 end
 if _into or (expression.operator == "delete") then
-compiledUnaryExpression:push("(function () local _tmp = ");
-compiledUnaryExpression:push(compiledExpression);
+scope = "_ENV.";
+compiledUnaryExpression:push("(function () local _r = false; ");
+if _bool((expression.argument.type == "MemberExpression")) then
+_e((function () local _tmp = ""; scope  = _tmp; return _tmp; end)());
+gs = getGetterSetterExpression(_ENV,compiledExpression);
+compiledUnaryExpression:push("local _g, _s = ");
+compiledUnaryExpression:push(gs.getter);
+compiledUnaryExpression:push(", ");
+compiledUnaryExpression:push(gs.setter);
 compiledUnaryExpression:push("; ");
-compiledUnaryExpression:push(compiledExpression);
-compiledUnaryExpression:push(" = nil; return _tmp ~= nil; end)()");
+compiledUnaryExpression:push(gs.getter);
+compiledUnaryExpression:push(", ");
+compiledUnaryExpression:push(gs.setter);
+compiledUnaryExpression:push(" = nil, nil; _r = _g ~= nil or _s ~= nil;\10");
+end
+
+compiledUnaryExpression:push("local _v = ");
+compiledUnaryExpression:push((_add(scope,compiledExpression)));
+compiledUnaryExpression:push("; ");
+compiledUnaryExpression:push((_add(scope,compiledExpression)));
+compiledUnaryExpression:push(" = nil; return _r or _v ~= nil; end)()");
 break;
 _into = true;
 end
@@ -1220,29 +1263,41 @@ compiledSequenceExpression:push("})");
  do return compiledSequenceExpression:join(""); end
 end)
 compileObjectExpression = (function (this, expression)
-local compiledProperties,compiledProperty,property,length,i,compiledObjectExpression;
+local compiledKey,compiledProperties,compiledProperty,property,length,i,compiledObjectExpression;
 compiledObjectExpression = _arr({[0]="_obj({\10"},1);
 length = expression.properties.length;
 compiledProperty = _arr({},0);
 compiledProperties = _arr({},0);
+compiledKey = "";
 _e((function () local _tmp = 0; i  = _tmp; return _tmp; end)());
 while _bool((i < length)) do
 _e((function () local _tmp = _arr({[0]="["},1); compiledProperty  = _tmp; return _tmp; end)());
 _e((function () local _tmp = expression.properties[i]; property  = _tmp; return _tmp; end)());
-if _bool(((property.kind == "get") or (property.kind == "set"))) then
-_throw(_new(Error,"Getters/setters not handled yet"),0)
-end
-
 if _bool((property.key.type == "Literal")) then
-compiledProperty:push(compileLiteral(_ENV,property.key));
+_e((function () local _tmp = compileLiteral(_ENV,property.key); compiledKey  = _tmp; return _tmp; end)());
 elseif _bool((property.key.type == "Identifier")) then
-compiledProperty:push("\"");
-compiledProperty:push(sanitizeLiteralString(_ENV,property.key.name));
-compiledProperty:push("\"");
+_e((function () local _tmp = "\""; compiledKey  = _tmp; return _tmp; end)());
+_e((function () local _tmp = (_add(compiledKey,sanitizeLiteralString(_ENV,property.key.name))); compiledKey  = _tmp; return _tmp; end)());
+_e((function () local _tmp = (_add(compiledKey,"\"")); compiledKey  = _tmp; return _tmp; end)());
 else
 _throw(_new(Error,(_add("Unexpected property key type: ",property.key.type))),0)
 end
 
+if _bool((property.kind == "get")) then
+if _bool((_type(property.key.value) == "number")) then
+_e((function () local _tmp = (_add((_add("\"",compiledKey)),"\"")); compiledKey  = _tmp; return _tmp; end)());
+end
+
+_e((function () local _tmp = compiledKey:replace(_regexp("^\"",""),"\"_g"); compiledKey  = _tmp; return _tmp; end)());
+elseif _bool((property.kind == "set")) then
+if _bool((_type(property.key.value) == "number")) then
+_e((function () local _tmp = (_add((_add("\"",compiledKey)),"\"")); compiledKey  = _tmp; return _tmp; end)());
+end
+
+_e((function () local _tmp = compiledKey:replace(_regexp("^\"",""),"\"_s"); compiledKey  = _tmp; return _tmp; end)());
+end
+
+compiledProperty:push(compiledKey);
 compiledProperty:push("] = ");
 compiledProperty:push(compileExpression(_ENV,property.value));
 compiledProperties:push(compiledProperty:join(""));

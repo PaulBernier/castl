@@ -73,6 +73,7 @@ for arg in "$@"; do
                 help
             elif [ "$c" = "o" ]; then
                 output=true
+                execute=false
                 waitname=true
                 continue;
             elif [ "$c" = "v" ]; then

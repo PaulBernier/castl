@@ -29,7 +29,7 @@ Note that you'll need to have *libpcre* installed on your system (*lrexlib-pcre*
 
 And then you may want to test:
 ```
-castl -e code.js
+castl code.js
 npm test
 ```
 
@@ -37,12 +37,12 @@ npm test
 
 * Compile code in <file.js> (using Esprima to parse), print and execute the compiled code:
 ```
-$ castl -e <file.js>
+$ castl -v <file.js>
 ```
 
 * Compile code in <file.js>, does not print anything but save the compiled code to "mycode.lua":
 ```
-$ castl -q <file.js> -o "mycode.lua"
+$ castl <file.js> -o "mycode.lua"
 ```
 
 **The options of the command line are:**
@@ -76,7 +76,6 @@ There is also a useful bash script `bin/castl.sh` to easily compile and execute 
 ## Not Supported yet
 
 * Weak typing of JS when accessing attribute of an object (o[1] is different from o["1"])
-* Getters/setters
 * Property descriptor (enumerable/writable/configurable)
 * Other little things...
 
@@ -87,7 +86,7 @@ Good news, if you want to use CASTL with LuaJIT, you can!
 The only point is that you'll have to compile LuaJIT with the -DLUAJIT\_ENABLE\_LUA52COMPAT option [http://luajit.org/extensions.html#lua52](http://luajit.org/extensions.html#lua52) (i.e. uncomment line 'XCFLAGS+= -DLUAJIT_ENABLE_LUA52COMPAT' in `src/Makefile`). Then you can use the `--jit` option of the castl command line:
 
 ```
-castl -e --jit <file.js>
+castl --jit <file.js>
 ```
 
 Note that by using LuaJIT instead of Lua 5.2 VM you'll unfortunately lose (for now):
