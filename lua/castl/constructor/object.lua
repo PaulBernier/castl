@@ -21,6 +21,7 @@ local Object
 local common = require("castl.modules.common")
 local jssupport = require("castl.jssupport")
 local coreObjects = require("castl.core_objects")
+local internal = require("castl.internal")
 local objectProto = require("castl.prototype.object")
 local errorHelper = require("castl.modules.error_helper")
 
@@ -34,7 +35,7 @@ Object = function (this, obj)
         return coreObjects.obj({})
     end
 
-    return coreObjects.toObject(obj)
+    return internal.toObject(obj)
 end
 
 Object.create = function (this, prototype, props)

@@ -23,6 +23,7 @@ local bit = require("castl.modules.bit")
 local jssupport = require("castl.jssupport")
 local common = require("castl.modules.common")
 local coreObjects = require("castl.core_objects")
+local internal = require("castl.internal")
 
 local tostring, type, tonumber = tostring, type, tonumber
 local pack, unpack, tinsert, concat, stochar =  table.pack, table.unpack, table.insert, table.concat, string.char
@@ -34,7 +35,7 @@ String = function(this, arg)
     if arg == nil then
         arg = ""
     else
-        arg = coreObjects.defaultValue(arg)
+        arg = internal.defaultValue(arg)
     end
 
     -- String constructor not called within a new

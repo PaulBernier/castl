@@ -17,7 +17,7 @@
 
 local jssupport = {}
 
-local coreObjects
+local toNumber, toPrimitive
 
 -- Dependencies
 local type, tonumber, tostring, pairs = type, tonumber, tostring, pairs
@@ -236,9 +236,9 @@ end
 
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3
 function jssupport.equal(x, y)
-    coreObjects = coreObjects or require("castl.core_objects")
-    x = coreObjects.toPrimitive(x)
-    y = coreObjects.toPrimitive(y)
+    toPrimitive = toPrimitive or require("castl.internal").toPrimitive
+    x = toPrimitive(x)
+    y = toPrimitive(y)
 
     -- case 1
     if type(x) == type(y) then
@@ -287,9 +287,9 @@ function jssupport.add(x , y)
     if type(x) == "string" or type(y) == "string" then
         return tostring(x) .. tostring(y)
     else
-        coreObjects = coreObjects or require("castl.core_objects")
-        x = coreObjects.toNumber(x)
-        y = coreObjects.toNumber(y)
+        toNumber = toNumber or require("castl.internal").toNumber
+        x = toNumber(x)
+        y = toNumber(y)
         return x + y
     end
 end

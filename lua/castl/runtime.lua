@@ -33,6 +33,7 @@ local RangeError = require("castl.constructor.error.range_error")
 local RegExp = require("castl.constructor.regexp")
 local Math = require("castl.math")
 local eval = require("castl.eval")
+local internal = require("castl.internal")
 
 -- Exported environment
 local export = {
@@ -59,6 +60,7 @@ local export = {
     decodeURI = jssupport.decodeURI,
     decodeURIComponent = jssupport.decodeURIComponent,
     eval = eval.eval,
+    _tonum = internal.toNumber,
 
     -- core object
     _obj = coreObjects.obj,
@@ -68,7 +70,6 @@ local export = {
     _new = coreObjects.new,
     _instanceof = coreObjects.instanceof,
     _props = coreObjects.props,
-    _tonum = coreObjects.toNumber,
     this = coreObjects.this,
 
     -- constructors

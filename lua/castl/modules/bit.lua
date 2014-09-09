@@ -26,7 +26,7 @@ end
 
 local bit = {}
 
-local toNumber = require("castl.core_objects").toNumber
+local toNumber = require("castl.internal").toNumber
 
 _ENV = nil
 

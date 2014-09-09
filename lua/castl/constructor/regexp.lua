@@ -19,7 +19,7 @@
 local RegExp
 
 local regexpProto = require("castl.prototype.regexp")
-local coreObjects = require("castl.core_objects")
+local internal = require("castl.internal")
 local common = require("castl.modules.common")
 local jssupport = require("castl.jssupport")
 
@@ -33,7 +33,7 @@ RegExp = function(this, pattern, flags)
 
     local o = {}
 
-    o.source = coreObjects.defaultValue(pattern)
+    o.source = internal.defaultValue(pattern)
     o.global = find(flags, "g") and true
     o.ignoreCase = find(flags, "i") and true
     o.multiline = find(flags, "m") and true

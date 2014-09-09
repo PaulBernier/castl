@@ -348,7 +348,7 @@ end
 stringPrototype.replace = function (this, match, newSubStr, flags)
     RegExp = RegExp or require("castl.constructor.regexp")
     instanceof = instanceof or require("castl.core_objects").instanceof
-    defaultValue = defaultValue or require("castl.core_objects").defaultValue
+    defaultValue = defaultValue or require("castl.internal").defaultValue
 
     if type(match) ~= "string" and not instanceof(match, RegExp) then
         match = defaultValue(match)
