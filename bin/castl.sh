@@ -17,8 +17,8 @@
 export LUA_PATH=$LUA_PATH";/usr/local/lib/node_modules/castl/lua/?.lua;"
 
 # Options
-quiet=false
-execute=false
+verbose=false
+execute=true
 output=false
 compiled=false
 tolerant=false
@@ -31,11 +31,11 @@ filename="code.js"
 function help {
     echo "Usage: ./castl.sh [options] filename.js";
     echo "Options:"
-    printf "\t%-15s %s\n" "-e" "execute the Lua code compiled"
-    printf "\t%-15s %s\n" "-q" "quiet, does not print the compiled code"
+    printf "\t%-15s %s\n" "-v" "verbose, print code to be run"
     printf "\t%-15s %s\n" "-o" "output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named output.lua"
     printf "\t%-15s %s\n" "-c" "if -o option is active the outputted code is Lua bytecode (luac)"
     printf "\t%-15s %s\n" "-h, --help" "display this help"
+    printf "\t%-15s %s\n" "--cat" "don't execute, just print code that would be run"
     printf "\t%-15s %s\n" "--acorn" "use Acorn parser. If not specified Esprima is used"
     printf "\t%-15s %s\n" "--tolerant" "make Esprima and Acorn error-tolerant"
     printf "\t%-15s %s\n" "--jit" "compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active)"
@@ -55,7 +55,10 @@ for arg in "$@"; do
         elif [ $arg = "--node" ]; then
             node=true
         elif [ $arg = "--jit" ]; then
-            luajit=true            
+            luajit=true        
+        elif [ $arg = "--cat" ]; then
+            execute=false
+            verbose=true
         elif [ $arg = "--help" ]; then
             help
         else
@@ -66,16 +69,14 @@ for arg in "$@"; do
         for i in `seq 1 ${#arg}` ; do
             c="${arg:$i:1}"
             
-            if [ "$c" = "e" ]; then
-                execute=true
-            elif [ "$c" = "h" ]; then
+            if [ "$c" = "h" ]; then
                 help
             elif [ "$c" = "o" ]; then
                 output=true
                 waitname=true
                 continue;
-            elif [ "$c" = "q" ]; then
-                quiet=true
+            elif [ "$c" = "v" ]; then
+                verbose=true
             elif [ "$c" = "c" ]; then
                 compiled=true
             elif [ "$c" != "" ]; then
@@ -101,7 +102,7 @@ if (($compileStatus > 0)); then
     exit $compileStatus;
 fi
 
-if [ "$quiet" = false ]; then
+if [ "$verbose" = true ]; then
     if [ "$luajit" = true ]; then
         echo "-- Lua code (LuaJIT):"
     else
@@ -126,10 +127,14 @@ fi
 
 if [ "$execute" = true ]; then
     if [ "$luajit" = true ]; then
-        echo "-- Execution output (LuaJIT):"
+        if [ "$verbose" = true ]; then
+            echo "-- Execution output (LuaJIT):"
+        fi
         luajit -e "$code";
     else
-        echo "-- Execution output (Lua 5.2):"
+        if [ "$verbose" = true ]; then
+            echo "-- Execution output (Lua 5.2):"
+        fi
         lua5.2 -e "$code";
     fi
     execStatus=$?

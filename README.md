@@ -50,11 +50,11 @@ $ castl -q <file.js> -o "mycode.lua"
 Option  | Description
 ------------- | -------------
 `<filename.js>`  | name of the file to compile.
--q  | quiet, does not print the compiled code.
+-v  | verbose, print code to be run.
 -o | output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named _output.lua_.
 -c | if -o option is active the outputted code is Lua bytecode (luac).
--e | execute the Lua code compiled.
 -h, --help | display help.
+--cat | don't execute, just print code that would be run.
 --acorn | use Acorn parser. If not specified Esprima is used.
 --tolerant | make Esprima and Acorn error-tolerant.
 --jit | compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active).
