@@ -1005,6 +1005,31 @@
         return compiledLogicalExpression.join('');
     }
 
+    function getBaseMember(expession) {
+        var startIndex = 0;
+        if (expession.match(/\]$/)) {
+            startIndex = lastTopLevelBracketedGroupStartIndex(expession);
+            return {
+                base: expession.slice(0, startIndex),
+                member: expession.slice(startIndex + 1, -1)
+            };
+        } else {
+            startIndex = expession.lastIndexOf('.');
+            return {
+                base: expession.slice(0, startIndex),
+                member: expession.slice(startIndex + 1)
+            };
+        }
+    }
+
+    function getGetterSetterExpression(expression) {
+        var split = getBaseMember(expression);
+        return {
+            getter: split.base + "._g" + split.member,
+            setter: split.base + "._s" + split.member
+        };
+    }
+
     function compileUnaryExpression(expression) {
         var compiledUnaryExpression = [];
         var compiledExpression = compileExpression(expression.argument);
@@ -1043,11 +1068,31 @@
                 compiledUnaryExpression.push(")");
                 break;
             case "delete":
-                compiledUnaryExpression.push("(function () local _tmp = ");
-                compiledUnaryExpression.push(compiledExpression);
+                var scope = "_ENV.";
+                compiledUnaryExpression.push("(function () local _r = false; ");
+
+                // Delete getter/setter
+                if (expression.argument.type === "MemberExpression") {
+                    scope = "";
+                    var gs = getGetterSetterExpression(compiledExpression);
+
+                    compiledUnaryExpression.push("local _g, _s = ");
+                    compiledUnaryExpression.push(gs.getter);
+                    compiledUnaryExpression.push(", ");
+                    compiledUnaryExpression.push(gs.setter);
+                    compiledUnaryExpression.push("; ");
+                    compiledUnaryExpression.push(gs.getter);
+                    compiledUnaryExpression.push(", ");
+                    compiledUnaryExpression.push(gs.setter);
+                    compiledUnaryExpression.push(" = nil, nil; _r = _g ~= nil or _s ~= nil;\n");
+                }
+
+                // Delete value
+                compiledUnaryExpression.push("local _v = ");
+                compiledUnaryExpression.push(scope + compiledExpression);
                 compiledUnaryExpression.push("; ");
-                compiledUnaryExpression.push(compiledExpression);
-                compiledUnaryExpression.push(" = nil; return _tmp ~= nil; end)()");
+                compiledUnaryExpression.push(scope + compiledExpression);
+                compiledUnaryExpression.push(" = nil; return _r or _v ~= nil; end)()");
                 break;
             case "void":
                 compiledUnaryExpression.push("_void(");
