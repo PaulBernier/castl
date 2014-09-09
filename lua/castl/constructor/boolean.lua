@@ -18,7 +18,7 @@
 
 
 local coreObjects = require("castl.core_objects")
-local common = require("castl.modules.common")
+local internal = require("castl.internal")
 local jssupport = require("castl.jssupport")
 local booleanProto = require("castl.prototype.boolean")
 
@@ -30,7 +30,7 @@ _ENV = nil
 
 Boolean = function(this, arg)
     -- Boolean constructor not called within a new
-    if not common.withinNew(this, booleanProto) then
+    if not internal.withinNew(this, booleanProto) then
         return jssupport.boolean(arg)
     end
 
@@ -38,7 +38,10 @@ Boolean = function(this, arg)
 
     setmetatable(o, {
         __index = function (self, key)
-            return common.prototype_index(booleanProto, key)
+            return internal.get(self, booleanProto, key)
+        end,
+        __newindex = function (self, key, value)
+            return internal.put(self, key, value)
         end,
         __tostring = function(self)
             return coreObjects.objectToString(self)

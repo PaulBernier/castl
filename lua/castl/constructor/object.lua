@@ -18,7 +18,6 @@
 
 local Object
 
-local common = require("castl.modules.common")
 local jssupport = require("castl.jssupport")
 local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")
@@ -42,13 +41,7 @@ Object.create = function (this, prototype, props)
     local o = {}
 
     if prototype ~= jssupport.null then
-        local mt = {}
-        -- Inheritance
-        mt.__index = function (self, key)
-            return common.prototype_index(prototype, key)
-        end
-        mt._prototype = prototype
-        setmetatable(o, mt)
+        internal.setNewMetatable(o, prototype)
     end
 
     if props then

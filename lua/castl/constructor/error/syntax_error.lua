@@ -20,7 +20,7 @@ local SyntaxError
 
 local jssupport = require("castl.jssupport")
 local syntaxErrorProto = require("castl.prototype.error.syntax_error")
-local common = require("castl.modules.common")
+local internal = require("castl.internal")
 
 local setmetatable = setmetatable
 
@@ -34,7 +34,10 @@ SyntaxError = function(this, message)
 
     return setmetatable(o, {
         __index = function (self, key)
-            return common.prototype_index(syntaxErrorProto, key)
+            return internal.get(self, syntaxErrorProto, key)
+        end,
+        __newindex = function (self, key, value)
+            return internal.put(self, key, value)
         end,
         __tostring = function(self)
             return traceback(self:toString(), 4)

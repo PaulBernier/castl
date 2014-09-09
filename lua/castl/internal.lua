@@ -15,12 +15,63 @@
 
 local internal = {}
 
-local Boolean, Number, String, new
+local Boolean, Number, String, new, objectToString
 local jssupport = require("castl.jssupport")
 
-local getmetatable, type, tostring, tonumber, error, require = getmetatable, type, tostring, tonumber, error, require
+local getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset
 
 _ENV = nil
+
+-- get/put
+function internal.get(self, prototype, key)
+    -- case of built-in types: boolean, string and number
+    if self == nil then return prototype[key] end
+    -- check getter
+    local getter = rawget(self, "_g" .. tostring(key))
+    return getter and getter(self) or prototype[key]
+end
+
+function internal.put(self, key, value)
+    -- check setter
+    local setter = rawget(self, "_s" .. tostring(key))
+    if setter then
+        setter(self, value)
+    else
+        rawset(self, key, value)
+    end
+end
+
+-- test if constructor called within a new
+internal.withinNew = function(this, proto)
+    local mt = getmetatable(this)
+    return mt and mt._prototype == proto
+end
+
+-- create a metatable for a new object (used in new statement and Object.create)
+function internal.setNewMetatable(o, prototype)
+    local mt = {
+        __index = function (self, key)
+            return internal.get(self, prototype, key)
+        end,
+        __newindex = function (self, key, value)
+            internal.put(self, key, value)
+        end,
+        __tonumber = function(self)
+            return tonumber(internal.toPrimitive(self)) or jssupport.NaN
+        end,
+        _prototype = prototype
+    }
+
+    local protoMt = getmetatable(prototype)
+    if protoMt and protoMt.__tostring then
+        mt.__tostring = protoMt.__tostring
+    else
+        objectToString = objectToString or require("castl.core_objects").objectToString
+        mt.__tostring = objectToString
+    end
+
+    setmetatable(o, mt)
+end
 
 -- ToPrimitive, ToObject, toString, toNumber
 

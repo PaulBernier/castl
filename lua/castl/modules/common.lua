@@ -43,19 +43,4 @@ common.escapeMagicChars = function(str)
     return str
 end
 
--- Handle proper access to __proto__ field of an object
-common.prototype_index = function(prototype, key)
-    if key == "__proto__" then
-        return prototype
-    end
-
-    return prototype[key]
-end
-
--- test if constructor called within a new
-common.withinNew = function(this, proto)
-    local mt = getmetatable(this)
-    return mt and mt._prototype == proto
-end
-
 return common

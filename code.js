@@ -1,8 +1,7 @@
-// This is an example to compile
+var o = new Number(3)
+var b = new Boolean(true)
 
-function renderCurve() {
-    for(var a = 1, b = 10; a * b; a++, b--)
-    console.log(new Array(a * b).join('*'));
-}
-
-renderCurve();
+b.c = 33
+console.log(b.c)
+o.o = 11
+console.log(o.o)

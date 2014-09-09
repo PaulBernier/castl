@@ -9,20 +9,20 @@ assert(str.length === 6);
 assert(str[0] === "a");
 assert(str[5] === "f");
 assert(typeof str[21] === "undefined");
-//assert(!(str instanceof String));
+assert(!(str instanceof String));
 
 var str2 = String(72);
 assert(typeof str2 === "string");
 assert(str2 === "72");
 assert(str2[0] === "7");
-//assert(!(str2 instanceof String));
+assert(!(str2 instanceof String));
 
 var str3 = String("hum");
 assert(typeof str3 === "string");
 assert(str3 === "hum");
 assert(str3[1] === "u");
-//assert(!(str3 instanceof String));
-//assert(!(str3 instanceof Object));
+assert(!(str3 instanceof String));
+assert(!(str3 instanceof Object));
 
 var str4 = new String(72);
 assert(typeof str4 === "object");
@@ -75,6 +75,9 @@ assert(o === "abwabwa");
 assert(typeof(n) === "string");
 assert(typeof(m) === "object");
 assert(typeof(o) === "string");
+assert(!(n instanceof String));
+assert(m instanceof String);
+assert(!(o instanceof String));
 assert(n.toString() === "foo");
 assert(m.toString() === "bar");
 assert(o.toString() === "abwabwa");

@@ -18,7 +18,7 @@
 
 local Date
 
-local common = require("castl.modules.common")
+local internal = require("castl.internal")
 local dateparser = require("castl.modules.dateparser")
 local dateProto = require("castl.prototype.date")
 
@@ -30,7 +30,7 @@ _ENV = nil
 Date = function(this, ...)
 
     -- Date constructor not called within a new
-    if not common.withinNew(this, dateProto) then
+    if not internal.withinNew(this, dateProto) then
         return date("%a %h %d %Y %H:%M:%S GMT%z (%Z)")
     end
 
@@ -48,7 +48,7 @@ Date = function(this, ...)
             timestamp = Date.parse(arg)
         end
     else
-		-- special behavior for year between 0 and 100
+        -- special behavior for year between 0 and 100
         if args[1] >= 0 and args[1] <100 then
             args[1] = 1900 + args[1]
         end
@@ -68,7 +68,10 @@ Date = function(this, ...)
 
     setmetatable(o, {
         __index = function (self, key)
-            return common.prototype_index(dateProto, key)
+            return internal.get(self, dateProto, key)
+        end,
+        __newindex = function (self, key, value)
+            return internal.put(self, key, value)
         end,
         __tostring = dateProto.toString,
         __tonumber = function(self)

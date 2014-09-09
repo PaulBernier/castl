@@ -20,7 +20,6 @@ local RegExp
 
 local regexpProto = require("castl.prototype.regexp")
 local internal = require("castl.internal")
-local common = require("castl.modules.common")
 local jssupport = require("castl.jssupport")
 
 local find = string.find
@@ -40,7 +39,10 @@ RegExp = function(this, pattern, flags)
 
     setmetatable(o, {
         __index = function (self, key)
-            return common.prototype_index(regexpProto, key)
+            return internal.get(self, regexpProto, key)
+        end,
+        __newindex = function (self, key, value)
+            return internal.put(self, key, value)
         end,
         __tostring = regexpProto.toString,
         __tonumber = function() return jssupport.NaN end,

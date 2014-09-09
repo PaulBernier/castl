@@ -15,7 +15,7 @@
 
 -- [[ CASTL JS core objects submodule]] --
 
-local common = require("castl.modules.common")
+local internal = require("castl.internal")
 local objectProto = require("castl.prototype.object")
 local functionProto = require("castl.prototype.function")
 local arrayProto = require("castl.prototype.array")
@@ -45,15 +45,14 @@ local require, error = require, error
 _ENV = nil
 
 -- Core objects metatables
-local objectMt, functionMt, arrayMt, booleanMt, numberMt, stringMt, undefinedMt = {}, {}, {}, {}, {}, {}, {}
+local objectMt, arrayMt = {}, {}
+local booleanMt, numberMt, stringMt = {}, {}, {}
+local functionMt, undefinedMt = {}, {}
 
 -- Hidden field _prototype keep reference to inherited table
 objectMt._prototype = objectProto
 functionMt._prototype = functionProto
 arrayMt._prototype = arrayProto
-booleanMt._prototype = booleanProto
-numberMt._prototype = numberProto
-stringMt._prototype = stringProto
 
 coreObjects.objectToString = function(o)
     local ret = {"{ "}
@@ -89,23 +88,11 @@ end
 --]]
 
 objectMt.__index = function(self, key)
-    return common.prototype_index(objectProto, key)
+    return internal.get(self, objectProto, key)
 end
 
 objectMt.__newindex = function(self, key, value)
-
-    if key == '__proto__' then
-        -- We have to update _prototype attribute
-        -- and also the __index for proper inheritance
-        local mt = {}
-        mt._prototype = value
-        mt.__index = function (self, key)
-            return common.prototype_index(value, key)
-        end
-        setmetatable(self, mt)
-    else
-        rawset(self, key, value)
-    end
+    internal.put(self, key, value)
 end
 
 objectMt.__tostring = function(self)
@@ -145,16 +132,16 @@ functionMt.__index = function(self, key)
     end
 
     local value = rawget(proxy, key)
-    if value then
+    if value ~= nil then
         return value
     end
 
-    return common.prototype_index(functionProto, key)
+    return internal.get(proxy, functionProto, key)
 end
 
 functionMt.__newindex = function(self, key, value)
     local proxy = coreObjects.getFunctionProxy(self)
-    proxy[key] = value
+    internal.put(proxy, key, value)
 end
 
 functionMt.__tostring = function(self)
@@ -173,7 +160,7 @@ debug.setmetatable((function () end), functionMt)
 --]]
 
 arrayMt.__index = function(self, key)
-    return common.prototype_index(arrayProto, key)
+    return internal.get(self, arrayProto, key)
 end
 
 arrayMt.__newindex = function(self, key, value)
@@ -181,7 +168,7 @@ arrayMt.__newindex = function(self, key, value)
         local length = rawget(self, 'length') or 0
         rawset(self, 'length', max(length, key + 1))
     end
-    rawset(self, key, value)
+    internal.put(self, key, value)
 end
 
 arrayMt.__tostring = function(self)
@@ -212,8 +199,11 @@ end
 --]]
 
 booleanMt.__index = function(self, key)
-    return common.prototype_index(booleanProto, key)
+    return internal.get(nil, booleanProto, key)
 end
+
+-- immutable
+booleanMt.__newindex = function(self, key) end
 
 booleanMt.__lt = function(a, b)
     local numValueA = a and 1 or 0
@@ -248,8 +238,11 @@ debug.setmetatable(true, booleanMt)
 --]]
 
 numberMt.__index = function(self, key)
-    return common.prototype_index(numberProto, key)
+    return internal.get(nil, numberProto, key)
 end
+
+-- immutable
+numberMt.__newindex = function(self, key) end
 
 numberMt.__lt = function(a, b)
     if b == nil then
@@ -297,7 +290,6 @@ stringMt.__index = function(self, key)
 
     local length = strlen(self)
 
-    -- TODO: should become a getter?
     if key == "length" then
         return length
     end
@@ -312,7 +304,7 @@ stringMt.__index = function(self, key)
         end
     end
 
-    return common.prototype_index(stringProto, key)
+    return internal.get(nil, stringProto, key)
 end
 
 stringMt.__lt = function(a, b)
@@ -386,19 +378,19 @@ undefinedMt.__add = function (a, b)
 end
 
 undefinedMt.__sub = function (a, b)
-    return 0/0
+    return jssupport.NaN
 end
 undefinedMt.__mul = function (a, b)
-    return 0/0
+    return jssupport.NaN
 end
 undefinedMt.__div = function (a, b)
-    return 0/0
+    return jssupport.NaN
 end
 undefinedMt.__mod = function (a, b)
-    return 0/0
+    return jssupport.NaN
 end
 undefinedMt.__pow = function (a, b)
-    return 0/0
+    return jssupport.NaN
 end
 
 undefinedMt.__lt = function (a, b)
@@ -429,7 +421,7 @@ function coreObjects.array(arr, length)
     return setmetatable(arr, arrayMt)
 end
 
--- Inline creation of RegExp: /.../gm
+-- Inline creation of RegExp: /.../
 function coreObjects.regexp(pattern, flags)
     RegExp = RegExp or require("castl.constructor.regexp")
     return coreObjects.new(RegExp, pattern, flags)
@@ -437,48 +429,16 @@ end
 
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
 function coreObjects.new(f, ...)
-    if f == nil then
-        error(errorHelper.newTypeError("undefined is not a function"))
+    if type(f) ~= "function" then
+        error(errorHelper.newTypeError(jssupport.typeof(f) .. " is not a function"))
     end
 
     local o = {}
-    local mt = {
-        __index = function (self, key)
-            return common.prototype_index(f.prototype, key)
-        end,
-
-        __newindex = function (self, key, value)
-            if key == '__proto__' then
-                -- We have to update _prototype attribute
-                -- and also the __index for proper inheritance
-                local mt = {}
-                mt._prototype = value
-                mt.__index = function (self, key)
-                    return common.prototype_index(value, key)
-                end
-                setmetatable(self, mt)
-            else
-                rawset(self, key, value)
-            end
-        end,
-        _prototype = f.prototype
-    }
-
-    local protoMt = getmetatable(f.prototype)
-    if protoMt and protoMt.__tostring then
-        mt.__tostring = protoMt.__tostring
-    else
-        mt.__tostring = coreObjects.objectToString
-    end
-
-    setmetatable(o, mt)
+    internal.setNewMetatable(o, f.prototype)
     local ret = f(o, ...)
 
     -- http://stackoverflow.com/a/3658673
-    if type(ret) == "table" or type(ret) == "function"
-        -- special cases,
-        -- type string and object String are mixed up
-        or f.prototype == stringProto then
+    if type(ret) == "table" or type(ret) == "function" then
         return ret
     end
 
@@ -498,10 +458,16 @@ function coreObjects.arguments(...)
 
     local mt = {
         __index = function (self, key)
-            return common.prototype_index(objectProto, key)
+            return internal.get(self, objectProto, key)
+        end,
+        __newindex = function (self, key, value)
+            return internal.put(self, key, value)
         end,
         __tostring = function(self)
             return coreObjects.objectToString(self)
+        end,
+        __tonumber = function()
+            return jssupport.NaN
         end,
         _prototype = "Arguments"
     }

@@ -30,6 +30,8 @@ local string, error, require, gmatch, pairs, getmetatable = string, error, requi
 
 _ENV = nil
 
+stringPrototype.length = 0
+
 local negativeIndex = function (index, length)
     if index < -length then
         return 0

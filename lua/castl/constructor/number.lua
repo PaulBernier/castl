@@ -19,7 +19,7 @@
 local Number
 
 local coreObjects = require("castl.core_objects")
-local common = require("castl.modules.common")
+local internal = require("castl.internal")
 local numberProto = require("castl.prototype.number")
 local jssupport = require("castl.jssupport")
 
@@ -30,7 +30,7 @@ _ENV = nil
 
 Number = function(this, arg)
     -- Number constructor not called within a new
-    if not common.withinNew(this, numberProto) then
+    if not internal.withinNew(this, numberProto) then
         return tonumber(arg) or jssupport.NaN
     end
 
@@ -38,7 +38,10 @@ Number = function(this, arg)
 
     setmetatable(o, {
         __index = function (self, key)
-            return common.prototype_index(numberProto, key)
+            return internal.get(self, numberProto, key)
+        end,
+        __newindex = function (self, key, value)
+            return internal.put(self, key, value)
         end,
         __tostring = function(self)
             return coreObjects.objectToString(self)

@@ -20,7 +20,7 @@ local ReferenceError
 
 local jssupport = require("castl.jssupport")
 local referenceErrorProto = require("castl.prototype.error.reference_error")
-local common = require("castl.modules.common")
+local internal = require("castl.internal")
 
 local setmetatable = setmetatable
 
@@ -34,7 +34,10 @@ ReferenceError = function(this, message)
 
     return setmetatable(o, {
         __index = function (self, key)
-            return common.prototype_index(referenceErrorProto, key)
+            return internal.get(self, referenceErrorProto, key)
+        end,
+        __newindex = function (self, key, value)
+            return internal.put(self, key, value)
         end,
         __tostring = function(self)
             return traceback(self:toString(), 4)

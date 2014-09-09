@@ -21,7 +21,6 @@ local String
 local stringProto = require("castl.prototype.string")
 local bit = require("castl.modules.bit")
 local jssupport = require("castl.jssupport")
-local common = require("castl.modules.common")
 local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")
 
@@ -39,11 +38,11 @@ String = function(this, arg)
     end
 
     -- String constructor not called within a new
-    if not common.withinNew(this, stringProto) then
+    if not internal.withinNew(this, stringProto) then
         return arg
     end
 
-    local o = {}
+    local o = {length = arg.length}
 
     for i = 0, arg.length - 1 do
         o[i] = arg[i]
@@ -51,7 +50,10 @@ String = function(this, arg)
 
     setmetatable(o, {
         __index = function (self, key)
-            return common.prototype_index(stringProto, key)
+            return internal.get(self, stringProto, key)
+        end,
+        __newindex = function (self, key, value)
+            return internal.put(self, key, value)
         end,
         __tostring = function(self)
             return coreObjects.objectToString(self)
