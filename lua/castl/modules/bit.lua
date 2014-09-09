@@ -13,8 +13,6 @@
     along with CASTL. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
-
-
 local bitbaselib
 local luajit = jit ~= nil
 
@@ -27,6 +25,8 @@ else
 end
 
 local bit = {}
+
+local toNumber = require("castl.core_objects").toNumber
 
 _ENV = nil
 
@@ -45,6 +45,7 @@ local function sb(n, i)
 end
 
 bit.lshift = function(x, disp)
+    x, disp = toNumber(x), toNumber(disp)
     local shiftCount = bitbaselib.band(ToUint32(disp), 0x1F)
     local ret = bitbaselib.lshift(x, shiftCount);
 
@@ -57,6 +58,7 @@ bit.lshift = function(x, disp)
 end
 
 bit.rshift = function(x, disp)
+    x, disp = toNumber(x), toNumber(disp)
     if luajit and disp == 0 then
         return ToUint32(x)
     end
@@ -66,6 +68,7 @@ bit.rshift = function(x, disp)
 end
 
 bit.arshift = function(x, disp)
+    x, disp = toNumber(x), toNumber(disp)
     local shiftCount = bitbaselib.band(ToUint32(disp), 0x1F)
     local ret = bitbaselib.rshift(x, shiftCount)
 
@@ -80,9 +83,20 @@ bit.arshift = function(x, disp)
     return ret
 end
 
-bit.band = bitbaselib.band
-bit.bor = bitbaselib.bor
-bit.bxor = bitbaselib.bxor
-bit.bnot = bitbaselib.bnot
+bit.band = function(x, y)
+    return bitbaselib.band(toNumber(x), toNumber(y))
+end
+
+bit.bor = function(x, y)
+    return bitbaselib.bor(toNumber(x), toNumber(y))
+end
+
+bit.bxor = function(x, y)
+    return bitbaselib.bxor(toNumber(x), toNumber(y))
+end
+
+bit.bnot = function(x)
+    return bitbaselib.bnot(toNumber(x))
+end
 
 return bit

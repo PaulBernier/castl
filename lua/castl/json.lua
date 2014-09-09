@@ -18,6 +18,7 @@
 local coreObjects = require("castl.core_objects")
 local jssupport = require("castl.jssupport")
 local json = require("castl.modules.dkjson")
+local errorHelper = require("castl.modules.error_helper")
 
 local JSON = {}
 
@@ -28,7 +29,7 @@ _ENV = nil
 JSON.parse = function(this, text)
     local obj, pos, err = json.decode(text, 1, jssupport.null, coreObjects.objectMt, coreObjects.arrayMt)
     if err then
-        error("JSON.parse error: " .. err)
+        error(errorHelper.newSyntaxError(err))
     end
 
     return obj

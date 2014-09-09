@@ -22,6 +22,7 @@ local common = require("castl.modules.common")
 local jssupport = require("castl.jssupport")
 local coreObjects = require("castl.core_objects")
 local objectProto = require("castl.prototype.object")
+local errorHelper = require("castl.modules.error_helper")
 
 local type, error, pairs, tostring = type, error, pairs, tostring
 local setmetatable, getmetatable, rawset, rawget = setmetatable, getmetatable, rawset, rawget
@@ -62,7 +63,10 @@ Object.defineProperty = function(this, obj, prop, descriptor)
     end
 
     if type(obj) ~= 'table' then
-        error("Object.defineProperty called on non-object")
+        error(errorHelper.newTypeError("Object.defineProperty called on non-object"))
+    end
+    if type(descriptor) ~= 'table' then
+        error(errorHelper.newTypeError("Property description must be an object: " .. tostring(descriptor)))
     end
 
     if descriptor.value ~= nil then
@@ -89,7 +93,7 @@ end
 Object.keys = function (this, obj)
     local t = type(obj)
     if t == "boolean" or obj == nil or t == "number" or t == "string" then
-        error("TypeError: Object.keys called on non-object", 2)
+        error(errorHelper.newTypeError("Object.keys called on non-object"))
     end
 
     local ret, i = {}, 0

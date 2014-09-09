@@ -30,6 +30,7 @@ local syntaxErrorProto = require("castl.prototype.error.syntax_error")
 local typeErrorProto = require("castl.prototype.error.type_error")
 local regexpProto = require("castl.prototype.regexp")
 local jssupport = require("castl.jssupport")
+local errorHelper = require("castl.modules.error_helper")
 
 local RegExp, Boolean, Number, String
 
@@ -437,7 +438,7 @@ end
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
 function coreObjects.new(f, ...)
     if f == nil then
-        error("new: The constructor is undefined")
+        error(errorHelper.newTypeError("undefined is not a function"))
     end
 
     local o = {}
@@ -520,7 +521,7 @@ end
 
 function coreObjects.instanceof(object, class)
     if type(class) ~= "function" then
-        error("TypeError: Expecting a function in instanceof check, but got " .. tostring(class))
+        error(errorHelper.newTypeError("Expecting a function in instanceof check, but got " .. tostring(class)))
     end
 
     if class.prototype then
@@ -614,6 +615,7 @@ function coreObjects.toPrimitive(o)
     return o
 end
 
+-- http://www.ecma-international.org/ecma-262/5.1/#sec-9.9
 function coreObjects.toObject(v)
     if v == nil or v == jssupport.null then
         error("ToObject: undefined or null")

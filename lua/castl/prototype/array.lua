@@ -18,8 +18,9 @@
 
 local arrayPrototype = {}
 
-local jssupport = require("castl.jssupport")
 local makeArray, runtime
+local jssupport = require("castl.jssupport")
+local errorHelper = require("castl.modules.error_helper")
 
 local rawget, rawset, require, getmetatable, error = rawget, rawset, require, getmetatable, error
 local table = table
@@ -358,12 +359,8 @@ local empty = function(array)
 end
 
 arrayPrototype.reduce = function (this, callback, initialValue)
-    if this == nil or this == jssupport.null then
-        error("Array.prototype.forEach called on null or undefined")
-    end
-
     if empty(this) and initialValue == nil then
-        error("Reduce of empty array with no initial value")
+        error(errorHelper.newTypeError("Reduce of empty array with no initial value"))
     end
 
     local value = initialValue or this[0]
@@ -381,10 +378,6 @@ arrayPrototype.reduce = function (this, callback, initialValue)
 end
 
 arrayPrototype.forEach = function (this, callback, thisArg)
-    if this == nil or this == jssupport.null then
-        error("Array.prototype.forEach called on null or undefined")
-    end
-
     thisArg = getThisArg(thisArg)
 
     if type(this) == "table" or type(this) == "string" then

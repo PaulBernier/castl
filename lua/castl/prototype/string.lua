@@ -350,6 +350,10 @@ stringPrototype.replace = function (this, match, newSubStr, flags)
     instanceof = instanceof or require("castl.core_objects").instanceof
     defaultValue = defaultValue or require("castl.core_objects").defaultValue
 
+    if type(match) ~= "string" and not instanceof(match, RegExp) then
+        match = defaultValue(match)
+    end
+
     -- if flags are passed, match is converted to a regexp
     if type(match) == "string" and flags then
         new = new or require("castl.core_objects").new
