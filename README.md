@@ -56,7 +56,7 @@ Option  | Description
 -h, --help | display help.
 --cat | don't execute, just print code that would be run.
 --acorn | use Acorn parser. If not specified Esprima is used.
---tolerant | make Esprima and Acorn error-tolerant.
+--strict | make Esprima and Acorn not error-tolerant.
 --jit | compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active).
 --node | add a very basic support of NodeJS 'require' system.
 

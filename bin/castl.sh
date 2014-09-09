@@ -21,7 +21,7 @@ verbose=false
 execute=true
 output=false
 compiled=false
-tolerant=false
+tolerant=true
 node=false
 luajit=false
 outputname="output.lua"
@@ -37,7 +37,7 @@ function help {
     printf "\t%-15s %s\n" "-h, --help" "display this help"
     printf "\t%-15s %s\n" "--cat" "don't execute, just print code that would be run"
     printf "\t%-15s %s\n" "--acorn" "use Acorn parser. If not specified Esprima is used"
-    printf "\t%-15s %s\n" "--tolerant" "make Esprima and Acorn error-tolerant"
+    printf "\t%-15s %s\n" "--strict" "make Esprima and Acorn not error-tolerant"
     printf "\t%-15s %s\n" "--jit" "compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active)"
     printf "\t%-15s %s\n" "--node" "add a very basic support of NodeJS 'require' system"
     exit 0
@@ -50,8 +50,8 @@ for arg in "$@"; do
         waitname=false
         if [ $arg = "--acorn" ]; then
             parser="acorn"
-        elif [ $arg = "--tolerant" ]; then
-            tolerant=true
+        elif [ $arg = "--strict" ]; then
+            tolerant=false
         elif [ $arg = "--node" ]; then
             node=true
         elif [ $arg = "--jit" ]; then
