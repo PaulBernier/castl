@@ -26,9 +26,19 @@ local error = error
 
 _ENV = nil
 
+numberPrototype.valueOf = function (this)
+    if type(this) == "number" then
+        return this
+    else
+        return getmetatable(this)._primitive
+    end
+end
+
+local valueof = numberPrototype.valueOf
+
 numberPrototype.toString = function(this, radix)
     local mt = getmetatable(this)
-    local value = this:valueOf()
+    local value = valueof(this)
 
     if not radix then
         return tostring(value)
@@ -56,23 +66,14 @@ end
 
 numberPrototype.toLocaleString = numberPrototype.toString
 
-numberPrototype.valueOf = function (this)
-    local mt = getmetatable(this)
-    if mt and type(mt._primitive) == "number" then
-        return mt._primitive
-    else
-        return this
-    end
-end
-
 numberPrototype.toFixed = function(this, digits)
-    local value = this:valueOf()
+    local value = valueof(this)
     digits = digits or 0
     return format("%." .. tonumber(digits) .. "f", value)
 end
 
 numberPrototype.toExponential = function(this, fractionDigits)
-    local value = this:valueOf()
+    local value = valueof(this)
     if fractionDigits == nil then
         fractionDigits = strlen(tostring(value)) - 1
         if floor(value) ~= value then
@@ -87,7 +88,7 @@ numberPrototype.toExponential = function(this, fractionDigits)
 end
 
 numberPrototype.toPrecision = function(this, precision)
-    local value = this:valueOf()
+    local value = valueof(this)
     if precision == nil then return tostring(value) end
     if precision < 1 or precision > 21 then
         error(errorHelper.newRangeError("RangeError: toPrecision() argument must be between 1 and 21"))

@@ -27,11 +27,10 @@ booleanPrototype.toString = function (this)
 end
 
 booleanPrototype.valueOf = function (this)
-    local mt = getmetatable(this)
-    if mt and type(mt._primitive) == "boolean" then
-        return mt._primitive
-    else
+    if type(this) == "boolean" then
         return this
+    else
+        return getmetatable(this)._primitive
     end
 end
 

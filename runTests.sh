@@ -18,7 +18,7 @@ function testFile {
     echo -n $testString;
     
     # Execution of js script
-    nodejs $f 2>/dev/null 1>/dev/null;
+    nodejs $f;
     
     if (($? > 0)); then
         echo "--> Execution of js code failed!";

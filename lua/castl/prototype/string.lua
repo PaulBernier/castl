@@ -32,6 +32,17 @@ _ENV = nil
 
 stringPrototype.length = 0
 
+stringPrototype.valueOf = function (this)
+    if type(this) == "string" then
+        return this
+    else
+        return getmetatable(this)._primitive
+    end
+end
+
+-- optimization
+local valueof = stringPrototype.valueOf
+
 local negativeIndex = function (index, length)
     if index < -length then
         return 0
@@ -41,43 +52,47 @@ local negativeIndex = function (index, length)
 end
 
 stringPrototype.charCodeAt = function (this, i)
+    local value = valueof(this)
     i = i or 0
-    return string.byte(this, tonumber(i) + 1)
+    return string.byte(value, tonumber(i) + 1)
 end
 
 stringPrototype.charAt = function (this, i)
+    local value = valueof(this)
     if type(i) == "number" then
-        return string.sub(this, i + 1, i + 1)
+        return string.sub(value, i + 1, i + 1)
     end
 
-    return string.sub(this, 1, 1)
+    return string.sub(value, 1, 1)
 end
 
 stringPrototype.substr = function (this, start, length)
+    local value = valueof(this)
     if start < 0 then
-        start = negativeIndex(start, this.length)
+        start = negativeIndex(start, value.length)
     end
 
     if length ~= nil then
-        return string.sub(this, start + 1, start + length)
+        return string.sub(value, start + 1, start + length)
     else
-        return string.sub(this, start + 1)
+        return string.sub(value, start + 1)
     end
 end
 
 stringPrototype.substring = function (this, indexA, indexB)
+    local value = valueof(this)
     if indexA < 0 then
         indexA = 0
-    elseif indexA > this.length then
-        indexA = this.length
+    elseif indexA > value.length then
+        indexA = value.length
     end
 
     -- if indexB is specified
     if indexB ~= nil then
         if indexB < 0 then
             indexB = 0
-        elseif indexB > this.length then
-            indexB = this.length
+        elseif indexB > value.length then
+            indexB = value.length
         end
 
         -- swap
@@ -89,47 +104,48 @@ stringPrototype.substring = function (this, indexA, indexB)
     end
 
     if indexB ~= nil then
-        return string.sub(this, indexA + 1, indexB)
+        return string.sub(value, indexA + 1, indexB)
     else
-        return string.sub(this, indexA + 1)
+        return string.sub(value, indexA + 1)
     end
 end
 
 stringPrototype.slice = function (this, beginSlice, endSlice)
+    local value = valueof(this)
     if beginSlice < 0 then
-        beginSlice = negativeIndex(beginSlice, this.length)
+        beginSlice = negativeIndex(beginSlice, value.length)
     end
 
     if endSlice ~= nil then
         if endSlice < 0 then
-            endSlice = negativeIndex(endSlice, this.length)
+            endSlice = negativeIndex(endSlice, value.length)
         end
 
-        return string.sub(this, beginSlice + 1, endSlice)
+        return string.sub(value, beginSlice + 1, endSlice)
     end
 
-    return string.sub(this, beginSlice + 1)
+    return string.sub(value, beginSlice + 1)
 
 end
 
 stringPrototype.toLowerCase = function (this)
-    return string.lower(this)
+    return string.lower(valueof(this))
 end
 
 stringPrototype.toLocaleLowerCase = function (this)
-    return string.lower(this)
+    return string.lower(valueof(this))
 end
 
 stringPrototype.toUpperCase = function (this)
-    return string.upper(this)
+    return string.upper(valueof(this))
 end
 
 stringPrototype.toLocaleUpperCase = function (this)
-    return string.upper(this)
+    return string.upper(valueof(this))
 end
 
 stringPrototype.indexOf = function (this, searchValue, fromIndex)
-
+    local value = valueof(this)
     fromIndex = fromIndex or 0
     if fromIndex < 0 then
         fromIndex = 0
@@ -137,21 +153,21 @@ stringPrototype.indexOf = function (this, searchValue, fromIndex)
 
     -- special case of empty string
     if searchValue == "" then
-        if fromIndex < this.length then
+        if fromIndex < value.length then
             return fromIndex
         else
-            return this.length
+            return value.length
         end
     end
 
     if fromIndex <= 0 then
         fromIndex = 1
-    elseif fromIndex > this.length then
+    elseif fromIndex > value.length then
         return -1
     end
 
     -- find
-    local ret = string.find(this, tostring(searchValue), fromIndex, true)
+    local ret = string.find(value, tostring(searchValue), fromIndex, true)
 
     -- not found
     if ret == nil then
@@ -162,15 +178,16 @@ stringPrototype.indexOf = function (this, searchValue, fromIndex)
 end
 
 stringPrototype.lastIndexOf = function (this, searchValue, fromIndex)
-    fromIndex = fromIndex or this.length
+    local value = valueof(this)
+    fromIndex = fromIndex or value.length
     if fromIndex < 0 then
         fromIndex = 0
-    elseif fromIndex > this.length then
-        fromIndex = this.length
+    elseif fromIndex > value.length then
+        fromIndex = value.length
     end
 
     -- find in reversed string
-    local ret = string.find(string.reverse(this), tostring(searchValue), this.length - fromIndex + 1, true)
+    local ret = string.find(string.reverse(value), tostring(searchValue), value.length - fromIndex + 1, true)
     if searchValue == "" then
         ret = ret - 1
     end
@@ -180,7 +197,7 @@ stringPrototype.lastIndexOf = function (this, searchValue, fromIndex)
         return -1
     end
 
-    return this.length - ret
+    return value.length - ret
 
 end
 
@@ -197,23 +214,15 @@ stringPrototype.toString = function (this)
     end
 end
 
-stringPrototype.valueOf = function (this)
-    local mt = getmetatable(this)
-    if mt and type(mt._primitive) == "string" then
-        return mt._primitive
-    else
-        return this
-    end
-end
-
 stringPrototype.trim = function (this)
+    local value = valueof(this)
     -- http://lua-users.org/wiki/StringTrim
-    return string.match(this,'^()%s*$') and '' or string.match(this,'^%s*(.*%S)')
+    return string.match(value,'^()%s*$') and '' or string.match(value,'^%s*(.*%S)')
 end
 
 stringPrototype.concat = function (this, ...)
     local args = pack(...)
-    local ret = this
+    local ret = valueof(this)
 
     for i = 1,args.n do
         ret = ret .. args[i]
@@ -227,14 +236,15 @@ end
 --]]
 
 stringPrototype.split = function (this, separator, limit)
+    local value = valueof(this)
     array = array or require("castl.core_objects").array
     -- special cases
-    if not separator or this == "" then
-        return array({[0] = this}, 1)
+    if not separator or value == "" then
+        return array({[0] = value}, 1)
     elseif separator == "" then
-        local ret, length = {}, this.length
+        local ret, length = {}, value.length
         for i = 0, length - 1 do
-            ret[i] = this:charAt(i)
+            ret[i] = value:charAt(i)
         end
         return array(ret, length)
     end
@@ -247,12 +257,12 @@ stringPrototype.split = function (this, separator, limit)
     if type(separator) == "string" then
         -- escape magic chars as seperator is a string not a RegExp
         separator = '[^' .. common.escapeMagicChars(separator) .. ']+'
-        for k in gmatch(this, separator) do
+        for k in gmatch(value, separator) do
             tinsert(ret, k)
         end
     elseif instanceof(separator, RegExp) then
-        local captures = regexpHelper.regExpHasCaptured(this, separator)
-        local iter = regexpHelper.split(this, separator)
+        local captures = regexpHelper.regExpHasCaptured(value, separator)
+        local iter = regexpHelper.split(value, separator)
 
         while true do
             local match = pack(iter())
@@ -348,6 +358,7 @@ local getReplacerString = function(newSubStr)
 end
 
 stringPrototype.replace = function (this, match, newSubStr, flags)
+    local value = valueof(this)
     RegExp = RegExp or require("castl.constructor.regexp")
     instanceof = instanceof or require("castl.core_objects").instanceof
     defaultValue = defaultValue or require("castl.internal").defaultValue
@@ -372,16 +383,17 @@ stringPrototype.replace = function (this, match, newSubStr, flags)
     local replacer
     if type(match) == "string" then
         replacer = getReplacerString(newSubStr)
-        return (string.gsub(this, match, replacer, 1))
+        return (string.gsub(value, match, replacer, 1))
     elseif instanceof(match, RegExp) then
         replacer = getReplacerRegExp(newSubStr)
-        return (regexpHelper.gsub(this, match, replacer))
+        return (regexpHelper.gsub(value, match, replacer))
     else
         error("Unknown regex invocation object: " .. type(match))
     end
 end
 
 stringPrototype.search = function (this, regexp)
+    local value = valueof(this)
     RegExp = RegExp or require("castl.constructor.regexp")
     instanceof = instanceof or require("castl.core_objects").instanceof
     _regexp = _regexp or require("castl.core_objects").regexp
@@ -393,12 +405,13 @@ stringPrototype.search = function (this, regexp)
 
     local cf = regexpHelper.getPCRECompilationFlag(regexp)
     local rex = regexpHelper.getRex()
-    local found = rex.find(this, regexp.source, 1, cf)
+    local found = rex.find(value, regexp.source, 1, cf)
 
     return found and found - 1 or -1
 end
 
 stringPrototype.match = function (this, regexp)
+    local value = valueof(this)
     RegExp = RegExp or require("castl.constructor.regexp")
     instanceof = instanceof or require("castl.core_objects").instanceof
     _regexp = _regexp or require("castl.core_objects").regexp
@@ -419,7 +432,7 @@ stringPrototype.match = function (this, regexp)
 
     -- global match: rex.gmatch
     if regexp.global then
-        local iter = rex.gmatch(this, source, cf)
+        local iter = rex.gmatch(value, source, cf)
 
         while true do
             local match = pack(iter())
@@ -428,10 +441,10 @@ stringPrototype.match = function (this, regexp)
         end
     else
         -- single match: rex.find (to get the starting index)
-        local found = pack(rex.find(this, source, 1, cf))
+        local found = pack(rex.find(value, source, 1, cf))
         if found[1] then
             ret.index = found[1] - 1
-            ret.input = this
+            ret.input = value
             for i = 3, found.n do
                 tinsert(ret, found[i])
             end
