@@ -42,6 +42,8 @@ arrayPrototype.toString = function (this)
     return arrayPrototype.join(this)
 end
 
+arrayPrototype.toLocaleString = arrayPrototype.toString
+
 arrayPrototype.push = function (this, ...)
     local args = table.pack(...)
     local length = this.length
@@ -368,6 +370,25 @@ arrayPrototype.reduce = function (this, callback, initialValue)
     local thisArg = getThisArg()
     local length = this.length
     for i = start, length - 1 do
+        -- if not nil (else ignore)
+        if this[i] then
+            value = callback(thisArg, value, this[i], i, this)
+        end
+    end
+
+    return value
+end
+
+arrayPrototype.reduceRight = function (this, callback, initialValue)
+    if empty(this) and initialValue == nil then
+        error(errorHelper.newTypeError("Reduce of empty array with no initial value"))
+    end
+
+    local value = initialValue or this[this.length - 1]
+    local start = initialValue and this.length - 1 or this.length - 2
+    local thisArg = getThisArg()
+    local length = this.length
+    for i = start, 0, -1 do
         -- if not nil (else ignore)
         if this[i] then
             value = callback(thisArg, value, this[i], i, this)

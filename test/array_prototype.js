@@ -501,6 +501,17 @@ var total = [1, null, 1, , 6, , 3].reduce(function (a, b) {
 
 assert(total === 11);
 
+// Reduce right
+total = [0, 1, 2, 3, 4].reduceRight(function(previousValue, currentValue, index, array) {
+  return previousValue * currentValue + previousValue;
+});
+assert(total === 96);
+
+total = [0, 1, 2, 3, 4].reduceRight(function(previousValue, currentValue, index, array) {
+  return previousValue * currentValue + previousValue;
+}, 11);
+assert(total === 1320);
+
 var flattened = [
     [0, 1],
     [2, 3],

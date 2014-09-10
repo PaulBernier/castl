@@ -56,6 +56,8 @@ objectPrototype.toString = function (this)
     return '[object Object]'
 end
 
+objectPrototype.toLocaleString = objectPrototype.toString
+
 objectPrototype.valueOf = function (this)
     return this
 end
