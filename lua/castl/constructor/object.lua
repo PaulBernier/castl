@@ -52,6 +52,15 @@ Object.create = function (this, prototype, props)
     return o
 end
 
+Object.defineProperties = function (this, obj, props)
+    if props then
+        for k, v in pairs(props) do
+            Object:defineProperty(obj, k, v)
+        end
+    end
+    return obj
+end
+
 Object.defineProperty = function(this, obj, prop, descriptor)
     if type(obj) == 'function' then
         obj = coreObjects.getFunctionProxy(obj)
@@ -98,34 +107,10 @@ Object.defineProperty = function(this, obj, prop, descriptor)
     return obj
 end
 
-Object.defineProperties = function (this, obj, props)
-    if props then
-        for k, v in pairs(props) do
-            Object:defineProperty(obj, k, v)
-        end
-    end
-    return obj
-end
-
+-- TODO
 Object.freeze = function (this, obj)
     -- not really frozen...
     return obj
-end
-
-Object.keys = function (this, obj)
-    local t = type(obj)
-    if t == "boolean" or obj == nil or t == "number" or t == "string" then
-        error(errorHelper.newTypeError("Object.keys called on non-object"))
-    end
-
-    local ret, i = {}, 0
-
-    for key in coreObjects.props(obj) do
-        ret[i] = tostring(key)
-        i = i + 1
-    end
-
-    return coreObjects.array(ret, i)
 end
 
 Object.getOwnPropertyDescriptor = function (this, obj, prop)
@@ -163,6 +148,47 @@ Object.getPrototypeOf = function (this, obj)
     end
 
     return nil
+end
+
+-- TODO
+Object.isExtensible = function (this, obj)
+    return true
+end
+
+-- TODO
+Object.isFrozen = function (this, obj)
+    return false
+end
+
+-- TODO
+Object.isSealed = function (this, obj)
+    return false
+end
+
+Object.keys = function (this, obj)
+    local t = type(obj)
+    if t == "boolean" or obj == nil or t == "number" or t == "string" then
+        error(errorHelper.newTypeError("Object.keys called on non-object"))
+    end
+
+    local ret, i = {}, 0
+
+    for key in coreObjects.props(obj) do
+        ret[i] = tostring(key)
+        i = i + 1
+    end
+
+    return coreObjects.array(ret, i)
+end
+
+-- TODO
+Object.preventExtensions = function (this, obj)
+    return obj
+end
+
+-- TODO
+Object.seal = function (this, obj)
+    return obj
 end
 
 Object.prototype = objectProto
