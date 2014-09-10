@@ -1069,7 +1069,7 @@
             startIndex = expession.lastIndexOf('.');
             return {
                 base: expession.slice(0, startIndex),
-                member: expession.slice(startIndex + 1)
+                member: '"' + expession.slice(startIndex + 1) + '"'
             };
         }
     }
@@ -1077,8 +1077,8 @@
     function getGetterSetterExpression(expression) {
         var split = getBaseMember(expression);
         return {
-            getter: split.base + "._g" + split.member,
-            setter: split.base + "._s" + split.member
+            getter: split.base + '["_g" .. ' + split.member + ']',
+            setter: split.base + '["_s" .. ' + split.member + ']'
         };
     }
 

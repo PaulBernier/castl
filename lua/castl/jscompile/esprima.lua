@@ -2688,7 +2688,7 @@ end
 
 _e((function () local _tmp = true; state.labelSet[key]  = _tmp; return _tmp; end)());
 _e((function () local _tmp = parseStatement(_ENV); labeledBody  = _tmp; return _tmp; end)());
-_e((function () local _r = false; local _g, _s = state.labelSet._gkey, state.labelSet._skey; state.labelSet._gkey, state.labelSet._skey = nil, nil; _r = _g ~= nil or _s ~= nil;
+_e((function () local _r = false; local _g, _s = state.labelSet["_g" .. key], state.labelSet["_s" .. key]; state.labelSet["_g" .. key], state.labelSet["_s" .. key] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = state.labelSet[key]; state.labelSet[key] = nil; return _r or _v ~= nil; end)());
  do return delegate:markEnd(delegate:createLabeledStatement(expr,labeledBody),startToken); end
 end
@@ -3350,7 +3350,7 @@ end
 else
 if _bool((((extra.bottomRightStack.length > 0) and extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments) and (extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments[0].range[0] >= node.range[1]))) then
 _e((function () local _tmp = extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments; trailingComments  = _tmp; return _tmp; end)());
-_e((function () local _r = false; local _g, _s = extra.bottomRightStack[(extra.bottomRightStack.length - 1)]._gtrailingComments, extra.bottomRightStack[(extra.bottomRightStack.length - 1)]._strailingComments; extra.bottomRightStack[(extra.bottomRightStack.length - 1)]._gtrailingComments, extra.bottomRightStack[(extra.bottomRightStack.length - 1)]._strailingComments = nil, nil; _r = _g ~= nil or _s ~= nil;
+_e((function () local _r = false; local _g, _s = extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_g" .. "trailingComments"], extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_s" .. "trailingComments"]; extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_g" .. "trailingComments"], extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_s" .. "trailingComments"] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments; extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments = nil; return _r or _v ~= nil; end)());
 end
 
@@ -3364,7 +3364,7 @@ end
 if _bool(lastChild) then
 if _bool((lastChild.leadingComments and (lastChild.leadingComments[(lastChild.leadingComments.length - 1)].range[1] <= node.range[0]))) then
 _e((function () local _tmp = lastChild.leadingComments; node.leadingComments  = _tmp; return _tmp; end)());
-_e((function () local _r = false; local _g, _s = lastChild._gleadingComments, lastChild._sleadingComments; lastChild._gleadingComments, lastChild._sleadingComments = nil, nil; _r = _g ~= nil or _s ~= nil;
+_e((function () local _r = false; local _g, _s = lastChild["_g" .. "leadingComments"], lastChild["_s" .. "leadingComments"]; lastChild["_g" .. "leadingComments"], lastChild["_s" .. "leadingComments"] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = lastChild.leadingComments; lastChild.leadingComments = nil; return _r or _v ~= nil; end)());
 end
 

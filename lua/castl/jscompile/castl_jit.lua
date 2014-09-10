@@ -376,7 +376,7 @@ if _bool(labelTracker[compiledLabel].mayBreak) then
 compiledLabeledStatement:push((_add((_add("::",compiledLabel)),"_b::\10")));
 end
 
-_e((function () local _r = false; local _g, _s = labelTracker._gcompiledLabel, labelTracker._scompiledLabel; labelTracker._gcompiledLabel, labelTracker._scompiledLabel = nil, nil; _r = _g ~= nil or _s ~= nil;
+_e((function () local _r = false; local _g, _s = labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel]; labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = labelTracker[compiledLabel]; labelTracker[compiledLabel] = nil; return _r or _v ~= nil; end)());
 else
 compiledLabeledStatement:push(compileStatement(_ENV,statement.body));
@@ -472,11 +472,11 @@ compiledSwitchStatement:push("::_default::\10");
 end
 
 compiledSwitchStatement:push("until true");
-protectedCallManager:openSwitchStatement();
+protectedCallManager:closeSwitchStatement();
  do return compiledSwitchStatement:join(""); end
 end
 
-protectedCallManager:openSwitchStatement();
+protectedCallManager:closeSwitchStatement();
  do return ""; end
 end)
 compileTryStatement = (function (this, statement)
@@ -958,7 +958,7 @@ else
 _e((function () local _tmp = expession:lastIndexOf("."); startIndex  = _tmp; return _tmp; end)());
  do return _obj({
 ["base"] = expession:slice(0,startIndex),
-["member"] = expession:slice((_add(startIndex,1)))
+["member"] = (_add((_add("\"",expession:slice((_add(startIndex,1))))),"\""))
 }); end
 end
 
@@ -967,8 +967,8 @@ getGetterSetterExpression = (function (this, expression)
 local split;
 split = getBaseMember(_ENV,expression);
  do return _obj({
-["getter"] = (_add((_add(split.base,"._g")),split.member)),
-["setter"] = (_add((_add(split.base,"._s")),split.member))
+["getter"] = (_add((_add((_add(split.base,"[\"_g\" .. ")),split.member)),"]")),
+["setter"] = (_add((_add((_add(split.base,"[\"_s\" .. ")),split.member)),"]"))
 }); end
 end)
 compileUnaryExpression = (function (this, expression)
