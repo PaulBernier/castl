@@ -184,4 +184,10 @@ assert(ret[1] === "def");
 assert(ret[2] === "ghi");
 assert(ret.length === 3);
 
+// Anchor, link, small
+assert("Anchor".anchor("castl") === '<a name="castl">Anchor</a>');
+assert("castlua".link("http://www.castlua.com") === '<a href="http://www.castlua.com">castlua</a>');
+assert("petit".small() === '<small>petit</small>');
+
+
 // search and match are in test/string_regexp file

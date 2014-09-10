@@ -18,12 +18,13 @@
 
 local stringPrototype = {}
 
-local runtime
+local RegExp, instanceof, defaultValue, array, _regexp, new, runtime
 local jssupport = require("castl.jssupport")
 local regexpHelper = require("castl.modules.regexphelper")
 local common = require("castl.modules.common")
+local internal = require("castl.internal")
 
-local RegExp, instanceof, defaultValue, array, _regexp, new
+local defaultValue = internal.defaultValue
 local type, tostring, tonumber, min, max, rawget, rawset = type, tostring, tonumber, math.min, math.max, rawget, rawset
 local pack, tinsert, tremove, concat = table.pack, table.insert, table.remove, table.concat
 local string, error, require, gmatch, pairs, getmetatable = string, error, require, string.gmatch, pairs, getmetatable
@@ -51,10 +52,14 @@ local negativeIndex = function (index, length)
     end
 end
 
-stringPrototype.charCodeAt = function (this, i)
+stringPrototype.anchor = function(this, name)
     local value = valueof(this)
-    i = i or 0
-    return string.byte(value, tonumber(i) + 1)
+    local t = {'<a name="'}
+    tinsert(t, defaultValue(name))
+    tinsert(t, '">')
+    tinsert(t, value)
+    tinsert(t, '</a>')
+    return concat(t)
 end
 
 stringPrototype.charAt = function (this, i)
@@ -64,6 +69,90 @@ stringPrototype.charAt = function (this, i)
     end
 
     return string.sub(value, 1, 1)
+end
+
+stringPrototype.charCodeAt = function (this, i)
+    local value = valueof(this)
+    i = i or 0
+    return string.byte(value, tonumber(i) + 1)
+end
+
+stringPrototype.concat = function (this, ...)
+    local args = pack(...)
+    local ret = valueof(this)
+
+    for i = 1,args.n do
+        ret = ret .. args[i]
+    end
+
+    return ret
+end
+
+stringPrototype.indexOf = function (this, searchValue, fromIndex)
+    local value = valueof(this)
+    fromIndex = fromIndex or 0
+    if fromIndex < 0 then
+        fromIndex = 0
+    end
+
+    -- special case of empty string
+    if searchValue == "" then
+        if fromIndex < value.length then
+            return fromIndex
+        else
+            return value.length
+        end
+    end
+
+    if fromIndex <= 0 then
+        fromIndex = 1
+    elseif fromIndex > value.length then
+        return -1
+    end
+
+    -- find
+    local ret = string.find(value, tostring(searchValue), fromIndex, true)
+
+    -- not found
+    if ret == nil then
+        return -1
+    end
+
+    return ret - 1
+end
+
+stringPrototype.lastIndexOf = function (this, searchValue, fromIndex)
+    local value = valueof(this)
+    fromIndex = fromIndex or value.length
+    if fromIndex < 0 then
+        fromIndex = 0
+    elseif fromIndex > value.length then
+        fromIndex = value.length
+    end
+
+    -- find in reversed string
+    local ret = string.find(string.reverse(value), tostring(searchValue), value.length - fromIndex + 1, true)
+    if searchValue == "" then
+        ret = ret - 1
+    end
+
+    -- not found
+    if ret == nil then
+        return -1
+    end
+
+    return value.length - ret
+
+end
+
+stringPrototype.link = function(this, url)
+    local value = valueof(this)
+    local t = {'<a href="'}
+    tinsert(t, defaultValue(url))
+    tinsert(t, '">')
+    tinsert(t, value)
+    tinsert(t, '</a>')
+    return concat(t)
 end
 
 stringPrototype.substr = function (this, start, length)
@@ -128,6 +217,14 @@ stringPrototype.slice = function (this, beginSlice, endSlice)
 
 end
 
+stringPrototype.small = function(this)
+    local value = valueof(this)
+    local t = {'<small>'}
+    tinsert(t, value)
+    tinsert(t, '</small>')
+    return concat(t)
+end
+
 stringPrototype.toLowerCase = function (this)
     return string.lower(valueof(this))
 end
@@ -142,63 +239,6 @@ end
 
 stringPrototype.toLocaleUpperCase = function (this)
     return string.upper(valueof(this))
-end
-
-stringPrototype.indexOf = function (this, searchValue, fromIndex)
-    local value = valueof(this)
-    fromIndex = fromIndex or 0
-    if fromIndex < 0 then
-        fromIndex = 0
-    end
-
-    -- special case of empty string
-    if searchValue == "" then
-        if fromIndex < value.length then
-            return fromIndex
-        else
-            return value.length
-        end
-    end
-
-    if fromIndex <= 0 then
-        fromIndex = 1
-    elseif fromIndex > value.length then
-        return -1
-    end
-
-    -- find
-    local ret = string.find(value, tostring(searchValue), fromIndex, true)
-
-    -- not found
-    if ret == nil then
-        return -1
-    end
-
-    return ret - 1
-end
-
-stringPrototype.lastIndexOf = function (this, searchValue, fromIndex)
-    local value = valueof(this)
-    fromIndex = fromIndex or value.length
-    if fromIndex < 0 then
-        fromIndex = 0
-    elseif fromIndex > value.length then
-        fromIndex = value.length
-    end
-
-    -- find in reversed string
-    local ret = string.find(string.reverse(value), tostring(searchValue), value.length - fromIndex + 1, true)
-    if searchValue == "" then
-        ret = ret - 1
-    end
-
-    -- not found
-    if ret == nil then
-        return -1
-    end
-
-    return value.length - ret
-
 end
 
 stringPrototype.toString = function (this)
@@ -220,16 +260,7 @@ stringPrototype.trim = function (this)
     return string.match(value,'^()%s*$') and '' or string.match(value,'^%s*(.*%S)')
 end
 
-stringPrototype.concat = function (this, ...)
-    local args = pack(...)
-    local ret = valueof(this)
 
-    for i = 1,args.n do
-        ret = ret .. args[i]
-    end
-
-    return ret
-end
 
 --[[
     Functions related to RegExp
