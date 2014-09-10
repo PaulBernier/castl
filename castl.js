@@ -1033,7 +1033,7 @@
     }
 
     function compileLogicalExpression(expression) {
-        var compiledLogicalExpression = ["("];
+        var compiledLogicalExpression = ["(_bool("];
 
         var left = compileExpression(expression.left);
         var right = compileExpression(expression.right);
@@ -1042,17 +1042,17 @@
 
         switch (expression.operator) {
         case "&&":
-            compiledLogicalExpression.push(" and ");
+            compiledLogicalExpression.push(") and _bool(");
             break;
         case "||":
-            compiledLogicalExpression.push(" or ");
+            compiledLogicalExpression.push(") or _bool(");
             break;
         default:
             throw new Error("Unknown LogicalOperator: " + expression.operator);
         }
 
         compiledLogicalExpression.push(right);
-        compiledLogicalExpression.push(")");
+        compiledLogicalExpression.push("))");
 
         return compiledLogicalExpression.join('');
     }

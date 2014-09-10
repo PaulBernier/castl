@@ -2,7 +2,7 @@ local _ENV = require("castl.runtime");
 return setfenv(function(...)
 (function (this, root, factory)
 _e("use strict");
-if _bool(((_type(define) == "function") and define.amd)) then
+if _bool((_bool((_type(define) == "function")) and _bool(define.amd))) then
 define(_ENV,_arr({[0]="exports"},1),factory);
 elseif _bool((_type(exports) ~= "undefined")) then
 factory(_ENV,exports);
@@ -21,7 +21,7 @@ end
 
 end)
 isDecimalDigit = (function (this, ch)
- do return ((ch >= 48) and (ch <= 57)); end
+ do return (_bool((ch >= 48)) and _bool((ch <= 57))); end
 end)
 isHexDigit = (function (this, ch)
  do return (("0123456789abcdefABCDEF"):indexOf(ch) >= 0); end
@@ -30,16 +30,16 @@ isOctalDigit = (function (this, ch)
  do return (("01234567"):indexOf(ch) >= 0); end
 end)
 isWhiteSpace = (function (this, ch)
- do return ((((((ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) or ((ch >= 5760) and (_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch) >= 0))); end
+ do return (_bool((_bool((_bool((_bool((_bool((ch == 32)) or _bool((ch == 9)))) or _bool((ch == 11)))) or _bool((ch == 12)))) or _bool((ch == 160)))) or _bool((_bool((ch >= 5760)) and _bool((_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch) >= 0))))); end
 end)
 isLineTerminator = (function (this, ch)
- do return ((((ch == 10) or (ch == 13)) or (ch == 8232)) or (ch == 8233)); end
+ do return (_bool((_bool((_bool((ch == 10)) or _bool((ch == 13)))) or _bool((ch == 8232)))) or _bool((ch == 8233))); end
 end)
 isIdentifierStart = (function (this, ch)
- do return ((((((ch == 36) or (ch == 95)) or ((ch >= 65) and (ch <= 90))) or ((ch >= 97) and (ch <= 122))) or (ch == 92)) or ((ch >= 128) and Regex.NonAsciiIdentifierStart:test(String:fromCharCode(ch)))); end
+ do return (_bool((_bool((_bool((_bool((_bool((ch == 36)) or _bool((ch == 95)))) or _bool((_bool((ch >= 65)) and _bool((ch <= 90)))))) or _bool((_bool((ch >= 97)) and _bool((ch <= 122)))))) or _bool((ch == 92)))) or _bool((_bool((ch >= 128)) and _bool(Regex.NonAsciiIdentifierStart:test(String:fromCharCode(ch)))))); end
 end)
 isIdentifierPart = (function (this, ch)
- do return (((((((ch == 36) or (ch == 95)) or ((ch >= 65) and (ch <= 90))) or ((ch >= 97) and (ch <= 122))) or ((ch >= 48) and (ch <= 57))) or (ch == 92)) or ((ch >= 128) and Regex.NonAsciiIdentifierPart:test(String:fromCharCode(ch)))); end
+ do return (_bool((_bool((_bool((_bool((_bool((_bool((ch == 36)) or _bool((ch == 95)))) or _bool((_bool((ch >= 65)) and _bool((ch <= 90)))))) or _bool((_bool((ch >= 97)) and _bool((ch <= 122)))))) or _bool((_bool((ch >= 48)) and _bool((ch <= 57)))))) or _bool((ch == 92)))) or _bool((_bool((ch >= 128)) and _bool(Regex.NonAsciiIdentifierPart:test(String:fromCharCode(ch)))))); end
 end)
 isFutureReservedWord = (function (this, id)
 repeat
@@ -132,10 +132,10 @@ end
 until true
 end)
 isRestrictedWord = (function (this, id)
- do return ((id == "eval") or (id == "arguments")); end
+ do return (_bool((id == "eval")) or _bool((id == "arguments"))); end
 end)
 isKeyword = (function (this, id)
-if _bool((strict and isStrictModeReservedWord(_ENV,id))) then
+if _bool((_bool(strict) and _bool(isStrictModeReservedWord(_ENV,id)))) then
  do return true; end
 end
 
@@ -147,31 +147,31 @@ _into = true;
 goto _default
 end
 if _into or (id.length == 2) then
- do return (((id == "if") or (id == "in")) or (id == "do")); end
+ do return (_bool((_bool((id == "if")) or _bool((id == "in")))) or _bool((id == "do"))); end
 _into = true;
 end
 if _into or (id.length == 3) then
- do return (((((id == "var") or (id == "for")) or (id == "new")) or (id == "try")) or (id == "let")); end
+ do return (_bool((_bool((_bool((_bool((id == "var")) or _bool((id == "for")))) or _bool((id == "new")))) or _bool((id == "try")))) or _bool((id == "let"))); end
 _into = true;
 end
 if _into or (id.length == 4) then
- do return ((((((id == "this") or (id == "else")) or (id == "case")) or (id == "void")) or (id == "with")) or (id == "enum")); end
+ do return (_bool((_bool((_bool((_bool((_bool((id == "this")) or _bool((id == "else")))) or _bool((id == "case")))) or _bool((id == "void")))) or _bool((id == "with")))) or _bool((id == "enum"))); end
 _into = true;
 end
 if _into or (id.length == 5) then
- do return ((((((((id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) or (id == "class")) or (id == "super")); end
+ do return (_bool((_bool((_bool((_bool((_bool((_bool((_bool((id == "while")) or _bool((id == "break")))) or _bool((id == "catch")))) or _bool((id == "throw")))) or _bool((id == "const")))) or _bool((id == "yield")))) or _bool((id == "class")))) or _bool((id == "super"))); end
 _into = true;
 end
 if _into or (id.length == 6) then
- do return ((((((id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) or (id == "export")) or (id == "import")); end
+ do return (_bool((_bool((_bool((_bool((_bool((id == "return")) or _bool((id == "typeof")))) or _bool((id == "delete")))) or _bool((id == "switch")))) or _bool((id == "export")))) or _bool((id == "import"))); end
 _into = true;
 end
 if _into or (id.length == 7) then
- do return (((id == "default") or (id == "finally")) or (id == "extends")); end
+ do return (_bool((_bool((id == "default")) or _bool((id == "finally")))) or _bool((id == "extends"))); end
 _into = true;
 end
 if _into or (id.length == 8) then
- do return (((id == "function") or (id == "continue")) or (id == "debugger")); end
+ do return (_bool((_bool((id == "function")) or _bool((id == "continue")))) or _bool((id == "debugger"))); end
 _into = true;
 end
 if _into or (id.length == 10) then
@@ -234,7 +234,7 @@ _e((function () local _tmp = _obj({
 addComment(_ENV,"Line",comment,start,(index - 1),loc);
 end
 
-if _bool(((ch == 13) and (source:charCodeAt(index) == 10))) then
+if _bool((_bool((ch == 13)) and _bool((source:charCodeAt(index) == 10)))) then
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
 end
 
@@ -271,7 +271,7 @@ end
 while _bool((index < length)) do
 _e((function () local _tmp = source:charCodeAt(index); ch  = _tmp; return _tmp; end)());
 if _bool(isLineTerminator(_ENV,ch)) then
-if _bool(((ch == 13) and (source:charCodeAt((_add(index,1))) == 10))) then
+if _bool((_bool((ch == 13)) and _bool((source:charCodeAt((_add(index,1))) == 10)))) then
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
 end
 
@@ -321,7 +321,7 @@ if _bool(isWhiteSpace(_ENV,ch)) then
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
 elseif _bool(isLineTerminator(_ENV,ch)) then
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
-if _bool(((ch == 13) and (source:charCodeAt(index) == 10))) then
+if _bool((_bool((ch == 13)) and _bool((source:charCodeAt(index) == 10)))) then
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
 end
 
@@ -343,8 +343,8 @@ else
 break;
 end
 
-elseif _bool((start and (ch == 45))) then
-if _bool(((source:charCodeAt((_add(index,1))) == 45) and (source:charCodeAt((_add(index,2))) == 62))) then
+elseif _bool((_bool(start) and _bool((ch == 45)))) then
+if _bool((_bool((source:charCodeAt((_add(index,1))) == 45)) and _bool((source:charCodeAt((_add(index,2))) == 62)))) then
 _e((function () local _tmp = (_add(index,3)); index  = _tmp; return _tmp; end)());
 skipSingleLineComment(_ENV,3);
 else
@@ -376,7 +376,7 @@ code = 0;
 _e((function () local _tmp = (_bool((prefix == "u")) and {4} or {2})[1]; len  = _tmp; return _tmp; end)());
 _e((function () local _tmp = 0; i  = _tmp; return _tmp; end)());
 while _bool((i < len)) do
-if _bool(((index < length) and isHexDigit(_ENV,source[index]))) then
+if _bool((_bool((index < length)) and _bool(isHexDigit(_ENV,source[index])))) then
 _e((function () local _tmp = source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()]; ch  = _tmp; return _tmp; end)());
 _e((function () local _tmp = (_add((code * 16),("0123456789abcdef"):indexOf(ch:toLowerCase()))); code  = _tmp; return _tmp; end)());
 else
@@ -401,7 +401,7 @@ end
 
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
 _e((function () local _tmp = scanHexEscape(_ENV,"u"); ch  = _tmp; return _tmp; end)());
-if _bool(((not _bool(ch) or (ch == "\\")) or not _bool(isIdentifierStart(_ENV,ch:charCodeAt(0))))) then
+if _bool((_bool((_bool(not _bool(ch)) or _bool((ch == "\\")))) or _bool(not _bool(isIdentifierStart(_ENV,ch:charCodeAt(0)))))) then
 throwError(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
@@ -428,7 +428,7 @@ end
 
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
 _e((function () local _tmp = scanHexEscape(_ENV,"u"); ch  = _tmp; return _tmp; end)());
-if _bool(((not _bool(ch) or (ch == "\\")) or not _bool(isIdentifierPart(_ENV,ch:charCodeAt(0))))) then
+if _bool((_bool((_bool(not _bool(ch)) or _bool((ch == "\\")))) or _bool(not _bool(isIdentifierPart(_ENV,ch:charCodeAt(0)))))) then
 throwError(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
@@ -473,7 +473,7 @@ elseif _bool(isKeyword(_ENV,id)) then
 _e((function () local _tmp = Token.Keyword; type  = _tmp; return _tmp; end)());
 elseif _bool((id == "null")) then
 _e((function () local _tmp = Token.NullLiteral; type  = _tmp; return _tmp; end)());
-elseif _bool(((id == "true") or (id == "false"))) then
+elseif _bool((_bool((id == "true")) or _bool((id == "false")))) then
 _e((function () local _tmp = Token.BooleanLiteral; type  = _tmp; return _tmp; end)());
 else
 _e((function () local _tmp = Token.Identifier; type  = _tmp; return _tmp; end)());
@@ -665,7 +665,7 @@ _e((function () local _tmp = (_add(index,4)); index  = _tmp; return _tmp; end)()
 end
 
 _e((function () local _tmp = ch4:substr(0,3); ch3  = _tmp; return _tmp; end)());
-if _bool((((ch3 == ">>>") or (ch3 == "<<=")) or (ch3 == ">>="))) then
+if _bool((_bool((_bool((ch3 == ">>>")) or _bool((ch3 == "<<=")))) or _bool((ch3 == ">>=")))) then
 _e((function () local _tmp = (_add(index,3)); index  = _tmp; return _tmp; end)());
  do return _obj({
 ["type"] = Token.Punctuator,
@@ -678,7 +678,7 @@ _e((function () local _tmp = (_add(index,3)); index  = _tmp; return _tmp; end)()
 end
 
 _e((function () local _tmp = ch3:substr(0,2); ch2  = _tmp; return _tmp; end)());
-if _bool((((ch1 == ch2[1]) and (("+-<>&|"):indexOf(ch1) >= 0)) or (ch2 == "=>"))) then
+if _bool((_bool((_bool((ch1 == ch2[1])) and _bool((("+-<>&|"):indexOf(ch1) >= 0)))) or _bool((ch2 == "=>")))) then
 _e((function () local _tmp = (_add(index,2)); index  = _tmp; return _tmp; end)());
  do return _obj({
 ["type"] = Token.Punctuator,
@@ -751,7 +751,7 @@ _e((function () local _tmp = (_add(number,source[(function () local _tmp = index
 ::_continue::
 end
 
-if _bool((isIdentifierStart(_ENV,source:charCodeAt(index)) or isDecimalDigit(_ENV,source:charCodeAt(index)))) then
+if _bool((_bool(isIdentifierStart(_ENV,source:charCodeAt(index))) or _bool(isDecimalDigit(_ENV,source:charCodeAt(index))))) then
 throwError(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
@@ -770,14 +770,14 @@ end)
 scanNumericLiteral = (function (this)
 local ch,start,number;
 _e((function () local _tmp = source[index]; ch  = _tmp; return _tmp; end)());
-assert(_ENV,(isDecimalDigit(_ENV,ch:charCodeAt(0)) or (ch == ".")),"Numeric literal must start with a decimal digit or a decimal point");
+assert(_ENV,(_bool(isDecimalDigit(_ENV,ch:charCodeAt(0))) or _bool((ch == "."))),"Numeric literal must start with a decimal digit or a decimal point");
 _e((function () local _tmp = index; start  = _tmp; return _tmp; end)());
 _e((function () local _tmp = ""; number  = _tmp; return _tmp; end)());
 if _bool((ch ~= ".")) then
 _e((function () local _tmp = source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()]; number  = _tmp; return _tmp; end)());
 _e((function () local _tmp = source[index]; ch  = _tmp; return _tmp; end)());
 if _bool((number == "0")) then
-if _bool(((ch == "x") or (ch == "X"))) then
+if _bool((_bool((ch == "x")) or _bool((ch == "X")))) then
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
  do return scanHexLiteral(_ENV,start); end
 end
@@ -786,7 +786,7 @@ if _bool(isOctalDigit(_ENV,ch)) then
  do return scanOctalLiteral(_ENV,start); end
 end
 
-if _bool((ch and isDecimalDigit(_ENV,ch:charCodeAt(0)))) then
+if _bool((_bool(ch) and _bool(isDecimalDigit(_ENV,ch:charCodeAt(0))))) then
 throwError(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
@@ -812,10 +812,10 @@ end
 _e((function () local _tmp = source[index]; ch  = _tmp; return _tmp; end)());
 end
 
-if _bool(((ch == "e") or (ch == "E"))) then
+if _bool((_bool((ch == "e")) or _bool((ch == "E")))) then
 _e((function () local _tmp = (_add(number,source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()])); number  = _tmp; return _tmp; end)());
 _e((function () local _tmp = source[index]; ch  = _tmp; return _tmp; end)());
-if _bool(((ch == "+") or (ch == "-"))) then
+if _bool((_bool((ch == "+")) or _bool((ch == "-")))) then
 _e((function () local _tmp = (_add(number,source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()])); number  = _tmp; return _tmp; end)());
 end
 
@@ -855,7 +855,7 @@ octal = false;
 _e((function () local _tmp = lineNumber; startLineNumber  = _tmp; return _tmp; end)());
 _e((function () local _tmp = lineStart; startLineStart  = _tmp; return _tmp; end)());
 _e((function () local _tmp = source[index]; quote  = _tmp; return _tmp; end)());
-assert(_ENV,((quote == "'") or (quote == "\"")),"String literal must starts with a quote");
+assert(_ENV,(_bool((quote == "'")) or _bool((quote == "\""))),"String literal must starts with a quote");
 _e((function () local _tmp = index; start  = _tmp; return _tmp; end)());
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
 while _bool((index < length)) do
@@ -865,7 +865,7 @@ _e((function () local _tmp = ""; quote  = _tmp; return _tmp; end)());
 break;
 elseif _bool((ch == "\\")) then
 _e((function () local _tmp = source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()]; ch  = _tmp; return _tmp; end)());
-if _bool((not _bool(ch) or not _bool(isLineTerminator(_ENV,ch:charCodeAt(0))))) then
+if _bool((_bool(not _bool(ch)) or _bool(not _bool(isLineTerminator(_ENV,ch:charCodeAt(0)))))) then
 repeat
 local _into = false;
 local _cases = {["u"] = true,["x"] = true,["n"] = true,["r"] = true,["t"] = true,["b"] = true,["f"] = true,["v"] = true};
@@ -928,10 +928,10 @@ if _bool((code ~= 0)) then
 _e((function () local _tmp = true; octal  = _tmp; return _tmp; end)());
 end
 
-if _bool(((index < length) and isOctalDigit(_ENV,source[index]))) then
+if _bool((_bool((index < length)) and _bool(isOctalDigit(_ENV,source[index])))) then
 _e((function () local _tmp = true; octal  = _tmp; return _tmp; end)());
 _e((function () local _tmp = (_add((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()]))); code  = _tmp; return _tmp; end)());
-if _bool((((("0123"):indexOf(ch) >= 0) and (index < length)) and isOctalDigit(_ENV,source[index]))) then
+if _bool((_bool((_bool((("0123"):indexOf(ch) >= 0)) and _bool((index < length)))) and _bool(isOctalDigit(_ENV,source[index])))) then
 _e((function () local _tmp = (_add((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()]))); code  = _tmp; return _tmp; end)());
 end
 
@@ -948,7 +948,7 @@ end
 until true
 else
 _e((function () local _tmp = _add(lineNumber, 1); lineNumber = _tmp; return _tmp; end)());
-if _bool(((ch == "\13") and (source[index] == "\10"))) then
+if _bool((_bool((ch == "\13")) and _bool((source[index] == "\10")))) then
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
 end
 
@@ -1064,7 +1064,7 @@ break;
 end
 
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
-if _bool(((ch == "\\") and (index < length))) then
+if _bool((_bool((ch == "\\")) and _bool((index < length)))) then
 _e((function () local _tmp = source[index]; ch  = _tmp; return _tmp; end)());
 if _bool((ch == "u")) then
 _e((function () local _tmp = _add(index, 1); index = _tmp; return _tmp; end)());
@@ -1151,8 +1151,8 @@ _e((function () local _tmp = _obj({
 if _bool(not _bool(extra.tokenize)) then
 if _bool((extra.tokens.length > 0)) then
 _e((function () local _tmp = extra.tokens[(extra.tokens.length - 1)]; token  = _tmp; return _tmp; end)());
-if _bool(((token.range[0] == pos) and (token.type == "Punctuator"))) then
-if _bool(((token.value == "/") or (token.value == "/="))) then
+if _bool((_bool((token.range[0] == pos)) and _bool((token.type == "Punctuator")))) then
+if _bool((_bool((token.value == "/")) or _bool((token.value == "/=")))) then
 extra.tokens:pop();
 end
 
@@ -1171,7 +1171,7 @@ end
  do return regex; end
 end)
 isIdentifierName = (function (this, token)
- do return ((((token.type == Token.Identifier) or (token.type == Token.Keyword)) or (token.type == Token.BooleanLiteral)) or (token.type == Token.NullLiteral)); end
+ do return (_bool((_bool((_bool((token.type == Token.Identifier)) or _bool((token.type == Token.Keyword)))) or _bool((token.type == Token.BooleanLiteral)))) or _bool((token.type == Token.NullLiteral))); end
 end)
 advanceSlash = (function (this)
 local checkToken,prevToken;
@@ -1187,7 +1187,7 @@ end
 
 if _bool((prevToken.value == ")")) then
 _e((function () local _tmp = extra.tokens[(extra.openParenToken - 1)]; checkToken  = _tmp; return _tmp; end)());
-if _bool(((checkToken and (checkToken.type == "Keyword")) and ((((checkToken.value == "if") or (checkToken.value == "while")) or (checkToken.value == "for")) or (checkToken.value == "with")))) then
+if _bool((_bool((_bool(checkToken) and _bool((checkToken.type == "Keyword")))) and _bool((_bool((_bool((_bool((checkToken.value == "if")) or _bool((checkToken.value == "while")))) or _bool((checkToken.value == "for")))) or _bool((checkToken.value == "with")))))) then
  do return collectRegex(_ENV); end
 end
 
@@ -1195,13 +1195,13 @@ end
 end
 
 if _bool((prevToken.value == "}")) then
-if _bool((extra.tokens[(extra.openCurlyToken - 3)] and (extra.tokens[(extra.openCurlyToken - 3)].type == "Keyword"))) then
+if _bool((_bool(extra.tokens[(extra.openCurlyToken - 3)]) and _bool((extra.tokens[(extra.openCurlyToken - 3)].type == "Keyword")))) then
 _e((function () local _tmp = extra.tokens[(extra.openCurlyToken - 4)]; checkToken  = _tmp; return _tmp; end)());
 if _bool(not _bool(checkToken)) then
  do return scanPunctuator(_ENV); end
 end
 
-elseif _bool((extra.tokens[(extra.openCurlyToken - 4)] and (extra.tokens[(extra.openCurlyToken - 4)].type == "Keyword"))) then
+elseif _bool((_bool(extra.tokens[(extra.openCurlyToken - 4)]) and _bool((extra.tokens[(extra.openCurlyToken - 4)].type == "Keyword")))) then
 _e((function () local _tmp = extra.tokens[(extra.openCurlyToken - 5)]; checkToken  = _tmp; return _tmp; end)());
 if _bool(not _bool(checkToken)) then
  do return collectRegex(_ENV); end
@@ -1245,11 +1245,11 @@ if _bool(isIdentifierStart(_ENV,ch)) then
  do return scanIdentifier(_ENV); end
 end
 
-if _bool((((ch == 40) or (ch == 41)) or (ch == 59))) then
+if _bool((_bool((_bool((ch == 40)) or _bool((ch == 41)))) or _bool((ch == 59)))) then
  do return scanPunctuator(_ENV); end
 end
 
-if _bool(((ch == 39) or (ch == 34))) then
+if _bool((_bool((ch == 39)) or _bool((ch == 34)))) then
  do return scanStringLiteral(_ENV); end
 end
 
@@ -1265,7 +1265,7 @@ if _bool(isDecimalDigit(_ENV,ch)) then
  do return scanNumericLiteral(_ENV); end
 end
 
-if _bool((extra.tokenize and (ch == 47))) then
+if _bool((_bool(extra.tokenize) and _bool((ch == 47)))) then
  do return advanceSlash(_ENV); end
 end
 
@@ -1404,7 +1404,7 @@ end
 if _bool((token.type == Token.Keyword)) then
 if _bool(isFutureReservedWord(_ENV,token.value)) then
 throwError(_ENV,token,Messages.UnexpectedReserved);
-elseif _bool((strict and isStrictModeReservedWord(_ENV,token.value))) then
+elseif _bool((_bool(strict) and _bool(isStrictModeReservedWord(_ENV,token.value)))) then
 throwErrorTolerant(_ENV,token,Messages.StrictReservedWord);
 do return end
 end
@@ -1417,7 +1417,7 @@ end)
 expect = (function (this, value)
 local token;
 token = lex(_ENV);
-if _bool(((token.type ~= Token.Punctuator) or (token.value ~= value))) then
+if _bool((_bool((token.type ~= Token.Punctuator)) or _bool((token.value ~= value)))) then
 throwUnexpected(_ENV,token);
 end
 
@@ -1425,16 +1425,16 @@ end)
 expectKeyword = (function (this, keyword)
 local token;
 token = lex(_ENV);
-if _bool(((token.type ~= Token.Keyword) or (token.value ~= keyword))) then
+if _bool((_bool((token.type ~= Token.Keyword)) or _bool((token.value ~= keyword)))) then
 throwUnexpected(_ENV,token);
 end
 
 end)
 match = (function (this, value)
- do return ((lookahead.type == Token.Punctuator) and (lookahead.value == value)); end
+ do return (_bool((lookahead.type == Token.Punctuator)) and _bool((lookahead.value == value))); end
 end)
 matchKeyword = (function (this, keyword)
- do return ((lookahead.type == Token.Keyword) and (lookahead.value == keyword)); end
+ do return (_bool((lookahead.type == Token.Keyword)) and _bool((lookahead.value == keyword))); end
 end)
 matchAssign = (function (this)
 local op;
@@ -1443,11 +1443,11 @@ if _bool((lookahead.type ~= Token.Punctuator)) then
 end
 
 _e((function () local _tmp = lookahead.value; op  = _tmp; return _tmp; end)());
- do return ((((((((((((op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&=")) or (op == "^=")) or (op == "|=")); end
+ do return (_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) or _bool((op == "*=")))) or _bool((op == "/=")))) or _bool((op == "%=")))) or _bool((op == "+=")))) or _bool((op == "-=")))) or _bool((op == "<<=")))) or _bool((op == ">>=")))) or _bool((op == ">>>=")))) or _bool((op == "&=")))) or _bool((op == "^=")))) or _bool((op == "|="))); end
 end)
 consumeSemicolon = (function (this)
 local line;
-if _bool(((source:charCodeAt(index) == 59) or match(_ENV,";"))) then
+if _bool((_bool((source:charCodeAt(index) == 59)) or _bool(match(_ENV,";")))) then
 lex(_ENV);
 do return end
 end
@@ -1458,13 +1458,13 @@ if _bool((lineNumber ~= line)) then
 do return end
 end
 
-if _bool(((lookahead.type ~= Token.EOF) and not _bool(match(_ENV,"}")))) then
+if _bool((_bool((lookahead.type ~= Token.EOF)) and _bool(not _bool(match(_ENV,"}"))))) then
 throwUnexpected(_ENV,lookahead);
 end
 
 end)
 isLeftHandSide = (function (this, expr)
- do return ((expr.type == Syntax.Identifier) or (expr.type == Syntax.MemberExpression)); end
+ do return (_bool((expr.type == Syntax.Identifier)) or _bool((expr.type == Syntax.MemberExpression))); end
 end)
 parseArrayInitialiser = (function (this)
 local startToken,elements;
@@ -1494,7 +1494,7 @@ local startToken,body,previousStrict;
 _e((function () local _tmp = strict; previousStrict  = _tmp; return _tmp; end)());
 _e((function () local _tmp = lookahead; startToken  = _tmp; return _tmp; end)());
 _e((function () local _tmp = parseFunctionSourceElements(_ENV); body  = _tmp; return _tmp; end)());
-if _bool(((first and strict) and isRestrictedWord(_ENV,param[0].name))) then
+if _bool((_bool((_bool(first) and _bool(strict))) and _bool(isRestrictedWord(_ENV,param[0].name)))) then
 throwErrorTolerant(_ENV,first,Messages.StrictParamName);
 end
 
@@ -1505,8 +1505,8 @@ parseObjectPropertyKey = (function (this)
 local startToken,token;
 _e((function () local _tmp = lookahead; startToken  = _tmp; return _tmp; end)());
 _e((function () local _tmp = lex(_ENV); token  = _tmp; return _tmp; end)());
-if _bool(((token.type == Token.StringLiteral) or (token.type == Token.NumericLiteral))) then
-if _bool((strict and token.octal)) then
+if _bool((_bool((token.type == Token.StringLiteral)) or _bool((token.type == Token.NumericLiteral)))) then
+if _bool((_bool(strict) and _bool(token.octal))) then
 throwErrorTolerant(_ENV,token,Messages.StrictOctalLiteral);
 end
 
@@ -1521,7 +1521,7 @@ _e((function () local _tmp = lookahead; token  = _tmp; return _tmp; end)());
 _e((function () local _tmp = lookahead; startToken  = _tmp; return _tmp; end)());
 if _bool((token.type == Token.Identifier)) then
 _e((function () local _tmp = parseObjectPropertyKey(_ENV); id  = _tmp; return _tmp; end)());
-if _bool(((token.value == "get") and not _bool(match(_ENV,":")))) then
+if _bool((_bool((token.value == "get")) and _bool(not _bool(match(_ENV,":"))))) then
 _e((function () local _tmp = parseObjectPropertyKey(_ENV); key  = _tmp; return _tmp; end)());
 expect(_ENV,"(");
 expect(_ENV,")");
@@ -1529,7 +1529,7 @@ _e((function () local _tmp = parsePropertyFunction(_ENV,_arr({},0)); value  = _t
  do return delegate:markEnd(delegate:createProperty("get",key,value),startToken); end
 end
 
-if _bool(((token.value == "set") and not _bool(match(_ENV,":")))) then
+if _bool((_bool((token.value == "set")) and _bool(not _bool(match(_ENV,":"))))) then
 _e((function () local _tmp = parseObjectPropertyKey(_ENV); key  = _tmp; return _tmp; end)());
 expect(_ENV,"(");
 _e((function () local _tmp = lookahead; token  = _tmp; return _tmp; end)());
@@ -1551,7 +1551,7 @@ _e((function () local _tmp = parseAssignmentExpression(_ENV); value  = _tmp; ret
  do return delegate:markEnd(delegate:createProperty("init",id,value),startToken); end
 end
 
-if _bool(((token.type == Token.EOF) or (token.type == Token.Punctuator))) then
+if _bool((_bool((token.type == Token.EOF)) or _bool((token.type == Token.Punctuator)))) then
 throwUnexpected(_ENV,token);
 else
 _e((function () local _tmp = parseObjectPropertyKey(_ENV); key  = _tmp; return _tmp; end)());
@@ -1582,7 +1582,7 @@ _e((function () local _tmp = (_bool((property.kind == "init")) and {PropertyKind
 _e((function () local _tmp = (_add("$",name)); key  = _tmp; return _tmp; end)());
 if _bool(Object.prototype.hasOwnProperty:call(map,key)) then
 if _bool((map[key] == PropertyKind.Data)) then
-if _bool((strict and (kind == PropertyKind.Data))) then
+if _bool((_bool(strict) and _bool((kind == PropertyKind.Data)))) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictDuplicateProperty);
@@ -1646,8 +1646,8 @@ _e((function () local _tmp = lookahead.type; type  = _tmp; return _tmp; end)());
 _e((function () local _tmp = lookahead; startToken  = _tmp; return _tmp; end)());
 if _bool((type == Token.Identifier)) then
 _e((function () local _tmp = delegate:createIdentifier(lex(_ENV).value); expr  = _tmp; return _tmp; end)());
-elseif _bool(((type == Token.StringLiteral) or (type == Token.NumericLiteral))) then
-if _bool((strict and lookahead.octal)) then
+elseif _bool((_bool((type == Token.StringLiteral)) or _bool((type == Token.NumericLiteral)))) then
+if _bool((_bool(strict) and _bool(lookahead.octal))) then
 throwErrorTolerant(_ENV,lookahead,Messages.StrictOctalLiteral);
 end
 
@@ -1672,7 +1672,7 @@ elseif _bool((type == Token.NullLiteral)) then
 _e((function () local _tmp = lex(_ENV); token  = _tmp; return _tmp; end)());
 _e((function () local _tmp = null; token.value  = _tmp; return _tmp; end)());
 _e((function () local _tmp = delegate:createLiteral(token); expr  = _tmp; return _tmp; end)());
-elseif _bool((match(_ENV,"/") or match(_ENV,"/="))) then
+elseif _bool((_bool(match(_ENV,"/")) or _bool(match(_ENV,"/=")))) then
 if _bool((_type(extra.tokens) ~= "undefined")) then
 _e((function () local _tmp = delegate:createLiteral(collectRegex(_ENV)); expr  = _tmp; return _tmp; end)());
 else
@@ -1767,7 +1767,7 @@ _e((function () local _tmp = lookahead; startToken  = _tmp; return _tmp; end)())
 _e((function () local _tmp = state.allowIn; previousAllowIn  = _tmp; return _tmp; end)());
 _e((function () local _tmp = (_bool(matchKeyword(_ENV,"new")) and {parseNewExpression(_ENV)} or {parsePrimaryExpression(_ENV)})[1]; expr  = _tmp; return _tmp; end)());
 _e((function () local _tmp = previousAllowIn; state.allowIn  = _tmp; return _tmp; end)());
-while _bool((match(_ENV,".") or match(_ENV,"["))) do
+while _bool((_bool(match(_ENV,".")) or _bool(match(_ENV,"[")))) do
 if _bool(match(_ENV,"[")) then
 _e((function () local _tmp = parseComputedMember(_ENV); property  = _tmp; return _tmp; end)());
 _e((function () local _tmp = delegate:createMemberExpression("[",expr,property); expr  = _tmp; return _tmp; end)());
@@ -1787,8 +1787,8 @@ local startToken,token,expr;
 startToken = lookahead;
 _e((function () local _tmp = parseLeftHandSideExpressionAllowCall(_ENV); expr  = _tmp; return _tmp; end)());
 if _bool((lookahead.type == Token.Punctuator)) then
-if _bool(((match(_ENV,"++") or match(_ENV,"--")) and not _bool(peekLineTerminator(_ENV)))) then
-if _bool(((strict and (expr.type == Syntax.Identifier)) and isRestrictedWord(_ENV,expr.name))) then
+if _bool((_bool((_bool(match(_ENV,"++")) or _bool(match(_ENV,"--")))) and _bool(not _bool(peekLineTerminator(_ENV))))) then
+if _bool((_bool((_bool(strict) and _bool((expr.type == Syntax.Identifier)))) and _bool(isRestrictedWord(_ENV,expr.name)))) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictLHSPostfix);
@@ -1810,13 +1810,13 @@ end
 end)
 parseUnaryExpression = (function (this)
 local startToken,expr,token;
-if _bool(((lookahead.type ~= Token.Punctuator) and (lookahead.type ~= Token.Keyword))) then
+if _bool((_bool((lookahead.type ~= Token.Punctuator)) and _bool((lookahead.type ~= Token.Keyword)))) then
 _e((function () local _tmp = parsePostfixExpression(_ENV); expr  = _tmp; return _tmp; end)());
-elseif _bool((match(_ENV,"++") or match(_ENV,"--"))) then
+elseif _bool((_bool(match(_ENV,"++")) or _bool(match(_ENV,"--")))) then
 _e((function () local _tmp = lookahead; startToken  = _tmp; return _tmp; end)());
 _e((function () local _tmp = lex(_ENV); token  = _tmp; return _tmp; end)());
 _e((function () local _tmp = parseUnaryExpression(_ENV); expr  = _tmp; return _tmp; end)());
-if _bool(((strict and (expr.type == Syntax.Identifier)) and isRestrictedWord(_ENV,expr.name))) then
+if _bool((_bool((_bool(strict) and _bool((expr.type == Syntax.Identifier)))) and _bool(isRestrictedWord(_ENV,expr.name)))) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictLHSPrefix);
@@ -1830,19 +1830,19 @@ end
 
 _e((function () local _tmp = delegate:createUnaryExpression(token.value,expr); expr  = _tmp; return _tmp; end)());
 _e((function () local _tmp = delegate:markEnd(expr,startToken); expr  = _tmp; return _tmp; end)());
-elseif _bool((((match(_ENV,"+") or match(_ENV,"-")) or match(_ENV,"~")) or match(_ENV,"!"))) then
+elseif _bool((_bool((_bool((_bool(match(_ENV,"+")) or _bool(match(_ENV,"-")))) or _bool(match(_ENV,"~")))) or _bool(match(_ENV,"!")))) then
 _e((function () local _tmp = lookahead; startToken  = _tmp; return _tmp; end)());
 _e((function () local _tmp = lex(_ENV); token  = _tmp; return _tmp; end)());
 _e((function () local _tmp = parseUnaryExpression(_ENV); expr  = _tmp; return _tmp; end)());
 _e((function () local _tmp = delegate:createUnaryExpression(token.value,expr); expr  = _tmp; return _tmp; end)());
 _e((function () local _tmp = delegate:markEnd(expr,startToken); expr  = _tmp; return _tmp; end)());
-elseif _bool(((matchKeyword(_ENV,"delete") or matchKeyword(_ENV,"void")) or matchKeyword(_ENV,"typeof"))) then
+elseif _bool((_bool((_bool(matchKeyword(_ENV,"delete")) or _bool(matchKeyword(_ENV,"void")))) or _bool(matchKeyword(_ENV,"typeof")))) then
 _e((function () local _tmp = lookahead; startToken  = _tmp; return _tmp; end)());
 _e((function () local _tmp = lex(_ENV); token  = _tmp; return _tmp; end)());
 _e((function () local _tmp = parseUnaryExpression(_ENV); expr  = _tmp; return _tmp; end)());
 _e((function () local _tmp = delegate:createUnaryExpression(token.value,expr); expr  = _tmp; return _tmp; end)());
 _e((function () local _tmp = delegate:markEnd(expr,startToken); expr  = _tmp; return _tmp; end)());
-if _bool(((strict and (expr.operator == "delete")) and (expr.argument.type == Syntax.Identifier))) then
+if _bool((_bool((_bool(strict) and _bool((expr.operator == "delete")))) and _bool((expr.argument.type == Syntax.Identifier)))) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictDelete);
@@ -1857,7 +1857,7 @@ end)
 binaryPrecedence = (function (this, token, allowIn)
 local prec;
 prec = 0;
-if _bool(((token.type ~= Token.Punctuator) and (token.type ~= Token.Keyword))) then
+if _bool((_bool((token.type ~= Token.Punctuator)) and _bool((token.type ~= Token.Keyword)))) then
  do return 0; end
 end
 
@@ -1995,7 +1995,7 @@ _e((function () local _tmp = _arr({[0]=marker,lookahead},2); markers  = _tmp; re
 _e((function () local _tmp = parseUnaryExpression(_ENV); right  = _tmp; return _tmp; end)());
 _e((function () local _tmp = _arr({[0]=left,token,right},3); stack  = _tmp; return _tmp; end)());
 while _bool(((function () local _tmp = binaryPrecedence(_ENV,lookahead,state.allowIn); prec  = _tmp; return _tmp; end)() > 0)) do
-while _bool(((stack.length > 2) and (prec <= stack[(stack.length - 2)].prec))) do
+while _bool((_bool((stack.length > 2)) and _bool((prec <= stack[(stack.length - 2)].prec)))) do
 _e((function () local _tmp = stack:pop(); right  = _tmp; return _tmp; end)());
 _e((function () local _tmp = stack:pop().value; operator  = _tmp; return _tmp; end)());
 _e((function () local _tmp = stack:pop(); left  = _tmp; return _tmp; end)());
@@ -2059,7 +2059,7 @@ throwErrorTolerant(_ENV,_obj({
 }),Messages.InvalidLHSInAssignment);
 end
 
-if _bool(((strict and (left.type == Syntax.Identifier)) and isRestrictedWord(_ENV,left.name))) then
+if _bool((_bool((_bool(strict) and _bool((left.type == Syntax.Identifier)))) and _bool(isRestrictedWord(_ENV,left.name)))) then
 throwErrorTolerant(_ENV,token,Messages.StrictLHSAssignment);
 end
 
@@ -2133,7 +2133,7 @@ local startToken,id,init;
 init = null;
 _e((function () local _tmp = lookahead; startToken  = _tmp; return _tmp; end)());
 _e((function () local _tmp = parseVariableIdentifier(_ENV); id  = _tmp; return _tmp; end)());
-if _bool((strict and isRestrictedWord(_ENV,id.name))) then
+if _bool((_bool(strict) and _bool(isRestrictedWord(_ENV,id.name)))) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictVarName);
@@ -2249,11 +2249,11 @@ expect(_ENV,"(");
 if _bool(match(_ENV,";")) then
 lex(_ENV);
 else
-if _bool((matchKeyword(_ENV,"var") or matchKeyword(_ENV,"let"))) then
+if _bool((_bool(matchKeyword(_ENV,"var")) or _bool(matchKeyword(_ENV,"let")))) then
 _e((function () local _tmp = false; state.allowIn  = _tmp; return _tmp; end)());
 _e((function () local _tmp = parseForVariableDeclaration(_ENV); init  = _tmp; return _tmp; end)());
 _e((function () local _tmp = true; state.allowIn  = _tmp; return _tmp; end)());
-if _bool(((init.declarations.length == 1) and matchKeyword(_ENV,"in"))) then
+if _bool((_bool((init.declarations.length == 1)) and _bool(matchKeyword(_ENV,"in")))) then
 lex(_ENV);
 _e((function () local _tmp = init; left  = _tmp; return _tmp; end)());
 _e((function () local _tmp = parseExpression(_ENV); right  = _tmp; return _tmp; end)());
@@ -2341,7 +2341,7 @@ end
 end
 
 consumeSemicolon(_ENV);
-if _bool(((label == null) and not _bool(state.inIteration))) then
+if _bool((_bool((label == null)) and _bool(not _bool(state.inIteration)))) then
 throwError(_ENV,_obj({
 
 }),Messages.IllegalContinue);
@@ -2355,7 +2355,7 @@ label = null;
 expectKeyword(_ENV,"break");
 if _bool((source:charCodeAt(index) == 59)) then
 lex(_ENV);
-if _bool(not _bool((state.inIteration or state.inSwitch))) then
+if _bool(not _bool((_bool(state.inIteration) or _bool(state.inSwitch)))) then
 throwError(_ENV,_obj({
 
 }),Messages.IllegalBreak);
@@ -2365,7 +2365,7 @@ end
 end
 
 if _bool(peekLineTerminator(_ENV)) then
-if _bool(not _bool((state.inIteration or state.inSwitch))) then
+if _bool(not _bool((_bool(state.inIteration) or _bool(state.inSwitch)))) then
 throwError(_ENV,_obj({
 
 }),Messages.IllegalBreak);
@@ -2386,7 +2386,7 @@ end
 end
 
 consumeSemicolon(_ENV);
-if _bool(((label == null) and not _bool((state.inIteration or state.inSwitch)))) then
+if _bool((_bool((label == null)) and _bool(not _bool((_bool(state.inIteration) or _bool(state.inSwitch)))))) then
 throwError(_ENV,_obj({
 
 }),Messages.IllegalBreak);
@@ -2418,7 +2418,7 @@ if _bool(peekLineTerminator(_ENV)) then
 end
 
 if _bool(not _bool(match(_ENV,";"))) then
-if _bool((not _bool(match(_ENV,"}")) and (lookahead.type ~= Token.EOF))) then
+if _bool((_bool(not _bool(match(_ENV,"}"))) and _bool((lookahead.type ~= Token.EOF)))) then
 _e((function () local _tmp = parseExpression(_ENV); argument  = _tmp; return _tmp; end)());
 end
 
@@ -2457,7 +2457,7 @@ end
 
 expect(_ENV,":");
 while _bool((index < length)) do
-if _bool(((match(_ENV,"}") or matchKeyword(_ENV,"default")) or matchKeyword(_ENV,"case"))) then
+if _bool((_bool((_bool(match(_ENV,"}")) or _bool(matchKeyword(_ENV,"default")))) or _bool(matchKeyword(_ENV,"case")))) then
 break;
 end
 
@@ -2531,7 +2531,7 @@ throwUnexpected(_ENV,lookahead);
 end
 
 _e((function () local _tmp = parseVariableIdentifier(_ENV); param  = _tmp; return _tmp; end)());
-if _bool((strict and isRestrictedWord(_ENV,param.name))) then
+if _bool((_bool(strict) and _bool(isRestrictedWord(_ENV,param.name)))) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictCatchVariable);
@@ -2556,7 +2556,7 @@ lex(_ENV);
 _e((function () local _tmp = parseBlock(_ENV); finalizer  = _tmp; return _tmp; end)());
 end
 
-if _bool(((handlers.length == 0) and not _bool(finalizer))) then
+if _bool((_bool((handlers.length == 0)) and _bool(not _bool(finalizer)))) then
 throwError(_ENV,_obj({
 
 }),Messages.NoCatchOrFinally);
@@ -2576,7 +2576,7 @@ if _bool((type == Token.EOF)) then
 throwUnexpected(_ENV,lookahead);
 end
 
-if _bool(((type == Token.Punctuator) and (lookahead.value == "{"))) then
+if _bool((_bool((type == Token.Punctuator)) and _bool((lookahead.value == "{")))) then
  do return parseBlock(_ENV); end
 end
 
@@ -2678,7 +2678,7 @@ until true
 end
 
 _e((function () local _tmp = parseExpression(_ENV); expr  = _tmp; return _tmp; end)());
-if _bool(((expr.type == Syntax.Identifier) and match(_ENV,":"))) then
+if _bool((_bool((expr.type == Syntax.Identifier)) and _bool(match(_ENV,":")))) then
 lex(_ENV);
 _e((function () local _tmp = (_add("$",expr.name)); key  = _tmp; return _tmp; end)());
 if _bool(Object.prototype.hasOwnProperty:call(state.labelSet,key)) then
@@ -2722,7 +2722,7 @@ throwErrorTolerant(_ENV,firstRestricted,Messages.StrictOctalLiteral);
 end
 
 else
-if _bool((not _bool(firstRestricted) and token.octal)) then
+if _bool((_bool(not _bool(firstRestricted)) and _bool(token.octal))) then
 _e((function () local _tmp = token; firstRestricted  = _tmp; return _tmp; end)());
 end
 
@@ -2852,11 +2852,11 @@ end
 
 _e((function () local _tmp = strict; previousStrict  = _tmp; return _tmp; end)());
 _e((function () local _tmp = parseFunctionSourceElements(_ENV); body  = _tmp; return _tmp; end)());
-if _bool((strict and firstRestricted)) then
+if _bool((_bool(strict) and _bool(firstRestricted))) then
 throwError(_ENV,firstRestricted,message);
 end
 
-if _bool((strict and stricted)) then
+if _bool((_bool(strict) and _bool(stricted))) then
 throwErrorTolerant(_ENV,stricted,message);
 end
 
@@ -2900,11 +2900,11 @@ end
 
 _e((function () local _tmp = strict; previousStrict  = _tmp; return _tmp; end)());
 _e((function () local _tmp = parseFunctionSourceElements(_ENV); body  = _tmp; return _tmp; end)());
-if _bool((strict and firstRestricted)) then
+if _bool((_bool(strict) and _bool(firstRestricted))) then
 throwError(_ENV,firstRestricted,message);
 end
 
-if _bool((strict and stricted)) then
+if _bool((_bool(strict) and _bool(stricted))) then
 throwErrorTolerant(_ENV,stricted,message);
 end
 
@@ -2968,7 +2968,7 @@ throwErrorTolerant(_ENV,firstRestricted,Messages.StrictOctalLiteral);
 end
 
 else
-if _bool((not _bool(firstRestricted) and token.octal)) then
+if _bool((_bool(not _bool(firstRestricted)) and _bool(token.octal))) then
 _e((function () local _tmp = token; firstRestricted  = _tmp; return _tmp; end)());
 end
 
@@ -3025,7 +3025,7 @@ end)
 tokenize = (function (this, code, options)
 local tokens,token,toString;
 _e((function () local _tmp = String; toString  = _tmp; return _tmp; end)());
-if _bool(((_type(code) ~= "string") and not _bool((_instanceof(code,String))))) then
+if _bool((_bool((_type(code) ~= "string")) and _bool(not _bool((_instanceof(code,String)))))) then
 _e((function () local _tmp = toString(_ENV,code); code  = _tmp; return _tmp; end)());
 end
 
@@ -3049,21 +3049,21 @@ _e((function () local _tmp = _obj({
 _e((function () local _tmp = _obj({
 
 }); extra  = _tmp; return _tmp; end)());
-_e((function () local _tmp = (options or _obj({
+_e((function () local _tmp = (_bool(options) or _bool(_obj({
 
-})); options  = _tmp; return _tmp; end)());
+}))); options  = _tmp; return _tmp; end)());
 _e((function () local _tmp = true; options.tokens  = _tmp; return _tmp; end)());
 _e((function () local _tmp = _arr({},0); extra.tokens  = _tmp; return _tmp; end)());
 _e((function () local _tmp = true; extra.tokenize  = _tmp; return _tmp; end)());
 _e((function () local _tmp = -_tonum(1); extra.openParenToken  = _tmp; return _tmp; end)());
 _e((function () local _tmp = -_tonum(1); extra.openCurlyToken  = _tmp; return _tmp; end)());
-_e((function () local _tmp = ((_type(options.range) == "boolean") and options.range); extra.range  = _tmp; return _tmp; end)());
-_e((function () local _tmp = ((_type(options.loc) == "boolean") and options.loc); extra.loc  = _tmp; return _tmp; end)());
-if _bool(((_type(options.comment) == "boolean") and options.comment)) then
+_e((function () local _tmp = (_bool((_type(options.range) == "boolean")) and _bool(options.range)); extra.range  = _tmp; return _tmp; end)());
+_e((function () local _tmp = (_bool((_type(options.loc) == "boolean")) and _bool(options.loc)); extra.loc  = _tmp; return _tmp; end)());
+if _bool((_bool((_type(options.comment) == "boolean")) and _bool(options.comment))) then
 _e((function () local _tmp = _arr({},0); extra.comments  = _tmp; return _tmp; end)());
 end
 
-if _bool(((_type(options.tolerant) == "boolean") and options.tolerant)) then
+if _bool((_bool((_type(options.tolerant) == "boolean")) and _bool(options.tolerant))) then
 _e((function () local _tmp = _arr({},0); extra.errors  = _tmp; return _tmp; end)());
 end
 
@@ -3131,7 +3131,7 @@ end)
 parse = (function (this, code, options)
 local toString,program;
 _e((function () local _tmp = String; toString  = _tmp; return _tmp; end)());
-if _bool(((_type(code) ~= "string") and not _bool((_instanceof(code,String))))) then
+if _bool((_bool((_type(code) ~= "string")) and _bool(not _bool((_instanceof(code,String)))))) then
 _e((function () local _tmp = toString(_ENV,code); code  = _tmp; return _tmp; end)());
 end
 
@@ -3156,22 +3156,22 @@ _e((function () local _tmp = _obj({
 
 }); extra  = _tmp; return _tmp; end)());
 if _bool((_type(options) ~= "undefined")) then
-_e((function () local _tmp = ((_type(options.range) == "boolean") and options.range); extra.range  = _tmp; return _tmp; end)());
-_e((function () local _tmp = ((_type(options.loc) == "boolean") and options.loc); extra.loc  = _tmp; return _tmp; end)());
-_e((function () local _tmp = ((_type(options.attachComment) == "boolean") and options.attachComment); extra.attachComment  = _tmp; return _tmp; end)());
-if _bool(((extra.loc and (options.source ~= null)) and (options.source ~= undefined))) then
+_e((function () local _tmp = (_bool((_type(options.range) == "boolean")) and _bool(options.range)); extra.range  = _tmp; return _tmp; end)());
+_e((function () local _tmp = (_bool((_type(options.loc) == "boolean")) and _bool(options.loc)); extra.loc  = _tmp; return _tmp; end)());
+_e((function () local _tmp = (_bool((_type(options.attachComment) == "boolean")) and _bool(options.attachComment)); extra.attachComment  = _tmp; return _tmp; end)());
+if _bool((_bool((_bool(extra.loc) and _bool((options.source ~= null)))) and _bool((options.source ~= undefined)))) then
 _e((function () local _tmp = toString(_ENV,options.source); extra.source  = _tmp; return _tmp; end)());
 end
 
-if _bool(((_type(options.tokens) == "boolean") and options.tokens)) then
+if _bool((_bool((_type(options.tokens) == "boolean")) and _bool(options.tokens))) then
 _e((function () local _tmp = _arr({},0); extra.tokens  = _tmp; return _tmp; end)());
 end
 
-if _bool(((_type(options.comment) == "boolean") and options.comment)) then
+if _bool((_bool((_type(options.comment) == "boolean")) and _bool(options.comment))) then
 _e((function () local _tmp = _arr({},0); extra.comments  = _tmp; return _tmp; end)());
 end
 
-if _bool(((_type(options.tolerant) == "boolean") and options.tolerant)) then
+if _bool((_bool((_type(options.tolerant) == "boolean")) and _bool(options.tolerant))) then
 _e((function () local _tmp = _arr({},0); extra.errors  = _tmp; return _tmp; end)());
 end
 
@@ -3349,7 +3349,7 @@ _e((function () local _tmp = 0; extra.trailingComments.length  = _tmp; return _t
 end
 
 else
-if _bool((((extra.bottomRightStack.length > 0) and extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments) and (extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments[0].range[0] >= node.range[1]))) then
+if _bool((_bool((_bool((extra.bottomRightStack.length > 0)) and _bool(extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments))) and _bool((extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments[0].range[0] >= node.range[1])))) then
 _e((function () local _tmp = extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments; trailingComments  = _tmp; return _tmp; end)());
 _e((function () local _r = false; local _g, _s = extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_g" .. "trailingComments"], extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_s" .. "trailingComments"]; extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_g" .. "trailingComments"], extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_s" .. "trailingComments"] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments; extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments = nil; return _r or _v ~= nil; end)());
@@ -3357,19 +3357,19 @@ end
 
 end
 
-while _bool(((extra.bottomRightStack.length > 0) and (extra.bottomRightStack[(extra.bottomRightStack.length - 1)].range[0] >= node.range[0]))) do
+while _bool((_bool((extra.bottomRightStack.length > 0)) and _bool((extra.bottomRightStack[(extra.bottomRightStack.length - 1)].range[0] >= node.range[0])))) do
 _e((function () local _tmp = extra.bottomRightStack:pop(); lastChild  = _tmp; return _tmp; end)());
 ::_continue::
 end
 
 if _bool(lastChild) then
-if _bool((lastChild.leadingComments and (lastChild.leadingComments[(lastChild.leadingComments.length - 1)].range[1] <= node.range[0]))) then
+if _bool((_bool(lastChild.leadingComments) and _bool((lastChild.leadingComments[(lastChild.leadingComments.length - 1)].range[1] <= node.range[0])))) then
 _e((function () local _tmp = lastChild.leadingComments; node.leadingComments  = _tmp; return _tmp; end)());
 _e((function () local _r = false; local _g, _s = lastChild["_g" .. "leadingComments"], lastChild["_s" .. "leadingComments"]; lastChild["_g" .. "leadingComments"], lastChild["_s" .. "leadingComments"] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = lastChild.leadingComments; lastChild.leadingComments = nil; return _r or _v ~= nil; end)());
 end
 
-elseif _bool(((extra.leadingComments.length > 0) and (extra.leadingComments[(extra.leadingComments.length - 1)].range[1] <= node.range[0]))) then
+elseif _bool((_bool((extra.leadingComments.length > 0)) and _bool((extra.leadingComments[(extra.leadingComments.length - 1)].range[1] <= node.range[0])))) then
 _e((function () local _tmp = extra.leadingComments; node.leadingComments  = _tmp; return _tmp; end)());
 _e((function () local _tmp = _arr({},0); extra.leadingComments  = _tmp; return _tmp; end)());
 end
@@ -3419,7 +3419,7 @@ end),
 end),
 ["createBinaryExpression"] = (function (this, operator, left, right)
 local type;
-type = (_bool(((operator == "||") or (operator == "&&"))) and {Syntax.LogicalExpression} or {Syntax.BinaryExpression})[1];
+type = (_bool((_bool((operator == "||")) or _bool((operator == "&&")))) and {Syntax.LogicalExpression} or {Syntax.BinaryExpression})[1];
  do return _obj({
 ["type"] = type,
 ["operator"] = operator,
@@ -3650,7 +3650,7 @@ end),
 }); end
 end),
 ["createUnaryExpression"] = (function (this, operator, argument)
-if _bool(((operator == "++") or (operator == "--"))) then
+if _bool((_bool((operator == "++")) or _bool((operator == "--")))) then
  do return _obj({
 ["type"] = Syntax.UpdateExpression,
 ["operator"] = operator,
