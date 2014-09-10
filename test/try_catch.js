@@ -157,3 +157,91 @@ try {
 }
 assert(path && path3);
 assert(!path2);
+
+// 
+
+path = false
+try {
+    var o = 3
+    switch (o) {
+    case 1:
+        break;
+    case 3:
+        path = true;
+        break;
+    }
+
+} catch (e) {}
+
+assert(path);
+
+var i = 0
+try {
+    for (i = 0; i < 23; ++i) {
+        if (i == 7)
+            break;
+    }
+} catch (e) {}
+
+assert(i === 7);
+
+path = false
+for (i = 0; i < 5; ++i) {
+    try {
+        switch (i) {
+        case 2:
+            break;
+        }
+
+    } catch (e) {
+
+    }
+    if (i === 2) {
+        path = true;
+    }
+}
+
+assert(i === 5);
+assert(path);
+
+path = false
+for (i = 0; i < 5; ++i) {
+    try {
+        switch (i) {
+        case 2:
+            continue;
+        }
+
+    } catch (e) {
+
+    }
+    if (i === 2) {
+        path = true;
+    }
+}
+
+assert(i === 5);
+assert(!path);
+
+var i = 0
+try {
+
+    while (i < 3) {
+        try {
+            throw "x"
+        } catch (lexError) {
+            if (true) {
+                break;
+            } else {
+                throw lexError;
+            }
+        }
+        i++
+    }
+
+} catch (e) {
+    throw e;
+}
+
+assert(i === 0);
+

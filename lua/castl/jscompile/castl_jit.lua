@@ -16,10 +16,12 @@ end
 end)(_ENV,this,(function (this, exports)
 local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,extractBinaryOperator,compileAssignmentExpression,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileListOfStatements,compileStatement,compileAST,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,continueNoLabelTracker,labelTracker,luaKeywords;
 ProtectedCallManager = (function (this)
-_e((function () local _tmp = false; this.isInProtectedCallContext  = _tmp; return _tmp; end)());
-_e((function () local _tmp = false; this.mayReturn  = _tmp; return _tmp; end)());
-_e((function () local _tmp = false; this.mayBreak  = _tmp; return _tmp; end)());
-_e((function () local _tmp = false; this.mayContinue  = _tmp; return _tmp; end)());
+_e((function () local _tmp = _arr({},0); this.protectedCallContext  = _tmp; return _tmp; end)());
+_e((function () local _tmp = _arr({},0); this.mayReturnStack  = _tmp; return _tmp; end)());
+_e((function () local _tmp = _arr({},0); this.mayBreakStack  = _tmp; return _tmp; end)());
+_e((function () local _tmp = _arr({},0); this.mayContinueStack  = _tmp; return _tmp; end)());
+_e((function () local _tmp = _arr({},0); this.iterationStatement  = _tmp; return _tmp; end)());
+_e((function () local _tmp = _arr({},0); this.switchStatement  = _tmp; return _tmp; end)());
 end)
 LocalVarManager = (function (this)
 _e((function () local _tmp = _arr({},0); this.locals  = _tmp; return _tmp; end)());
@@ -233,6 +235,7 @@ compileIterationStatement = (function (this, statement, compiledLabel)
 local compiledIterationStatement;
 compiledIterationStatement = "";
 continueNoLabelTracker:push(false);
+protectedCallManager:openIterationStatement();
 repeat
 local _into = false;
 local _cases = {["ForStatement"] = true,["WhileStatement"] = true,["DoWhileStatement"] = true,["ForInStatement"] = true};
@@ -266,6 +269,7 @@ _throw(_new(Error,(_add("Not an IterationStatement ",statement.type))),0)
 _into = true;
 end
 until true
+protectedCallManager:closeIterationStatement();
 continueNoLabelTracker:pop();
  do return compiledIterationStatement; end
 end)
@@ -382,9 +386,8 @@ end
 end)
 compileBreakStatement = (function (this, statement)
 local compiledLabel;
-protectedCallManager:breakStatement();
 if _bool((statement.label == null)) then
-if _bool(protectedCallManager.isInProtectedCallContext) then
+if _bool(protectedCallManager:breakOutside()) then
  do return "do return _break; end"; end
 end
 
@@ -397,10 +400,9 @@ _e((function () local _tmp = true; labelTracker[compiledLabel].mayBreak  = _tmp;
 end)
 compileContinueStatement = (function (this, statement)
 local compiledLabel;
-protectedCallManager:continueStatement();
 if _bool((statement.label == null)) then
 _e((function () local _tmp = true; continueNoLabelTracker[(continueNoLabelTracker.length - 1)]  = _tmp; return _tmp; end)());
-if _bool(protectedCallManager.isInProtectedCallContext) then
+if _bool(protectedCallManager:continueOutside()) then
  do return "do return _continue; end"; end
 end
 
@@ -413,6 +415,7 @@ _e((function () local _tmp = true; labelTracker[compiledLabel].mayContinue  = _t
 end)
 compileSwitchStatement = (function (this, statement)
 local hasDefault,compiledTests,caseTablementElement,casesTable,i,compiledDiscriminant,compiledSwitchStatement,cases;
+protectedCallManager:openSwitchStatement();
 cases = statement.cases;
 if _bool((cases.length > 0)) then
 compiledSwitchStatement = _arr({[0]="repeat\10local _into = false;\10"},1);
@@ -469,9 +472,11 @@ compiledSwitchStatement:push("::_default::\10");
 end
 
 compiledSwitchStatement:push("until true");
+protectedCallManager:openSwitchStatement();
  do return compiledSwitchStatement:join(""); end
 end
 
+protectedCallManager:openSwitchStatement();
  do return ""; end
 end)
 compileTryStatement = (function (this, statement)
@@ -482,7 +487,7 @@ end
  do return compileTryStatementFlavored(_ENV,statement,false); end
 end)
 compileTryStatementFlavored = (function (this, statement, esprima)
-local handler,compiledTryStatement,finallyStatements,hasFinalizer,hasHandler;
+local handler,compiledTryStatement,may,finallyStatements,hasFinalizer,hasHandler;
 hasHandler = (_bool(esprima) and {(statement.handlers.length > 0)} or {(statement.handler ~= null)})[1];
 hasFinalizer = (statement.finalizer ~= null);
 protectedCallManager:openContext();
@@ -490,8 +495,9 @@ compiledTryStatement = _arr({[0]="local _status, _return = _pcall(function()\10"
 compiledTryStatement:push(compileListOfStatements(_ENV,statement.block.body));
 compiledTryStatement:push("\10");
 compiledTryStatement:push("end);\10");
+_e((function () local _tmp = protectedCallManager:may(); may  = _tmp; return _tmp; end)());
 protectedCallManager:closeContext();
-if _bool((hasFinalizer or protectedCallManager:mayModifyFlow())) then
+if _bool((((hasFinalizer or may.mayReturn) or may.mayBreak) or may.mayContinue)) then
 compiledTryStatement:push("if _status then\10");
 if _bool(hasFinalizer) then
 _e((function () local _tmp = compileListOfStatements(_ENV,statement.finalizer.body); finallyStatements  = _tmp; return _tmp; end)());
@@ -499,15 +505,15 @@ compiledTryStatement:push(finallyStatements);
 compiledTryStatement:push("\10");
 end
 
-if _bool((protectedCallManager.mayBreak and protectedCallManager.mayContinue)) then
+if _bool((may.mayBreak and may.mayContinue)) then
 compiledTryStatement:push("if _return == _break then break; elseif _return == _continue then goto _continue end\10");
-elseif _bool(protectedCallManager.mayBreak) then
+elseif _bool(may.mayBreak) then
 compiledTryStatement:push("if _return == _break then break; end\10");
-elseif _bool(protectedCallManager.mayContinue) then
+elseif _bool(may.mayContinue) then
 compiledTryStatement:push("if _return == _continue then goto _continue end\10");
 end
 
-if _bool(protectedCallManager.mayReturn) then
+if _bool(may.mayReturn) then
 compiledTryStatement:push("if _return ~= nil then return _return; end\10");
 end
 
@@ -518,7 +524,6 @@ end
 
 if _bool(hasHandler) then
 handler = (_bool(esprima) and {statement.handlers[0]} or {statement.handler})[1];
-protectedCallManager:reset();
 protectedCallManager:openContext();
 compiledTryStatement:push("local _cstatus, _creturn = _pcall(function()\10");
 compiledTryStatement:push("local ");
@@ -527,6 +532,7 @@ compiledTryStatement:push(" = _return;\10");
 compiledTryStatement:push(compileListOfStatements(_ENV,handler.body.body));
 compiledTryStatement:push("\10");
 compiledTryStatement:push("end);\10");
+_e((function () local _tmp = protectedCallManager:may(); may  = _tmp; return _tmp; end)());
 protectedCallManager:closeContext();
 end
 
@@ -537,15 +543,15 @@ end
 
 if _bool(hasHandler) then
 compiledTryStatement:push("if _cstatus then\10");
-if _bool((protectedCallManager.mayBreak and protectedCallManager.mayContinue)) then
-compiledTryStatement:push("if _return == _break then break; elseif _return == _continue then goto _continue end\10");
-elseif _bool(protectedCallManager.mayBreak) then
-compiledTryStatement:push("if _return == _break then break; end\10");
-elseif _bool(protectedCallManager.mayContinue) then
-compiledTryStatement:push("if _return == _continue then goto _continue end\10");
+if _bool((may.mayBreak and may.mayContinue)) then
+compiledTryStatement:push("if _creturn == _break then break; elseif _creturn == _continue then goto _continue end\10");
+elseif _bool(may.mayBreak) then
+compiledTryStatement:push("if _creturn == _break then break; end\10");
+elseif _bool(may.mayContinue) then
+compiledTryStatement:push("if _creturn == _continue then goto _continue end\10");
 end
 
-if _bool(protectedCallManager.mayReturn) then
+if _bool(may.mayReturn) then
 compiledTryStatement:push("if _creturn ~= nil then return _creturn; end\10");
 end
 
@@ -553,7 +559,6 @@ compiledTryStatement:push("else _throw(_creturn,0); end\10");
 end
 
 compiledTryStatement:push("end\10");
-protectedCallManager:reset();
  do return compiledTryStatement:join(""); end
 end)
 compileThrowStatement = (function (this, statement)
@@ -1615,38 +1620,87 @@ luaKeywords = _arr({[0]="and","break","do","else","elseif","end","false","for","
 labelTracker = _arr({},0);
 continueNoLabelTracker = _arr({},0);
 _e((function () local _tmp = _obj({
+["isInProtectedCallContext"] = (function (this)
+if _bool((this.protectedCallContext.length > 0)) then
+ do return true; end
+end
+
+ do return false; end
+end),
+["noInsideIteration"] = (function (this)
+ do return (this.iterationStatement[(this.iterationStatement.length - 1)].length == 0); end
+end),
+["noInsideSwitch"] = (function (this)
+ do return (this.switchStatement[(this.switchStatement.length - 1)].length == 0); end
+end),
+["may"] = (function (this)
+ do return _obj({
+["mayReturn"] = this.mayReturnStack[(this.mayReturnStack.length - 1)],
+["mayBreak"] = this.mayBreakStack[(this.mayBreakStack.length - 1)],
+["mayContinue"] = this.mayContinueStack[(this.mayContinueStack.length - 1)]
+}); end
+end),
 ["openContext"] = (function (this)
-_e((function () local _tmp = true; this.isInProtectedCallContext  = _tmp; return _tmp; end)());
+this.protectedCallContext:push(true);
+this.iterationStatement:push(_arr({},0));
+this.switchStatement:push(_arr({},0));
+this.mayBreakStack:push(false);
+this.mayContinueStack:push(false);
+this.mayReturnStack:push(false);
 end),
 ["closeContext"] = (function (this)
-_e((function () local _tmp = false; this.isInProtectedCallContext  = _tmp; return _tmp; end)());
+this.protectedCallContext:pop();
+this.iterationStatement:pop();
+this.switchStatement:pop();
+this.mayBreakStack:pop();
+this.mayContinueStack:pop();
+this.mayReturnStack:pop();
 end),
-["reset"] = (function (this)
-this:closeContext();
-_e((function () local _tmp = false; this.mayReturn  = _tmp; return _tmp; end)());
-_e((function () local _tmp = false; this.mayBreak  = _tmp; return _tmp; end)());
-_e((function () local _tmp = false; this.mayContinue  = _tmp; return _tmp; end)());
+["openIterationStatement"] = (function (this)
+if _bool(this:isInProtectedCallContext()) then
+this.iterationStatement[(this.iterationStatement.length - 1)]:push(true);
+end
+
+end),
+["closeIterationStatement"] = (function (this)
+if _bool(this:isInProtectedCallContext()) then
+this.iterationStatement[(this.iterationStatement.length - 1)]:pop();
+end
+
+end),
+["openSwitchStatement"] = (function (this)
+if _bool(this:isInProtectedCallContext()) then
+this.switchStatement[(this.iterationStatement.length - 1)]:push(true);
+end
+
+end),
+["closeSwitchStatement"] = (function (this)
+if _bool(this:isInProtectedCallContext()) then
+this.switchStatement[(this.iterationStatement.length - 1)]:pop();
+end
+
 end),
 ["returnStatement"] = (function (this)
-if _bool(this.isInProtectedCallContext) then
-_e((function () local _tmp = true; this.mayReturn  = _tmp; return _tmp; end)());
+if _bool(this:isInProtectedCallContext()) then
+_e((function () local _tmp = true; this.mayReturnStack[(this.mayReturnStack.length - 1)]  = _tmp; return _tmp; end)());
 end
 
 end),
-["breakStatement"] = (function (this)
-if _bool(this.isInProtectedCallContext) then
-_e((function () local _tmp = true; this.mayBreak  = _tmp; return _tmp; end)());
+["breakOutside"] = (function (this)
+if _bool(((this:isInProtectedCallContext() and this:noInsideIteration()) and this:noInsideSwitch())) then
+_e((function () local _tmp = true; this.mayBreakStack[(this.mayBreakStack.length - 1)]  = _tmp; return _tmp; end)());
+ do return true; end
 end
 
+ do return false; end
 end),
-["continueStatement"] = (function (this)
-if _bool(this.isInProtectedCallContext) then
-_e((function () local _tmp = true; this.mayContinue  = _tmp; return _tmp; end)());
+["continueOutside"] = (function (this)
+if _bool((this:isInProtectedCallContext() and this:noInsideIteration())) then
+_e((function () local _tmp = true; this.mayContinueStack[(this.mayContinueStack.length - 1)]  = _tmp; return _tmp; end)());
+ do return true; end
 end
 
-end),
-["mayModifyFlow"] = (function (this)
- do return ((this.mayReturn or this.mayBreak) or this.mayContinue); end
+ do return false; end
 end)
 }); ProtectedCallManager.prototype  = _tmp; return _tmp; end)());
 protectedCallManager = _new(ProtectedCallManager);

@@ -3077,9 +3077,7 @@ while _bool((lookahead.type ~= Token.EOF)) do
 local _status, _return = _pcall(function()
 _e((function () local _tmp = lex(_ENV); token  = _tmp; return _tmp; end)());
 end);
-if _status then
-if _return ~= nil then return _return; end
-else
+if not _status then
 local _cstatus, _creturn = _pcall(function()
 local lexError = _return;
 _e((function () local _tmp = lookahead; token  = _tmp; return _tmp; end)());
@@ -3092,7 +3090,7 @@ end
 
 end);
 if _cstatus then
-if _return == _break then break; end
+if _creturn == _break then break; end
 else _throw(_creturn,0); end
 end
 
@@ -3114,6 +3112,7 @@ if _status then
 _e((function () local _tmp = _obj({
 
 }); extra  = _tmp; return _tmp; end)());
+if _return ~= nil then return _return; end
 else
 local _cstatus, _creturn = _pcall(function()
 local e = _return;

@@ -127,17 +127,19 @@ if [ "$output" = true ]; then
 fi
 
 if [ "$execute" = true ]; then
+    printf "%s" "$code" > ".tmp.lua"
     if [ "$luajit" = true ]; then
         if [ "$verbose" = true ]; then
             echo "-- Execution output (LuaJIT):"
         fi
-        luajit -e "$code";
+        luajit ".tmp.lua";
     else
         if [ "$verbose" = true ]; then
             echo "-- Execution output (Lua 5.2):"
         fi
-        lua5.2 -e "$code";
+        lua5.2 ".tmp.lua";
     fi
+    rm ".tmp.lua"
     execStatus=$?
 fi
 

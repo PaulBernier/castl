@@ -41,42 +41,88 @@
      * ******************************/
 
     function ProtectedCallManager() {
-        this.isInProtectedCallContext = false;
-        this.mayReturn = false;
-        this.mayBreak = false;
-        this.mayContinue = false;
+        this.protectedCallContext = []; // array of bool
+        this.mayReturnStack = []; // array of bool
+        this.mayBreakStack = []; // array of bool
+        this.mayContinueStack = []; // array of bool
+        this.iterationStatement = []; // array of arrays
+        this.switchStatement = []; // array of arrays
     }
 
     ProtectedCallManager.prototype = {
+        isInProtectedCallContext: function () {
+            if (this.protectedCallContext.length > 0) {
+                return true;
+            }
+            return false;
+        },
+        noInsideIteration: function () {
+            return this.iterationStatement[this.iterationStatement.length - 1].length === 0;
+        },
+        noInsideSwitch: function () {
+            return this.switchStatement[this.switchStatement.length - 1].length === 0;
+        },
+        may: function () {
+            return {
+                mayReturn: this.mayReturnStack[this.mayReturnStack.length - 1],
+                mayBreak: this.mayBreakStack[this.mayBreakStack.length - 1],
+                mayContinue: this.mayContinueStack[this.mayContinueStack.length - 1]
+            };
+        },
         openContext: function () {
-            this.isInProtectedCallContext = true;
+            this.protectedCallContext.push(true);
+            this.iterationStatement.push([]);
+            this.switchStatement.push([]);
+            this.mayBreakStack.push(false);
+            this.mayContinueStack.push(false);
+            this.mayReturnStack.push(false);
         },
         closeContext: function () {
-            this.isInProtectedCallContext = false;
+            this.protectedCallContext.pop();
+            this.iterationStatement.pop();
+            this.switchStatement.pop();
+            this.mayBreakStack.pop();
+            this.mayContinueStack.pop();
+            this.mayReturnStack.pop();
         },
-        reset: function () {
-            this.closeContext();
-            this.mayReturn = false;
-            this.mayBreak = false;
-            this.mayContinue = false;
+        openIterationStatement: function () {
+            if (this.isInProtectedCallContext()) {
+                this.iterationStatement[this.iterationStatement.length - 1].push(true);
+            }
+        },
+        closeIterationStatement: function () {
+            if (this.isInProtectedCallContext()) {
+                this.iterationStatement[this.iterationStatement.length - 1].pop();
+            }
+        },
+        openSwitchStatement: function () {
+            if (this.isInProtectedCallContext()) {
+                this.switchStatement[this.iterationStatement.length - 1].push(true);
+            }
+        },
+        closeSwitchStatement: function () {
+            if (this.isInProtectedCallContext()) {
+                this.switchStatement[this.iterationStatement.length - 1].pop();
+            }
         },
         returnStatement: function () {
-            if (this.isInProtectedCallContext) {
-                this.mayReturn = true;
+            if (this.isInProtectedCallContext()) {
+                this.mayReturnStack[this.mayReturnStack.length - 1] = true;
             }
         },
-        breakStatement: function () {
-            if (this.isInProtectedCallContext) {
-                this.mayBreak = true;
+        breakOutside: function () {
+            if (this.isInProtectedCallContext() && this.noInsideIteration() && this.noInsideSwitch()) {
+                this.mayBreakStack[this.mayBreakStack.length - 1] = true;
+                return true;
             }
+            return false;
         },
-        continueStatement: function () {
-            if (this.isInProtectedCallContext) {
-                this.mayContinue = true;
+        continueOutside: function () {
+            if (this.isInProtectedCallContext() && this.noInsideIteration()) {
+                this.mayContinueStack[this.mayContinueStack.length - 1] = true;
+                return true;
             }
-        },
-        mayModifyFlow: function () {
-            return (this.mayReturn || this.mayBreak || this.mayContinue);
+            return false;
         }
     };
 
@@ -322,6 +368,7 @@
     function compileIterationStatement(statement, compiledLabel) {
         var compiledIterationStatement = "";
         continueNoLabelTracker.push(false);
+        protectedCallManager.openIterationStatement();
 
         switch (statement.type) {
         case "ForStatement":
@@ -339,6 +386,7 @@
         default:
             throw new Error("Not an IterationStatement " + statement.type);
         }
+        protectedCallManager.closeIterationStatement();
         continueNoLabelTracker.pop();
 
         return compiledIterationStatement;
@@ -509,11 +557,9 @@
     }
 
     function compileBreakStatement(statement) {
-        protectedCallManager.breakStatement();
-
         if (statement.label === null) {
             // Inside a try catch
-            if (protectedCallManager.isInProtectedCallContext) {
+            if (protectedCallManager.breakOutside()) {
                 return "do return _break; end";
             }
 
@@ -527,13 +573,11 @@
 
     // http://lua-users.org/wiki/ContinueProposal
     function compileContinueStatement(statement) {
-        protectedCallManager.continueStatement();
-
         if (statement.label === null) {
             continueNoLabelTracker[continueNoLabelTracker.length - 1] = true;
 
             // Inside a try catch
-            if (protectedCallManager.isInProtectedCallContext) {
+            if (protectedCallManager.continueOutside()) {
                 return "do return _continue; end";
             }
 
@@ -546,7 +590,10 @@
     }
 
     function compileSwitchStatement(statement) {
+        protectedCallManager.openSwitchStatement();
+
         var cases = statement.cases;
+
         if (cases.length > 0) {
             // Use a useless repeat loop to be able to use break
             var compiledSwitchStatement = ["repeat\nlocal _into = false;\n"];
@@ -610,9 +657,11 @@
 
             compiledSwitchStatement.push("until true");
 
+            protectedCallManager.closeSwitchStatement();
             return compiledSwitchStatement.join("");
         }
 
+        protectedCallManager.closeSwitchStatement();
         return "";
     }
 
@@ -633,6 +682,7 @@
         var hasHandler = esprima ? (statement.handlers.length > 0) : statement.handler !== null;
         var hasFinalizer = (statement.finalizer !== null);
         var finallyStatements;
+        var may;
 
         // Protected call
         protectedCallManager.openContext();
@@ -640,11 +690,13 @@
         compiledTryStatement.push(compileListOfStatements(statement.block.body));
         compiledTryStatement.push("\n");
         compiledTryStatement.push("end);\n");
+        // Collect result of analysis before closing
+        may = protectedCallManager.may();
         protectedCallManager.closeContext();
 
         // No exception raised and something to do after execution of try block
         // either a finally to execute or a return,break or continue to handle
-        if (hasFinalizer || protectedCallManager.mayModifyFlow()) {
+        if (hasFinalizer || may.mayReturn || may.mayBreak || may.mayContinue) {
             compiledTryStatement.push("if _status then\n");
 
             if (hasFinalizer) {
@@ -653,15 +705,15 @@
                 compiledTryStatement.push("\n");
             }
 
-            if (protectedCallManager.mayBreak && protectedCallManager.mayContinue) {
+            if (may.mayBreak && may.mayContinue) {
                 compiledTryStatement.push("if _return == _break then break; elseif _return == _continue then goto _continue end\n");
-            } else if (protectedCallManager.mayBreak) {
+            } else if (may.mayBreak) {
                 compiledTryStatement.push("if _return == _break then break; end\n");
-            } else if (protectedCallManager.mayContinue) {
+            } else if (may.mayContinue) {
                 compiledTryStatement.push("if _return == _continue then goto _continue end\n");
             }
 
-            if (protectedCallManager.mayReturn) {
+            if (may.mayReturn) {
                 compiledTryStatement.push("if _return ~= nil then return _return; end\n");
             }
 
@@ -675,7 +727,6 @@
             var handler = esprima ? statement.handlers[0] : statement.handler;
 
             // Protected call
-            protectedCallManager.reset();
             protectedCallManager.openContext();
             compiledTryStatement.push("local _cstatus, _creturn = _pcall(function()\n");
             compiledTryStatement.push("local ");
@@ -684,6 +735,8 @@
             compiledTryStatement.push(compileListOfStatements(handler.body.body));
             compiledTryStatement.push("\n");
             compiledTryStatement.push("end);\n");
+            // Collect result of analysis before closing
+            may = protectedCallManager.may();
             protectedCallManager.closeContext();
         }
 
@@ -695,15 +748,15 @@
         if (hasHandler) {
             compiledTryStatement.push("if _cstatus then\n");
 
-            if (protectedCallManager.mayBreak && protectedCallManager.mayContinue) {
-                compiledTryStatement.push("if _return == _break then break; elseif _return == _continue then goto _continue end\n");
-            } else if (protectedCallManager.mayBreak) {
-                compiledTryStatement.push("if _return == _break then break; end\n");
-            } else if (protectedCallManager.mayContinue) {
-                compiledTryStatement.push("if _return == _continue then goto _continue end\n");
+            if (may.mayBreak && may.mayContinue) {
+                compiledTryStatement.push("if _creturn == _break then break; elseif _creturn == _continue then goto _continue end\n");
+            } else if (may.mayBreak) {
+                compiledTryStatement.push("if _creturn == _break then break; end\n");
+            } else if (may.mayContinue) {
+                compiledTryStatement.push("if _creturn == _continue then goto _continue end\n");
             }
 
-            if (protectedCallManager.mayReturn) {
+            if (may.mayReturn) {
                 compiledTryStatement.push("if _creturn ~= nil then return _creturn; end\n");
             }
 
@@ -711,7 +764,6 @@
         }
 
         compiledTryStatement.push("end\n");
-        protectedCallManager.reset();
 
         return compiledTryStatement.join("");
     }
