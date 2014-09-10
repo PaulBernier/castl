@@ -41,6 +41,7 @@ local debug = debug
 local type, max, strlen, strsub, tonumber, pack, tinsert, concat = type, math.max, string.len, string.sub, tonumber, table.pack, table.insert, table.concat
 local next, tostring = next, tostring
 local require, error = require, error
+local getPrototype = internal.prototype
 
 _ENV = nil
 
@@ -475,14 +476,6 @@ function coreObjects.arguments(...)
     setmetatable(obj, mt)
 
     return obj
-end
-
-local getPrototype = function(o)
-    local mt = getmetatable(o)
-    if mt then
-        return mt._prototype
-    end
-    return nil
 end
 
 function coreObjects.instanceof(object, class)

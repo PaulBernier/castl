@@ -40,6 +40,15 @@ function internal.put(self, key, value)
     end
 end
 
+-- prototype
+function internal.prototype(o)
+    local mt = getmetatable(o)
+    if mt then
+        return mt._prototype
+    end
+    return nil
+end
+
 -- test if constructor called within a new
 internal.withinNew = function(this, proto)
     local mt = getmetatable(this)

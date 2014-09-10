@@ -16,15 +16,18 @@
 -- [[ CASTL Object prototype submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype
 
+local functionProxyOf
 local jssupport = require("castl.jssupport")
 local arrayProto = require("castl.prototype.array")
 local regexpProto = require("castl.prototype.regexp")
 local dateProto = require("castl.prototype.date")
 
+local getPrototype = require("castl.internal").prototype
+
 local objectPrototype = {}
-local _proxy
 local type, rawget, require = type, rawget, require
 local require, getmetatable = require, getmetatable
+
 _ENV = nil
 
 objectPrototype.toString = function (this)
@@ -73,11 +76,31 @@ objectPrototype.hasOwnProperty = function (this, p)
         return false
     end
     if type(this) == "function" then
-        _proxy = _proxy or require("castl.core_objects").getFunctionProxy
-        this = _proxy(this)
+        functionProxyOf = functionProxyOf or require("castl.core_objects").getFunctionProxy
+        this = functionProxyOf(this)
     end
 
     return rawget(this, p) ~= nil
+end
+
+objectPrototype.isPrototypeOf = function(this, object)
+    if this then
+        local classPrototypeAttribute = this
+        local objectPrototype = getPrototype(object)
+
+        while objectPrototype do
+            if objectPrototype == classPrototypeAttribute then
+                return true
+            end
+            objectPrototype = getPrototype(objectPrototype)
+        end
+    end
+    return false
+end
+
+-- TODO: enumerability
+objectPrototype.propertyIsEnumerable = function(this, prop)
+    return this[prop] ~= nil
 end
 
 return objectPrototype
