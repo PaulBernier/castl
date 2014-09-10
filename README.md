@@ -53,6 +53,7 @@ Option  | Description
 -v  | verbose, print code to be run.
 -o | output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named _output.lua_.
 -c | if -o option is active the outputted code is Lua bytecode (luac).
+-n | print line numbers if -v or --cat options are active.
 -h, --help | display help.
 --cat | don't execute, just print code that would be run.
 --acorn | use Acorn parser. If not specified Esprima is used.

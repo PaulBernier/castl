@@ -23,6 +23,7 @@ output=false
 compiled=false
 tolerant=true
 node=false
+linenumers=false
 luajit=false
 outputname="output.lua"
 parser="esprima"
@@ -34,6 +35,7 @@ function help {
     printf "\t%-15s %s\n" "-v" "verbose, print code to be run"
     printf "\t%-15s %s\n" "-o" "output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named output.lua"
     printf "\t%-15s %s\n" "-c" "if -o option is active the outputted code is Lua bytecode (luac)"
+    printf "\t%-15s %s\n" "-n" "print line numbers if -v or --cat options are active"
     printf "\t%-15s %s\n" "-h, --help" "display this help"
     printf "\t%-15s %s\n" "--cat" "don't execute, just print code that would be run"
     printf "\t%-15s %s\n" "--acorn" "use Acorn parser. If not specified Esprima is used"
@@ -78,6 +80,8 @@ for arg in "$@"; do
                 continue;
             elif [ "$c" = "v" ]; then
                 verbose=true
+            elif [ "$c" = "n" ]; then
+                linenumers=true
             elif [ "$c" = "c" ]; then
                 compiled=true
             elif [ "$c" != "" ]; then
@@ -94,12 +98,12 @@ for arg in "$@"; do
     fi
 done
 
-code=$(castl-compiler $filename $parser $node $luajit $tolerant)
+castl-compiler $filename $parser $node $luajit $tolerant > ".tmp.lua"
 compileStatus=$?
 
 # compilation failed
 if (($compileStatus > 0)); then
-    >&2 echo $code;
+    rm ".tmp.lua"
     exit $compileStatus;
 fi
 
@@ -111,23 +115,24 @@ if [ "$verbose" = true ]; then
     fi
     
     echo "--------------------------------------------------------------------"
-    printf "%s" "$code"
+    if [ "$linenumers" = true ]; then   
+        cat -n ".tmp.lua"
+    else
+        cat ".tmp.lua"
+    fi
     echo ""
     echo "--------------------------------------------------------------------"
 fi
 
 if [ "$output" = true ]; then    
     if [ "$compiled" = true ]; then
-        printf "%s" "$code" > ".tmp.lua"
         luac -o $outputname ".tmp.lua"
-        rm ".tmp.lua"
     else
-        printf "%s" "$code" > $outputname
+        cp ".tmp.lua" $outputname
     fi
 fi
 
 if [ "$execute" = true ]; then
-    printf "%s" "$code" > ".tmp.lua"
     if [ "$luajit" = true ]; then
         if [ "$verbose" = true ]; then
             echo "-- Execution output (LuaJIT):"
@@ -139,10 +144,9 @@ if [ "$execute" = true ]; then
         fi
         lua5.2 ".tmp.lua";
     fi
-    rm ".tmp.lua"
     execStatus=$?
 fi
-
+rm ".tmp.lua"
 echo ""
 
 exit $execStatus;
