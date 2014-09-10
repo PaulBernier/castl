@@ -22,7 +22,7 @@ local internal = require("castl.internal")
 local dateparser = require("castl.modules.dateparser")
 local dateProto = require("castl.prototype.date")
 
-local date, time, difftime = os.date, os.time, os.difftime
+local date, time = os.date, os.time
 local pack, type, setmetatable = table.pack, type, setmetatable
 
 _ENV = nil

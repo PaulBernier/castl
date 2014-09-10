@@ -25,7 +25,8 @@ local dateProto = require("castl.prototype.date")
 local getPrototype = require("castl.internal").prototype
 
 local objectPrototype = {}
-local type, rawget, require = type, rawget, require
+
+local type, rawget = type, rawget
 local require, getmetatable = require, getmetatable
 
 _ENV = nil
@@ -86,13 +87,13 @@ end
 objectPrototype.isPrototypeOf = function(this, object)
     if this then
         local classPrototypeAttribute = this
-        local objectPrototype = getPrototype(object)
+        local objProto = getPrototype(object)
 
-        while objectPrototype do
-            if objectPrototype == classPrototypeAttribute then
+        while objProto do
+            if objProto == classPrototypeAttribute then
                 return true
             end
-            objectPrototype = getPrototype(objectPrototype)
+            objProto = getPrototype(objProto)
         end
     end
     return false

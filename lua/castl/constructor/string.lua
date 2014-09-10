@@ -24,9 +24,8 @@ local jssupport = require("castl.jssupport")
 local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")
 
-local tostring, type, tonumber = tostring, type, tonumber
 local pack, unpack, tinsert, concat, stochar =  table.pack, table.unpack, table.insert, table.concat, string.char
-local setmetatable, getmetatable = setmetatable, getmetatable
+local setmetatable, getmetatable, tonumber = setmetatable, getmetatable, tonumber
 
 _ENV = nil
 

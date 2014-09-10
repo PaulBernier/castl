@@ -21,7 +21,7 @@ local toNumber, toPrimitive
 
 -- Dependencies
 local type, tonumber, tostring, pairs = type, tonumber, tostring, pairs
-local getmetatable,setmetatable, require = getmetatable, setmetatable, require
+local setmetatable, require = setmetatable, require
 local huge, floor, abs = math.huge, math.floor, math.abs
 local gsub, sub, match, format, sbyte, find, char = string.gsub, string.sub, string.match, string.format, string.byte, string.find, string.char
 

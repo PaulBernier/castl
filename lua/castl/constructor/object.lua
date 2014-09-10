@@ -25,8 +25,7 @@ local objectProto = require("castl.prototype.object")
 local errorHelper = require("castl.modules.error_helper")
 
 local type, error, pairs, tostring = type, error, pairs, tostring
-local setmetatable, getmetatable, rawset, rawget = setmetatable, getmetatable, rawset, rawget
-local tinsert = table.insert
+local getmetatable, rawset, rawget = getmetatable, rawset, rawget
 
 _ENV = nil
 

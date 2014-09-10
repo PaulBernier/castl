@@ -387,7 +387,6 @@ arrayPrototype.reduceRight = function (this, callback, initialValue)
     local value = initialValue or this[this.length - 1]
     local start = initialValue and this.length - 1 or this.length - 2
     local thisArg = getThisArg()
-    local length = this.length
     for i = start, 0, -1 do
         -- if not nil (else ignore)
         if this[i] then

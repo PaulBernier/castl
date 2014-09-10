@@ -14,9 +14,8 @@
 --]]
 
 local difftime, time, date = os.difftime, os.time, os.date
-local format = string.format
-local tremove, tinsert = table.remove, table.insert
-local pcall, pairs, ipairs, tostring, tonumber, type, setmetatable = pcall, pairs, ipairs, tostring, tonumber, type, setmetatable
+local tinsert = table.insert
+local pcall, ipairs, tostring, tonumber, type, setmetatable = pcall, ipairs, tostring, tonumber, type, setmetatable
 local match = string.match
 
 local DateParser = {}
@@ -56,23 +55,12 @@ local register_format = function(format_name, format_function)
     return true
 end
 
----register a date format parsing function
-local unregister_format = function(format_name)
-    if type(format_name)~="string" then return nil, "format name must be a string" end
-    formats[format_name]=nil
-end
-
----return the function responsible for handling format_name date strings
-local get_format_function = function(format_name)
-    return formats[format_name] or nil, ("format %s not registered"):format(format_name)
-end
-
 ---try to parse date string
 --@param str date string
 --@param date_format optional date format name, if known
 --@return unix timestamp if str can be parsed; nil, error otherwise.
 DateParser.parse = function(str, date_format)
-    local success, res, err
+    local success, res
     if date_format then
         if not formats[date_format] then return 'unknown date format: ' .. tostring(date_format) end
         success, res = pcall(formats[date_format], str)

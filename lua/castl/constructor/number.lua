@@ -24,7 +24,7 @@ local numberProto = require("castl.prototype.number")
 local jssupport = require("castl.jssupport")
 
 local huge = math.huge
-local tonumber, type, tostring, getmetatable, setmetatable = tonumber, type, tostring, getmetatable, setmetatable
+local tonumber, type, getmetatable, setmetatable = tonumber, type, getmetatable, setmetatable
 
 _ENV = nil
 

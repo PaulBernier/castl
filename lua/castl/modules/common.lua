@@ -18,7 +18,7 @@
 
 local common = {}
 
-local pairs, getmetatable = pairs, getmetatable
+local pairs = pairs
 local gsub = string.gsub
 
 _ENV = nil

@@ -6,7 +6,6 @@ local always_try_using_lpeg = true
 local register_global_module_table = false
 local global_module_name = 'json'
 
-local coreObjects = require("castl.core_objects")
 local arrayProto = require("castl.prototype.array")
 
 --[==[
@@ -64,7 +63,7 @@ if register_global_module_table then
     _G[global_module_name] = json
 end
 
-local _ENV = nil -- blocking globals in Lua 5.2
+_ENV = nil -- blocking globals in Lua 5.2
 
 pcall (function()
     -- Enable access to blocked metatables.

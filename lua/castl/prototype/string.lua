@@ -18,16 +18,16 @@
 
 local stringPrototype = {}
 
-local RegExp, instanceof, defaultValue, array, _regexp, new, runtime
+local RegExp, instanceof, array, _regexp, new, runtime
 local jssupport = require("castl.jssupport")
 local regexpHelper = require("castl.modules.regexphelper")
 local common = require("castl.modules.common")
 local internal = require("castl.internal")
 
 local defaultValue = internal.defaultValue
-local type, tostring, tonumber, min, max, rawget, rawset = type, tostring, tonumber, math.min, math.max, rawget, rawset
+local type, tostring, tonumber, min, rawget, rawset = type, tostring, tonumber, math.min, rawget, rawset
 local pack, tinsert, tremove, concat = table.pack, table.insert, table.remove, table.concat
-local string, error, require, gmatch, pairs, getmetatable = string, error, require, string.gmatch, pairs, getmetatable
+local string, error, require, gmatch, getmetatable = string, error, require, string.gmatch, getmetatable
 
 _ENV = nil
 

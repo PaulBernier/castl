@@ -19,13 +19,12 @@
 local esprima, castl, runtime
 local luajit = jit ~= nil
 
-local jssupport = require("castl.jssupport")
 local coreObjects = require("castl.core_objects")
 local functionProto = require("castl.prototype.function")
 
 local Function
 
-local setmetatable, error, pack, require, assert, load, tinsert, concat = setmetatable, error, table.pack, require, assert, load, table.insert, table.concat
+local error, pack, require, assert, load, tinsert, concat = error, table.pack, require, assert, load, table.insert, table.concat
 
 _ENV = nil
 

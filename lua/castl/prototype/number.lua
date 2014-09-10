@@ -20,8 +20,8 @@ local numberPrototype = {}
 
 local errorHelper = require("castl.modules.error_helper")
 
-local tonumber, format, tostring, floor, concat, insert = tonumber, string.format, tostring, math.floor, table.concat, table.insert
-local strsub, strlen, gsub, find, format, getmetatable, type = string.sub, string.len, string.gsub, string.find, string.format, getmetatable, type
+local tonumber, tostring, floor, concat, insert = tonumber, tostring, math.floor, table.concat, table.insert
+local strsub, strlen, gsub, format, getmetatable, type = string.sub, string.len, string.gsub, string.format, getmetatable, type
 local error = error
 
 _ENV = nil
@@ -37,7 +37,6 @@ end
 local valueof = numberPrototype.valueOf
 
 numberPrototype.toString = function(this, radix)
-    local mt = getmetatable(this)
     local value = valueof(this)
 
     if not radix then

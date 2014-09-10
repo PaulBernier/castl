@@ -32,7 +32,7 @@ local regexpProto = require("castl.prototype.regexp")
 local jssupport = require("castl.jssupport")
 local errorHelper = require("castl.modules.error_helper")
 
-local RegExp, Boolean, Number, String
+local RegExp
 
 local coreObjects = {}
 -- Dependencies
@@ -361,7 +361,7 @@ debug.setmetatable("", stringMt)
     Nil metatable
 --]]
 
-undefinedMt.__tostring = function (arg)
+undefinedMt.__tostring = function ()
     return 'undefined'
 end
 

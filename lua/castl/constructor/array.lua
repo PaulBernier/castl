@@ -21,7 +21,7 @@ local Array
 local arrayProto = require("castl.prototype.array")
 local coreObjects = require("castl.core_objects")
 
-local setmetatable, getmetatable, type = setmetatable, getmetatable, type
+local getmetatable, type = getmetatable, type
 local pack = table.pack
 
 _ENV = nil
