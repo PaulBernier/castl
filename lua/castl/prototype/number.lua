@@ -18,8 +18,11 @@
 
 local numberPrototype = {}
 
+local errorHelper = require("castl.modules.error_helper")
+
 local tonumber, format, tostring, floor, concat, insert = tonumber, string.format, tostring, math.floor, table.concat, table.insert
-local strsub, getmetatable, type = string.sub, getmetatable, type
+local strsub, strlen, gsub, find, format, getmetatable, type = string.sub, string.len, string.gsub, string.find, string.format, getmetatable, type
+local error = error
 
 _ENV = nil
 
@@ -51,6 +54,8 @@ numberPrototype.toString = function(this, radix)
     return sign .. concat(t, "")
 end
 
+numberPrototype.toLocaleString = numberPrototype.toString
+
 numberPrototype.valueOf = function (this)
     local mt = getmetatable(this)
     if mt and type(mt._primitive) == "number" then
@@ -61,8 +66,34 @@ numberPrototype.valueOf = function (this)
 end
 
 numberPrototype.toFixed = function(this, digits)
+    local value = this:valueOf()
     digits = digits or 0
-    return format("%." .. tonumber(digits) .. "f", this)
+    return format("%." .. tonumber(digits) .. "f", value)
+end
+
+numberPrototype.toExponential = function(this, fractionDigits)
+    local value = this:valueOf()
+    if fractionDigits == nil then
+        fractionDigits = strlen(tostring(value)) - 1
+        if floor(value) ~= value then
+            fractionDigits = fractionDigits - 1
+        end
+    end
+    if fractionDigits < 0 or fractionDigits > 20 then
+        error(errorHelper.newRangeError("RangeError: toExponential() argument must be between 0 and 20"))
+    end
+    local formatted = format("%." .. fractionDigits .. "e", value)
+    return (gsub(formatted, "%+0", "+"))
+end
+
+numberPrototype.toPrecision = function(this, precision)
+    local value = this:valueOf()
+    if precision == nil then return tostring(value) end
+    if precision < 1 or precision > 21 then
+        error(errorHelper.newRangeError("RangeError: toPrecision() argument must be between 1 and 21"))
+    end
+    local formatted = format("%." .. precision .. "g", value)
+    return (gsub(formatted, "%+0", "+"))
 end
 
 return numberPrototype
