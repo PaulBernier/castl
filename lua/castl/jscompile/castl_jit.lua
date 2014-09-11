@@ -14,7 +14,7 @@ factory(_ENV,root.castl);
 end
 
 end)(_ENV,this,(function (this, exports)
-local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,extractBinaryOperator,compileAssignmentExpression,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileListOfStatements,compileStatement,compileAST,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,continueNoLabelTracker,labelTracker,luaKeywords;
+local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,extractBinaryOperator,compileAssignmentExpression,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileListOfStatements,compileStatement,compileAST,options,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,continueNoLabelTracker,labelTracker,luaKeywords;
 ProtectedCallManager = (function (this)
 _e((function () local _tmp = _arr({},0); this.protectedCallContext  = _tmp; return _tmp; end)());
 _e((function () local _tmp = _arr({},0); this.mayReturnStack  = _tmp; return _tmp; end)());
@@ -28,8 +28,11 @@ _e((function () local _tmp = _arr({},0); this.locals  = _tmp; return _tmp; end)(
 _e((function () local _tmp = _arr({},0); this.functions  = _tmp; return _tmp; end)());
 _e((function () local _tmp = _arr({},0); this.args  = _tmp; return _tmp; end)());
 end)
-compileAST = (function (this, ast)
+compileAST = (function (this, ast, opts)
 local i,compiledFunctionsDeclaration,functions,compiledLocalsDeclaration,locals,useArguments,context,topLevelStatements,compiledProgram;
+_e((function () local _tmp = (_bool(opts) or _bool(_obj({
+
+}))); options  = _tmp; return _tmp; end)());
 if _bool((ast.type == "Program")) then
 compiledProgram = _arr({},0);
 localVarManager:createLocalContext();
@@ -582,7 +585,15 @@ compiledWithStatement = _arr({[0]="do\10"},1);
 compiledWithStatement:push("local _ENV = _with(");
 compiledWithStatement:push(compileExpression(_ENV,statement.object));
 compiledWithStatement:push(", _ENV);\10");
+if _bool(options.jit) then
+compiledWithStatement:push("_wenv(function(...)\10");
+end
+
 compiledWithStatement:push(compileStatement(_ENV,statement.body));
+if _bool(options.jit) then
+compiledWithStatement:push("end, _ENV)()\10");
+end
+
 compiledWithStatement:push("end");
  do return compiledWithStatement:join(""); end
 end)

@@ -1,7 +1,7 @@
 var castl = require("./castl.js");
 var fs = require('fs');
 var filename = process.argv[2];
-var luajit = process.argv[3];
+var luajit = process.argv[3] === "true";
 var parserName = process.argv[4];
 
 var parser = require(parserName);
@@ -29,12 +29,13 @@ fs.readFile(filename, 'utf8', function (err, data) {
                 throw new SyntaxError("Couldn't parse JS code");
             }
 
-            var compiledCode = castl.compileAST(syntax).compiled;
+            var options = {jit: luajit};
+            var compiledCode = castl.compileAST(syntax, options).compiled;
             compiledCode = compiledCode.replace(/assert\(_ENV,/g, "assert(");
             var finalCode = ["local assert, print = assert, print"];
             
             // Set environment
-            if (luajit === "true") {
+            if (luajit) {
                 finalCode.push("local _ENV = require(\"castl.runtime\");");
                 finalCode.push("return setfenv(function(...)");
                 finalCode.push(compiledCode);

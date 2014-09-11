@@ -191,7 +191,10 @@
      *
      * ***************/
 
-    function compileAST(ast) {
+    var options;
+
+    function compileAST(ast, opts) {
+        options = opts || {};
 
         // Compile top level
         if (ast.type === 'Program') {
@@ -794,8 +797,16 @@
         compiledWithStatement.push(compileExpression(statement.object));
         compiledWithStatement.push(", _ENV);\n");
 
+        if (options.jit) {
+            compiledWithStatement.push("_wenv(function(...)\n");
+        }
+
         // body
         compiledWithStatement.push(compileStatement(statement.body));
+
+        if (options.jit) {
+            compiledWithStatement.push("end, _ENV)()\n");
+        }
 
         compiledWithStatement.push("end");
 

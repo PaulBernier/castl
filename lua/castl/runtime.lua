@@ -108,7 +108,11 @@ local export = {
     _seq = table.remove
 }
 
-if _nodejs then
+if jit ~= nil then
+    export._wenv = setfenv
+end
+
+if _nodejs ~= nil then
     local nodejs = require("castl.nodejs")
     export.module = nodejs.module
     export.exports = nodejs.exports
