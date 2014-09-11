@@ -26,7 +26,7 @@ local internal = require("castl.internal")
 local bor, band, arshift = bit.bor, bit.band, bit.arshift
 local pack, unpack, tinsert, concat, stochar =  table.pack, table.unpack, table.insert, table.concat, string.char
 local setmetatable, getmetatable, tonumber = setmetatable, getmetatable, tonumber
-local defaultValue, withinNew, get, put = internal.defaultValue, internal.withinNew, internal.get, internal.put
+local defaultValue, withinNew, get, put, toNumber = internal.defaultValue, internal.withinNew, internal.get, internal.put, internal.toNumber
 
 _ENV = nil
 
@@ -63,6 +63,15 @@ String = function(this, arg)
             return tonumber(mt._primitive) or 0/0
         end,
         _primitive = arg,
+        __sub = function(a, b)
+            return toNumber(a) - toNumber(b)
+        end,
+        __mul = function(a, b)
+            return toNumber(a) * toNumber(b)
+        end,
+        __div = function(a, b)
+            return toNumber(a) / toNumber(b)
+        end,
         _prototype = stringProto
     })
 

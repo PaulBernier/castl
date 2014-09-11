@@ -25,7 +25,7 @@ local jssupport = require("castl.jssupport")
 
 local huge = math.huge
 local tonumber, type, getmetatable, setmetatable = tonumber, type, getmetatable, setmetatable
-local get, put, withinNew = internal.get, internal.put, internal.withinNew
+local get, put, withinNew, toNumber = internal.get, internal.put, internal.withinNew, internal.toNumber
 
 _ENV = nil
 
@@ -52,6 +52,15 @@ Number = function(this, arg)
             return mt._primitive
         end,
         _primitive = tonumber(arg),
+        __sub = function(a, b)
+            return toNumber(a) - toNumber(b)
+        end,
+        __mul = function(a, b)
+            return toNumber(a) * toNumber(b)
+        end,
+        __div = function(a, b)
+            return toNumber(a) / toNumber(b)
+        end,
         _prototype = numberProto
     })
 

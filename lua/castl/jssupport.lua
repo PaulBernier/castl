@@ -215,6 +215,7 @@ end
 
 -- Avoid Lua coercion
 function jssupport.add(x , y)
+    local x, y = toPrimitive(x), toPrimitive(y)
     if type(x) == "string" or type(y) == "string" then
         return tostring(x) .. tostring(y)
     else
