@@ -24,13 +24,14 @@ local dateProto = require("castl.prototype.date")
 
 local date, time = os.date, os.time
 local pack, type, setmetatable = table.pack, type, setmetatable
+local get, put, withinNew = internal.get, internal.put, internal.withinNew
 
 _ENV = nil
 
 Date = function(this, ...)
 
     -- Date constructor not called within a new
-    if not internal.withinNew(this, dateProto) then
+    if not withinNew(this, dateProto) then
         return date("%a %h %d %Y %H:%M:%S GMT%z (%Z)")
     end
 
@@ -68,10 +69,10 @@ Date = function(this, ...)
 
     setmetatable(o, {
         __index = function (self, key)
-            return internal.get(self, dateProto, key)
+            return get(self, dateProto, key)
         end,
         __newindex = function (self, key, value)
-            return internal.put(self, key, value)
+            return put(self, key, value)
         end,
         __tostring = dateProto.toString,
         __tonumber = function(self)

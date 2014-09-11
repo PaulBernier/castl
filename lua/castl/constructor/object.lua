@@ -18,7 +18,6 @@
 
 local Object
 
-local jssupport = require("castl.jssupport")
 local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")
 local objectProto = require("castl.prototype.object")
@@ -26,22 +25,23 @@ local errorHelper = require("castl.modules.error_helper")
 
 local type, error, pairs, tostring = type, error, pairs, tostring
 local getmetatable, rawset, rawget = getmetatable, rawset, rawget
+local null, setNewMetatable, toObject, defaultValue = internal.null, internal.setNewMetatable, internal.toObject, internal.defaultValue
 
 _ENV = nil
 
 Object = function (this, obj)
-    if obj == nil or obj == jssupport.null then
+    if obj == nil or obj == null then
         return coreObjects.obj({})
     end
 
-    return internal.toObject(obj)
+    return toObject(obj)
 end
 
 Object.create = function (this, prototype, props)
     local o = {}
 
-    if prototype ~= jssupport.null then
-        internal.setNewMetatable(o, prototype)
+    if prototype ~= null then
+        setNewMetatable(o, prototype)
     end
 
     if props then
@@ -79,13 +79,13 @@ Object.defineProperty = function(this, obj, prop, descriptor)
     if descriptor.value ~= nil then
         -- TODO: related to weak typing
         if type(prop) ~= "number" then
-            prop = internal.defaultValue(prop)
+            prop = defaultValue(prop)
         end
         rawset(obj, prop, descriptor.value)
         return obj
     end
 
-    prop = internal.defaultValue(prop)
+    prop = defaultValue(prop)
 
     -- getter
     if descriptor.get ~= nil then

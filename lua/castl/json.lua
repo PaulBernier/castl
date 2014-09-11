@@ -16,9 +16,11 @@
 -- [[ CASTL others submodule]] --
 
 local coreObjects = require("castl.core_objects")
-local jssupport = require("castl.jssupport")
+local internal = require("castl.internal")
 local json = require("castl.modules.dkjson")
 local errorHelper = require("castl.modules.error_helper")
+
+local null = internal.null
 
 local JSON = {}
 
@@ -27,7 +29,7 @@ local error = error
 _ENV = nil
 
 JSON.parse = function(this, text)
-    local obj, pos, err = json.decode(text, 1, jssupport.null, coreObjects.objectMt, coreObjects.arrayMt)
+    local obj, pos, err = json.decode(text, 1, null, coreObjects.objectMt, coreObjects.arrayMt)
     if err then
         error(errorHelper.newSyntaxError(err))
     end

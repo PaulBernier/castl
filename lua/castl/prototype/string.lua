@@ -19,15 +19,16 @@
 local stringPrototype = {}
 
 local RegExp, instanceof, array, _regexp, new, runtime
-local jssupport = require("castl.jssupport")
+local internal = require("castl.internal")
 local regexpHelper = require("castl.modules.regexphelper")
 local common = require("castl.modules.common")
-local internal = require("castl.internal")
 
-local defaultValue = internal.defaultValue
 local type, tostring, tonumber, min, rawget, rawset = type, tostring, tonumber, math.min, rawget, rawset
 local pack, tinsert, tremove, concat = table.pack, table.insert, table.remove, table.concat
-local string, error, require, gmatch, getmetatable = string, error, require, string.gmatch, getmetatable
+local error, require, getmetatable = error, require, getmetatable
+local sub, byte, gmatch, find, reverse = string.sub, string.byte, string.gmatch, string.find, string.reverse
+local lower, upper, match, gsub, len = string.lower, string.upper, string.match, string.gsub, string.len
+local null, defaultValue = internal.null, internal.defaultValue
 
 _ENV = nil
 
@@ -65,16 +66,16 @@ end
 stringPrototype.charAt = function (this, i)
     local value = valueof(this)
     if type(i) == "number" then
-        return string.sub(value, i + 1, i + 1)
+        return sub(value, i + 1, i + 1)
     end
 
-    return string.sub(value, 1, 1)
+    return sub(value, 1, 1)
 end
 
 stringPrototype.charCodeAt = function (this, i)
     local value = valueof(this)
     i = i or 0
-    return string.byte(value, tonumber(i) + 1)
+    return byte(value, tonumber(i) + 1)
 end
 
 stringPrototype.concat = function (this, ...)
@@ -111,7 +112,7 @@ stringPrototype.indexOf = function (this, searchValue, fromIndex)
     end
 
     -- find
-    local ret = string.find(value, tostring(searchValue), fromIndex, true)
+    local ret = find(value, tostring(searchValue), fromIndex, true)
 
     -- not found
     if ret == nil then
@@ -131,7 +132,7 @@ stringPrototype.lastIndexOf = function (this, searchValue, fromIndex)
     end
 
     -- find in reversed string
-    local ret = string.find(string.reverse(value), tostring(searchValue), value.length - fromIndex + 1, true)
+    local ret = find(reverse(value), tostring(searchValue), value.length - fromIndex + 1, true)
     if searchValue == "" then
         ret = ret - 1
     end
@@ -162,9 +163,9 @@ stringPrototype.substr = function (this, start, length)
     end
 
     if length ~= nil then
-        return string.sub(value, start + 1, start + length)
+        return sub(value, start + 1, start + length)
     else
-        return string.sub(value, start + 1)
+        return sub(value, start + 1)
     end
 end
 
@@ -193,9 +194,9 @@ stringPrototype.substring = function (this, indexA, indexB)
     end
 
     if indexB ~= nil then
-        return string.sub(value, indexA + 1, indexB)
+        return sub(value, indexA + 1, indexB)
     else
-        return string.sub(value, indexA + 1)
+        return sub(value, indexA + 1)
     end
 end
 
@@ -210,10 +211,10 @@ stringPrototype.slice = function (this, beginSlice, endSlice)
             endSlice = negativeIndex(endSlice, value.length)
         end
 
-        return string.sub(value, beginSlice + 1, endSlice)
+        return sub(value, beginSlice + 1, endSlice)
     end
 
-    return string.sub(value, beginSlice + 1)
+    return sub(value, beginSlice + 1)
 
 end
 
@@ -226,19 +227,19 @@ stringPrototype.small = function(this)
 end
 
 stringPrototype.toLowerCase = function (this)
-    return string.lower(valueof(this))
+    return lower(valueof(this))
 end
 
 stringPrototype.toLocaleLowerCase = function (this)
-    return string.lower(valueof(this))
+    return lower(valueof(this))
 end
 
 stringPrototype.toUpperCase = function (this)
-    return string.upper(valueof(this))
+    return upper(valueof(this))
 end
 
 stringPrototype.toLocaleUpperCase = function (this)
-    return string.upper(valueof(this))
+    return upper(valueof(this))
 end
 
 stringPrototype.toString = function (this)
@@ -257,7 +258,7 @@ end
 stringPrototype.trim = function (this)
     local value = valueof(this)
     -- http://lua-users.org/wiki/StringTrim
-    return string.match(value,'^()%s*$') and '' or string.match(value,'^%s*(.*%S)')
+    return match(value,'^()%s*$') and '' or match(value,'^%s*(.*%S)')
 end
 
 
@@ -344,16 +345,16 @@ local getReplacerRegExp = function(newSubStr)
         replacer = defaultValue(newSubStr)
 
         -- handle $ parameters
-        replacer = string.gsub(replacer, "%$&", "$0")
-        replacer = string.gsub(replacer, "([%$]+)(.?)",
+        replacer = gsub(replacer, "%$&", "$0")
+        replacer = gsub(replacer, "([%$]+)(.?)",
             function(dollars, follow)
-                local length = string.len(dollars)
+                local length = len(dollars)
                 local ret = {"%"}
                 for i = 2, length do
                     ret[i] = (i % 2) == 0 and "$" or "%"
                 end
 
-                if not tonumber(string.sub(follow, 1, 1)) then
+                if not tonumber(sub(follow, 1, 1)) then
                     ret[length] = "$"
                 end
 
@@ -372,10 +373,10 @@ local getReplacerString = function(newSubStr)
     local replacer = defaultValue(newSubStr)
 
     -- handle $ parameters
-    replacer = string.gsub(replacer, "%$&", "%%0")
-    replacer = string.gsub(replacer, "([%$]+)",
+    replacer = gsub(replacer, "%$&", "%%0")
+    replacer = gsub(replacer, "([%$]+)",
         function(dollars)
-            local length = string.len(dollars)
+            local length = len(dollars)
             local ret = {"$"}
             for i = 2, length do
                 ret[i] = (i % 2) == 1 and "$" or ""
@@ -392,7 +393,6 @@ stringPrototype.replace = function (this, match, newSubStr, flags)
     local value = valueof(this)
     RegExp = RegExp or require("castl.constructor.regexp")
     instanceof = instanceof or require("castl.core_objects").instanceof
-    defaultValue = defaultValue or require("castl.internal").defaultValue
 
     if type(match) ~= "string" and not instanceof(match, RegExp) then
         match = defaultValue(match)
@@ -414,7 +414,7 @@ stringPrototype.replace = function (this, match, newSubStr, flags)
     local replacer
     if type(match) == "string" then
         replacer = getReplacerString(newSubStr)
-        return (string.gsub(value, match, replacer, 1))
+        return (gsub(value, match, replacer, 1))
     elseif instanceof(match, RegExp) then
         replacer = getReplacerRegExp(newSubStr)
         return (regexpHelper.gsub(value, match, replacer))
@@ -485,7 +485,7 @@ stringPrototype.match = function (this, regexp)
     local length = #ret
 
     if length == 0 then
-        return jssupport.null
+        return null
     end
 
     -- shift to 0-based index

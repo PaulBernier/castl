@@ -29,8 +29,9 @@ local referenceErrorProto = require("castl.prototype.error.reference_error")
 local syntaxErrorProto = require("castl.prototype.error.syntax_error")
 local typeErrorProto = require("castl.prototype.error.type_error")
 local regexpProto = require("castl.prototype.regexp")
-local jssupport = require("castl.jssupport")
 local errorHelper = require("castl.modules.error_helper")
+
+local typeof = require("castl.jssupport").typeof
 
 local RegExp
 
@@ -41,7 +42,7 @@ local debug = debug
 local type, max, strlen, strsub, tonumber, pack, tinsert, concat = type, math.max, string.len, string.sub, tonumber, table.pack, table.insert, table.concat
 local next, tostring = next, tostring
 local require, error = require, error
-local getPrototype = internal.prototype
+local getPrototype, get, put, null, setNewMetatable = internal.prototype, internal.get, internal.put, internal.null, internal.setNewMetatable
 
 _ENV = nil
 
@@ -89,19 +90,17 @@ end
 --]]
 
 objectMt.__index = function(self, key)
-    return internal.get(self, objectProto, key)
+    return get(self, objectProto, key)
 end
 
-objectMt.__newindex = function(self, key, value)
-    internal.put(self, key, value)
-end
+objectMt.__newindex = put
 
 objectMt.__tostring = function(self)
     return coreObjects.objectToString(self)
 end
 
 objectMt.__tonumber = function(self)
-    return jssupport.NaN
+    return 0/0
 end
 
 --[[
@@ -137,12 +136,12 @@ functionMt.__index = function(self, key)
         return value
     end
 
-    return internal.get(proxy, functionProto, key)
+    return get(proxy, functionProto, key)
 end
 
 functionMt.__newindex = function(self, key, value)
     local proxy = coreObjects.getFunctionProxy(self)
-    internal.put(proxy, key, value)
+    put(proxy, key, value)
 end
 
 functionMt.__tostring = function(self)
@@ -151,7 +150,7 @@ functionMt.__tostring = function(self)
 end
 
 functionMt.__tonumber = function(self)
-    return jssupport.NaN
+    return 0/0
 end
 
 debug.setmetatable((function () end), functionMt)
@@ -161,7 +160,7 @@ debug.setmetatable((function () end), functionMt)
 --]]
 
 arrayMt.__index = function(self, key)
-    return internal.get(self, arrayProto, key)
+    return get(self, arrayProto, key)
 end
 
 arrayMt.__newindex = function(self, key, value)
@@ -169,7 +168,7 @@ arrayMt.__newindex = function(self, key, value)
         local length = rawget(self, 'length') or 0
         rawset(self, 'length', max(length, key + 1))
     end
-    internal.put(self, key, value)
+    put(self, key, value)
 end
 
 arrayMt.__tostring = function(self)
@@ -192,7 +191,7 @@ arrayMt.__tostring = function(self)
 end
 
 arrayMt.__tonumber = function(self)
-    return jssupport.NaN
+    return 0/0
 end
 
 --[[
@@ -200,11 +199,11 @@ end
 --]]
 
 booleanMt.__index = function(self, key)
-    return internal.get(nil, booleanProto, key)
+    return get(nil, booleanProto, key)
 end
 
 -- immutable
-booleanMt.__newindex = function(self, key) end
+booleanMt.__newindex = function() end
 
 booleanMt.__lt = function(a, b)
     local numValueA = a and 1 or 0
@@ -239,11 +238,11 @@ debug.setmetatable(true, booleanMt)
 --]]
 
 numberMt.__index = function(self, key)
-    return internal.get(nil, numberProto, key)
+    return get(nil, numberProto, key)
 end
 
 -- immutable
-numberMt.__newindex = function(self, key) end
+numberMt.__newindex = function() end
 
 numberMt.__lt = function(a, b)
     if b == nil then
@@ -256,7 +255,7 @@ numberMt.__lt = function(a, b)
         local numValue = b and 1 or 0
         return a < numValue
     end
-    if b == jssupport.null then
+    if b == null then
         return a < 0
     end
 
@@ -274,7 +273,7 @@ numberMt.__le = function(a, b)
         local numValue = b and 1 or 0
         return a <= numValue
     end
-    if b == jssupport.null then
+    if b == null then
         return a <= 0
     end
 
@@ -305,8 +304,11 @@ stringMt.__index = function(self, key)
         end
     end
 
-    return internal.get(nil, stringProto, key)
+    return get(nil, stringProto, key)
 end
+
+-- immutable
+stringMt.__newindex = function() end
 
 stringMt.__lt = function(a, b)
     if b == nil then
@@ -319,7 +321,7 @@ stringMt.__lt = function(a, b)
         local numValue = b and 1 or 0
         return a < numValue
     end
-    if b == jssupport.null then
+    if b == null then
         return tonumber(a) < 0
     end
 
@@ -337,22 +339,19 @@ stringMt.__le = function(a, b)
         local numValue = b and 1 or 0
         return a <= numValue
     end
-    if b == jssupport.null then
+    if b == null then
         return tonumber(a) <= 0
     end
 
     return false
 end
 
--- immutable
-stringMt.__newindex = function(self) end
-
 stringMt.__add= function(a, b)
     return tostring(a) .. tostring(b)
 end
 
 stringMt.__tonumber = function(self)
-    return tonumber(self) or jssupport.NaN
+    return tonumber(self) or 0/0
 end
 
 debug.setmetatable("", stringMt)
@@ -379,19 +378,19 @@ undefinedMt.__add = function (a, b)
 end
 
 undefinedMt.__sub = function (a, b)
-    return jssupport.NaN
+    return 0/0
 end
 undefinedMt.__mul = function (a, b)
-    return jssupport.NaN
+    return 0/0
 end
 undefinedMt.__div = function (a, b)
-    return jssupport.NaN
+    return 0/0
 end
 undefinedMt.__mod = function (a, b)
-    return jssupport.NaN
+    return 0/0
 end
 undefinedMt.__pow = function (a, b)
-    return jssupport.NaN
+    return 0/0
 end
 
 undefinedMt.__lt = function (a, b)
@@ -402,7 +401,7 @@ undefinedMt.__le = function (a, b)
 end
 
 undefinedMt.__tonumber = function (a, b)
-    return jssupport.NaN
+    return 0/0
 end
 
 debug.setmetatable(nil, undefinedMt)
@@ -431,11 +430,11 @@ end
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
 function coreObjects.new(f, ...)
     if type(f) ~= "function" then
-        error(errorHelper.newTypeError(jssupport.typeof(f) .. " is not a function"))
+        error(errorHelper.newTypeError(typeof(f) .. " is not a function"))
     end
 
     local o = {}
-    internal.setNewMetatable(o, f.prototype)
+    setNewMetatable(o, f.prototype)
     local ret = f(o, ...)
 
     -- http://stackoverflow.com/a/3658673
@@ -459,16 +458,16 @@ function coreObjects.arguments(...)
 
     local mt = {
         __index = function (self, key)
-            return internal.get(self, objectProto, key)
+            return get(self, objectProto, key)
         end,
         __newindex = function (self, key, value)
-            return internal.put(self, key, value)
+            return put(self, key, value)
         end,
         __tostring = function(self)
             return coreObjects.objectToString(self)
         end,
         __tonumber = function()
-            return jssupport.NaN
+            return 0/0
         end,
         _prototype = "Arguments"
     }

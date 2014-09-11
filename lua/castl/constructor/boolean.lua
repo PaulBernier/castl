@@ -25,23 +25,34 @@ local booleanProto = require("castl.prototype.boolean")
 local Boolean
 
 local setmetatable, getmetatable = setmetatable, getmetatable
+local null, get, put, withinNew = internal.null, internal.get, internal.put, internal.withinNew
 
 _ENV = nil
 
+local booleanPrimitive = function(var)
+    if var == 0 or var == "" or var == null or var ~= var then
+        return false
+    elseif var then
+        return true
+    else
+        return false
+    end
+end
+
 Boolean = function(this, arg)
     -- Boolean constructor not called within a new
-    if not internal.withinNew(this, booleanProto) then
-        return jssupport.boolean(arg)
+    if not withinNew(this, booleanProto) then
+        return booleanPrimitive(arg)
     end
 
     local o = {}
 
     setmetatable(o, {
         __index = function (self, key)
-            return internal.get(self, booleanProto, key)
+            return get(self, booleanProto, key)
         end,
         __newindex = function (self, key, value)
-            return internal.put(self, key, value)
+            return put(self, key, value)
         end,
         __tostring = function(self)
             return coreObjects.objectToString(self)
@@ -50,7 +61,7 @@ Boolean = function(this, arg)
             local mt = getmetatable(self)
             return mt._primitive and 1 or 0
         end,
-        _primitive = jssupport.boolean(arg),
+        _primitive = booleanPrimitive(arg),
         _prototype = booleanProto
     })
 

@@ -18,9 +18,11 @@
 
 local Math = {}
 
-local jssupport = require("castl.jssupport")
+local internal = require("castl.internal")
 local coreObjects = require("castl.core_objects")
+
 local math, tonumber, time = math, tonumber, os.time
+local null = internal.null
 
 _ENV = nil
 
@@ -40,7 +42,7 @@ Math.SQRT2 = math.sqrt(2)
 -- functions
 
 local san = function(x)
-    return ((x == jssupport.null) and 0 or tonumber(x)) or 0/0
+    return ((x == null) and 0 or tonumber(x)) or 0/0
 end
 
 Math.abs = function(this, x) return math.abs(san(x)) end

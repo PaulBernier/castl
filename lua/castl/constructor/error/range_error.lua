@@ -18,12 +18,11 @@
 
 local RangeError
 
-local jssupport = require("castl.jssupport")
 local rangeErrorProto = require("castl.prototype.error.range_error")
 local internal = require("castl.internal")
 
 local setmetatable = setmetatable
-
+local get, put = internal.get, internal.put
 local traceback = debug.traceback
 
 _ENV = nil
@@ -34,16 +33,16 @@ RangeError = function(this, message)
 
     return setmetatable(o, {
         __index = function (self, key)
-            return internal.get(self, rangeErrorProto, key)
+            return get(self, rangeErrorProto, key)
         end,
         __newindex = function (self, key, value)
-            return internal.put(self, key, value)
+            return put(self, key, value)
         end,
         __tostring = function(self)
             return traceback(self:toString(), 4)
         end,
         __tonumber = function(self)
-            return jssupport.NaN
+            return 0/0
         end,
         _prototype = rangeErrorProto})
 end

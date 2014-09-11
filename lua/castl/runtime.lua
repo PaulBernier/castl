@@ -48,8 +48,7 @@ local export = {
     _with = jssupport.with,
     _void = jssupport.void,
     _e = jssupport.e,
-    null = jssupport.null,
-    NaN = jssupport.NaN,
+    NaN = 0/0,
     Infinity = jssupport.Infinity,
     isNaN = jssupport.isNaN,
     isFinite = jssupport.isFinite,
@@ -60,7 +59,10 @@ local export = {
     decodeURI = jssupport.decodeURI,
     decodeURIComponent = jssupport.decodeURIComponent,
     eval = eval.eval,
+    
+    -- internal
     _tonum = internal.toNumber,
+    null = internal.null,
 
     -- core object
     _obj = coreObjects.obj,

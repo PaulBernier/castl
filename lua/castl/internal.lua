@@ -15,11 +15,84 @@
 
 local internal = {}
 
-local Boolean, Number, String, new, objectToString, jssupport
+local Boolean, Number, String, new, objectToString, null
 
 local getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset
+local huge = math.huge
 
 _ENV = nil
+
+
+internal.null = {}
+local null = internal.null
+setmetatable(internal.null,{
+    __tostring = function ()
+        return 'null'
+    end,
+    __tonumber = function()
+        return 0
+    end,
+    __sub = function(a, b)
+        a = (a == null) and 0 or tonumber(a)
+        b = (b == null) and 0 or tonumber(b)
+        return a - b
+    end,
+    __mod = function(a, b)
+        a = (a == null) and 0 or tonumber(a)
+        b = (b == null) and 0 or tonumber(b)
+        return a % b
+    end,
+    __div = function(a, b)
+        if a == null then
+            return 0 / tonumber(b)
+        end
+        return huge
+    end,
+    __mul = function(a, b)
+        a = (a == null) and 0 or tonumber(a)
+        b = (b == null) and 0 or tonumber(b)
+        return a * b
+    end,
+    __lt = function(a, b)
+        if type(b) == "number" then
+            return 0 < b
+        end
+        if b == nil then
+            return false
+        end
+        if type(b) == "string" then
+            return 0 < tonumber(b)
+        end
+        if type(b) == "boolean" then
+            return b
+        end
+        if b == null then
+            return false
+        end
+
+        return false
+    end,
+    __le = function(a, b)
+        if type(b) == "number" then
+            return 0 <= b
+        end
+        if b == nil then
+            return false
+        end
+        if type(b) == "string" then
+            return 0 <= tonumber(b)
+        end
+        if type(b) == "boolean" then
+            return true
+        end
+        if b == null then
+            return true
+        end
+
+        return false
+    end,
+    __tojson = function () return "null" end
+})
 
 -- get/put
 function internal.get(self, prototype, key)
@@ -40,6 +113,8 @@ function internal.put(self, key, value)
     end
 end
 
+local get, put = internal.get, internal.put
+
 -- prototype
 function internal.prototype(o)
     local mt = getmetatable(o)
@@ -50,36 +125,9 @@ function internal.prototype(o)
 end
 
 -- test if constructor called within a new
-internal.withinNew = function(this, proto)
+function internal.withinNew(this, proto)
     local mt = getmetatable(this)
     return mt and mt._prototype == proto
-end
-
--- create a metatable for a new object (used in new statement and Object.create)
-function internal.setNewMetatable(o, prototype)
-    local mt = {
-        __index = function (self, key)
-            return internal.get(self, prototype, key)
-        end,
-        __newindex = function (self, key, value)
-            internal.put(self, key, value)
-        end,
-        __tonumber = function(self)
-            jssupport = jssupport or require("castl.jssupport")
-            return tonumber(internal.toPrimitive(self)) or jssupport.NaN
-        end,
-        _prototype = prototype
-    }
-
-    local protoMt = getmetatable(prototype)
-    if protoMt and protoMt.__tostring then
-        mt.__tostring = protoMt.__tostring
-    else
-        objectToString = objectToString or require("castl.core_objects").objectToString
-        mt.__tostring = objectToString
-    end
-
-    setmetatable(o, mt)
 end
 
 -- ToPrimitive, ToObject, toString, toNumber
@@ -94,10 +142,12 @@ function internal.toPrimitive(o)
     return o
 end
 
+local toPrimitive = internal.toPrimitive
+
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-9.9
 function internal.toObject(v)
-    jssupport = jssupport or require("castl.jssupport")
-    if v == nil or v == jssupport.null then
+    null = null or require("castl.jssupport")
+    if v == nil or v == null then
         error("ToObject: undefined or null")
     end
 
@@ -132,6 +182,32 @@ function internal.toNumber(value)
     end
 
     return tonumber(value)
+end
+
+-- create a metatable for a new object (used in new statement and Object.create)
+function internal.setNewMetatable(o, prototype)
+    local mt = {
+        __index = function (self, key)
+            return get(self, prototype, key)
+        end,
+        __newindex = function (self, key, value)
+            put(self, key, value)
+        end,
+        __tonumber = function(self)
+            return tonumber(toPrimitive(self)) or 0/0
+        end,
+        _prototype = prototype
+    }
+
+    local protoMt = getmetatable(prototype)
+    if protoMt and protoMt.__tostring then
+        mt.__tostring = protoMt.__tostring
+    else
+        objectToString = objectToString or require("castl.core_objects").objectToString
+        mt.__tostring = objectToString
+    end
+
+    setmetatable(o, mt)
 end
 
 return internal

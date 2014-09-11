@@ -19,12 +19,13 @@
 local arrayPrototype = {}
 
 local makeArray, runtime
-local jssupport = require("castl.jssupport")
+local internal = require("castl.internal")
 local errorHelper = require("castl.modules.error_helper")
 
 local rawget, rawset, require, getmetatable, error = rawget, rawset, require, getmetatable, error
-local table = table
 local tostring, tonumber, min, floor, type = tostring, tonumber, math.min, math.floor, type
+local pack, remove, insert, sort = table.pack, table.remove, table.insert, table.sort
+local null = internal.null
 
 _ENV = nil
 
@@ -45,7 +46,7 @@ end
 arrayPrototype.toLocaleString = arrayPrototype.toString
 
 arrayPrototype.push = function (this, ...)
-    local args = table.pack(...)
+    local args = pack(...)
     local length = this.length
 
     for i = 1, args.n do
@@ -75,7 +76,7 @@ arrayPrototype.shift = function (this)
 
     if length > 0 then
         local value = rawget(this, 0)
-        rawset(this, 0, table.remove(this, 1) or nil)
+        rawset(this, 0, remove(this, 1) or nil)
         rawset(this, 'length', length - 1)
         return value
     end
@@ -84,11 +85,11 @@ arrayPrototype.shift = function (this)
 end
 
 arrayPrototype.unshift = function (this, ...)
-    local args = table.pack(...)
+    local args = pack(...)
     local newLength = this["length"] + args.n
 
     for i = args.n, 1, -1 do
-        table.insert(this, 1, rawget(this, 0))
+        insert(this, 1, rawget(this, 0))
         rawset(this, 0, args[i])
     end
 
@@ -99,7 +100,7 @@ end
 
 arrayPrototype.splice = function (this, index, howMany, ...)
 
-    local elements = table.pack(...)
+    local elements = pack(...)
     local length = this.length
 
     if index > length then
@@ -115,19 +116,19 @@ arrayPrototype.splice = function (this, index, howMany, ...)
     for i = 1,howMany do
         ret[i - 1] = rawget(this, index)
         if index == 0 then
-            rawset(this, 0, table.remove(this, 1) or nil)
+            rawset(this, 0, remove(this, 1) or nil)
         else
-            table.remove(this, index)
+            remove(this, index)
         end
     end
 
     -- insert new elements
     for i = 1,elements.n do
         if index == 0 then
-            table.insert(this, 1, rawget(this, 0))
+            insert(this, 1, rawget(this, 0))
             rawset(this, 0, elements[i])
         else
-            table.insert(this, index, elements[i])
+            insert(this, index, elements[i])
         end
 
         index = index + 1
@@ -180,7 +181,7 @@ end
 arrayPrototype.concat = function (this, ...)
     local ret = {}
     local length
-    local args = table.pack(...)
+    local args = pack(...)
 
     -- if this is a native Array
     if (getmetatable(this) or {})._prototype == arrayPrototype then
@@ -197,18 +198,18 @@ arrayPrototype.concat = function (this, ...)
         -- test if is array
         if (getmetatable(args[i]) or {})._prototype == arrayPrototype then
             for j = 0, args[i].length -1 do
-                table.insert(ret, args[i][j])
+                insert(ret, args[i][j])
             end
             length = length + args[i].length
         else
-            table.insert(ret, args[i])
+            insert(ret, args[i])
             length = length + 1
         end
     end
 
     -- shift to 0-based index
     local tmp = rawget(ret, 1)
-    table.remove(ret, 1)
+    remove(ret, 1)
     rawset(ret, 0, tmp)
 
     -- convert to array object
@@ -219,11 +220,11 @@ end
 -- doesn't work if two nil follow in the array
 arrayPrototype.sort = function (this, compareFunction)
     -- shift from 0-based to 1-based index
-    table.insert(this, 1, this[0])
+    insert(this, 1, this[0])
     rawset(this, 0, nil)
 
     -- sort
-    table.sort(this, function (a, b)
+    sort(this, function (a, b)
         if not b and a then
             return true
         end
@@ -249,7 +250,7 @@ arrayPrototype.sort = function (this, compareFunction)
 
     --  unshift
     local tmp = rawget(this, 1)
-    table.remove(this, 1)
+    remove(this, 1)
     rawset(this, 0, tmp)
 
     return this
@@ -265,7 +266,7 @@ arrayPrototype.join = function (this, arg)
     local bound = this.length - 1
 
     for i = 0, bound do
-        if not (this[i] == nil or this[i] == jssupport.null) then
+        if not (this[i] == nil or this[i] == null) then
             str = str .. tostring(this[i])
         end
         if i ~= bound then
@@ -319,13 +320,13 @@ arrayPrototype.map = function (this, callback, thisArg)
     for i = 0, this.length - 1 do
         if this[i] ~= nil then
             local v = callback(thisArg, this[i], i, this)
-            table.insert(ret, v)
+            insert(ret, v)
         end
     end
 
     -- shift to 0-based index
     local tmp = rawget(ret, 1)
-    table.remove(ret, 1)
+    remove(ret, 1)
     rawset(ret, 0, tmp)
 
     -- convert to array object
@@ -341,14 +342,14 @@ arrayPrototype.filter = function (this, callback, thisArg)
     for i = 0, this.length - 1 do
         -- filter
         if this[i] ~= nil and callback(thisArg, this[i], i, this) then
-            table.insert(ret, this[i])
+            insert(ret, this[i])
             length = length + 1
         end
     end
 
     -- shift to 0-based index
     local tmp = rawget(ret, 1)
-    table.remove(ret, 1)
+    remove(ret, 1)
     rawset(ret, 0, tmp)
 
     -- convert to array object

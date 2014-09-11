@@ -25,23 +25,24 @@ local jssupport = require("castl.jssupport")
 
 local huge = math.huge
 local tonumber, type, getmetatable, setmetatable = tonumber, type, getmetatable, setmetatable
+local get, put, withinNew = internal.get, internal.put, internal.withinNew
 
 _ENV = nil
 
 Number = function(this, arg)
     -- Number constructor not called within a new
-    if not internal.withinNew(this, numberProto) then
-        return tonumber(arg) or jssupport.NaN
+    if not withinNew(this, numberProto) then
+        return tonumber(arg) or 0/0
     end
 
     local o = {}
 
     setmetatable(o, {
         __index = function (self, key)
-            return internal.get(self, numberProto, key)
+            return get(self, numberProto, key)
         end,
         __newindex = function (self, key, value)
-            return internal.put(self, key, value)
+            return put(self, key, value)
         end,
         __tostring = function(self)
             return coreObjects.objectToString(self)
@@ -82,7 +83,7 @@ Number.parseFloat = function (this, str)
 end
 
 -- Static properties
-Number.NaN = jssupport.NaN
+Number.NaN = 0/0
 Number.MAX_VALUE = 1.7976931348623157e+308
 Number.MIN_VALUE = 5e-324
 Number.NEGATIVE_INFINITY = -jssupport.Infinity

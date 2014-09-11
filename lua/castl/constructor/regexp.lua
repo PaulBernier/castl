@@ -20,10 +20,10 @@ local RegExp
 
 local regexpProto = require("castl.prototype.regexp")
 local internal = require("castl.internal")
-local jssupport = require("castl.jssupport")
 
 local find = string.find
 local setmetatable = setmetatable
+local defaultValue, get, put = internal.defaultValue, internal.get, internal.put
 
 _ENV = nil
 
@@ -32,20 +32,20 @@ RegExp = function(this, pattern, flags)
 
     local o = {}
 
-    o.source = internal.defaultValue(pattern)
+    o.source = defaultValue(pattern)
     o.global = find(flags, "g") and true
     o.ignoreCase = find(flags, "i") and true
     o.multiline = find(flags, "m") and true
 
     setmetatable(o, {
         __index = function (self, key)
-            return internal.get(self, regexpProto, key)
+            return get(self, regexpProto, key)
         end,
         __newindex = function (self, key, value)
-            return internal.put(self, key, value)
+            return put(self, key, value)
         end,
         __tostring = regexpProto.toString,
-        __tonumber = function() return jssupport.NaN end,
+        __tonumber = function() return 0/0 end,
         _prototype = regexpProto
     })
 

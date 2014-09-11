@@ -19,11 +19,12 @@
 local regexpPrototype = {}
 local array
 
-local jssupport = require("castl.jssupport")
+local internal = require("castl.internal")
 local regexpHelper = require("castl.modules.regexphelper")
 
 local tostring, rawget, rawset, require = tostring, rawget, rawset, require
 local tinsert, tremove, pack = table.insert, table.remove, table.pack
+local null = internal.null
 
 _ENV = nil
 
@@ -70,7 +71,7 @@ regexpPrototype.exec = function(this, str)
     local length = #ret
 
     if length == 0 then
-        return jssupport.null
+        return null
     end
 
     -- shift to 0-based index

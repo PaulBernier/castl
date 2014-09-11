@@ -17,9 +17,10 @@
 
 local jssupport = {}
 
-local toNumber, toPrimitive
+local internal = require("castl.internal")
 
 -- Dependencies
+local null, toPrimitive, toNumber = internal.null, internal.toPrimitive, internal.toNumber
 local type, tonumber, tostring, pairs = type, tonumber, tostring, pairs
 local setmetatable, require = setmetatable, require
 local huge, floor, abs = math.huge, math.floor, math.abs
@@ -30,85 +31,14 @@ _ENV = nil
 
 jssupport.void = function() end
 jssupport.e = function(...) return ... end
-jssupport.NaN = 0/0
 jssupport.Infinity = huge
-
-jssupport.null = setmetatable({},{
-    __tostring = function ()
-        return 'null'
-    end,
-    __tonumber = function()
-        return 0
-    end,
-    __sub = function(a, b)
-        a = (a == jssupport.null) and 0 or tonumber(a)
-        b = (b == jssupport.null) and 0 or tonumber(b)
-        return a - b
-    end,
-    __mod = function(a, b)
-        a = (a == jssupport.null) and 0 or tonumber(a)
-        b = (b == jssupport.null) and 0 or tonumber(b)
-        return a % b
-    end,
-    __div = function(a, b)
-        if a == jssupport.null then
-            return 0 / tonumber(b)
-        end
-
-        return jssupport.Infinity
-    end,
-    __mul = function(a, b)
-        a = (a == jssupport.null) and 0 or tonumber(a)
-        b = (b == jssupport.null) and 0 or tonumber(b)
-        return a * b
-    end,
-    __lt = function(a, b)
-        if type(b) == "number" then
-            return 0 < b
-        end
-        if b == nil then
-            return false
-        end
-        if type(b) == "string" then
-            return 0 < tonumber(b)
-        end
-        if type(b) == "boolean" then
-            return b
-        end
-        if b == jssupport.null then
-            return false
-        end
-
-        return false
-    end,
-    __le = function(a, b)
-        if type(b) == "number" then
-            return 0 <= b
-        end
-        if b == nil then
-            return false
-        end
-        if type(b) == "string" then
-            return 0 <= tonumber(b)
-        end
-        if type(b) == "boolean" then
-            return true
-        end
-        if b == jssupport.null then
-            return true
-        end
-
-        return false
-    end,
-    __tojson = function () return "null" end
-})
 
 function jssupport.isNaN(this, n)
     if type(n) == "number" then
         return n ~= n
     elseif n == nil then
         return true
-    elseif n == jssupport.null then
+    elseif n == null then
         return false
     elseif type(n) == "table" or type(n) == "function" then
         return true
@@ -236,7 +166,6 @@ end
 
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3
 function jssupport.equal(x, y)
-    toPrimitive = toPrimitive or require("castl.internal").toPrimitive
     x = toPrimitive(x)
     y = toPrimitive(y)
 
@@ -245,7 +174,7 @@ function jssupport.equal(x, y)
         -- a
         if type(x) == nil then return true end
         -- b
-        if x == jssupport.null then return true end
+        if x == null then return true end
         -- c
         if type(x) == "number" then
             -- testNaN
@@ -261,9 +190,9 @@ function jssupport.equal(x, y)
         return x == y
     end
     -- case 2
-    if x == jssupport.null and type(y) == "nil" then return true end
+    if x == null and type(y) == "nil" then return true end
     -- case 3
-    if type(x) == "nil" and y == jssupport.null then return true end
+    if type(x) == "nil" and y == null then return true end
     -- case 4
     if type(x) == "number" and type(y) == "string" then
         return jssupport.equal(x, tonumber(y))
@@ -287,7 +216,6 @@ function jssupport.add(x , y)
     if type(x) == "string" or type(y) == "string" then
         return tostring(x) .. tostring(y)
     else
-        toNumber = toNumber or require("castl.internal").toNumber
         x = toNumber(x)
         y = toNumber(y)
         return x + y
@@ -296,15 +224,10 @@ end
 
 -- 0, NaN and "" are true in Lua and false in JS
 function jssupport.boolean(var)
-    if var == 0 or var == "" or var == jssupport.null then
+    if var == 0 or var == "" or var == null or var ~= var then
         return false
-            -- test NaN
-    elseif var ~= var then
-        return false
-    elseif var then
-        return true
     else
-        return false
+        return var
     end
 end
 

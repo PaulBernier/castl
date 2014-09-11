@@ -17,17 +17,16 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype
 
 local functionProxyOf
-local jssupport = require("castl.jssupport")
+local internal = require("castl.internal")
 local arrayProto = require("castl.prototype.array")
 local regexpProto = require("castl.prototype.regexp")
 local dateProto = require("castl.prototype.date")
-
-local getPrototype = require("castl.internal").prototype
 
 local objectPrototype = {}
 
 local type, rawget = type, rawget
 local require, getmetatable = require, getmetatable
+local null, getPrototype = internal.null, internal.prototype
 
 _ENV = nil
 
@@ -37,7 +36,7 @@ objectPrototype.toString = function (this)
 
     if this == nil then
         return "[object Undefined]"
-    elseif this == jssupport.null then
+    elseif this == null then
         return "[object Null]"
     elseif type(this) == "string" then
         return "[object String]"
