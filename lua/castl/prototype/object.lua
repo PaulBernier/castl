@@ -33,16 +33,16 @@ _ENV = nil
 objectPrototype.toString = function (this)
 
     local mt = getmetatable(this)
-
+    local tthis = type(this)
     if this == nil then
         return "[object Undefined]"
     elseif this == null then
         return "[object Null]"
-    elseif type(this) == "string" then
+    elseif tthis == "string" then
         return "[object String]"
-    elseif type(this) == "number" then
+    elseif tthis == "number" then
         return "[object Number]"
-    elseif type(this) == "boolean" then
+    elseif tthis == "boolean" then
         return "[object Boolean]"
     elseif mt and mt._prototype == arrayProto then
         return "[object Array]"
@@ -52,7 +52,7 @@ objectPrototype.toString = function (this)
         return "[object Date]"
     elseif mt and mt._prototype == "Arguments" then
         return "[object Arguments]"
-    elseif type(this) == "function" then
+    elseif tthis == "function" then
         return "[object Function]"
     end
 
@@ -66,16 +66,17 @@ objectPrototype.valueOf = function (this)
 end
 
 objectPrototype.hasOwnProperty = function (this, p)
-    if type(this) == "string" then
+    local tthis = type(this)
+    if tthis == "string" then
         return p == "length"
     end
-    if type(this) == "number" then
+    if tthis == "number" then
         return false
     end
-    if type(this) == "boolean" then
+    if tthis == "boolean" then
         return false
     end
-    if type(this) == "function" then
+    if tthis == "function" then
         functionProxyOf = functionProxyOf or require("castl.core_objects").getFunctionProxy
         this = functionProxyOf(this)
     end

@@ -209,8 +209,7 @@ booleanMt.__lt = function(a, b)
     local numValueA = a and 1 or 0
 
     if type(b) == "boolean" then
-        local numValueB = b and 1 or 0
-        return numValueA < numValueB
+        return numValueA < (b and 1 or 0)
     end
 
     return numValueA < b
@@ -224,8 +223,7 @@ booleanMt.__le = function(a, b)
     local numValueA = a and 1 or 0
 
     if type(b) == "boolean" then
-        local numValueB = b and 1 or 0
-        return numValueA <= numValueB
+        return numValueA <= (b and 1 or 0)
     end
 
     return numValueA <= b
@@ -245,15 +243,12 @@ end
 numberMt.__newindex = function() end
 
 numberMt.__lt = function(a, b)
-    if b == nil then
-        return false
-    end
-    if type(b) == "string" then
+    local t = type(b)
+    if t == "string" then
         return a < tonumber(b)
     end
-    if type(b) == "boolean" then
-        local numValue = b and 1 or 0
-        return a < numValue
+    if t == "boolean" then
+        return a < (b and 1 or 0)
     end
     if b == null then
         return a < 0
@@ -263,15 +258,12 @@ numberMt.__lt = function(a, b)
 end
 
 numberMt.__le = function(a, b)
-    if b == nil then
-        return false
-    end
-    if type(b) == "string" then
+    local t = type(b)
+    if t == "string" then
         return a <= tonumber(b)
     end
-    if type(b) == "boolean" then
-        local numValue = b and 1 or 0
-        return a <= numValue
+    if t == "boolean" then
+        return a <= (b and 1 or 0)
     end
     if b == null then
         return a <= 0
@@ -295,13 +287,12 @@ stringMt.__index = function(self, key)
     end
 
     -- Access characters of a string like an array
-    if tonumber(key) then
-        local numKey = tonumber(key)
-        if numKey >= length then
-            return nil
-        else
-            return strsub(self, numKey + 1, numKey + 1)
+    local num = tonumber(key)
+    if num then
+        if num < length then
+            return strsub(self, num + 1, num + 1)
         end
+        return nil
     end
 
     return get(nil, stringProto, key)
@@ -311,33 +302,27 @@ end
 stringMt.__newindex = function() end
 
 stringMt.__lt = function(a, b)
-    if b == nil then
-        return false
-    end
-    if type(b) == "number" then
+    local t = type(b)
+    if t == "number" then
         return tonumber(a) < b
     end
-    if type(b) == "boolean" then
-        local numValue = b and 1 or 0
-        return a < numValue
+    if t == "boolean" then
+        return tonumber(a) < (b and 1 or 0)
     end
     if b == null then
-        return tonumber(a) < 0
+        return a < 0
     end
 
     return false
 end
 
 stringMt.__le = function(a, b)
-    if b == nil then
-        return false
-    end
-    if type(b) == "number" then
+    local t = type(b)
+    if t == "number" then
         return tonumber(a) <= b
     end
-    if type(b) == "boolean" then
-        local numValue = b and 1 or 0
-        return a <= numValue
+    if t == "boolean" then
+        return tonumber(a) <= (b and 1 or 0)
     end
     if b == null then
         return tonumber(a) <= 0
@@ -365,42 +350,43 @@ undefinedMt.__tostring = function ()
 end
 
 undefinedMt.__add = function (a, b)
-    if type(a) == "number" or type(b) == "number" or
-        type(a) == "boolean" or type(b) == "boolean" then
+    local ta, tb = type(a), type(b)
+    if ta == "number" or tb == "number" or
+        ta == "boolean" or tb == "boolean" then
         return 0/0
     end
 
-    if type(a) == "string" or type(b) == "string" then
+    if ta == "string" or tb == "string" then
         return tostring(a) .. tostring(b)
     end
 
     return a + b
 end
 
-undefinedMt.__sub = function (a, b)
+undefinedMt.__sub = function ()
     return 0/0
 end
-undefinedMt.__mul = function (a, b)
+undefinedMt.__mul = function ()
     return 0/0
 end
-undefinedMt.__div = function (a, b)
+undefinedMt.__div = function ()
     return 0/0
 end
-undefinedMt.__mod = function (a, b)
+undefinedMt.__mod = function ()
     return 0/0
 end
-undefinedMt.__pow = function (a, b)
+undefinedMt.__pow = function ()
     return 0/0
 end
 
-undefinedMt.__lt = function (a, b)
+undefinedMt.__lt = function ()
     return false
 end
-undefinedMt.__le = function (a, b)
+undefinedMt.__le = function ()
     return false
 end
 
-undefinedMt.__tonumber = function (a, b)
+undefinedMt.__tonumber = function ()
     return 0/0
 end
 
@@ -438,7 +424,8 @@ function coreObjects.new(f, ...)
     local ret = f(o, ...)
 
     -- http://stackoverflow.com/a/3658673
-    if type(ret) == "table" or type(ret) == "function" then
+    local tr = type(ret)
+    if tr == "table" or tr == "function" then
         return ret
     end
 
@@ -504,9 +491,10 @@ end
 function coreObjects.next (o, previous)
     local mt = getmetatable(o)
     local isArray = mt and (mt._prototype == arrayProto or mt._prototype == "Arguments")
+    local to = type(o)
 
     -- iteration over array or string is similar
-    if isArray or type(o) == "string" then
+    if isArray or to == "string" then
         -- start iteration at 0
         if previous == nil then
             if o[0] then
@@ -524,7 +512,7 @@ function coreObjects.next (o, previous)
         if type(previous) == "number" then
             if previous + 1 < o.length then
                 return previous + 1
-            elseif type(o) ~= "string" then
+            elseif to ~= "string" then
                 -- try to find a non-numerical property (and different from 'length')
                 local ret = nil
                 repeat
@@ -542,7 +530,7 @@ function coreObjects.next (o, previous)
 
         return nil
 
-    elseif type(o) == "table" then
+    elseif to == "table" then
         -- TODO: enumerability not handled
         return next(o, previous)
     end

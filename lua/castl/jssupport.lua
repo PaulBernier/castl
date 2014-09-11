@@ -34,15 +34,16 @@ jssupport.e = function(...) return ... end
 jssupport.Infinity = huge
 
 function jssupport.isNaN(this, n)
-    if type(n) == "number" then
+    local tn = type(n)
+    if tn == "number" then
         return n ~= n
     elseif n == nil then
         return true
     elseif n == null then
         return false
-    elseif type(n) == "table" or type(n) == "function" then
+    elseif tn == "table" or tn == "function" then
         return true
-    elseif type(n) == "string" then
+    elseif tn == "string" then
         -- trim to compare with ""
         local s = match(n, '^()%s*$') and '' or match(n, '^%s*(.*%S)')
         if s == "" then return false end
@@ -64,7 +65,7 @@ end
 function jssupport.parseFloat(this, str)
     local v = tonumber(tostring(str))
     if v == nil then
-        return (0/0)
+        return 0/0
     else
         return v
     end
@@ -168,43 +169,44 @@ end
 function jssupport.equal(x, y)
     x = toPrimitive(x)
     y = toPrimitive(y)
+    local tx, ty = type(x), type(y)
 
     -- case 1
-    if type(x) == type(y) then
+    if tx == ty then
         -- a
-        if type(x) == nil then return true end
+        if tx == nil then return true end
         -- b
         if x == null then return true end
         -- c
-        if type(x) == "number" then
+        if tx == "number" then
             -- testNaN
-            if (x ~= x) or (y ~= y) then return false end
+            if x ~= x or y ~= y then return false end
             if x == y then return true end
             return false
         end
         -- d
-        if type(x) == "string" then return (x == y) end
+        if tx == "string" then return x == y end
         -- e
-        if type(x) == "boolean" then return (x == y) end
+        if tx == "boolean" then return x == y end
         -- f
         return x == y
     end
     -- case 2
-    if x == null and type(y) == "nil" then return true end
+    if x == null and ty == "nil" then return true end
     -- case 3
-    if type(x) == "nil" and y == null then return true end
+    if tx == "nil" and y == null then return true end
     -- case 4
-    if type(x) == "number" and type(y) == "string" then
+    if tx == "number" and ty == "string" then
         return jssupport.equal(x, tonumber(y))
     end
     -- case 5
-    if type(x) == "string" and type(y) == "number" then
+    if tx == "string" and ty == "number" then
         return jssupport.equal(tonumber(x), y)
     end
     -- case 6
-    if type(x) == "boolean" then return jssupport.equal(tonumber(x), y) end
+    if tx == "boolean" then return jssupport.equal(x and 1 or 0, y) end
     -- case 7
-    if type(y) == "boolean" then return jssupport.equal(x, tonumber(y)) end
+    if ty == "boolean" then return jssupport.equal(x, y and 1 or 0) end
     -- case 8 - 9
     -- TODO ? (comparison with objects)
     -- case 10
@@ -216,9 +218,7 @@ function jssupport.add(x , y)
     if type(x) == "string" or type(y) == "string" then
         return tostring(x) .. tostring(y)
     else
-        x = toNumber(x)
-        y = toNumber(y)
-        return x + y
+        return toNumber(x) + toNumber(y)
     end
 end
 
@@ -234,10 +234,12 @@ end
 function jssupport.typeof(var)
     if var == nil then
         return "undefined"
-    elseif type(var) == 'table' then
+    end
+    local tvar = type(var)
+    if tvar == 'table' then
         return "object"
     end
-    return type(var)
+    return tvar
 end
 
 function jssupport.inOp (object, key)

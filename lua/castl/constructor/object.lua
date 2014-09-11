@@ -61,11 +61,13 @@ Object.defineProperties = function (this, obj, props)
 end
 
 Object.defineProperty = function(this, obj, prop, descriptor)
-    if type(obj) == 'function' then
+    local tobj = type(obj)
+
+    if tobj == 'function' then
         obj = coreObjects.getFunctionProxy(obj)
     end
 
-    if type(obj) ~= 'table' then
+    if tobj ~= 'table' then
         error(errorHelper.newTypeError("Object.defineProperty called on non-object"))
     end
     if type(descriptor) ~= 'table' then
@@ -89,17 +91,11 @@ Object.defineProperty = function(this, obj, prop, descriptor)
 
     -- getter
     if descriptor.get ~= nil then
-        if type(prop) == "number" then
-            error("Getters the key of which is number are not supported yet")
-        end
         rawset(obj, "_g" .. prop, descriptor.get)
     end
 
     -- setter
     if descriptor.set ~= nil then
-        if type(prop) == "number" then
-            error("Setters the key of which is number are not supported yet")
-        end
         rawset(obj, "_s" .. prop, descriptor.set)
     end
 
@@ -165,8 +161,8 @@ Object.isSealed = function (this, obj)
 end
 
 Object.keys = function (this, obj)
-    local t = type(obj)
-    if t == "boolean" or obj == nil or t == "number" or t == "string" then
+    local tobj = type(obj)
+    if tobj == "boolean" or obj == nil or tobj == "number" or tobj == "string" then
         error(errorHelper.newTypeError("Object.keys called on non-object"))
     end
 

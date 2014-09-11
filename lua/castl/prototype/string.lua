@@ -37,9 +37,8 @@ stringPrototype.length = 0
 stringPrototype.valueOf = function (this)
     if type(this) == "string" then
         return this
-    else
-        return getmetatable(this)._primitive
     end
+    return getmetatable(this)._primitive
 end
 
 -- optimization
@@ -391,6 +390,7 @@ end
 
 stringPrototype.replace = function (this, match, newSubStr, flags)
     local value = valueof(this)
+
     RegExp = RegExp or require("castl.constructor.regexp")
     instanceof = instanceof or require("castl.core_objects").instanceof
 
@@ -398,17 +398,17 @@ stringPrototype.replace = function (this, match, newSubStr, flags)
         match = defaultValue(match)
     end
 
-    -- if flags are passed, match is converted to a regexp
-    if type(match) == "string" and flags then
-        new = new or require("castl.core_objects").new
-        match = new(RegExp, match, flags)
-    end
-
-    -- if replacer is a function, match must be converted to a regexp
-    -- to be able to use the regexp gsub
-    if type(match) == "string" and type(newSubStr) == "function" then
-        new = new or require("castl.core_objects").new
-        match = new(RegExp, match, "")
+    if type(match) == "string" then
+        -- if flags are passed, match is converted to a regexp
+        if flags then
+            new = new or require("castl.core_objects").new
+            match = new(RegExp, match, flags)
+            -- if replacer is a function, match must be converted to a regexp
+            -- to be able to use the regexp gsub
+        elseif type(newSubStr) == "function" then
+            new = new or require("castl.core_objects").new
+            match = new(RegExp, match, "")
+        end
     end
 
     local replacer

@@ -24,7 +24,7 @@ local dateProto = require("castl.prototype.date")
 
 local date, time = os.date, os.time
 local pack, type, setmetatable = table.pack, type, setmetatable
-local get, put, withinNew = internal.get, internal.put, internal.withinNew
+local get, put, withinNew, toNumber = internal.get, internal.put, internal.withinNew, internal.toNumber
 
 _ENV = nil
 
@@ -43,9 +43,10 @@ Date = function(this, ...)
         timestamp = Date.now()
     elseif args.n == 1 then
         local arg = args[1]
-        if type(arg) == "number" then
+        local targ = type(arg)
+        if targ == "number" then
             timestamp = arg * 1000
-        elseif type(arg) == "string" then
+        elseif targ == "string" then
             timestamp = Date.parse(arg)
         end
     else
@@ -77,6 +78,15 @@ Date = function(this, ...)
         __tostring = dateProto.toString,
         __tonumber = function(self)
             return self:getTime()
+        end,
+        __sub = function(a, b)
+            return toNumber(a) - toNumber(b)
+        end,
+        __mul = function(a, b)
+            return toNumber(a) * toNumber(b)
+        end,
+        __div = function(a, b)
+            return toNumber(a) / toNumber(b)
         end,
         _prototype = dateProto
     })

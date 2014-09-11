@@ -54,16 +54,14 @@ setmetatable(internal.null,{
         return a * b
     end,
     __lt = function(a, b)
-        if type(b) == "number" then
+        local tb = type(b)
+        if tb == "number" then
             return 0 < b
         end
-        if b == nil then
-            return false
-        end
-        if type(b) == "string" then
+        if tb == "string" then
             return 0 < tonumber(b)
         end
-        if type(b) == "boolean" then
+        if tb == "boolean" then
             return b
         end
         if b == null then
@@ -73,16 +71,14 @@ setmetatable(internal.null,{
         return false
     end,
     __le = function(a, b)
-        if type(b) == "number" then
+        local tb = type(b)
+        if tb == "number" then
             return 0 <= b
         end
-        if b == nil then
-            return false
-        end
-        if type(b) == "string" then
+        if tb == "string" then
             return 0 <= tonumber(b)
         end
-        if type(b) == "boolean" then
+        if tb == "boolean" then
             return true
         end
         if b == null then
@@ -151,14 +147,15 @@ function internal.toObject(v)
         error("ToObject: undefined or null")
     end
 
+    local tv = type(v)
     new = new or require("castl.core_objects").new
-    if type(v) == "boolean" then
+    if tv == "boolean" then
         Boolean = Boolean or require("castl.constructor.boolean")
         return new(Boolean, v)
-    elseif type(v) == "number" then
+    elseif tv == "number" then
         Number = Number or require("castl.constructor.number")
         return new(Number, v)
-    elseif type(v) == "string" then
+    elseif tv == "string" then
         String = String or require("castl.constructor.string")
         return new(String, v)
     end

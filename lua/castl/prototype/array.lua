@@ -225,10 +225,10 @@ arrayPrototype.sort = function (this, compareFunction)
 
     -- sort
     sort(this, function (a, b)
-        if not b and a then
+        if b == nil and a ~= nil then
             return true
         end
-        if not a and b then
+        if a == nil and b ~= nil then
             return false
         end
 
@@ -236,9 +236,10 @@ arrayPrototype.sort = function (this, compareFunction)
             return (tostring(a) < tostring(b))
         else
             local comp = compareFunction(this, a, b)
-            if type(comp) == "number" then
+            local tcomp = type(comp)
+            if tcomp == "number" then
                 return comp < 0
-            elseif type(comp) == "boolean" then
+            elseif tcomp == "boolean" then
                 if a == b then
                     return false
                 end
@@ -401,7 +402,8 @@ end
 arrayPrototype.forEach = function (this, callback, thisArg)
     thisArg = getThisArg(thisArg)
 
-    if type(this) == "table" or type(this) == "string" then
+    local tthis = type(this)
+    if tthis == "table" or tthis == "string" then
         local bound = this.length - 1
         for i = 0, bound do
             if this[i] ~= nil then
