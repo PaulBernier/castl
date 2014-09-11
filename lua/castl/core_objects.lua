@@ -42,7 +42,7 @@ local debug = debug
 local type, max, strlen, strsub, tonumber, pack, tinsert, concat = type, math.max, string.len, string.sub, tonumber, table.pack, table.insert, table.concat
 local next, tostring = next, tostring
 local require, error = require, error
-local getPrototype, get, put, null, setNewMetatable = internal.prototype, internal.get, internal.put, internal.null, internal.setNewMetatable
+local getPrototype, get, put, null, setNewMetatable, toNumber = internal.prototype, internal.get, internal.put, internal.null, internal.setNewMetatable, internal.toNumber
 
 _ENV = nil
 
@@ -215,10 +215,6 @@ booleanMt.__lt = function(a, b)
     return numValueA < b
 end
 
-booleanMt.__tonumber = function(self)
-    return self and 1 or 0
-end
-
 booleanMt.__le = function(a, b)
     local numValueA = a and 1 or 0
 
@@ -227,6 +223,37 @@ booleanMt.__le = function(a, b)
     end
 
     return numValueA <= b
+end
+
+booleanMt.__tonumber = function(self)
+    return self and 1 or 0
+end
+
+booleanMt.__sub = function(a, b)
+    local ta, tb = type(a), type(b)
+    if ta == "boolean" then
+        return (a and 1 or 0) - toNumber(b)
+    else
+        return toNumber(a)  - (b and 1 or 0)
+    end
+end
+
+booleanMt.__div = function(a, b)
+    local ta, tb = type(a), type(b)
+    if ta == "boolean" then
+        return (a and 1 or 0) / toNumber(b)
+    else
+        return toNumber(a)  / (b and 1 or 0)
+    end
+end
+
+booleanMt.__mul = function(a, b)
+    local ta, tb = type(a), type(b)
+    if ta == "boolean" then
+        return (a and 1 or 0) * toNumber(b)
+    else
+        return toNumber(a)  * (b and 1 or 0)
+    end
 end
 
 debug.setmetatable(true, booleanMt)

@@ -22,8 +22,9 @@ local internal = require("castl.internal")
 local dateparser = require("castl.modules.dateparser")
 local dateProto = require("castl.prototype.date")
 
+local luajit = jit ~= nil
 local date, time = os.date, os.time
-local pack, type, setmetatable = table.pack, type, setmetatable
+local pack, type, setmetatable, require, tonumber = table.pack, type, setmetatable, require, tonumber
 local get, put, withinNew, toNumber = internal.get, internal.put, internal.withinNew, internal.toNumber
 
 _ENV = nil
@@ -35,7 +36,6 @@ Date = function(this, ...)
         return date("%a %h %d %Y %H:%M:%S GMT%z (%Z)")
     end
 
-    local o = {}
     local args = pack(...)
     local timestamp = 0
 
@@ -66,6 +66,7 @@ Date = function(this, ...)
         timestamp = timestamp * 1000 + (args[7] or 0)
     end
 
+    local o = {}
     o._timestamp = timestamp
 
     setmetatable(o, {
@@ -96,9 +97,28 @@ end
 
 Date._timestamp = 0
 
-Date.now = function(this)
-    -- TODO: write a C function to get milliseconds
-    return time() * 1000
+if luajit then
+    local ffi = require("ffi")
+    -- posix systems only
+    ffi.cdef[[
+        typedef struct timeval {
+          long tv_sec;
+          long tv_usec;
+        } timeval;
+        int gettimeofday(struct timeval *restrict tp, void *restrict tzp);
+    ]]
+
+    local te = ffi.new("timeval[1]")
+
+    Date.now = function(this)
+        ffi.C.gettimeofday(te, nil);
+        return tonumber(te[0].tv_sec * 1000 + te[0].tv_usec / 1000);
+    end
+else
+    Date.now = function(this)
+        -- TODO: write a C function to get milliseconds
+        return time() * 1000
+    end
 end
 
 Date.parse = function(this, str)
