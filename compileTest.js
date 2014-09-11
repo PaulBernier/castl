@@ -18,7 +18,7 @@ fs.readFile(filename, 'utf8', function (err, data) {
         var firstLine = data.substr(0, position).trim();
 
         if (firstLine === "var assert = require('assert');" ||
-                firstLine === "var assert = require(\"assert\");") {
+            firstLine === "var assert = require(\"assert\");") {
             // Skip first line
             data = data.substr(position + 1);
 
@@ -29,11 +29,13 @@ fs.readFile(filename, 'utf8', function (err, data) {
                 throw new SyntaxError("Couldn't parse JS code");
             }
 
-            var options = {jit: luajit};
-            var compiledCode = castl.compileAST(syntax, options).compiled;
+            var castlOptions = {
+                jit: luajit
+            };
+            var compiledCode = castl.compileAST(syntax, castlOptions).compiled;
             compiledCode = compiledCode.replace(/assert\(_ENV,/g, "assert(");
             var finalCode = ["local assert, print = assert, print"];
-            
+
             // Set environment
             if (luajit) {
                 finalCode.push("local _ENV = require(\"castl.runtime\");");
@@ -44,7 +46,7 @@ fs.readFile(filename, 'utf8', function (err, data) {
                 finalCode.push("local _ENV = require(\"castl.runtime\");");
                 finalCode.push(compiledCode);
             }
-            
+
             // Write compiled code
             var luaFilename = filename;
             // Remove js extension

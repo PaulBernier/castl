@@ -23,6 +23,7 @@ output=false
 compiled=false
 tolerant=true
 node=false
+debug=false
 linenumers=false
 luajit=false
 outputname="output.lua"
@@ -38,9 +39,10 @@ function help {
     printf "\t%-15s %s\n" "-n" "print line numbers if -v or --cat options are active"
     printf "\t%-15s %s\n" "-h, --help" "display this help"
     printf "\t%-15s %s\n" "--cat" "don't execute, just print code that would be run"
+    printf "\t%-15s %s\n" "--jit" "compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active)"
+    printf "\t%-15s %s\n" "--debug" "add comments in the Lua code referring to the line number of the original statement in the JS file"
     printf "\t%-15s %s\n" "--acorn" "use Acorn parser. If not specified Esprima is used"
     printf "\t%-15s %s\n" "--strict" "make Esprima and Acorn not error-tolerant"
-    printf "\t%-15s %s\n" "--jit" "compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active)"
     printf "\t%-15s %s\n" "--node" "add a very basic support of NodeJS 'require' system"
     exit 0
 }
@@ -57,7 +59,9 @@ for arg in "$@"; do
         elif [ $arg = "--node" ]; then
             node=true
         elif [ $arg = "--jit" ]; then
-            luajit=true        
+            luajit=true
+        elif [ $arg = "--debug" ]; then
+            debug=true
         elif [ $arg = "--cat" ]; then
             execute=false
             verbose=true
@@ -98,7 +102,7 @@ for arg in "$@"; do
     fi
 done
 
-castl-compiler $filename $parser $node $luajit $tolerant > ".tmp.lua"
+castl-compiler $filename $parser $node $luajit $tolerant $debug > ".tmp.lua"
 compileStatus=$?
 
 # compilation failed

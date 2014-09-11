@@ -253,43 +253,67 @@
 
     function compileStatement(statement) {
 
+        var compiledStatement;
+
         switch (statement.type) {
         case "ExpressionStatement":
-            return compileExpressionStatement(statement.expression);
+            compiledStatement = compileExpressionStatement(statement.expression);
+            break;
         case "BlockStatement":
-            return compileListOfStatements(statement.body);
+            compiledStatement = compileListOfStatements(statement.body);
+            break;
         case "FunctionDeclaration":
-            return compileFunctionDeclaration(statement);
+            compiledStatement = compileFunctionDeclaration(statement);
+            break;
         case "VariableDeclaration":
-            return compileVariableDeclaration(statement);
+            compiledStatement = compileVariableDeclaration(statement);
+            break;
         case "IfStatement":
-            return compileIfStatement(statement);
+            compiledStatement = compileIfStatement(statement);
+            break;
         case "ForStatement":
         case "WhileStatement":
         case "DoWhileStatement":
         case "ForInStatement":
-            return compileIterationStatement(statement);
+            compiledStatement = compileIterationStatement(statement);
+            break;
         case "ReturnStatement":
-            return compileReturnStatement(statement);
+            compiledStatement = compileReturnStatement(statement);
+            break;
         case "BreakStatement":
-            return compileBreakStatement(statement);
+            compiledStatement = compileBreakStatement(statement);
+            break;
         case "TryStatement":
-            return compileTryStatement(statement);
+            compiledStatement = compileTryStatement(statement);
+            break;
         case "ThrowStatement":
-            return compileThrowStatement(statement);
+            compiledStatement = compileThrowStatement(statement);
+            break;
         case "SwitchStatement":
-            return compileSwitchStatement(statement);
+            compiledStatement = compileSwitchStatement(statement);
+            break;
         case "ContinueStatement":
-            return compileContinueStatement(statement);
+            compiledStatement = compileContinueStatement(statement);
+            break;
         case "LabeledStatement":
-            return compileLabeledStatement(statement);
+            compiledStatement = compileLabeledStatement(statement);
+            break;
         case "WithStatement":
-            return compileWithStatement(statement);
+            compiledStatement = compileWithStatement(statement);
+            break;
         case "EmptyStatement":
         case "DebuggerStatement":
             return "";
         default:
             throw new Error("Unknown Statement type: " + statement.type);
+        }
+
+        if (compiledStatement !== undefined) {
+            if (options.debug) {
+                var line = statement.loc.start.line;
+                return "--[[" + line + "--]] " + compiledStatement;
+            }
+            return compiledStatement;
         }
     }
 

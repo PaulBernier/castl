@@ -6,17 +6,31 @@ var filename = process.argv[2];
 var parserName = process.argv[3];
 var nodejs = process.argv[4] === "true";
 var luajit = process.argv[5] === "true";
-var tolerant = process.argv[6];
+var tolerant = process.argv[6] === "true";
+var debug = process.argv[7] === "true";
 
 var parser = require(parserName);
 
-var options = {}
-if (tolerant === "true") {
+var parserOptions = {}
+var castlOptions = {
+    jit: luajit
+};
+
+if (tolerant) {
     if (parserName === "esprima") {
-        options.tolerant = true
+        parserOptions.tolerant = true
     } else if (parserName === "acorn") {
-        options.allowReturnOutsideFunction = true
-        options.allowTrailingCommas = true
+        parserOptions.allowReturnOutsideFunction = true
+        parserOptions.allowTrailingCommas = true
+    }
+}
+
+if (debug) {
+    castlOptions.debug = true;
+    if (parserName === "esprima") {
+        parserOptions.loc = true;
+    } else if (parserName === "acorn") {
+        parserOptions.locations = true;
     }
 }
 
@@ -29,13 +43,12 @@ fs.readFile(filename, 'utf8', function (err, data) {
 
     var syntax = "";
     try {
-        syntax = parser.parse(data, options);
+        syntax = parser.parse(data, parserOptions);
     } catch (e) {
         throw new SyntaxError("Couldn't parse JS code");
     }
 
-    var options = {jit: luajit};
-    var compiledCode = castl.compileAST(syntax, options).compiled;
+    var compiledCode = castl.compileAST(syntax, castlOptions).compiled;
     var finalCode = [];
 
     // Set environment

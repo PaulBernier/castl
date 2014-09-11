@@ -56,9 +56,10 @@ Option  | Description
 -n | print line numbers if -v or --cat options are active.
 -h, --help | display help.
 --cat | don't execute, just print code that would be run.
+--jit | compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active).
+--debug | add comments in the Lua code referring to the line number of the original statement in the JS file.
 --acorn | use Acorn parser. If not specified Esprima is used.
 --strict | make Esprima and Acorn not error-tolerant.
---jit | compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active).
 --node | add a very basic support of NodeJS 'require' system.
 
 ## CASTL components

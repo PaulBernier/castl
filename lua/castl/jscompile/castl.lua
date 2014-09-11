@@ -73,6 +73,7 @@ end
 }); end
 end)
 compileStatement = (function (this, statement)
+local line,compiledStatement;
 repeat
 local _into = false;
 local _cases = {["ExpressionStatement"] = true,["BlockStatement"] = true,["FunctionDeclaration"] = true,["VariableDeclaration"] = true,["IfStatement"] = true,["ForStatement"] = true,["WhileStatement"] = true,["DoWhileStatement"] = true,["ForInStatement"] = true,["ReturnStatement"] = true,["BreakStatement"] = true,["TryStatement"] = true,["ThrowStatement"] = true,["SwitchStatement"] = true,["ContinueStatement"] = true,["LabeledStatement"] = true,["WithStatement"] = true,["EmptyStatement"] = true,["DebuggerStatement"] = true};
@@ -81,23 +82,28 @@ _into = true;
 goto _default
 end
 if _into or (statement.type == "ExpressionStatement") then
- do return compileExpressionStatement(_ENV,statement.expression); end
+_e((function () local _tmp = compileExpressionStatement(_ENV,statement.expression); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "BlockStatement") then
- do return compileListOfStatements(_ENV,statement.body); end
+_e((function () local _tmp = compileListOfStatements(_ENV,statement.body); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "FunctionDeclaration") then
- do return compileFunctionDeclaration(_ENV,statement); end
+_e((function () local _tmp = compileFunctionDeclaration(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "VariableDeclaration") then
- do return compileVariableDeclaration(_ENV,statement); end
+_e((function () local _tmp = compileVariableDeclaration(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "IfStatement") then
- do return compileIfStatement(_ENV,statement); end
+_e((function () local _tmp = compileIfStatement(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "ForStatement") then
@@ -113,39 +119,48 @@ if _into or (statement.type == "DoWhileStatement") then
 _into = true;
 end
 if _into or (statement.type == "ForInStatement") then
- do return compileIterationStatement(_ENV,statement); end
+_e((function () local _tmp = compileIterationStatement(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "ReturnStatement") then
- do return compileReturnStatement(_ENV,statement); end
+_e((function () local _tmp = compileReturnStatement(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "BreakStatement") then
- do return compileBreakStatement(_ENV,statement); end
+_e((function () local _tmp = compileBreakStatement(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "TryStatement") then
- do return compileTryStatement(_ENV,statement); end
+_e((function () local _tmp = compileTryStatement(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "ThrowStatement") then
- do return compileThrowStatement(_ENV,statement); end
+_e((function () local _tmp = compileThrowStatement(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "SwitchStatement") then
- do return compileSwitchStatement(_ENV,statement); end
+_e((function () local _tmp = compileSwitchStatement(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "ContinueStatement") then
- do return compileContinueStatement(_ENV,statement); end
+_e((function () local _tmp = compileContinueStatement(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "LabeledStatement") then
- do return compileLabeledStatement(_ENV,statement); end
+_e((function () local _tmp = compileLabeledStatement(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "WithStatement") then
- do return compileWithStatement(_ENV,statement); end
+_e((function () local _tmp = compileWithStatement(_ENV,statement); compiledStatement  = _tmp; return _tmp; end)());
+break;
 _into = true;
 end
 if _into or (statement.type == "EmptyStatement") then
@@ -162,6 +177,15 @@ _throw(_new(Error,(_add("Unknown Statement type: ",statement.type))),0)
 _into = true;
 end
 until true
+if _bool((compiledStatement ~= undefined)) then
+if _bool(options.debug) then
+line = statement.loc.start.line;
+ do return (_add((_add((_add("--[[",line)),"--]] ")),compiledStatement)); end
+end
+
+ do return compiledStatement; end
+end
+
 end)
 compileListOfStatements = (function (this, statementList)
 local compiledStatement,i,compiledStatements;
