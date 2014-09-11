@@ -67,7 +67,7 @@ if [ "$#" -ne 0 ]; then
                 parser="acorn"
             fi
         else
-            files+=("test/$arg.js")
+            files+=("$arg")
         fi
     done
 fi
