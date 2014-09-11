@@ -1005,7 +1005,7 @@ break;
 _into = true;
 end
 if _into or (expression.operator == "~") then
-compiledUnaryExpression:push("_bit.bnot(");
+compiledUnaryExpression:push("_bnot(");
 compiledUnaryExpression:push(compiledExpression);
 compiledUnaryExpression:push(")");
 break;
@@ -1123,7 +1123,7 @@ break;
 _into = true;
 end
 if _into or (expression.operator == "<<") then
-compiledBinaryExpression:push("_bit.lshift(");
+compiledBinaryExpression:push("_lshift(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
 compiledBinaryExpression:push(right);
@@ -1132,7 +1132,7 @@ break;
 _into = true;
 end
 if _into or (expression.operator == ">>") then
-compiledBinaryExpression:push("_bit.arshift(");
+compiledBinaryExpression:push("_arshift(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
 compiledBinaryExpression:push(right);
@@ -1141,7 +1141,7 @@ break;
 _into = true;
 end
 if _into or (expression.operator == ">>>") then
-compiledBinaryExpression:push("_bit.rshift(");
+compiledBinaryExpression:push("_rshift(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
 compiledBinaryExpression:push(right);
@@ -1179,7 +1179,7 @@ break;
 _into = true;
 end
 if _into or (expression.operator == "|") then
-compiledBinaryExpression:push("_bit.bor(");
+compiledBinaryExpression:push("_bor(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
 compiledBinaryExpression:push(right);
@@ -1188,7 +1188,7 @@ break;
 _into = true;
 end
 if _into or (expression.operator == "^") then
-compiledBinaryExpression:push("_bit.bxor(");
+compiledBinaryExpression:push("_bxor(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
 compiledBinaryExpression:push(right);
@@ -1197,7 +1197,7 @@ break;
 _into = true;
 end
 if _into or (expression.operator == "&") then
-compiledBinaryExpression:push("_bit.band(");
+compiledBinaryExpression:push("_band(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
 compiledBinaryExpression:push(right);
@@ -1562,13 +1562,13 @@ _e((function () local _tmp = str:charCodeAt(i); charcode  = _tmp; return _tmp; e
 if _bool((charcode < 128)) then
 utf8:push(charcode);
 elseif _bool((charcode < 2048)) then
-utf8:push((_bit.bor(192,(_bit.arshift(charcode,6)))),(_bit.bor(128,(_bit.band(charcode,63)))));
+utf8:push((_bor(192,(_arshift(charcode,6)))),(_bor(128,(_band(charcode,63)))));
 elseif _bool((_bool((charcode < 55296)) or _bool((charcode >= 57344)))) then
-utf8:push((_bit.bor(224,(_bit.arshift(charcode,12)))),(_bit.bor(128,(_bit.band((_bit.arshift(charcode,6)),63)))),(_bit.bor(128,(_bit.band(charcode,63)))));
+utf8:push((_bor(224,(_arshift(charcode,12)))),(_bor(128,(_band((_arshift(charcode,6)),63)))),(_bor(128,(_band(charcode,63)))));
 else
 _e((function () local _tmp = i; i = _add(_tmp, 1); return _tmp; end)());
-_e((function () local _tmp = (_add(65536,(_bit.bor((_bit.lshift((_bit.band(charcode,1023)),10)),(_bit.band(str:charCodeAt(i),1023)))))); charcode  = _tmp; return _tmp; end)());
-utf8:push((_bit.bor(240,(_bit.arshift(charcode,18)))),(_bit.bor(128,(_bit.band((_bit.arshift(charcode,12)),63)))),(_bit.bor(128,(_bit.band((_bit.arshift(charcode,6)),63)))),(_bit.bor(128,(_bit.band(charcode,63)))));
+_e((function () local _tmp = (_add(65536,(_bor((_lshift((_band(charcode,1023)),10)),(_band(str:charCodeAt(i),1023)))))); charcode  = _tmp; return _tmp; end)());
+utf8:push((_bor(240,(_arshift(charcode,18)))),(_bor(128,(_band((_arshift(charcode,12)),63)))),(_bor(128,(_band((_arshift(charcode,6)),63)))),(_bor(128,(_band(charcode,63)))));
 end
 
 _e((function () local _tmp = _add(i, 1); i = _tmp; return _tmp; end)());

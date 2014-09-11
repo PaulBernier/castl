@@ -59,7 +59,7 @@ local export = {
     decodeURI = jssupport.decodeURI,
     decodeURIComponent = jssupport.decodeURIComponent,
     eval = eval.eval,
-    
+
     -- internal
     _tonum = internal.toNumber,
     null = internal.null,
@@ -93,7 +93,13 @@ local export = {
     console = others.console,
     JSON = json,
     Math = Math,
-    _bit = bit,
+    _lshift = bit.lshift,
+    _rshift = bit.rshift,
+    _arshift = bit.arshift,
+    _bor = bit.bor,
+    _bxor = bit.bxor,
+    _band = bit.band,
+    _bnot = bit.bnot,
 
     -- standard library export
     _tostr = tostring,

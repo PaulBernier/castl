@@ -1596,7 +1596,7 @@ if _bool((kind == PropertyKind.Data)) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.AccessorDataProperty);
-elseif _bool((_bit.band(map[key],kind))) then
+elseif _bool((_band(map[key],kind))) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.AccessorGetSet);
@@ -1604,7 +1604,7 @@ end
 
 end
 
-_e((function () local _tmp = (_bit.bor(map[key],kind)); map[key]  = _tmp; return _tmp; end)());
+_e((function () local _tmp = (_bor(map[key],kind)); map[key]  = _tmp; return _tmp; end)());
 else
 _e((function () local _tmp = kind; map[key]  = _tmp; return _tmp; end)());
 end

@@ -1110,7 +1110,7 @@
                 break;
                 // Bit not
             case "~":
-                compiledUnaryExpression.push("_bit.bnot(");
+                compiledUnaryExpression.push("_bnot(");
                 compiledUnaryExpression.push(compiledExpression);
                 compiledUnaryExpression.push(")");
                 break;
@@ -1203,21 +1203,21 @@
             break;
             // Bits shift
         case "<<":
-            compiledBinaryExpression.push("_bit.lshift(");
+            compiledBinaryExpression.push("_lshift(");
             compiledBinaryExpression.push(left);
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
             break;
         case ">>":
-            compiledBinaryExpression.push("_bit.arshift(");
+            compiledBinaryExpression.push("_arshift(");
             compiledBinaryExpression.push(left);
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
             break;
         case ">>>":
-            compiledBinaryExpression.push("_bit.rshift(");
+            compiledBinaryExpression.push("_rshift(");
             compiledBinaryExpression.push(left);
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
@@ -1245,21 +1245,21 @@
             break;
             // Bitwise operators
         case "|":
-            compiledBinaryExpression.push("_bit.bor(");
+            compiledBinaryExpression.push("_bor(");
             compiledBinaryExpression.push(left);
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
             break;
         case "^":
-            compiledBinaryExpression.push("_bit.bxor(");
+            compiledBinaryExpression.push("_bxor(");
             compiledBinaryExpression.push(left);
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
             break;
         case "&":
-            compiledBinaryExpression.push("_bit.band(");
+            compiledBinaryExpression.push("_band(");
             compiledBinaryExpression.push(left);
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);

@@ -13,15 +13,15 @@
     along with CASTL. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
-local bitbaselib
 local luajit = jit ~= nil
+local band, bor, bnot, bxor, lshift, arshift, rshift
 
 -- if executed by LuaJIT use its bit library as base
 if luajit then
-    bitbaselib = bit
+    band, bor, bnot, bxor, lshift, arshift, rshift = bit.band, bit.bor, bit.bnot, bit.bxor, bit.lshift, bit.arshift, bit.rshift
 else
     -- else use bit32 lib of Lua 5.2
-    bitbaselib = bit32
+    band, bor, bnot, bxor, lshift, arshift, rshift = bit32.band, bit32.bor, bit32.bnot, bit32.bxor, bit32.lshift, bit32.arshift, bit32.rshift
 end
 
 local bit = {}
@@ -31,27 +31,17 @@ local toNumber = require("castl.internal").toNumber
 _ENV = nil
 
 local ToUint32 = function(n)
-    return n % 2^32
-end
-
--- read bit
-local function rb(n, i)
-    return bitbaselib.rshift(bitbaselib.band(n, bitbaselib.lshift(1,i)),i)
-end
-
--- set bit to 1
-local function sb(n, i)
-    return bitbaselib.bor(n, bitbaselib.lshift(1,i))
+    return n % 0x100000000
 end
 
 bit.lshift = function(x, disp)
     x, disp = toNumber(x), toNumber(disp)
-    local shiftCount = bitbaselib.band(ToUint32(disp), 0x1F)
-    local ret = bitbaselib.lshift(x, shiftCount);
+    local shiftCount = band(ToUint32(disp), 0x1F)
+    local ret = lshift(x, shiftCount);
 
     -- Ones' complement
-    if rb(ret, 31) == 1 then
-        ret = -(bitbaselib.bnot(ret) + 1)
+    if band(ret, 0x80000000) > 0 then
+        ret = -(bnot(ret) + 1)
     end
 
     return ret
@@ -63,40 +53,41 @@ bit.rshift = function(x, disp)
         return ToUint32(x)
     end
 
-    local shiftCount = bitbaselib.band(ToUint32(disp), 0x1F)
-    return bitbaselib.rshift(x, shiftCount)
+    local shiftCount = band(ToUint32(disp), 0x1F)
+    return rshift(x, shiftCount)
 end
 
 bit.arshift = function(x, disp)
     x, disp = toNumber(x), toNumber(disp)
-    local shiftCount = bitbaselib.band(ToUint32(disp), 0x1F)
-    local ret = bitbaselib.rshift(x, shiftCount)
+    local shiftCount = band(ToUint32(disp), 0x1F)
+    local ret = rshift(x, shiftCount)
 
     if x < 0 then
         for i = 31, 31 - shiftCount, -1 do
-            ret = sb(ret, i)
+            -- set bit to 1
+            ret = bor(ret, lshift(1,i))
         end
         -- Ones' complement
-        ret = -(bitbaselib.bnot(ret) + 1)
+        ret = -(bnot(ret) + 1)
     end
 
     return ret
 end
 
 bit.band = function(x, y)
-    return bitbaselib.band(toNumber(x), toNumber(y))
+    return band(toNumber(x), toNumber(y))
 end
 
 bit.bor = function(x, y)
-    return bitbaselib.bor(toNumber(x), toNumber(y))
+    return bor(toNumber(x), toNumber(y))
 end
 
 bit.bxor = function(x, y)
-    return bitbaselib.bxor(toNumber(x), toNumber(y))
+    return bxor(toNumber(x), toNumber(y))
 end
 
 bit.bnot = function(x)
-    return bitbaselib.bnot(toNumber(x))
+    return bnot(toNumber(x))
 end
 
 return bit
