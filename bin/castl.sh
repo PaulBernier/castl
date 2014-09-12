@@ -36,7 +36,7 @@ function help {
     echo "Options:"
     printf "\t%-15s %s\n" "-v" "verbose, print code to be run"
     printf "\t%-15s %s\n" "-o" "output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named output.lua"
-    printf "\t%-15s %s\n" "-c" "if -o option is active the outputted code is Lua bytecode (luac)"
+    printf "\t%-15s %s\n" "-c" "if -o option is active the outputted code is Lua/LuaJIT bytecode"
     printf "\t%-15s %s\n" "-n" "print line numbers if -v or --cat options are active"
     printf "\t%-15s %s\n" "-h, --help" "display this help"
     printf "\t%-15s %s\n" "--cat" "don't execute, just print code that would be run"
@@ -134,7 +134,11 @@ fi
 
 if [ "$output" = true ]; then    
     if [ "$compiled" = true ]; then
-        luac -o $outputname ".tmp.lua"
+        if [ "$luajit" = true ]; then
+            luajit -b ".tmp.lua" $outputname
+        else
+            luac -o $outputname ".tmp.lua"
+        fi
     else
         cp ".tmp.lua" $outputname
     fi
