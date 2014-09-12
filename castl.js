@@ -901,17 +901,16 @@
         case "ConditionalExpression":
         case "MemberExpression":
         case "AssignmentExpression":
-            // Enclose the statement in a _e to be evaluated
-            var compiledExpressionStatement = ["_e("];
-            compiledExpressionStatement.push(compileExpression(expression));
-            compiledExpressionStatement.push(");");
-            return compiledExpressionStatement.join("");
         case "CallExpression":
         case "UnaryExpression":
         case "NewExpression":
         case "ArrayExpression":
         case "SequenceExpression":
-            return compileExpression(expression) + ";";
+            // Enclose the statement in a _e to be evaluated
+            var compiledExpressionStatement = ["_e("];
+            compiledExpressionStatement.push(compileExpression(expression));
+            compiledExpressionStatement.push(");");
+            return compiledExpressionStatement.join("");
         default:
             // FunctionExpression, ObjectExpression
             throw new Error("Impossible expression type:" + expression.type);

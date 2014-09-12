@@ -55,7 +55,7 @@ Function = function(this, ...)
 
         -- compile the ast
         -- castl used in eval mode
-        local castlOptions = {jit = luajit, evalMode = true}
+        local castlOptions = {jit = luajit}
         local castlResult = castl:compileAST(ast, castlOptions)
 
         local compiledFunction

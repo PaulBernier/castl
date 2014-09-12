@@ -29,7 +29,11 @@ local locals = function(level)
     while true do
         local ln, lv = debug.getlocal(level, idx)
         if ln ~= nil then
-            variables[ln] = lv
+            if lv ~= nil then
+                variables[ln] = lv
+            else
+                variables[ln] = 0
+            end
         else
             break
         end
@@ -45,7 +49,11 @@ local upvalues = function(level)
     while true do
         local ln, lv = debug.getupvalue(func, idx)
         if ln ~= nil then
-            variables[ln] = lv
+            if lv ~= nil then
+                variables[ln] = lv
+            else
+                variables[ln] = 0
+            end
         else
             break
         end
@@ -57,18 +65,18 @@ end
 local getEvalENV = function(locals, upvalues, globals)
     return setmetatable({},{
         __index = function(self, key)
-            if locals[key] then
+            if locals[key] ~= nil then
                 return locals[key]
-            elseif upvalues[key] then
+            elseif upvalues[key] ~= nil then
                 return upvalues[key]
             else
                 return globals[key]
             end
         end,
         __newindex = function(self, key, value)
-            if locals[key] then
+            if locals[key] ~= nil then
                 locals[key] = value
-            elseif upvalues[key] then
+            elseif upvalues[key] ~= nil then
                 upvalues[key] = value
             else
                 globals[key] = value
@@ -87,11 +95,11 @@ local evalLuaString = function(str, _G)
 
     -- eval lua code
     local evaluated = assert(load(str, nil, "t", _evalENV))
-    local lastReturn, value
+    local last, beforeLast
     local catch = function()
-        value = lastReturn
-        local _, v = debug.getlocal(2,1)
-        lastReturn = v
+        beforeLast = last
+        local _, v = debug.getlocal(2, 1)
+        last = v
     end
 
     -- catch the last return
@@ -129,7 +137,7 @@ local evalLuaString = function(str, _G)
         _idx = 1 + _idx
     end
 
-    return value
+    return beforeLast
 end
 
 function eval.eval(this, str)

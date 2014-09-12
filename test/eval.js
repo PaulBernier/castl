@@ -33,5 +33,13 @@ assert(l === 79);
 assert(samename === 990);
 assert(samename2 === 1113);
 
+var call = eval('"abcde".replace("a", "Z");');
+assert(call === "Zbcde");
+
 var pi = eval("with(Math){PI.toFixed(7)}");
 assert(pi === "3.1415927");
+
+var a;
+b = eval("a = 5");
+assert(a === 5);
+assert(b === 5);

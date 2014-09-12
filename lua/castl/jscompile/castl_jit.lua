@@ -748,10 +748,7 @@ if _into or (expression.type == "MemberExpression") then
 _into = true;
 end
 if _into or (expression.type == "AssignmentExpression") then
-compiledExpressionStatement = _arr({[0]="_e("},1);
-compiledExpressionStatement:push(compileExpression(_ENV,expression));
-compiledExpressionStatement:push(");");
- do return compiledExpressionStatement:join(""); end
+
 _into = true;
 end
 if _into or (expression.type == "CallExpression") then
@@ -771,7 +768,10 @@ if _into or (expression.type == "ArrayExpression") then
 _into = true;
 end
 if _into or (expression.type == "SequenceExpression") then
- do return (_add(compileExpression(_ENV,expression),";")); end
+compiledExpressionStatement = _arr({[0]="_e("},1);
+compiledExpressionStatement:push(compileExpression(_ENV,expression));
+compiledExpressionStatement:push(");");
+ do return compiledExpressionStatement:join(""); end
 _into = true;
 end
 ::_default::
