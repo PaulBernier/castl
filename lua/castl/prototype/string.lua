@@ -41,7 +41,6 @@ stringPrototype.valueOf = function (this)
     return getmetatable(this)._primitive
 end
 
--- optimization
 local valueof = stringPrototype.valueOf
 
 local negativeIndex = function (index, length)
@@ -270,7 +269,7 @@ stringPrototype.split = function (this, separator, limit)
     local value = valueof(this)
     array = array or require("castl.core_objects").array
     -- special cases
-    if not separator or value == "" then
+    if separator == nil or value == "" then
         return array({[0] = value}, 1)
     elseif separator == "" then
         local ret, length = {}, value.length
@@ -400,7 +399,7 @@ stringPrototype.replace = function (this, match, newSubStr, flags)
 
     if type(match) == "string" then
         -- if flags are passed, match is converted to a regexp
-        if flags then
+        if flags ~= nil then
             new = new or require("castl.core_objects").new
             match = new(RegExp, match, flags)
             -- if replacer is a function, match must be converted to a regexp

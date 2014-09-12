@@ -113,7 +113,7 @@ local evalLuaString = function(str, _G)
     while true do
         local ln = debug.getupvalue(_func, _idx)
         if ln ~= nil then
-            if ln ~= "(*temporary)" and _u[ln] then
+            if ln ~= "(*temporary)" and _u[ln] ~= nil then
                 debug.setupvalue(_func, _idx, _u[ln])
             end
 
@@ -128,7 +128,7 @@ local evalLuaString = function(str, _G)
     while true do
         local ln = debug.getlocal(level - 1, _idx)
         if ln ~= nil then
-            if ln ~= "(*temporary)" and _l[ln] then
+            if ln ~= "(*temporary)" and _l[ln] ~= nil then
                 debug.setlocal(level - 1, _idx, _l[ln])
             end
         else

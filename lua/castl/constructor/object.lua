@@ -44,7 +44,7 @@ Object.create = function (this, prototype, props)
         setNewMetatable(o, prototype)
     end
 
-    if props then
+    if props ~= nil then
         Object:defineProperties(o, props)
     end
 
@@ -52,7 +52,7 @@ Object.create = function (this, prototype, props)
 end
 
 Object.defineProperties = function (this, obj, props)
-    if props then
+    if props ~= nil then
         for k, v in pairs(props) do
             Object:defineProperty(obj, k, v)
         end

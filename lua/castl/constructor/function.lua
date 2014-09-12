@@ -19,7 +19,6 @@
 local esprima, castl, runtime
 local luajit = jit ~= nil
 
-local coreObjects = require("castl.core_objects")
 local functionProto = require("castl.prototype.function")
 
 local Function

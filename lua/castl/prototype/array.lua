@@ -25,7 +25,7 @@ local errorHelper = require("castl.modules.error_helper")
 local rawget, rawset, require, getmetatable, error = rawget, rawset, require, getmetatable, error
 local tostring, tonumber, min, floor, type = tostring, tonumber, math.min, math.floor, type
 local pack, remove, insert, sort = table.pack, table.remove, table.insert, table.sort
-local null = internal.null
+local null, defaultValueString = internal.null, internal.defaultValueString
 
 _ENV = nil
 
@@ -259,8 +259,8 @@ end
 
 arrayPrototype.join = function (this, arg)
     local separator = ","
-    if arg then
-        separator = tostring(arg)
+    if arg ~= nil then
+        separator = defaultValueString(arg)
     end
 
     local str = ""
@@ -373,7 +373,7 @@ arrayPrototype.reduce = function (this, callback, initialValue)
     local length = this.length
     for i = start, length - 1 do
         -- if not nil (else ignore)
-        if this[i] then
+        if this[i] ~= nil then
             value = callback(thisArg, value, this[i], i, this)
         end
     end
@@ -391,7 +391,7 @@ arrayPrototype.reduceRight = function (this, callback, initialValue)
     local thisArg = getThisArg()
     for i = start, 0, -1 do
         -- if not nil (else ignore)
-        if this[i] then
+        if this[i] ~= nil then
             value = callback(thisArg, value, this[i], i, this)
         end
     end

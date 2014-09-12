@@ -44,7 +44,7 @@ local next, tostring = next, tostring
 local require, error = require, error
 local getPrototype, get, put, null  = internal.prototype, internal.get, internal.put, internal.null
 local defaultValueNumber, setNewMetatable, toNumber = internal.defaultValueNumber, internal.setNewMetatable, internal.toNumber
-local print = print
+
 _ENV = nil
 
 -- Core objects metatables
@@ -122,7 +122,7 @@ setmetatable(functionsProxyObjects, {__mode = 'k'})
 
 function coreObjects.getFunctionProxy(fun)
     local proxy = rawget(functionsProxyObjects, fun)
-    if not proxy then
+    if proxy == nil then
         proxy = coreObjects.obj({})
         rawset(functionsProxyObjects, fun, proxy)
     end
@@ -554,7 +554,7 @@ function coreObjects.next (o, previous)
     if isArray or to == "string" then
         -- start iteration at 0
         if previous == nil then
-            if o[0] then
+            if o[0] ~= nil then
                 return 0
             else
                 local ret = nil

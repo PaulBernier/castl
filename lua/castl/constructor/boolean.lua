@@ -19,7 +19,6 @@
 
 local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")
-local jssupport = require("castl.jssupport")
 local booleanProto = require("castl.prototype.boolean")
 
 local Boolean

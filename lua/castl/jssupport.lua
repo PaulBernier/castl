@@ -21,8 +21,7 @@ local internal = require("castl.internal")
 
 -- Dependencies
 local null, toPrimitive, toNumber = internal.null, internal.toPrimitive, internal.toNumber
-local type, tonumber, tostring, pairs = type, tonumber, tostring, pairs
-local setmetatable, require = setmetatable, require
+local type, tonumber, tostring, pairs, setmetatable = type, tonumber, tostring, pairs, setmetatable
 local huge, floor, abs = math.huge, math.floor, math.abs
 local gsub, sub, match, format, sbyte, find, char = string.gsub, string.sub, string.match, string.format, string.byte, string.find, string.char
 
@@ -116,7 +115,7 @@ function jssupport.parseInt(this, str, radix)
 
     -- radix check
     radix = tonumber(radix)
-    if radix ~=0 then
+    if radix ~= 0 then
         -- radix bounds
         if radix < 2 or radix > 36 then
             return 0/0

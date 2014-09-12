@@ -50,7 +50,7 @@ end
 functionPrototype.apply = function(this, thisArg, argsArray)
     local args, length = {}, 0
 
-    if argsArray then
+    if argsArray ~= nil then
         length = argsArray.length
         for i = 0, length - 1 do
             args[i+1] = argsArray[i]

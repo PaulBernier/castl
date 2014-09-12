@@ -39,14 +39,13 @@ local valueof = numberPrototype.valueOf
 numberPrototype.toString = function(this, radix)
     local value = valueof(this)
 
-    if not radix then
+    if not radix or radix == 10 then
         return tostring(value)
     end
 
     -- TODO: do not handle floating point numbers
     -- http://stackoverflow.com/a/3554821
     local n = floor(value)
-    if not radix or radix == 10 then return tostring(n) end
     local digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     local t = {}
     local sign = ""

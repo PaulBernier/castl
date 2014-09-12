@@ -85,7 +85,7 @@ objectPrototype.hasOwnProperty = function (this, p)
 end
 
 objectPrototype.isPrototypeOf = function(this, object)
-    if this then
+    if this ~= nil then
         local classPrototypeAttribute = this
         local objProto = getPrototype(object)
 

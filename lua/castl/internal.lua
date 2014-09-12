@@ -15,7 +15,7 @@
 
 local internal = {}
 
-local Boolean, Number, String, new, objectToString, null
+local Boolean, Number, String, new, objectToString
 
 local getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset
 local huge = math.huge

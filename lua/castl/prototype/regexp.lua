@@ -47,7 +47,7 @@ regexpPrototype.exec = function(this, str)
     local rex = regexpHelper.getRex()
     if this.global then
         local found = pack(rex.find(str, source, this.lastIndex + 1, cf))
-        if found[1]  then
+        if found[1] then
             this.lastIndex = found[2]
             ret.index = found[1] - 1
             ret.input = str
@@ -88,7 +88,6 @@ regexpPrototype.toString = function(this)
     if rawget(this, "ignoreCase") then flags = flags .. 'i' end
     if rawget(this, "multiline") then flags = flags .. 'm' end
 
-
     return '/' .. tostring(this.source) .. '/' .. flags
 end
 
@@ -99,7 +98,7 @@ regexpPrototype.test = function(this, str)
     local ret = false
     local rex = regexpHelper.getRex()
     if this.global then
-        local _,endFound = rex.find(str, this.source, this.lastIndex + 1, cf)
+        local _, endFound = rex.find(str, this.source, this.lastIndex + 1, cf)
         if endFound then
             this.lastIndex = endFound
             ret = true
