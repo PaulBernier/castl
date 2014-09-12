@@ -199,6 +199,11 @@ local function addpair (key, value, prev, indent, level, buffer, buflen, tables,
     if kt ~= 'string' and kt ~= 'number' then
         return nil, "type '" .. kt .. "' is not supported as a key by JSON."
     end
+    
+    if type(value) == "function" then
+        return buflen
+    end
+    
     if prev then
         buflen = buflen + 1
         buffer[buflen] = ","
