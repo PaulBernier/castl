@@ -70,17 +70,11 @@ CASTL is made of two parts:
 * a JavaScript script (`castl.js`) which converts a SpiderMonkey AST to Lua code
 * a Lua runtime library (located in `lua/castl/`) which allows the execution of the code compiled by `castl.js`
 
+There is also a useful bash script `bin/castl.sh` to easily both compile and execute JS files.
+
 CASTL has one dependency, [Lrexlib](http://rrthomas.github.io/lrexlib/), which provides a binding of PCRE regular expression library API.
 
 CASTL also needs a JavaScript parser able to produce an AST (Abstract Syntax Tree) compliant with the SpiderMonkey AST structure. You can use Esprima or Acorn for instance (if you installed CASTL as stated above Esprima and Acorn are automatically downloaded as dependencies, you don't need to do anything).
-
-There is also a useful bash script `bin/castl.sh` to easily compile and execute JS files.
-
-## Not Supported yet
-
-* Weak typing of JS when accessing attribute of an object (o[1] is different from o["1"])
-* Property descriptor (enumerable/writable/configurable)
-* Other little things...
 
 ## LuaJIT
 
@@ -91,6 +85,12 @@ The only point is that you'll have to compile LuaJIT with the -DLUAJIT\_ENABLE\_
 ```
 castl --jit <file.js>
 ```
+
+## Not Supported yet
+
+* Weak typing of JS when accessing attribute of an object (o[1] is different from o["1"])
+* Property descriptor (enumerable/writable/configurable)
+* Other little things...
 
 ## Q&A
 
