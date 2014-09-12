@@ -27,6 +27,7 @@ end
 local bit = {}
 
 local toNumber = require("castl.internal").toNumber
+local floor = math.floor
 
 _ENV = nil
 
@@ -35,7 +36,7 @@ local ToUint32 = function(n)
 end
 
 bit.lshift = function(x, disp)
-    x, disp = toNumber(x), toNumber(disp)
+    x, disp = floor(toNumber(x)), floor(toNumber(disp))
     local shiftCount = band(ToUint32(disp), 0x1F)
     local ret = lshift(x, shiftCount);
 
@@ -48,7 +49,7 @@ bit.lshift = function(x, disp)
 end
 
 bit.rshift = function(x, disp)
-    x, disp = toNumber(x), toNumber(disp)
+    x, disp = floor(toNumber(x)), floor(toNumber(disp))
     if luajit and disp == 0 then
         return ToUint32(x)
     end
@@ -58,7 +59,7 @@ bit.rshift = function(x, disp)
 end
 
 bit.arshift = function(x, disp)
-    x, disp = toNumber(x), toNumber(disp)
+    x, disp = floor(toNumber(x)), floor(toNumber(disp))
     local shiftCount = band(ToUint32(disp), 0x1F)
     local ret = rshift(x, shiftCount)
 
@@ -75,19 +76,19 @@ bit.arshift = function(x, disp)
 end
 
 bit.band = function(x, y)
-    return band(toNumber(x), toNumber(y))
+    return band(floor(toNumber(x)), floor(toNumber(y)))
 end
 
 bit.bor = function(x, y)
-    return bor(toNumber(x), toNumber(y))
+    return bor(floor(toNumber(x)), floor(toNumber(y)))
 end
 
 bit.bxor = function(x, y)
-    return bxor(toNumber(x), toNumber(y))
+    return bxor(floor(toNumber(x)), floor(toNumber(y)))
 end
 
 bit.bnot = function(x)
-    return bnot(toNumber(x))
+    return bnot(floor(toNumber(x)))
 end
 
 return bit
