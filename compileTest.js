@@ -30,7 +30,8 @@ fs.readFile(filename, 'utf8', function (err, data) {
             }
 
             var castlOptions = {
-                jit: luajit
+                jit: luajit,
+                evalMode: false
             };
             var compiledCode = castl.compileAST(syntax, castlOptions).compiled;
             compiledCode = compiledCode.replace(/assert\(_ENV,/g, "assert(");

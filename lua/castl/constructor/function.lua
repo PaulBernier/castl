@@ -42,8 +42,8 @@ Function = function(this, ...)
         end
 
         -- parse body of the function in error-tolerant mode
-        local options = coreObjects.obj({tolerant = true})
-        local ast = esprima:parse(body, options)
+        local esprimaOptions = {tolerant = true}
+        local ast = esprima:parse(body, esprimaOptions)
 
         -- get the params
         local params = {"local this"}
@@ -54,11 +54,13 @@ Function = function(this, ...)
         tinsert(params, " = ...;\n")
 
         -- compile the ast
-        local castResult = castl:compileAST(ast)
+        -- castl used in eval mode
+        local castlOptions = {jit = luajit, evalMode = true}
+        local castlResult = castl:compileAST(ast, castlOptions)
 
         local compiledFunction
-        if castResult.success then
-            local luaCode = concat(params) .. castResult.compiled
+        if castlResult.success then
+            local luaCode = concat(params) .. castlResult.compiled
             -- eval lua code
             runtime = runtime or require("castl.runtime")
             compiledFunction = assert(load(luaCode, nil, "t", runtime))

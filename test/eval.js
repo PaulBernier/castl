@@ -32,3 +32,6 @@ assert(j === 1339);
 assert(l === 79);
 assert(samename === 990);
 assert(samename2 === 1113);
+
+var pi = eval("with(Math){PI.toFixed(7)}");
+assert(pi === "3.1415927");

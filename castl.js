@@ -421,7 +421,6 @@
 
     function compileForStatement(statement, compiledLabel) {
         var compiledForStatement = [];
-        var compiledUpdate = compileForUpdate(statement.update);
 
         // Init
         compiledForStatement.push(compileForInit(statement.init));
@@ -452,7 +451,7 @@
         }
 
         // Update
-        compiledForStatement.push(compiledUpdate);
+        compiledForStatement.push(compileForUpdate(statement.update));
 
         compiledForStatement.push("end\n");
 
@@ -882,28 +881,109 @@
         }
     }
 
-    // Add a semi-colon at the end of ExpressionStatements
     function compileExpressionStatement(expression) {
+        if (options.evalMode) {
+            return compileExpressionStatementEvalMode(expression);
+        } else {
+            return compileExpressionStatementNoEval(expression);
+        }
+    }
+
+    // Add a semi-colon at the end of ExpressionStatements
+    function compileExpressionStatementEvalMode(expression) {
         switch (expression.type) {
-        case "FunctionExpression":
         case "UpdateExpression":
         case "Literal":
         case "Identifier":
         case "ThisExpression":
-        case "UnaryExpression":
         case "BinaryExpression":
         case "LogicalExpression":
         case "ConditionalExpression":
         case "MemberExpression":
         case "AssignmentExpression":
-            // Enclose the statement in a _void to be evaluated
+            // Enclose the statement in a _e to be evaluated
             var compiledExpressionStatement = ["_e("];
             compiledExpressionStatement.push(compileExpression(expression));
             compiledExpressionStatement.push(");");
             return compiledExpressionStatement.join("");
-        default:
+        case "CallExpression":
+        case "UnaryExpression":
+        case "NewExpression":
+        case "ArrayExpression":
+        case "SequenceExpression":
             return compileExpression(expression) + ";";
+        default:
+            // FunctionExpression, ObjectExpression
+            throw new Error("Impossible expression type:" + expression.type);
         }
+    }
+
+    // Add a semi-colon at the end of ExpressionStatements
+    function compileExpressionStatementNoEval(expression) {
+        switch (expression.type) {
+        case "Literal":
+        case "Identifier":
+        case "ThisExpression":
+            return;
+        case "UpdateExpression":
+            return compileUpdateExpressionNoEval(expression) + ";";
+        case "AssignmentExpression":
+            return compileAssignmentExpressionNoEval(expression) + ";";
+        case "BinaryExpression":
+        case "LogicalExpression":
+        case "ConditionalExpression":
+        case "MemberExpression":
+            // Enclose the statement in a _e to be evaluated
+            var compiledExpressionStatement = ["_e("];
+            compiledExpressionStatement.push(compileExpression(expression));
+            compiledExpressionStatement.push(");");
+            return compiledExpressionStatement.join("");
+        case "UnaryExpression":
+            // ! operator conversion is not enclosed in a function
+            // so we enclose it in _e
+            if (expression.operator === "!") {
+                var compiledUnaryExpressionStatement = ["_e("];
+                compiledUnaryExpressionStatement.push(compileUnaryExpression(expression));
+                compiledUnaryExpressionStatement.push(");");
+                return compiledUnaryExpressionStatement.join("");
+            }
+            return compileUnaryExpression(expression) + ";";
+        case "CallExpression":
+        case "NewExpression":
+        case "ArrayExpression":
+        case "SequenceExpression":
+            return compileExpression(expression) + ";";
+        default:
+            // FunctionExpression, ObjectExpression
+            throw new Error("Impossible expression type:" + expression.type);
+        }
+    }
+
+    function compileAssignmentExpressionNoEval(expression) {
+        var compiledAssignmentExpression = [];
+
+        var left = compileExpression(expression.left);
+
+        compiledAssignmentExpression.push(left);
+        compiledAssignmentExpression.push(" = ");
+
+        switch (expression.operator) {
+        case "=":
+            var right = compileExpression(expression.right);
+            compiledAssignmentExpression.push(right);
+            break;
+        default:
+            // Build a binary expression node to compile
+            var binaryExpression = [];
+            binaryExpression.type = "BinaryExpression";
+            binaryExpression.operator = extractBinaryOperator(expression.operator);
+            binaryExpression.left = expression.left;
+            binaryExpression.right = expression.right;
+            var compiledBinaryExpression = compileBinaryExpression(binaryExpression);
+            compiledAssignmentExpression.push(compiledBinaryExpression);
+        }
+
+        return compiledAssignmentExpression.join('');
     }
 
     function compileAssignmentExpression(expression) {
@@ -940,6 +1020,30 @@
 
     function extractBinaryOperator(rawOperator) {
         return rawOperator.substring(0, rawOperator.indexOf('='));
+    }
+
+    function compileUpdateExpressionNoEval(expression) {
+        var compiledUpdateExpression = [];
+        var compiledArgument = compileExpression(expression.argument);
+
+        compiledUpdateExpression.push(compiledArgument);
+        compiledUpdateExpression.push(" = ");
+
+        switch (expression.operator) {
+        case "++":
+            compiledUpdateExpression.push("_add(");
+            compiledUpdateExpression.push(compiledArgument);
+            compiledUpdateExpression.push(", 1)");
+            break;
+        case "--":
+            compiledUpdateExpression.push(compiledArgument);
+            compiledUpdateExpression.push(" - 1");
+            break;
+        default:
+            throw new Error("Unknown UpdateOperator: " + expression.operator);
+        }
+
+        return compiledUpdateExpression.join('');
     }
 
     function compileUpdateExpression(expression) {

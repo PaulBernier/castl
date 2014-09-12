@@ -8,12 +8,14 @@ var nodejs = process.argv[4] === "true";
 var luajit = process.argv[5] === "true";
 var tolerant = process.argv[6] === "true";
 var debug = process.argv[7] === "true";
+var evalMode = process.argv[8] === "true";
 
 var parser = require(parserName);
 
 var parserOptions = {}
 var castlOptions = {
-    jit: luajit
+    jit: luajit,
+    evalMode: evalMode
 };
 
 if (tolerant) {

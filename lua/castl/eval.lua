@@ -145,7 +145,9 @@ function eval.eval(this, str)
 
     -- parse and compile JS code
     local ast = esprima:parse(str)
-    local castlResult = castl:compileAST(ast)
+    -- castl used in eval mode
+    local castlOptions = {jit = luajit, evalMode = true}
+    local castlResult = castl:compileAST(ast, castlOptions)
     local ret
 
     if castlResult.success then
