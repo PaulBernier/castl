@@ -23,7 +23,7 @@ local internal = require("castl.internal")
 
 local find = string.find
 local setmetatable = setmetatable
-local defaultValue, get, put = internal.defaultValue, internal.get, internal.put
+local defaultValueString, get, put, defaultValueNumber = internal.defaultValueString, internal.get, internal.put, internal.defaultValueNumber
 
 _ENV = nil
 
@@ -32,7 +32,7 @@ RegExp = function(this, pattern, flags)
 
     local o = {}
 
-    o.source = defaultValue(pattern)
+    o.source = defaultValueString(pattern)
     o.global = find(flags, "g") and true
     o.ignoreCase = find(flags, "i") and true
     o.multiline = find(flags, "m") and true
@@ -46,6 +46,12 @@ RegExp = function(this, pattern, flags)
         end,
         __tostring = regexpProto.toString,
         __tonumber = function() return 0/0 end,
+        __lt = function(a, b)
+            return defaultValueNumber(a) < defaultValueNumber(b)
+        end,
+        __le = function(a, b)
+            return defaultValueNumber(a) <= defaultValueNumber(b)
+        end,
         _prototype = regexpProto
     })
 

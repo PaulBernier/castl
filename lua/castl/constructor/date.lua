@@ -25,7 +25,7 @@ local dateProto = require("castl.prototype.date")
 local luajit = jit ~= nil
 local date, time = os.date, os.time
 local pack, type, setmetatable, require, tonumber = table.pack, type, setmetatable, require, tonumber
-local get, put, withinNew, toNumber = internal.get, internal.put, internal.withinNew, internal.toNumber
+local get, put, withinNew, toNumber, defaultValueNumber = internal.get, internal.put, internal.withinNew, internal.toNumber, internal.defaultValueNumber
 
 _ENV = nil
 
@@ -88,6 +88,12 @@ Date = function(this, ...)
         end,
         __div = function(a, b)
             return toNumber(a) / toNumber(b)
+        end,
+        __lt = function(a, b)
+            return defaultValueNumber(a) < defaultValueNumber(b)
+        end,
+        __le = function(a, b)
+            return defaultValueNumber(a) <= defaultValueNumber(b)
         end,
         _prototype = dateProto
     })

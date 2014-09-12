@@ -26,7 +26,7 @@ local internal = require("castl.internal")
 local bor, band, arshift = bit.bor, bit.band, bit.arshift
 local pack, unpack, tinsert, concat, stochar =  table.pack, table.unpack, table.insert, table.concat, string.char
 local setmetatable, getmetatable, tonumber = setmetatable, getmetatable, tonumber
-local defaultValue, withinNew, get, put, toNumber = internal.defaultValue, internal.withinNew, internal.get, internal.put, internal.toNumber
+local defaultValueString, defaultValueNumber, withinNew, get, put, toNumber = internal.defaultValueString, internal.defaultValueNumber, internal.withinNew, internal.get, internal.put, internal.toNumber
 
 _ENV = nil
 
@@ -34,7 +34,7 @@ String = function(this, arg)
     if arg == nil then
         arg = ""
     else
-        arg = defaultValue(arg)
+        arg = defaultValueString(arg)
     end
 
     -- String constructor not called within a new
@@ -71,6 +71,12 @@ String = function(this, arg)
         end,
         __div = function(a, b)
             return toNumber(a) / toNumber(b)
+        end,
+        __lt = function(a, b)
+            return defaultValueNumber(a) < defaultValueNumber(b)
+        end,
+        __le = function(a, b)
+            return defaultValueNumber(a) <= defaultValueNumber(b)
         end,
         _prototype = stringProto
     })

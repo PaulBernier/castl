@@ -42,8 +42,9 @@ local debug = debug
 local type, max, strlen, strsub, tonumber, pack, tinsert, concat = type, math.max, string.len, string.sub, tonumber, table.pack, table.insert, table.concat
 local next, tostring = next, tostring
 local require, error = require, error
-local getPrototype, get, put, null, setNewMetatable, toNumber = internal.prototype, internal.get, internal.put, internal.null, internal.setNewMetatable, internal.toNumber
-
+local getPrototype, get, put, null  = internal.prototype, internal.get, internal.put, internal.null
+local defaultValueNumber, setNewMetatable, toNumber = internal.defaultValueNumber, internal.setNewMetatable, internal.toNumber
+local print = print
 _ENV = nil
 
 -- Core objects metatables
@@ -103,6 +104,14 @@ objectMt.__tonumber = function(self)
     return 0/0
 end
 
+objectMt.__lt = function(a, b)
+    return defaultValueNumber(a) < defaultValueNumber(b)
+end
+
+objectMt.__le = function(a, b)
+    return defaultValueNumber(a) <= defaultValueNumber(b)
+end
+
 --[[
     Function metatable
 --]]
@@ -153,6 +162,14 @@ functionMt.__tonumber = function(self)
     return 0/0
 end
 
+functionMt.__lt = function(a, b)
+    return defaultValueNumber(a) < defaultValueNumber(b)
+end
+
+functionMt.__le = function(a, b)
+    return defaultValueNumber(a) <= defaultValueNumber(b)
+end
+
 debug.setmetatable((function () end), functionMt)
 
 --[[
@@ -194,6 +211,13 @@ arrayMt.__tonumber = function(self)
     return 0/0
 end
 
+arrayMt.__lt = function(a, b)
+    return defaultValueNumber(a) < defaultValueNumber(b)
+end
+arrayMt.__le = function(a, b)
+    return defaultValueNumber(a) <= defaultValueNumber(b)
+end
+
 --[[
     Boolean metatable
 --]]
@@ -212,7 +236,7 @@ booleanMt.__lt = function(a, b)
         return numValueA < (b and 1 or 0)
     end
 
-    return numValueA < b
+    return numValueA < defaultValueNumber(b)
 end
 
 booleanMt.__le = function(a, b)
@@ -222,7 +246,7 @@ booleanMt.__le = function(a, b)
         return numValueA <= (b and 1 or 0)
     end
 
-    return numValueA <= b
+    return numValueA <= defaultValueNumber(b)
 end
 
 booleanMt.__tonumber = function(self)
@@ -270,30 +294,36 @@ end
 numberMt.__newindex = function() end
 
 numberMt.__lt = function(a, b)
-    local t = type(b)
-    if t == "string" then
+    local tb = type(b)
+    if tb == "string" then
         return a < tonumber(b)
     end
-    if t == "boolean" then
+    if tb == "boolean" then
         return a < (b and 1 or 0)
     end
     if b == null then
         return a < 0
+    end
+    if tb == "table" then
+        return a < defaultValueNumber(b)
     end
 
     return false
 end
 
 numberMt.__le = function(a, b)
-    local t = type(b)
-    if t == "string" then
+    local tb = type(b)
+    if tb == "string" then
         return a <= tonumber(b)
     end
-    if t == "boolean" then
+    if tb == "boolean" then
         return a <= (b and 1 or 0)
     end
     if b == null then
         return a <= 0
+    end
+    if tb == "table" then
+        return a <= defaultValueNumber(b)
     end
 
     return false
@@ -329,18 +359,18 @@ end
 stringMt.__newindex = function() end
 
 stringMt.__lt = function(a, b)
-    local t = type(b)
-    if t == "number" then
+    local tb = type(b)
+    if tb == "number" then
         return tonumber(a) < b
     end
-    if t == "boolean" then
+    if tb == "boolean" then
         return tonumber(a) < (b and 1 or 0)
     end
     if b == null then
         return a < 0
     end
 
-    return false
+    return a < defaultValueNumber(b)
 end
 
 stringMt.__le = function(a, b)
@@ -355,7 +385,7 @@ stringMt.__le = function(a, b)
         return tonumber(a) <= 0
     end
 
-    return false
+    return a <= defaultValueNumber(b)
 end
 
 stringMt.__add= function(a, b)

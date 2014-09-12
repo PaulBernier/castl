@@ -25,7 +25,7 @@ local booleanProto = require("castl.prototype.boolean")
 local Boolean
 
 local setmetatable, getmetatable = setmetatable, getmetatable
-local null, get, put, withinNew, toNumber = internal.null, internal.get, internal.put, internal.withinNew, internal.toNumber
+local null, get, put, withinNew, toNumber, defaultValueNumber = internal.null, internal.get, internal.put, internal.withinNew, internal.toNumber, internal.defaultValueNumber
 
 _ENV = nil
 
@@ -70,6 +70,12 @@ Boolean = function(this, arg)
         end,
         __div = function(a, b)
             return toNumber(a) / toNumber(b)
+        end,
+        __lt = function(a, b)
+            return defaultValueNumber(a) < defaultValueNumber(b)
+        end,
+        __le = function(a, b)
+            return defaultValueNumber(a) <= defaultValueNumber(b)
         end,
         _prototype = booleanProto
     })

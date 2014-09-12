@@ -22,7 +22,6 @@ local huge = math.huge
 
 _ENV = nil
 
-
 internal.null = {}
 local null = internal.null
 setmetatable(internal.null,{
@@ -126,8 +125,6 @@ function internal.withinNew(this, proto)
     return mt and mt._prototype == proto
 end
 
--- ToPrimitive, ToObject, toString, toNumber
-
 function internal.toPrimitive(o)
     local mt = getmetatable(o)
 
@@ -163,15 +160,6 @@ function internal.toObject(v)
     return v
 end
 
--- http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.8
-function internal.defaultValue(o)
-    if type(o) == "table" and type(o.toString) == "function" then
-        return o:toString()
-    else
-        return tostring(o)
-    end
-end
-
 function internal.toNumber(value)
     local mt = getmetatable(value)
     if (mt or {}).__tonumber then
@@ -180,6 +168,41 @@ function internal.toNumber(value)
 
     return tonumber(value)
 end
+
+local toNumber = internal.toNumber
+
+-- http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.8
+function internal.defaultValueString(o)
+    if type(o) == "table" and type(o.toString) == "function" then
+        return o:toString()
+    end
+
+    return tostring(o)
+end
+
+-- Wibbly Wobbly Codey Wimey Stuff
+function internal.defaultValueNumber(o)
+    local to = type(o)
+    if to == "table" and type(o.valueOf) == "function" then
+        local value = o:valueOf()
+        local tvalue = type(value)
+        if tvalue ~= "table" then
+            return value
+        end
+        return value:toString()
+    elseif to == "table" and type(o.toString) == "function" then
+        local value = o:toString()
+        local tvalue = type(value)
+        if tvalue ~= "table" then
+            return value
+        end
+        error("[[DefaultValue(Number)")
+    end
+
+    return toNumber(o)
+end
+
+local defaultValueNumber = internal.defaultValueNumber
 
 -- create a metatable for a new object (used in new statement and Object.create)
 function internal.setNewMetatable(o, prototype)
@@ -192,6 +215,12 @@ function internal.setNewMetatable(o, prototype)
         end,
         __tonumber = function(self)
             return tonumber(toPrimitive(self)) or 0/0
+        end,
+        __lt = function(a, b)
+            return defaultValueNumber(a) < defaultValueNumber(b)
+        end,
+        __le = function(a, b)
+            return defaultValueNumber(a) <= defaultValueNumber(b)
         end,
         _prototype = prototype
     }

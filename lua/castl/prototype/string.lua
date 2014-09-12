@@ -28,7 +28,7 @@ local pack, tinsert, tremove, concat = table.pack, table.insert, table.remove, t
 local error, require, getmetatable = error, require, getmetatable
 local sub, byte, gmatch, find, reverse = string.sub, string.byte, string.gmatch, string.find, string.reverse
 local lower, upper, match, gsub, len = string.lower, string.upper, string.match, string.gsub, string.len
-local null, defaultValue = internal.null, internal.defaultValue
+local null, defaultValueString = internal.null, internal.defaultValueString
 
 _ENV = nil
 
@@ -55,7 +55,7 @@ end
 stringPrototype.anchor = function(this, name)
     local value = valueof(this)
     local t = {'<a name="'}
-    tinsert(t, defaultValue(name))
+    tinsert(t, defaultValueString(name))
     tinsert(t, '">')
     tinsert(t, value)
     tinsert(t, '</a>')
@@ -148,7 +148,7 @@ end
 stringPrototype.link = function(this, url)
     local value = valueof(this)
     local t = {'<a href="'}
-    tinsert(t, defaultValue(url))
+    tinsert(t, defaultValueString(url))
     tinsert(t, '">')
     tinsert(t, value)
     tinsert(t, '</a>')
@@ -338,10 +338,10 @@ local getReplacerRegExp = function(newSubStr)
         runtime = runtime or require("castl.runtime")
         replacer = function(...)
             -- call with an empty this
-            return defaultValue(newSubStr(runtime, ...))
+            return defaultValueString(newSubStr(runtime, ...))
         end
     else
-        replacer = defaultValue(newSubStr)
+        replacer = defaultValueString(newSubStr)
 
         -- handle $ parameters
         replacer = gsub(replacer, "%$&", "$0")
@@ -369,7 +369,7 @@ local getReplacerRegExp = function(newSubStr)
 end
 
 local getReplacerString = function(newSubStr)
-    local replacer = defaultValue(newSubStr)
+    local replacer = defaultValueString(newSubStr)
 
     -- handle $ parameters
     replacer = gsub(replacer, "%$&", "%%0")
@@ -395,7 +395,7 @@ stringPrototype.replace = function (this, match, newSubStr, flags)
     instanceof = instanceof or require("castl.core_objects").instanceof
 
     if type(match) ~= "string" and not instanceof(match, RegExp) then
-        match = defaultValue(match)
+        match = defaultValueString(match)
     end
 
     if type(match) == "string" then
