@@ -1,7 +1,7 @@
 local _ENV = require("castl.runtime");
 return setfenv(function(...)
 (function (this, root, factory)
-if _bool((_bool((_type(define) == "function")) and _bool(define.amd))) then
+if _bool(((function() if _bool((_type(define) == "function")) then return define.amd;  else return (_type(define) == "function");  end end)())) then
 define(_ENV,_arr({[0]="exports"},1),factory);
 elseif _bool((_type(exports) ~= "undefined")) then
 factory(_ENV,exports);
@@ -20,7 +20,7 @@ end
 
 end)
 isDecimalDigit = (function (this, ch)
- do return (_bool((ch >= 48)) and _bool((ch <= 57))); end
+ do return ((function() if _bool((ch >= 48)) then return (ch <= 57);  else return (ch >= 48);  end end)()); end
 end)
 isHexDigit = (function (this, ch)
  do return (("0123456789abcdefABCDEF"):indexOf(ch) >= 0); end
@@ -29,16 +29,16 @@ isOctalDigit = (function (this, ch)
  do return (("01234567"):indexOf(ch) >= 0); end
 end)
 isWhiteSpace = (function (this, ch)
- do return (_bool((_bool((_bool((_bool((_bool((ch == 32)) or _bool((ch == 9)))) or _bool((ch == 11)))) or _bool((ch == 12)))) or _bool((ch == 160)))) or _bool((_bool((ch >= 5760)) and _bool((_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch) >= 0))))); end
+ do return (_bool((_bool((_bool((_bool((_bool((ch == 32)) and (ch == 32) or (ch == 9))) and (_bool((ch == 32)) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool((_bool((ch == 32)) and (ch == 32) or (ch == 9))) and (_bool((ch == 32)) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12))) and (_bool((_bool((_bool((ch == 32)) and (ch == 32) or (ch == 9))) and (_bool((ch == 32)) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool((_bool((ch == 32)) and (ch == 32) or (ch == 9))) and (_bool((ch == 32)) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160))) and (_bool((_bool((_bool((_bool((ch == 32)) and (ch == 32) or (ch == 9))) and (_bool((ch == 32)) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool((_bool((ch == 32)) and (ch == 32) or (ch == 9))) and (_bool((ch == 32)) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12))) and (_bool((_bool((_bool((ch == 32)) and (ch == 32) or (ch == 9))) and (_bool((ch == 32)) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool((_bool((ch == 32)) and (ch == 32) or (ch == 9))) and (_bool((ch == 32)) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) or ((function() if _bool((ch >= 5760)) then return (_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch) >= 0);  else return (ch >= 5760);  end end)())); end
 end)
 isLineTerminator = (function (this, ch)
- do return (_bool((_bool((_bool((ch == 10)) or _bool((ch == 13)))) or _bool((ch == 8232)))) or _bool((ch == 8233))); end
+ do return (_bool((_bool((_bool((ch == 10)) and (ch == 10) or (ch == 13))) and (_bool((ch == 10)) and (ch == 10) or (ch == 13)) or (ch == 8232))) and (_bool((_bool((ch == 10)) and (ch == 10) or (ch == 13))) and (_bool((ch == 10)) and (ch == 10) or (ch == 13)) or (ch == 8232)) or (ch == 8233)); end
 end)
 isIdentifierStart = (function (this, ch)
- do return (_bool((_bool((_bool((_bool((_bool((ch == 36)) or _bool((ch == 95)))) or _bool((_bool((ch >= 65)) and _bool((ch <= 90)))))) or _bool((_bool((ch >= 97)) and _bool((ch <= 122)))))) or _bool((ch == 92)))) or _bool((_bool((ch >= 128)) and _bool(Regex.NonAsciiIdentifierStart:test(String:fromCharCode(ch)))))); end
+ do return (_bool((_bool((_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)())) or (ch == 92))) and (_bool((_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)())) or (ch == 92)) or ((function() if _bool((ch >= 128)) then return Regex.NonAsciiIdentifierStart:test(String:fromCharCode(ch));  else return (ch >= 128);  end end)())); end
 end)
 isIdentifierPart = (function (this, ch)
- do return (_bool((_bool((_bool((_bool((_bool((_bool((ch == 36)) or _bool((ch == 95)))) or _bool((_bool((ch >= 65)) and _bool((ch <= 90)))))) or _bool((_bool((ch >= 97)) and _bool((ch <= 122)))))) or _bool((_bool((ch >= 48)) and _bool((ch <= 57)))))) or _bool((ch == 92)))) or _bool((_bool((ch >= 128)) and _bool(Regex.NonAsciiIdentifierPart:test(String:fromCharCode(ch)))))); end
+ do return (_bool((_bool((_bool((_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)())) or ((function() if _bool((ch >= 48)) then return (ch <= 57);  else return (ch >= 48);  end end)()))) and (_bool((_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)())) or ((function() if _bool((ch >= 48)) then return (ch <= 57);  else return (ch >= 48);  end end)())) or (ch == 92))) and (_bool((_bool((_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)())) or ((function() if _bool((ch >= 48)) then return (ch <= 57);  else return (ch >= 48);  end end)()))) and (_bool((_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool((_bool((ch == 36)) and (ch == 36) or (ch == 95))) and (_bool((ch == 36)) and (ch == 36) or (ch == 95)) or ((function() if _bool((ch >= 65)) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if _bool((ch >= 97)) then return (ch <= 122);  else return (ch >= 97);  end end)())) or ((function() if _bool((ch >= 48)) then return (ch <= 57);  else return (ch >= 48);  end end)())) or (ch == 92)) or ((function() if _bool((ch >= 128)) then return Regex.NonAsciiIdentifierPart:test(String:fromCharCode(ch));  else return (ch >= 128);  end end)())); end
 end)
 isFutureReservedWord = (function (this, id)
 repeat
@@ -131,10 +131,10 @@ end
 until true
 end)
 isRestrictedWord = (function (this, id)
- do return (_bool((id == "eval")) or _bool((id == "arguments"))); end
+ do return (_bool((id == "eval")) and (id == "eval") or (id == "arguments")); end
 end)
 isKeyword = (function (this, id)
-if _bool((_bool(strict) and _bool(isStrictModeReservedWord(_ENV,id)))) then
+if _bool(((function() if _bool(strict) then return isStrictModeReservedWord(_ENV,id);  else return strict;  end end)())) then
  do return true; end
 end
 
@@ -146,31 +146,31 @@ _into = true;
 goto _default
 end
 if _into or (id.length == 2) then
- do return (_bool((_bool((id == "if")) or _bool((id == "in")))) or _bool((id == "do"))); end
+ do return (_bool((_bool((id == "if")) and (id == "if") or (id == "in"))) and (_bool((id == "if")) and (id == "if") or (id == "in")) or (id == "do")); end
 _into = true;
 end
 if _into or (id.length == 3) then
- do return (_bool((_bool((_bool((_bool((id == "var")) or _bool((id == "for")))) or _bool((id == "new")))) or _bool((id == "try")))) or _bool((id == "let"))); end
+ do return (_bool((_bool((_bool((_bool((id == "var")) and (id == "var") or (id == "for"))) and (_bool((id == "var")) and (id == "var") or (id == "for")) or (id == "new"))) and (_bool((_bool((id == "var")) and (id == "var") or (id == "for"))) and (_bool((id == "var")) and (id == "var") or (id == "for")) or (id == "new")) or (id == "try"))) and (_bool((_bool((_bool((id == "var")) and (id == "var") or (id == "for"))) and (_bool((id == "var")) and (id == "var") or (id == "for")) or (id == "new"))) and (_bool((_bool((id == "var")) and (id == "var") or (id == "for"))) and (_bool((id == "var")) and (id == "var") or (id == "for")) or (id == "new")) or (id == "try")) or (id == "let")); end
 _into = true;
 end
 if _into or (id.length == 4) then
- do return (_bool((_bool((_bool((_bool((_bool((id == "this")) or _bool((id == "else")))) or _bool((id == "case")))) or _bool((id == "void")))) or _bool((id == "with")))) or _bool((id == "enum"))); end
+ do return (_bool((_bool((_bool((_bool((_bool((id == "this")) and (id == "this") or (id == "else"))) and (_bool((id == "this")) and (id == "this") or (id == "else")) or (id == "case"))) and (_bool((_bool((id == "this")) and (id == "this") or (id == "else"))) and (_bool((id == "this")) and (id == "this") or (id == "else")) or (id == "case")) or (id == "void"))) and (_bool((_bool((_bool((id == "this")) and (id == "this") or (id == "else"))) and (_bool((id == "this")) and (id == "this") or (id == "else")) or (id == "case"))) and (_bool((_bool((id == "this")) and (id == "this") or (id == "else"))) and (_bool((id == "this")) and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) or (id == "with"))) and (_bool((_bool((_bool((_bool((id == "this")) and (id == "this") or (id == "else"))) and (_bool((id == "this")) and (id == "this") or (id == "else")) or (id == "case"))) and (_bool((_bool((id == "this")) and (id == "this") or (id == "else"))) and (_bool((id == "this")) and (id == "this") or (id == "else")) or (id == "case")) or (id == "void"))) and (_bool((_bool((_bool((id == "this")) and (id == "this") or (id == "else"))) and (_bool((id == "this")) and (id == "this") or (id == "else")) or (id == "case"))) and (_bool((_bool((id == "this")) and (id == "this") or (id == "else"))) and (_bool((id == "this")) and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) or (id == "with")) or (id == "enum")); end
 _into = true;
 end
 if _into or (id.length == 5) then
- do return (_bool((_bool((_bool((_bool((_bool((_bool((_bool((id == "while")) or _bool((id == "break")))) or _bool((id == "catch")))) or _bool((id == "throw")))) or _bool((id == "const")))) or _bool((id == "yield")))) or _bool((id == "class")))) or _bool((id == "super"))); end
+ do return (_bool((_bool((_bool((_bool((_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw"))) and (_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const"))) and (_bool((_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw"))) and (_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield"))) and (_bool((_bool((_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw"))) and (_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const"))) and (_bool((_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw"))) and (_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) or (id == "class"))) and (_bool((_bool((_bool((_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw"))) and (_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const"))) and (_bool((_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw"))) and (_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield"))) and (_bool((_bool((_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw"))) and (_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const"))) and (_bool((_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw"))) and (_bool((_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch"))) and (_bool((_bool((id == "while")) and (id == "while") or (id == "break"))) and (_bool((id == "while")) and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) or (id == "class")) or (id == "super")); end
 _into = true;
 end
 if _into or (id.length == 6) then
- do return (_bool((_bool((_bool((_bool((_bool((id == "return")) or _bool((id == "typeof")))) or _bool((id == "delete")))) or _bool((id == "switch")))) or _bool((id == "export")))) or _bool((id == "import"))); end
+ do return (_bool((_bool((_bool((_bool((_bool((id == "return")) and (id == "return") or (id == "typeof"))) and (_bool((id == "return")) and (id == "return") or (id == "typeof")) or (id == "delete"))) and (_bool((_bool((id == "return")) and (id == "return") or (id == "typeof"))) and (_bool((id == "return")) and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch"))) and (_bool((_bool((_bool((id == "return")) and (id == "return") or (id == "typeof"))) and (_bool((id == "return")) and (id == "return") or (id == "typeof")) or (id == "delete"))) and (_bool((_bool((id == "return")) and (id == "return") or (id == "typeof"))) and (_bool((id == "return")) and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) or (id == "export"))) and (_bool((_bool((_bool((_bool((id == "return")) and (id == "return") or (id == "typeof"))) and (_bool((id == "return")) and (id == "return") or (id == "typeof")) or (id == "delete"))) and (_bool((_bool((id == "return")) and (id == "return") or (id == "typeof"))) and (_bool((id == "return")) and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch"))) and (_bool((_bool((_bool((id == "return")) and (id == "return") or (id == "typeof"))) and (_bool((id == "return")) and (id == "return") or (id == "typeof")) or (id == "delete"))) and (_bool((_bool((id == "return")) and (id == "return") or (id == "typeof"))) and (_bool((id == "return")) and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) or (id == "export")) or (id == "import")); end
 _into = true;
 end
 if _into or (id.length == 7) then
- do return (_bool((_bool((id == "default")) or _bool((id == "finally")))) or _bool((id == "extends"))); end
+ do return (_bool((_bool((id == "default")) and (id == "default") or (id == "finally"))) and (_bool((id == "default")) and (id == "default") or (id == "finally")) or (id == "extends")); end
 _into = true;
 end
 if _into or (id.length == 8) then
- do return (_bool((_bool((id == "function")) or _bool((id == "continue")))) or _bool((id == "debugger"))); end
+ do return (_bool((_bool((id == "function")) and (id == "function") or (id == "continue"))) and (_bool((id == "function")) and (id == "function") or (id == "continue")) or (id == "debugger")); end
 _into = true;
 end
 if _into or (id.length == 10) then
@@ -233,7 +233,7 @@ loc["end"] = _obj({
 addComment(_ENV,"Line",comment,start,(index - 1),loc);
 end
 
-if _bool((_bool((ch == 13)) and _bool((source:charCodeAt(index) == 10)))) then
+if _bool(((function() if _bool((ch == 13)) then return (source:charCodeAt(index) == 10);  else return (ch == 13);  end end)())) then
 index = _add(index, 1);
 end
 
@@ -270,7 +270,7 @@ end
 while _bool((index < length)) do
 ch = source:charCodeAt(index);
 if _bool(isLineTerminator(_ENV,ch)) then
-if _bool((_bool((ch == 13)) and _bool((source:charCodeAt((_add(index,1))) == 10)))) then
+if _bool(((function() if _bool((ch == 13)) then return (source:charCodeAt((_add(index,1))) == 10);  else return (ch == 13);  end end)())) then
 index = _add(index, 1);
 end
 
@@ -320,7 +320,7 @@ if _bool(isWhiteSpace(_ENV,ch)) then
 index = _add(index, 1);
 elseif _bool(isLineTerminator(_ENV,ch)) then
 index = _add(index, 1);
-if _bool((_bool((ch == 13)) and _bool((source:charCodeAt(index) == 10)))) then
+if _bool(((function() if _bool((ch == 13)) then return (source:charCodeAt(index) == 10);  else return (ch == 13);  end end)())) then
 index = _add(index, 1);
 end
 
@@ -342,8 +342,8 @@ else
 break;
 end
 
-elseif _bool((_bool(start) and _bool((ch == 45)))) then
-if _bool((_bool((source:charCodeAt((_add(index,1))) == 45)) and _bool((source:charCodeAt((_add(index,2))) == 62)))) then
+elseif _bool(((function() if _bool(start) then return (ch == 45);  else return start;  end end)())) then
+if _bool(((function() if _bool((source:charCodeAt((_add(index,1))) == 45)) then return (source:charCodeAt((_add(index,2))) == 62);  else return (source:charCodeAt((_add(index,1))) == 45);  end end)())) then
 index = (_add(index,3));
 skipSingleLineComment(_ENV,3);
 else
@@ -375,7 +375,7 @@ code = 0;
 len = (_bool((prefix == "u")) and {4} or {2})[1];
 i = 0;
 while _bool((i < len)) do
-if _bool((_bool((index < length)) and _bool(isHexDigit(_ENV,source[index])))) then
+if _bool(((function() if _bool((index < length)) then return isHexDigit(_ENV,source[index]);  else return (index < length);  end end)())) then
 ch = source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()];
 code = (_add((code * 16),("0123456789abcdef"):indexOf(ch:toLowerCase())));
 else
@@ -400,7 +400,7 @@ end
 
 index = _add(index, 1);
 ch = scanHexEscape(_ENV,"u");
-if _bool((_bool((_bool(not _bool(ch)) or _bool((ch == "\\")))) or _bool(not _bool(isIdentifierStart(_ENV,ch:charCodeAt(0)))))) then
+if _bool((_bool((_bool(not _bool(ch)) and not _bool(ch) or (ch == "\\"))) and (_bool(not _bool(ch)) and not _bool(ch) or (ch == "\\")) or not _bool(isIdentifierStart(_ENV,ch:charCodeAt(0))))) then
 throwError(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
@@ -427,7 +427,7 @@ end
 
 index = _add(index, 1);
 ch = scanHexEscape(_ENV,"u");
-if _bool((_bool((_bool(not _bool(ch)) or _bool((ch == "\\")))) or _bool(not _bool(isIdentifierPart(_ENV,ch:charCodeAt(0)))))) then
+if _bool((_bool((_bool(not _bool(ch)) and not _bool(ch) or (ch == "\\"))) and (_bool(not _bool(ch)) and not _bool(ch) or (ch == "\\")) or not _bool(isIdentifierPart(_ENV,ch:charCodeAt(0))))) then
 throwError(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
@@ -472,7 +472,7 @@ elseif _bool(isKeyword(_ENV,id)) then
 type = Token.Keyword;
 elseif _bool((id == "null")) then
 type = Token.NullLiteral;
-elseif _bool((_bool((id == "true")) or _bool((id == "false")))) then
+elseif _bool((_bool((id == "true")) and (id == "true") or (id == "false"))) then
 type = Token.BooleanLiteral;
 else
 type = Token.Identifier;
@@ -664,7 +664,7 @@ index = (_add(index,4));
 end
 
 ch3 = ch4:substr(0,3);
-if _bool((_bool((_bool((ch3 == ">>>")) or _bool((ch3 == "<<=")))) or _bool((ch3 == ">>=")))) then
+if _bool((_bool((_bool((ch3 == ">>>")) and (ch3 == ">>>") or (ch3 == "<<="))) and (_bool((ch3 == ">>>")) and (ch3 == ">>>") or (ch3 == "<<=")) or (ch3 == ">>="))) then
 index = (_add(index,3));
  do return _obj({
 ["type"] = Token.Punctuator,
@@ -677,7 +677,7 @@ index = (_add(index,3));
 end
 
 ch2 = ch3:substr(0,2);
-if _bool((_bool((_bool((ch1 == ch2[1])) and _bool((("+-<>&|"):indexOf(ch1) >= 0)))) or _bool((ch2 == "=>")))) then
+if _bool((_bool(((function() if _bool((ch1 == ch2[1])) then return (("+-<>&|"):indexOf(ch1) >= 0);  else return (ch1 == ch2[1]);  end end)())) and ((function() if _bool((ch1 == ch2[1])) then return (("+-<>&|"):indexOf(ch1) >= 0);  else return (ch1 == ch2[1]);  end end)()) or (ch2 == "=>"))) then
 index = (_add(index,2));
  do return _obj({
 ["type"] = Token.Punctuator,
@@ -750,7 +750,7 @@ number = (_add(number,source[(function () local _tmp = index; index = _add(_tmp,
 ::_continue::
 end
 
-if _bool((_bool(isIdentifierStart(_ENV,source:charCodeAt(index))) or _bool(isDecimalDigit(_ENV,source:charCodeAt(index))))) then
+if _bool((_bool(isIdentifierStart(_ENV,source:charCodeAt(index))) and isIdentifierStart(_ENV,source:charCodeAt(index)) or isDecimalDigit(_ENV,source:charCodeAt(index)))) then
 throwError(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
@@ -769,14 +769,14 @@ end)
 scanNumericLiteral = (function (this)
 local ch,start,number;
 ch = source[index];
-assert(_ENV,(_bool(isDecimalDigit(_ENV,ch:charCodeAt(0))) or _bool((ch == "."))),"Numeric literal must start with a decimal digit or a decimal point");
+assert(_ENV,(_bool(isDecimalDigit(_ENV,ch:charCodeAt(0))) and isDecimalDigit(_ENV,ch:charCodeAt(0)) or (ch == ".")),"Numeric literal must start with a decimal digit or a decimal point");
 start = index;
 number = "";
 if _bool((ch ~= ".")) then
 number = source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()];
 ch = source[index];
 if _bool((number == "0")) then
-if _bool((_bool((ch == "x")) or _bool((ch == "X")))) then
+if _bool((_bool((ch == "x")) and (ch == "x") or (ch == "X"))) then
 index = _add(index, 1);
  do return scanHexLiteral(_ENV,start); end
 end
@@ -785,7 +785,7 @@ if _bool(isOctalDigit(_ENV,ch)) then
  do return scanOctalLiteral(_ENV,start); end
 end
 
-if _bool((_bool(ch) and _bool(isDecimalDigit(_ENV,ch:charCodeAt(0))))) then
+if _bool(((function() if _bool(ch) then return isDecimalDigit(_ENV,ch:charCodeAt(0));  else return ch;  end end)())) then
 throwError(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
@@ -811,10 +811,10 @@ end
 ch = source[index];
 end
 
-if _bool((_bool((ch == "e")) or _bool((ch == "E")))) then
+if _bool((_bool((ch == "e")) and (ch == "e") or (ch == "E"))) then
 number = (_add(number,source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()]));
 ch = source[index];
-if _bool((_bool((ch == "+")) or _bool((ch == "-")))) then
+if _bool((_bool((ch == "+")) and (ch == "+") or (ch == "-"))) then
 number = (_add(number,source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()]));
 end
 
@@ -854,7 +854,7 @@ octal = false;
 startLineNumber = lineNumber;
 startLineStart = lineStart;
 quote = source[index];
-assert(_ENV,(_bool((quote == "'")) or _bool((quote == "\""))),"String literal must starts with a quote");
+assert(_ENV,(_bool((quote == "'")) and (quote == "'") or (quote == "\"")),"String literal must starts with a quote");
 start = index;
 index = _add(index, 1);
 while _bool((index < length)) do
@@ -864,7 +864,7 @@ quote = "";
 break;
 elseif _bool((ch == "\\")) then
 ch = source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()];
-if _bool((_bool(not _bool(ch)) or _bool(not _bool(isLineTerminator(_ENV,ch:charCodeAt(0)))))) then
+if _bool((_bool(not _bool(ch)) and not _bool(ch) or not _bool(isLineTerminator(_ENV,ch:charCodeAt(0))))) then
 repeat
 local _into = false;
 local _cases = {["u"] = true,["x"] = true,["n"] = true,["r"] = true,["t"] = true,["b"] = true,["f"] = true,["v"] = true};
@@ -927,10 +927,10 @@ if _bool((code ~= 0)) then
 octal = true;
 end
 
-if _bool((_bool((index < length)) and _bool(isOctalDigit(_ENV,source[index])))) then
+if _bool(((function() if _bool((index < length)) then return isOctalDigit(_ENV,source[index]);  else return (index < length);  end end)())) then
 octal = true;
 code = (_add((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()])));
-if _bool((_bool((_bool((("0123"):indexOf(ch) >= 0)) and _bool((index < length)))) and _bool(isOctalDigit(_ENV,source[index])))) then
+if _bool(((function() if _bool(((function() if _bool((("0123"):indexOf(ch) >= 0)) then return (index < length);  else return (("0123"):indexOf(ch) >= 0);  end end)())) then return isOctalDigit(_ENV,source[index]);  else return ((function() if _bool((("0123"):indexOf(ch) >= 0)) then return (index < length);  else return (("0123"):indexOf(ch) >= 0);  end end)());  end end)())) then
 code = (_add((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _add(_tmp, 1); return _tmp; end)()])));
 end
 
@@ -947,7 +947,7 @@ end
 until true
 else
 lineNumber = _add(lineNumber, 1);
-if _bool((_bool((ch == "\13")) and _bool((source[index] == "\10")))) then
+if _bool(((function() if _bool((ch == "\13")) then return (source[index] == "\10");  else return (ch == "\13");  end end)())) then
 index = _add(index, 1);
 end
 
@@ -1063,7 +1063,7 @@ break;
 end
 
 index = _add(index, 1);
-if _bool((_bool((ch == "\\")) and _bool((index < length)))) then
+if _bool(((function() if _bool((ch == "\\")) then return (index < length);  else return (ch == "\\");  end end)())) then
 ch = source[index];
 if _bool((ch == "u")) then
 index = _add(index, 1);
@@ -1150,8 +1150,8 @@ loc["end"] = _obj({
 if _bool(not _bool(extra.tokenize)) then
 if _bool((extra.tokens.length > 0)) then
 token = extra.tokens[(extra.tokens.length - 1)];
-if _bool((_bool((token.range[0] == pos)) and _bool((token.type == "Punctuator")))) then
-if _bool((_bool((token.value == "/")) or _bool((token.value == "/=")))) then
+if _bool(((function() if _bool((token.range[0] == pos)) then return (token.type == "Punctuator");  else return (token.range[0] == pos);  end end)())) then
+if _bool((_bool((token.value == "/")) and (token.value == "/") or (token.value == "/="))) then
 extra.tokens:pop();
 end
 
@@ -1170,7 +1170,7 @@ end
  do return regex; end
 end)
 isIdentifierName = (function (this, token)
- do return (_bool((_bool((_bool((token.type == Token.Identifier)) or _bool((token.type == Token.Keyword)))) or _bool((token.type == Token.BooleanLiteral)))) or _bool((token.type == Token.NullLiteral))); end
+ do return (_bool((_bool((_bool((token.type == Token.Identifier)) and (token.type == Token.Identifier) or (token.type == Token.Keyword))) and (_bool((token.type == Token.Identifier)) and (token.type == Token.Identifier) or (token.type == Token.Keyword)) or (token.type == Token.BooleanLiteral))) and (_bool((_bool((token.type == Token.Identifier)) and (token.type == Token.Identifier) or (token.type == Token.Keyword))) and (_bool((token.type == Token.Identifier)) and (token.type == Token.Identifier) or (token.type == Token.Keyword)) or (token.type == Token.BooleanLiteral)) or (token.type == Token.NullLiteral)); end
 end)
 advanceSlash = (function (this)
 local checkToken,prevToken;
@@ -1186,7 +1186,7 @@ end
 
 if _bool((prevToken.value == ")")) then
 checkToken = extra.tokens[(extra.openParenToken - 1)];
-if _bool((_bool((_bool(checkToken) and _bool((checkToken.type == "Keyword")))) and _bool((_bool((_bool((_bool((checkToken.value == "if")) or _bool((checkToken.value == "while")))) or _bool((checkToken.value == "for")))) or _bool((checkToken.value == "with")))))) then
+if _bool(((function() if _bool(((function() if _bool(checkToken) then return (checkToken.type == "Keyword");  else return checkToken;  end end)())) then return (_bool((_bool((_bool((checkToken.value == "if")) and (checkToken.value == "if") or (checkToken.value == "while"))) and (_bool((checkToken.value == "if")) and (checkToken.value == "if") or (checkToken.value == "while")) or (checkToken.value == "for"))) and (_bool((_bool((checkToken.value == "if")) and (checkToken.value == "if") or (checkToken.value == "while"))) and (_bool((checkToken.value == "if")) and (checkToken.value == "if") or (checkToken.value == "while")) or (checkToken.value == "for")) or (checkToken.value == "with"));  else return ((function() if _bool(checkToken) then return (checkToken.type == "Keyword");  else return checkToken;  end end)());  end end)())) then
  do return collectRegex(_ENV); end
 end
 
@@ -1194,13 +1194,13 @@ end
 end
 
 if _bool((prevToken.value == "}")) then
-if _bool((_bool(extra.tokens[(extra.openCurlyToken - 3)]) and _bool((extra.tokens[(extra.openCurlyToken - 3)].type == "Keyword")))) then
+if _bool(((function() if _bool(extra.tokens[(extra.openCurlyToken - 3)]) then return (extra.tokens[(extra.openCurlyToken - 3)].type == "Keyword");  else return extra.tokens[(extra.openCurlyToken - 3)];  end end)())) then
 checkToken = extra.tokens[(extra.openCurlyToken - 4)];
 if _bool(not _bool(checkToken)) then
  do return scanPunctuator(_ENV); end
 end
 
-elseif _bool((_bool(extra.tokens[(extra.openCurlyToken - 4)]) and _bool((extra.tokens[(extra.openCurlyToken - 4)].type == "Keyword")))) then
+elseif _bool(((function() if _bool(extra.tokens[(extra.openCurlyToken - 4)]) then return (extra.tokens[(extra.openCurlyToken - 4)].type == "Keyword");  else return extra.tokens[(extra.openCurlyToken - 4)];  end end)())) then
 checkToken = extra.tokens[(extra.openCurlyToken - 5)];
 if _bool(not _bool(checkToken)) then
  do return collectRegex(_ENV); end
@@ -1244,11 +1244,11 @@ if _bool(isIdentifierStart(_ENV,ch)) then
  do return scanIdentifier(_ENV); end
 end
 
-if _bool((_bool((_bool((ch == 40)) or _bool((ch == 41)))) or _bool((ch == 59)))) then
+if _bool((_bool((_bool((ch == 40)) and (ch == 40) or (ch == 41))) and (_bool((ch == 40)) and (ch == 40) or (ch == 41)) or (ch == 59))) then
  do return scanPunctuator(_ENV); end
 end
 
-if _bool((_bool((ch == 39)) or _bool((ch == 34)))) then
+if _bool((_bool((ch == 39)) and (ch == 39) or (ch == 34))) then
  do return scanStringLiteral(_ENV); end
 end
 
@@ -1264,7 +1264,7 @@ if _bool(isDecimalDigit(_ENV,ch)) then
  do return scanNumericLiteral(_ENV); end
 end
 
-if _bool((_bool(extra.tokenize) and _bool((ch == 47)))) then
+if _bool(((function() if _bool(extra.tokenize) then return (ch == 47);  else return extra.tokenize;  end end)())) then
  do return advanceSlash(_ENV); end
 end
 
@@ -1403,7 +1403,7 @@ end
 if _bool((token.type == Token.Keyword)) then
 if _bool(isFutureReservedWord(_ENV,token.value)) then
 throwError(_ENV,token,Messages.UnexpectedReserved);
-elseif _bool((_bool(strict) and _bool(isStrictModeReservedWord(_ENV,token.value)))) then
+elseif _bool(((function() if _bool(strict) then return isStrictModeReservedWord(_ENV,token.value);  else return strict;  end end)())) then
 throwErrorTolerant(_ENV,token,Messages.StrictReservedWord);
 do return end
 end
@@ -1416,7 +1416,7 @@ end)
 expect = (function (this, value)
 local token;
 token = lex(_ENV);
-if _bool((_bool((token.type ~= Token.Punctuator)) or _bool((token.value ~= value)))) then
+if _bool((_bool((token.type ~= Token.Punctuator)) and (token.type ~= Token.Punctuator) or (token.value ~= value))) then
 throwUnexpected(_ENV,token);
 end
 
@@ -1424,16 +1424,16 @@ end)
 expectKeyword = (function (this, keyword)
 local token;
 token = lex(_ENV);
-if _bool((_bool((token.type ~= Token.Keyword)) or _bool((token.value ~= keyword)))) then
+if _bool((_bool((token.type ~= Token.Keyword)) and (token.type ~= Token.Keyword) or (token.value ~= keyword))) then
 throwUnexpected(_ENV,token);
 end
 
 end)
 match = (function (this, value)
- do return (_bool((lookahead.type == Token.Punctuator)) and _bool((lookahead.value == value))); end
+ do return ((function() if _bool((lookahead.type == Token.Punctuator)) then return (lookahead.value == value);  else return (lookahead.type == Token.Punctuator);  end end)()); end
 end)
 matchKeyword = (function (this, keyword)
- do return (_bool((lookahead.type == Token.Keyword)) and _bool((lookahead.value == keyword))); end
+ do return ((function() if _bool((lookahead.type == Token.Keyword)) then return (lookahead.value == keyword);  else return (lookahead.type == Token.Keyword);  end end)()); end
 end)
 matchAssign = (function (this)
 local op;
@@ -1442,11 +1442,11 @@ if _bool((lookahead.type ~= Token.Punctuator)) then
 end
 
 op = lookahead.value;
- do return (_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) or _bool((op == "*=")))) or _bool((op == "/=")))) or _bool((op == "%=")))) or _bool((op == "+=")))) or _bool((op == "-=")))) or _bool((op == "<<=")))) or _bool((op == ">>=")))) or _bool((op == ">>>=")))) or _bool((op == "&=")))) or _bool((op == "^=")))) or _bool((op == "|="))); end
+ do return (_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&=")) or (op == "^="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>="))) and (_bool((_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<="))) and (_bool((_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-="))) and (_bool((_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+="))) and (_bool((_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%="))) and (_bool((_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/="))) and (_bool((_bool((op == "=")) and (op == "=") or (op == "*="))) and (_bool((op == "=")) and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&=")) or (op == "^=")) or (op == "|=")); end
 end)
 consumeSemicolon = (function (this)
 local line;
-if _bool((_bool((source:charCodeAt(index) == 59)) or _bool(match(_ENV,";")))) then
+if _bool((_bool((source:charCodeAt(index) == 59)) and (source:charCodeAt(index) == 59) or match(_ENV,";"))) then
 lex(_ENV);
 do return end
 end
@@ -1457,13 +1457,13 @@ if _bool((lineNumber ~= line)) then
 do return end
 end
 
-if _bool((_bool((lookahead.type ~= Token.EOF)) and _bool(not _bool(match(_ENV,"}"))))) then
+if _bool(((function() if _bool((lookahead.type ~= Token.EOF)) then return not _bool(match(_ENV,"}"));  else return (lookahead.type ~= Token.EOF);  end end)())) then
 throwUnexpected(_ENV,lookahead);
 end
 
 end)
 isLeftHandSide = (function (this, expr)
- do return (_bool((expr.type == Syntax.Identifier)) or _bool((expr.type == Syntax.MemberExpression))); end
+ do return (_bool((expr.type == Syntax.Identifier)) and (expr.type == Syntax.Identifier) or (expr.type == Syntax.MemberExpression)); end
 end)
 parseArrayInitialiser = (function (this)
 local startToken,elements;
@@ -1493,7 +1493,7 @@ local startToken,body,previousStrict;
 previousStrict = strict;
 startToken = lookahead;
 body = parseFunctionSourceElements(_ENV);
-if _bool((_bool((_bool(first) and _bool(strict))) and _bool(isRestrictedWord(_ENV,param[0].name)))) then
+if _bool(((function() if _bool(((function() if _bool(first) then return strict;  else return first;  end end)())) then return isRestrictedWord(_ENV,param[0].name);  else return ((function() if _bool(first) then return strict;  else return first;  end end)());  end end)())) then
 throwErrorTolerant(_ENV,first,Messages.StrictParamName);
 end
 
@@ -1504,8 +1504,8 @@ parseObjectPropertyKey = (function (this)
 local startToken,token;
 startToken = lookahead;
 token = lex(_ENV);
-if _bool((_bool((token.type == Token.StringLiteral)) or _bool((token.type == Token.NumericLiteral)))) then
-if _bool((_bool(strict) and _bool(token.octal))) then
+if _bool((_bool((token.type == Token.StringLiteral)) and (token.type == Token.StringLiteral) or (token.type == Token.NumericLiteral))) then
+if _bool(((function() if _bool(strict) then return token.octal;  else return strict;  end end)())) then
 throwErrorTolerant(_ENV,token,Messages.StrictOctalLiteral);
 end
 
@@ -1520,7 +1520,7 @@ token = lookahead;
 startToken = lookahead;
 if _bool((token.type == Token.Identifier)) then
 id = parseObjectPropertyKey(_ENV);
-if _bool((_bool((token.value == "get")) and _bool(not _bool(match(_ENV,":"))))) then
+if _bool(((function() if _bool((token.value == "get")) then return not _bool(match(_ENV,":"));  else return (token.value == "get");  end end)())) then
 key = parseObjectPropertyKey(_ENV);
 expect(_ENV,"(");
 expect(_ENV,")");
@@ -1528,7 +1528,7 @@ value = parsePropertyFunction(_ENV,_arr({},0));
  do return delegate:markEnd(delegate:createProperty("get",key,value),startToken); end
 end
 
-if _bool((_bool((token.value == "set")) and _bool(not _bool(match(_ENV,":"))))) then
+if _bool(((function() if _bool((token.value == "set")) then return not _bool(match(_ENV,":"));  else return (token.value == "set");  end end)())) then
 key = parseObjectPropertyKey(_ENV);
 expect(_ENV,"(");
 token = lookahead;
@@ -1550,7 +1550,7 @@ value = parseAssignmentExpression(_ENV);
  do return delegate:markEnd(delegate:createProperty("init",id,value),startToken); end
 end
 
-if _bool((_bool((token.type == Token.EOF)) or _bool((token.type == Token.Punctuator)))) then
+if _bool((_bool((token.type == Token.EOF)) and (token.type == Token.EOF) or (token.type == Token.Punctuator))) then
 throwUnexpected(_ENV,token);
 else
 key = parseObjectPropertyKey(_ENV);
@@ -1581,7 +1581,7 @@ kind = (_bool((property.kind == "init")) and {PropertyKind.Data} or {(_bool((pro
 key = (_add("$",name));
 if _bool(Object.prototype.hasOwnProperty:call(map,key)) then
 if _bool((map[key] == PropertyKind.Data)) then
-if _bool((_bool(strict) and _bool((kind == PropertyKind.Data)))) then
+if _bool(((function() if _bool(strict) then return (kind == PropertyKind.Data);  else return strict;  end end)())) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictDuplicateProperty);
@@ -1645,8 +1645,8 @@ type = lookahead.type;
 startToken = lookahead;
 if _bool((type == Token.Identifier)) then
 expr = delegate:createIdentifier(lex(_ENV).value);
-elseif _bool((_bool((type == Token.StringLiteral)) or _bool((type == Token.NumericLiteral)))) then
-if _bool((_bool(strict) and _bool(lookahead.octal))) then
+elseif _bool((_bool((type == Token.StringLiteral)) and (type == Token.StringLiteral) or (type == Token.NumericLiteral))) then
+if _bool(((function() if _bool(strict) then return lookahead.octal;  else return strict;  end end)())) then
 throwErrorTolerant(_ENV,lookahead,Messages.StrictOctalLiteral);
 end
 
@@ -1671,7 +1671,7 @@ elseif _bool((type == Token.NullLiteral)) then
 token = lex(_ENV);
 token.value = null;
 expr = delegate:createLiteral(token);
-elseif _bool((_bool(match(_ENV,"/")) or _bool(match(_ENV,"/=")))) then
+elseif _bool((_bool(match(_ENV,"/")) and match(_ENV,"/") or match(_ENV,"/="))) then
 if _bool((_type(extra.tokens) ~= "undefined")) then
 expr = delegate:createLiteral(collectRegex(_ENV));
 else
@@ -1766,7 +1766,7 @@ startToken = lookahead;
 previousAllowIn = state.allowIn;
 expr = (_bool(matchKeyword(_ENV,"new")) and {parseNewExpression(_ENV)} or {parsePrimaryExpression(_ENV)})[1];
 state.allowIn = previousAllowIn;
-while _bool((_bool(match(_ENV,".")) or _bool(match(_ENV,"[")))) do
+while _bool((_bool(match(_ENV,".")) and match(_ENV,".") or match(_ENV,"["))) do
 if _bool(match(_ENV,"[")) then
 property = parseComputedMember(_ENV);
 expr = delegate:createMemberExpression("[",expr,property);
@@ -1786,8 +1786,8 @@ local startToken,token,expr;
 startToken = lookahead;
 expr = parseLeftHandSideExpressionAllowCall(_ENV);
 if _bool((lookahead.type == Token.Punctuator)) then
-if _bool((_bool((_bool(match(_ENV,"++")) or _bool(match(_ENV,"--")))) and _bool(not _bool(peekLineTerminator(_ENV))))) then
-if _bool((_bool((_bool(strict) and _bool((expr.type == Syntax.Identifier)))) and _bool(isRestrictedWord(_ENV,expr.name)))) then
+if _bool(((function() if _bool((_bool(match(_ENV,"++")) and match(_ENV,"++") or match(_ENV,"--"))) then return not _bool(peekLineTerminator(_ENV));  else return (_bool(match(_ENV,"++")) and match(_ENV,"++") or match(_ENV,"--"));  end end)())) then
+if _bool(((function() if _bool(((function() if _bool(strict) then return (expr.type == Syntax.Identifier);  else return strict;  end end)())) then return isRestrictedWord(_ENV,expr.name);  else return ((function() if _bool(strict) then return (expr.type == Syntax.Identifier);  else return strict;  end end)());  end end)())) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictLHSPostfix);
@@ -1809,13 +1809,13 @@ end
 end)
 parseUnaryExpression = (function (this)
 local startToken,expr,token;
-if _bool((_bool((lookahead.type ~= Token.Punctuator)) and _bool((lookahead.type ~= Token.Keyword)))) then
+if _bool(((function() if _bool((lookahead.type ~= Token.Punctuator)) then return (lookahead.type ~= Token.Keyword);  else return (lookahead.type ~= Token.Punctuator);  end end)())) then
 expr = parsePostfixExpression(_ENV);
-elseif _bool((_bool(match(_ENV,"++")) or _bool(match(_ENV,"--")))) then
+elseif _bool((_bool(match(_ENV,"++")) and match(_ENV,"++") or match(_ENV,"--"))) then
 startToken = lookahead;
 token = lex(_ENV);
 expr = parseUnaryExpression(_ENV);
-if _bool((_bool((_bool(strict) and _bool((expr.type == Syntax.Identifier)))) and _bool(isRestrictedWord(_ENV,expr.name)))) then
+if _bool(((function() if _bool(((function() if _bool(strict) then return (expr.type == Syntax.Identifier);  else return strict;  end end)())) then return isRestrictedWord(_ENV,expr.name);  else return ((function() if _bool(strict) then return (expr.type == Syntax.Identifier);  else return strict;  end end)());  end end)())) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictLHSPrefix);
@@ -1829,19 +1829,19 @@ end
 
 expr = delegate:createUnaryExpression(token.value,expr);
 expr = delegate:markEnd(expr,startToken);
-elseif _bool((_bool((_bool((_bool(match(_ENV,"+")) or _bool(match(_ENV,"-")))) or _bool(match(_ENV,"~")))) or _bool(match(_ENV,"!")))) then
+elseif _bool((_bool((_bool((_bool(match(_ENV,"+")) and match(_ENV,"+") or match(_ENV,"-"))) and (_bool(match(_ENV,"+")) and match(_ENV,"+") or match(_ENV,"-")) or match(_ENV,"~"))) and (_bool((_bool(match(_ENV,"+")) and match(_ENV,"+") or match(_ENV,"-"))) and (_bool(match(_ENV,"+")) and match(_ENV,"+") or match(_ENV,"-")) or match(_ENV,"~")) or match(_ENV,"!"))) then
 startToken = lookahead;
 token = lex(_ENV);
 expr = parseUnaryExpression(_ENV);
 expr = delegate:createUnaryExpression(token.value,expr);
 expr = delegate:markEnd(expr,startToken);
-elseif _bool((_bool((_bool(matchKeyword(_ENV,"delete")) or _bool(matchKeyword(_ENV,"void")))) or _bool(matchKeyword(_ENV,"typeof")))) then
+elseif _bool((_bool((_bool(matchKeyword(_ENV,"delete")) and matchKeyword(_ENV,"delete") or matchKeyword(_ENV,"void"))) and (_bool(matchKeyword(_ENV,"delete")) and matchKeyword(_ENV,"delete") or matchKeyword(_ENV,"void")) or matchKeyword(_ENV,"typeof"))) then
 startToken = lookahead;
 token = lex(_ENV);
 expr = parseUnaryExpression(_ENV);
 expr = delegate:createUnaryExpression(token.value,expr);
 expr = delegate:markEnd(expr,startToken);
-if _bool((_bool((_bool(strict) and _bool((expr.operator == "delete")))) and _bool((expr.argument.type == Syntax.Identifier)))) then
+if _bool(((function() if _bool(((function() if _bool(strict) then return (expr.operator == "delete");  else return strict;  end end)())) then return (expr.argument.type == Syntax.Identifier);  else return ((function() if _bool(strict) then return (expr.operator == "delete");  else return strict;  end end)());  end end)())) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictDelete);
@@ -1856,7 +1856,7 @@ end)
 binaryPrecedence = (function (this, token, allowIn)
 local prec;
 prec = 0;
-if _bool((_bool((token.type ~= Token.Punctuator)) and _bool((token.type ~= Token.Keyword)))) then
+if _bool(((function() if _bool((token.type ~= Token.Punctuator)) then return (token.type ~= Token.Keyword);  else return (token.type ~= Token.Punctuator);  end end)())) then
  do return 0; end
 end
 
@@ -1994,7 +1994,7 @@ markers = _arr({[0]=marker,lookahead},2);
 right = parseUnaryExpression(_ENV);
 stack = _arr({[0]=left,token,right},3);
 while _bool(((function () local _tmp = binaryPrecedence(_ENV,lookahead,state.allowIn); prec  = _tmp; return _tmp; end)() > 0)) do
-while _bool((_bool((stack.length > 2)) and _bool((prec <= stack[(stack.length - 2)].prec)))) do
+while _bool(((function() if _bool((stack.length > 2)) then return (prec <= stack[(stack.length - 2)].prec);  else return (stack.length > 2);  end end)())) do
 right = stack:pop();
 operator = stack:pop().value;
 left = stack:pop();
@@ -2058,7 +2058,7 @@ throwErrorTolerant(_ENV,_obj({
 }),Messages.InvalidLHSInAssignment);
 end
 
-if _bool((_bool((_bool(strict) and _bool((left.type == Syntax.Identifier)))) and _bool(isRestrictedWord(_ENV,left.name)))) then
+if _bool(((function() if _bool(((function() if _bool(strict) then return (left.type == Syntax.Identifier);  else return strict;  end end)())) then return isRestrictedWord(_ENV,left.name);  else return ((function() if _bool(strict) then return (left.type == Syntax.Identifier);  else return strict;  end end)());  end end)())) then
 throwErrorTolerant(_ENV,token,Messages.StrictLHSAssignment);
 end
 
@@ -2132,7 +2132,7 @@ local startToken,id,init;
 init = null;
 startToken = lookahead;
 id = parseVariableIdentifier(_ENV);
-if _bool((_bool(strict) and _bool(isRestrictedWord(_ENV,id.name)))) then
+if _bool(((function() if _bool(strict) then return isRestrictedWord(_ENV,id.name);  else return strict;  end end)())) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictVarName);
@@ -2248,11 +2248,11 @@ expect(_ENV,"(");
 if _bool(match(_ENV,";")) then
 lex(_ENV);
 else
-if _bool((_bool(matchKeyword(_ENV,"var")) or _bool(matchKeyword(_ENV,"let")))) then
+if _bool((_bool(matchKeyword(_ENV,"var")) and matchKeyword(_ENV,"var") or matchKeyword(_ENV,"let"))) then
 state.allowIn = false;
 init = parseForVariableDeclaration(_ENV);
 state.allowIn = true;
-if _bool((_bool((init.declarations.length == 1)) and _bool(matchKeyword(_ENV,"in")))) then
+if _bool(((function() if _bool((init.declarations.length == 1)) then return matchKeyword(_ENV,"in");  else return (init.declarations.length == 1);  end end)())) then
 lex(_ENV);
 left = init;
 right = parseExpression(_ENV);
@@ -2340,7 +2340,7 @@ end
 end
 
 consumeSemicolon(_ENV);
-if _bool((_bool((label == null)) and _bool(not _bool(state.inIteration)))) then
+if _bool(((function() if _bool((label == null)) then return not _bool(state.inIteration);  else return (label == null);  end end)())) then
 throwError(_ENV,_obj({
 
 }),Messages.IllegalContinue);
@@ -2354,7 +2354,7 @@ label = null;
 expectKeyword(_ENV,"break");
 if _bool((source:charCodeAt(index) == 59)) then
 lex(_ENV);
-if _bool(not _bool((_bool(state.inIteration) or _bool(state.inSwitch)))) then
+if _bool(not _bool((_bool(state.inIteration) and state.inIteration or state.inSwitch))) then
 throwError(_ENV,_obj({
 
 }),Messages.IllegalBreak);
@@ -2364,7 +2364,7 @@ end
 end
 
 if _bool(peekLineTerminator(_ENV)) then
-if _bool(not _bool((_bool(state.inIteration) or _bool(state.inSwitch)))) then
+if _bool(not _bool((_bool(state.inIteration) and state.inIteration or state.inSwitch))) then
 throwError(_ENV,_obj({
 
 }),Messages.IllegalBreak);
@@ -2385,7 +2385,7 @@ end
 end
 
 consumeSemicolon(_ENV);
-if _bool((_bool((label == null)) and _bool(not _bool((_bool(state.inIteration) or _bool(state.inSwitch)))))) then
+if _bool(((function() if _bool((label == null)) then return not _bool((_bool(state.inIteration) and state.inIteration or state.inSwitch));  else return (label == null);  end end)())) then
 throwError(_ENV,_obj({
 
 }),Messages.IllegalBreak);
@@ -2417,7 +2417,7 @@ if _bool(peekLineTerminator(_ENV)) then
 end
 
 if _bool(not _bool(match(_ENV,";"))) then
-if _bool((_bool(not _bool(match(_ENV,"}"))) and _bool((lookahead.type ~= Token.EOF)))) then
+if _bool(((function() if _bool(not _bool(match(_ENV,"}"))) then return (lookahead.type ~= Token.EOF);  else return not _bool(match(_ENV,"}"));  end end)())) then
 argument = parseExpression(_ENV);
 end
 
@@ -2456,7 +2456,7 @@ end
 
 expect(_ENV,":");
 while _bool((index < length)) do
-if _bool((_bool((_bool(match(_ENV,"}")) or _bool(matchKeyword(_ENV,"default")))) or _bool(matchKeyword(_ENV,"case")))) then
+if _bool((_bool((_bool(match(_ENV,"}")) and match(_ENV,"}") or matchKeyword(_ENV,"default"))) and (_bool(match(_ENV,"}")) and match(_ENV,"}") or matchKeyword(_ENV,"default")) or matchKeyword(_ENV,"case"))) then
 break;
 end
 
@@ -2530,7 +2530,7 @@ throwUnexpected(_ENV,lookahead);
 end
 
 param = parseVariableIdentifier(_ENV);
-if _bool((_bool(strict) and _bool(isRestrictedWord(_ENV,param.name)))) then
+if _bool(((function() if _bool(strict) then return isRestrictedWord(_ENV,param.name);  else return strict;  end end)())) then
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.StrictCatchVariable);
@@ -2555,7 +2555,7 @@ lex(_ENV);
 finalizer = parseBlock(_ENV);
 end
 
-if _bool((_bool((handlers.length == 0)) and _bool(not _bool(finalizer)))) then
+if _bool(((function() if _bool((handlers.length == 0)) then return not _bool(finalizer);  else return (handlers.length == 0);  end end)())) then
 throwError(_ENV,_obj({
 
 }),Messages.NoCatchOrFinally);
@@ -2575,7 +2575,7 @@ if _bool((type == Token.EOF)) then
 throwUnexpected(_ENV,lookahead);
 end
 
-if _bool((_bool((type == Token.Punctuator)) and _bool((lookahead.value == "{")))) then
+if _bool(((function() if _bool((type == Token.Punctuator)) then return (lookahead.value == "{");  else return (type == Token.Punctuator);  end end)())) then
  do return parseBlock(_ENV); end
 end
 
@@ -2677,7 +2677,7 @@ until true
 end
 
 expr = parseExpression(_ENV);
-if _bool((_bool((expr.type == Syntax.Identifier)) and _bool(match(_ENV,":")))) then
+if _bool(((function() if _bool((expr.type == Syntax.Identifier)) then return match(_ENV,":");  else return (expr.type == Syntax.Identifier);  end end)())) then
 lex(_ENV);
 key = (_add("$",expr.name));
 if _bool(Object.prototype.hasOwnProperty:call(state.labelSet,key)) then
@@ -2721,7 +2721,7 @@ throwErrorTolerant(_ENV,firstRestricted,Messages.StrictOctalLiteral);
 end
 
 else
-if _bool((_bool(not _bool(firstRestricted)) and _bool(token.octal))) then
+if _bool(((function() if _bool(not _bool(firstRestricted)) then return token.octal;  else return not _bool(firstRestricted);  end end)())) then
 firstRestricted = token;
 end
 
@@ -2851,11 +2851,11 @@ end
 
 previousStrict = strict;
 body = parseFunctionSourceElements(_ENV);
-if _bool((_bool(strict) and _bool(firstRestricted))) then
+if _bool(((function() if _bool(strict) then return firstRestricted;  else return strict;  end end)())) then
 throwError(_ENV,firstRestricted,message);
 end
 
-if _bool((_bool(strict) and _bool(stricted))) then
+if _bool(((function() if _bool(strict) then return stricted;  else return strict;  end end)())) then
 throwErrorTolerant(_ENV,stricted,message);
 end
 
@@ -2899,11 +2899,11 @@ end
 
 previousStrict = strict;
 body = parseFunctionSourceElements(_ENV);
-if _bool((_bool(strict) and _bool(firstRestricted))) then
+if _bool(((function() if _bool(strict) then return firstRestricted;  else return strict;  end end)())) then
 throwError(_ENV,firstRestricted,message);
 end
 
-if _bool((_bool(strict) and _bool(stricted))) then
+if _bool(((function() if _bool(strict) then return stricted;  else return strict;  end end)())) then
 throwErrorTolerant(_ENV,stricted,message);
 end
 
@@ -2967,7 +2967,7 @@ throwErrorTolerant(_ENV,firstRestricted,Messages.StrictOctalLiteral);
 end
 
 else
-if _bool((_bool(not _bool(firstRestricted)) and _bool(token.octal))) then
+if _bool(((function() if _bool(not _bool(firstRestricted)) then return token.octal;  else return not _bool(firstRestricted);  end end)())) then
 firstRestricted = token;
 end
 
@@ -3024,7 +3024,7 @@ end)
 tokenize = (function (this, code, options)
 local tokens,token,toString;
 toString = String;
-if _bool((_bool((_type(code) ~= "string")) and _bool(not _bool((_instanceof(code,String)))))) then
+if _bool(((function() if _bool((_type(code) ~= "string")) then return not _bool((_instanceof(code,String)));  else return (_type(code) ~= "string");  end end)())) then
 code = toString(_ENV,code);
 end
 
@@ -3048,21 +3048,21 @@ state = _obj({
 extra = _obj({
 
 });
-options = (_bool(options) or _bool(_obj({
+options = (_bool(options) and options or _obj({
 
-})));
+}));
 options.tokens = true;
 extra.tokens = _arr({},0);
 extra.tokenize = true;
 extra.openParenToken = -_tonum(1);
 extra.openCurlyToken = -_tonum(1);
-extra.range = (_bool((_type(options.range) == "boolean")) and _bool(options.range));
-extra.loc = (_bool((_type(options.loc) == "boolean")) and _bool(options.loc));
-if _bool((_bool((_type(options.comment) == "boolean")) and _bool(options.comment))) then
+extra.range = ((function() if _bool((_type(options.range) == "boolean")) then return options.range;  else return (_type(options.range) == "boolean");  end end)());
+extra.loc = ((function() if _bool((_type(options.loc) == "boolean")) then return options.loc;  else return (_type(options.loc) == "boolean");  end end)());
+if _bool(((function() if _bool((_type(options.comment) == "boolean")) then return options.comment;  else return (_type(options.comment) == "boolean");  end end)())) then
 extra.comments = _arr({},0);
 end
 
-if _bool((_bool((_type(options.tolerant) == "boolean")) and _bool(options.tolerant))) then
+if _bool(((function() if _bool((_type(options.tolerant) == "boolean")) then return options.tolerant;  else return (_type(options.tolerant) == "boolean");  end end)())) then
 extra.errors = _arr({},0);
 end
 
@@ -3130,7 +3130,7 @@ end)
 parse = (function (this, code, options)
 local toString,program;
 toString = String;
-if _bool((_bool((_type(code) ~= "string")) and _bool(not _bool((_instanceof(code,String)))))) then
+if _bool(((function() if _bool((_type(code) ~= "string")) then return not _bool((_instanceof(code,String)));  else return (_type(code) ~= "string");  end end)())) then
 code = toString(_ENV,code);
 end
 
@@ -3155,22 +3155,22 @@ extra = _obj({
 
 });
 if _bool((_type(options) ~= "undefined")) then
-extra.range = (_bool((_type(options.range) == "boolean")) and _bool(options.range));
-extra.loc = (_bool((_type(options.loc) == "boolean")) and _bool(options.loc));
-extra.attachComment = (_bool((_type(options.attachComment) == "boolean")) and _bool(options.attachComment));
-if _bool((_bool((_bool(extra.loc) and _bool((options.source ~= null)))) and _bool((options.source ~= undefined)))) then
+extra.range = ((function() if _bool((_type(options.range) == "boolean")) then return options.range;  else return (_type(options.range) == "boolean");  end end)());
+extra.loc = ((function() if _bool((_type(options.loc) == "boolean")) then return options.loc;  else return (_type(options.loc) == "boolean");  end end)());
+extra.attachComment = ((function() if _bool((_type(options.attachComment) == "boolean")) then return options.attachComment;  else return (_type(options.attachComment) == "boolean");  end end)());
+if _bool(((function() if _bool(((function() if _bool(extra.loc) then return (options.source ~= null);  else return extra.loc;  end end)())) then return (options.source ~= undefined);  else return ((function() if _bool(extra.loc) then return (options.source ~= null);  else return extra.loc;  end end)());  end end)())) then
 extra.source = toString(_ENV,options.source);
 end
 
-if _bool((_bool((_type(options.tokens) == "boolean")) and _bool(options.tokens))) then
+if _bool(((function() if _bool((_type(options.tokens) == "boolean")) then return options.tokens;  else return (_type(options.tokens) == "boolean");  end end)())) then
 extra.tokens = _arr({},0);
 end
 
-if _bool((_bool((_type(options.comment) == "boolean")) and _bool(options.comment))) then
+if _bool(((function() if _bool((_type(options.comment) == "boolean")) then return options.comment;  else return (_type(options.comment) == "boolean");  end end)())) then
 extra.comments = _arr({},0);
 end
 
-if _bool((_bool((_type(options.tolerant) == "boolean")) and _bool(options.tolerant))) then
+if _bool(((function() if _bool((_type(options.tolerant) == "boolean")) then return options.tolerant;  else return (_type(options.tolerant) == "boolean");  end end)())) then
 extra.errors = _arr({},0);
 end
 
@@ -3347,7 +3347,7 @@ extra.trailingComments.length = 0;
 end
 
 else
-if _bool((_bool((_bool((extra.bottomRightStack.length > 0)) and _bool(extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments))) and _bool((extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments[0].range[0] >= node.range[1])))) then
+if _bool(((function() if _bool(((function() if _bool((extra.bottomRightStack.length > 0)) then return extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments;  else return (extra.bottomRightStack.length > 0);  end end)())) then return (extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments[0].range[0] >= node.range[1]);  else return ((function() if _bool((extra.bottomRightStack.length > 0)) then return extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments;  else return (extra.bottomRightStack.length > 0);  end end)());  end end)())) then
 trailingComments = extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments;
 (function () local _r = false; local _g, _s = extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_g" .. "trailingComments"], extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_s" .. "trailingComments"]; extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_g" .. "trailingComments"], extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_s" .. "trailingComments"] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments; extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments = nil; return _r or _v ~= nil; end)();
@@ -3355,19 +3355,19 @@ end
 
 end
 
-while _bool((_bool((extra.bottomRightStack.length > 0)) and _bool((extra.bottomRightStack[(extra.bottomRightStack.length - 1)].range[0] >= node.range[0])))) do
+while _bool(((function() if _bool((extra.bottomRightStack.length > 0)) then return (extra.bottomRightStack[(extra.bottomRightStack.length - 1)].range[0] >= node.range[0]);  else return (extra.bottomRightStack.length > 0);  end end)())) do
 lastChild = extra.bottomRightStack:pop();
 ::_continue::
 end
 
 if _bool(lastChild) then
-if _bool((_bool(lastChild.leadingComments) and _bool((lastChild.leadingComments[(lastChild.leadingComments.length - 1)].range[1] <= node.range[0])))) then
+if _bool(((function() if _bool(lastChild.leadingComments) then return (lastChild.leadingComments[(lastChild.leadingComments.length - 1)].range[1] <= node.range[0]);  else return lastChild.leadingComments;  end end)())) then
 node.leadingComments = lastChild.leadingComments;
 (function () local _r = false; local _g, _s = lastChild["_g" .. "leadingComments"], lastChild["_s" .. "leadingComments"]; lastChild["_g" .. "leadingComments"], lastChild["_s" .. "leadingComments"] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = lastChild.leadingComments; lastChild.leadingComments = nil; return _r or _v ~= nil; end)();
 end
 
-elseif _bool((_bool((extra.leadingComments.length > 0)) and _bool((extra.leadingComments[(extra.leadingComments.length - 1)].range[1] <= node.range[0])))) then
+elseif _bool(((function() if _bool((extra.leadingComments.length > 0)) then return (extra.leadingComments[(extra.leadingComments.length - 1)].range[1] <= node.range[0]);  else return (extra.leadingComments.length > 0);  end end)())) then
 node.leadingComments = extra.leadingComments;
 extra.leadingComments = _arr({},0);
 end
@@ -3417,7 +3417,7 @@ end),
 end),
 ["createBinaryExpression"] = (function (this, operator, left, right)
 local type;
-type = (_bool((_bool((operator == "||")) or _bool((operator == "&&")))) and {Syntax.LogicalExpression} or {Syntax.BinaryExpression})[1];
+type = (_bool((_bool((operator == "||")) and (operator == "||") or (operator == "&&"))) and {Syntax.LogicalExpression} or {Syntax.BinaryExpression})[1];
  do return _obj({
 ["type"] = type,
 ["operator"] = operator,
@@ -3648,7 +3648,7 @@ end),
 }); end
 end),
 ["createUnaryExpression"] = (function (this, operator, argument)
-if _bool((_bool((operator == "++")) or _bool((operator == "--")))) then
+if _bool((_bool((operator == "++")) and (operator == "++") or (operator == "--"))) then
  do return _obj({
 ["type"] = Syntax.UpdateExpression,
 ["operator"] = operator,

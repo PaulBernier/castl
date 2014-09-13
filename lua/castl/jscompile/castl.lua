@@ -1,6 +1,6 @@
 local _ENV = require("castl.runtime");
 (function (this, root, factory)
-if _bool((_bool((_type(define) == "function")) and _bool(define.amd))) then
+if _bool(((function() if _bool((_type(define) == "function")) then return define.amd;  else return (_type(define) == "function");  end end)())) then
 define(_ENV,_arr({[0]="exports"},1),factory);
 elseif _bool((exports ~= undefined)) then
 factory(_ENV,exports);
@@ -28,9 +28,9 @@ this.args = _arr({},0);
 end)
 compileAST = (function (this, ast, opts)
 local i,compiledFunctionsDeclaration,functions,compiledLocalsDeclaration,locals,useArguments,context,topLevelStatements,compiledProgram;
-options = (_bool(opts) or _bool(_obj({
+options = (_bool(opts) and opts or _obj({
 
-})));
+}));
 if _bool((ast.type == "Program")) then
 compiledProgram = _arr({},0);
 localVarManager:createLocalContext();
@@ -192,7 +192,7 @@ compiledStatements = _arr({},0);
 i = 0;
 while _bool((i < statementList.length)) do
 compiledStatement = compileStatement(_ENV,statementList[i]);
-if _bool((_bool((compiledStatement ~= "")) and _bool((compiledStatement ~= undefined)))) then
+if _bool(((function() if _bool((compiledStatement ~= "")) then return (compiledStatement ~= undefined);  else return (compiledStatement ~= "");  end end)())) then
 compiledStatements:push(compiledStatement);
 end
 
@@ -316,7 +316,7 @@ if _bool(continueNoLabelTracker[(continueNoLabelTracker.length - 1)]) then
 compiledForStatement:push("::_continue::\10");
 end
 
-if _bool((_bool(compiledLabel) and _bool(labelTracker[compiledLabel].mayContinue))) then
+if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
 compiledForStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
 end
 
@@ -345,7 +345,7 @@ compiledForInStatement:push(compiledLeft);
 compiledForInStatement:push(");\10");
 compiledForInStatement:push(compileStatement(_ENV,statement.body));
 compiledForInStatement:push("::_continue::\10");
-if _bool((_bool(compiledLabel) and _bool(labelTracker[compiledLabel].mayContinue))) then
+if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
 compiledForInStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
 end
 
@@ -360,7 +360,7 @@ compiledWhileStatement:push(") do\10");
 compiledWhileStatement:push(compileStatement(_ENV,statement.body));
 compiledWhileStatement:push("\10");
 compiledWhileStatement:push("::_continue::\10");
-if _bool((_bool(compiledLabel) and _bool(labelTracker[compiledLabel].mayContinue))) then
+if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
 compiledWhileStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
 end
 
@@ -373,7 +373,7 @@ compiledDoWhileStatement = _arr({[0]="repeat\10"},1);
 compiledDoWhileStatement:push(compileStatement(_ENV,statement.body));
 compiledDoWhileStatement:push("\10");
 compiledDoWhileStatement:push("::_continue::\10");
-if _bool((_bool(compiledLabel) and _bool(labelTracker[compiledLabel].mayContinue))) then
+if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
 compiledDoWhileStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
 end
 
@@ -383,7 +383,7 @@ compiledDoWhileStatement:push(")\10");
  do return compiledDoWhileStatement:join(""); end
 end)
 isIterationStatement = (function (this, statement)
- do return (_bool((_bool((_bool((statement.type == "ForStatement")) or _bool((statement.type == "DoWhileStatement")))) or _bool((statement.type == "WhileStatement")))) or _bool((statement.type == "ForInStatement"))); end
+ do return (_bool((_bool((_bool((statement.type == "ForStatement")) and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement"))) and (_bool((statement.type == "ForStatement")) and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement")) or (statement.type == "WhileStatement"))) and (_bool((_bool((statement.type == "ForStatement")) and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement"))) and (_bool((statement.type == "ForStatement")) and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement")) or (statement.type == "WhileStatement")) or (statement.type == "ForInStatement")); end
 end)
 compileLabeledStatement = (function (this, statement)
 local compiledLabel,label,compiledLabeledStatement;
@@ -521,7 +521,7 @@ compiledTryStatement:push("\10");
 compiledTryStatement:push("end);\10");
 may = protectedCallManager:may();
 protectedCallManager:closeContext();
-if _bool((_bool((_bool((_bool(hasFinalizer) or _bool(may.mayReturn))) or _bool(may.mayBreak))) or _bool(may.mayContinue))) then
+if _bool((_bool((_bool((_bool(hasFinalizer) and hasFinalizer or may.mayReturn)) and (_bool(hasFinalizer) and hasFinalizer or may.mayReturn) or may.mayBreak)) and (_bool((_bool(hasFinalizer) and hasFinalizer or may.mayReturn)) and (_bool(hasFinalizer) and hasFinalizer or may.mayReturn) or may.mayBreak) or may.mayContinue)) then
 compiledTryStatement:push("if _status then\10");
 if _bool(hasFinalizer) then
 finallyStatements = compileListOfStatements(_ENV,statement.finalizer.body);
@@ -529,7 +529,7 @@ compiledTryStatement:push(finallyStatements);
 compiledTryStatement:push("\10");
 end
 
-if _bool((_bool(may.mayBreak) and _bool(may.mayContinue))) then
+if _bool(((function() if _bool(may.mayBreak) then return may.mayContinue;  else return may.mayBreak;  end end)())) then
 compiledTryStatement:push("if _return == _break then break; elseif _return == _continue then goto _continue end\10");
 elseif _bool(may.mayBreak) then
 compiledTryStatement:push("if _return == _break then break; end\10");
@@ -567,7 +567,7 @@ end
 
 if _bool(hasHandler) then
 compiledTryStatement:push("if _cstatus then\10");
-if _bool((_bool(may.mayBreak) and _bool(may.mayContinue))) then
+if _bool(((function() if _bool(may.mayBreak) then return may.mayContinue;  else return may.mayBreak;  end end)())) then
 compiledTryStatement:push("if _creturn == _break then break; elseif _creturn == _continue then goto _continue end\10");
 elseif _bool(may.mayBreak) then
 compiledTryStatement:push("if _creturn == _break then break; end\10");
@@ -1115,10 +1115,9 @@ end
 end)
 compileLogicalExpression = (function (this, expression)
 local right,left,compiledLogicalExpression;
-compiledLogicalExpression = _arr({[0]="(_bool("},1);
+compiledLogicalExpression = _arr({[0]="("},1);
 left = compileExpression(_ENV,expression.left);
 right = compileExpression(_ENV,expression.right);
-compiledLogicalExpression:push(left);
 repeat
 local _into = false;
 local _cases = {["&&"] = true,["||"] = true};
@@ -1127,12 +1126,23 @@ _into = true;
 goto _default
 end
 if _into or (expression.operator == "&&") then
-compiledLogicalExpression:push(") and _bool(");
+compiledLogicalExpression:push("(function() if _bool(");
+compiledLogicalExpression:push(left);
+compiledLogicalExpression:push(") then return ");
+compiledLogicalExpression:push(right);
+compiledLogicalExpression:push(";  else return ");
+compiledLogicalExpression:push(left);
+compiledLogicalExpression:push(";  end end)()");
 break;
 _into = true;
 end
 if _into or (expression.operator == "||") then
-compiledLogicalExpression:push(") or _bool(");
+compiledLogicalExpression:push("_bool(");
+compiledLogicalExpression:push(left);
+compiledLogicalExpression:push(") and ");
+compiledLogicalExpression:push(left);
+compiledLogicalExpression:push(" or ");
+compiledLogicalExpression:push(right);
 break;
 _into = true;
 end
@@ -1142,8 +1152,7 @@ _throw(_new(Error,(_add("Unknown LogicalOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
-compiledLogicalExpression:push(right);
-compiledLogicalExpression:push("))");
+compiledLogicalExpression:push(")");
  do return compiledLogicalExpression:join(""); end
 end)
 getBaseMember = (function (this, expession)
@@ -1764,7 +1773,7 @@ if _bool((charcode < 128)) then
 utf8:push(charcode);
 elseif _bool((charcode < 2048)) then
 utf8:push((_bor(192,(_arshift(charcode,6)))),(_bor(128,(_band(charcode,63)))));
-elseif _bool((_bool((charcode < 55296)) or _bool((charcode >= 57344)))) then
+elseif _bool((_bool((charcode < 55296)) and (charcode < 55296) or (charcode >= 57344))) then
 utf8:push((_bor(224,(_arshift(charcode,12)))),(_bor(128,(_band((_arshift(charcode,6)),63)))),(_bor(128,(_band(charcode,63)))));
 else
 i = _add(i, 1);
@@ -1887,7 +1896,7 @@ end
 
 end),
 ["breakOutside"] = (function (this)
-if _bool((_bool((_bool(this:isInProtectedCallContext()) and _bool(this:noInsideIteration()))) and _bool(this:noInsideSwitch()))) then
+if _bool(((function() if _bool(((function() if _bool(this:isInProtectedCallContext()) then return this:noInsideIteration();  else return this:isInProtectedCallContext();  end end)())) then return this:noInsideSwitch();  else return ((function() if _bool(this:isInProtectedCallContext()) then return this:noInsideIteration();  else return this:isInProtectedCallContext();  end end)());  end end)())) then
 this.mayBreakStack[(this.mayBreakStack.length - 1)] = true;
  do return true; end
 end
@@ -1895,7 +1904,7 @@ end
  do return false; end
 end),
 ["continueOutside"] = (function (this)
-if _bool((_bool(this:isInProtectedCallContext()) and _bool(this:noInsideIteration()))) then
+if _bool(((function() if _bool(this:isInProtectedCallContext()) then return this:noInsideIteration();  else return this:isInProtectedCallContext();  end end)())) then
 this.mayContinueStack[(this.mayContinueStack.length - 1)] = true;
  do return true; end
 end

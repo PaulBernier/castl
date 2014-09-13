@@ -1171,26 +1171,37 @@
     }
 
     function compileLogicalExpression(expression) {
-        var compiledLogicalExpression = ["(_bool("];
+        var compiledLogicalExpression = ["("];
 
         var left = compileExpression(expression.left);
         var right = compileExpression(expression.right);
 
-        compiledLogicalExpression.push(left);
-
         switch (expression.operator) {
         case "&&":
-            compiledLogicalExpression.push(") and _bool(");
+            // (function() if boolean(a) then return b else return a end end)()
+            compiledLogicalExpression.push("(function() if _bool(");
+            compiledLogicalExpression.push(left);
+            compiledLogicalExpression.push(") then return ");
+            compiledLogicalExpression.push(right);
+            compiledLogicalExpression.push(";  else return ");
+            compiledLogicalExpression.push(left);
+            compiledLogicalExpression.push(";  end end)()");
             break;
         case "||":
-            compiledLogicalExpression.push(") or _bool(");
+            // boolean(a) and a or b
+            compiledLogicalExpression.push("_bool(");
+            compiledLogicalExpression.push(left);
+            compiledLogicalExpression.push(") and ");
+            compiledLogicalExpression.push(left);
+            compiledLogicalExpression.push(" or ");
+            compiledLogicalExpression.push(right);
+
             break;
         default:
             throw new Error("Unknown LogicalOperator: " + expression.operator);
         }
 
-        compiledLogicalExpression.push(right);
-        compiledLogicalExpression.push("))");
+        compiledLogicalExpression.push(")");
 
         return compiledLogicalExpression.join('');
     }
