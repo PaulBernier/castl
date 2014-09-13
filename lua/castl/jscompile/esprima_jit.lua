@@ -372,7 +372,7 @@ end)
 scanHexEscape = (function (this, prefix)
 local code,ch,len,i;
 code = 0;
-len = (_bool((prefix == "u")) and {4} or {2})[1];
+len = (function() if _bool((prefix == "u")) then return 4; else return 2; end end)();
 i = 0;
 while _bool((i < len)) do
 if _bool(((function() if _bool((index < length)) then return isHexDigit(_ENV,source[index]);  else return (index < length);  end end)())) then
@@ -465,7 +465,7 @@ end)
 scanIdentifier = (function (this)
 local type,id,start;
 start = index;
-id = (_bool((source:charCodeAt(index) == 92)) and {getEscapedIdentifier(_ENV)} or {getIdentifier(_ENV)})[1];
+id = (function() if _bool((source:charCodeAt(index) == 92)) then return getEscapedIdentifier(_ENV); else return getIdentifier(_ENV); end end)();
 if _bool((id.length == 1)) then
 type = Token.Identifier;
 elseif _bool(isKeyword(_ENV,id)) then
@@ -1302,7 +1302,7 @@ token = lookahead;
 index = token["end"];
 lineNumber = token.lineNumber;
 lineStart = token.lineStart;
-lookahead = (_bool((_type(extra.tokens) ~= "undefined")) and {collectToken(_ENV)} or {advance(_ENV)})[1];
+lookahead = (function() if _bool((_type(extra.tokens) ~= "undefined")) then return collectToken(_ENV); else return advance(_ENV); end end)();
 index = token["end"];
 lineNumber = token.lineNumber;
 lineStart = token.lineStart;
@@ -1313,7 +1313,7 @@ local start,line,pos;
 pos = index;
 line = lineNumber;
 start = lineStart;
-lookahead = (_bool((_type(extra.tokens) ~= "undefined")) and {collectToken(_ENV)} or {advance(_ENV)})[1];
+lookahead = (function() if _bool((_type(extra.tokens) ~= "undefined")) then return collectToken(_ENV); else return advance(_ENV); end end)();
 index = pos;
 lineNumber = line;
 lineStart = start;
@@ -1577,7 +1577,7 @@ else
 name = toString(_ENV,property.key.value);
 end
 
-kind = (_bool((property.kind == "init")) and {PropertyKind.Data} or {(_bool((property.kind == "get")) and {PropertyKind.Get} or {PropertyKind.Set})[1]})[1];
+kind = (function() if _bool((property.kind == "init")) then return PropertyKind.Data; else return (function() if _bool((property.kind == "get")) then return PropertyKind.Get; else return PropertyKind.Set; end end)(); end end)();
 key = (_add("$",name));
 if _bool(Object.prototype.hasOwnProperty:call(map,key)) then
 if _bool((map[key] == PropertyKind.Data)) then
@@ -1731,7 +1731,7 @@ local startToken,args,callee;
 startToken = lookahead;
 expectKeyword(_ENV,"new");
 callee = parseLeftHandSideExpression(_ENV);
-args = (_bool(match(_ENV,"(")) and {parseArguments(_ENV)} or {_arr({},0)})[1];
+args = (function() if _bool(match(_ENV,"(")) then return parseArguments(_ENV); else return _arr({},0); end end)();
  do return delegate:markEnd(delegate:createNewExpression(callee,args),startToken); end
 end)
 parseLeftHandSideExpressionAllowCall = (function (this)
@@ -1739,7 +1739,7 @@ local startToken,property,args,expr,previousAllowIn;
 startToken = lookahead;
 previousAllowIn = state.allowIn;
 state.allowIn = true;
-expr = (_bool(matchKeyword(_ENV,"new")) and {parseNewExpression(_ENV)} or {parsePrimaryExpression(_ENV)})[1];
+expr = (function() if _bool(matchKeyword(_ENV,"new")) then return parseNewExpression(_ENV); else return parsePrimaryExpression(_ENV); end end)();
 state.allowIn = previousAllowIn;
 while _bool(true) do
 if _bool(match(_ENV,".")) then
@@ -1764,7 +1764,7 @@ parseLeftHandSideExpression = (function (this)
 local startToken,property,expr,previousAllowIn;
 startToken = lookahead;
 previousAllowIn = state.allowIn;
-expr = (_bool(matchKeyword(_ENV,"new")) and {parseNewExpression(_ENV)} or {parsePrimaryExpression(_ENV)})[1];
+expr = (function() if _bool(matchKeyword(_ENV,"new")) then return parseNewExpression(_ENV); else return parsePrimaryExpression(_ENV); end end)();
 state.allowIn = previousAllowIn;
 while _bool((_bool(match(_ENV,".")) and match(_ENV,".") or match(_ENV,"["))) do
 if _bool(match(_ENV,"[")) then
@@ -1931,7 +1931,7 @@ break;
 _into = true;
 end
 if _into or (token.value == "in") then
-prec = (_bool(allowIn) and {7} or {0})[1];
+prec = (function() if _bool(allowIn) then return 7; else return 0; end end)();
 break;
 _into = true;
 end
@@ -2301,7 +2301,7 @@ oldInIteration = state.inIteration;
 state.inIteration = true;
 body = parseStatement(_ENV);
 state.inIteration = oldInIteration;
- do return (_bool((_type(left) == "undefined")) and {delegate:createForStatement(init,test,update,body)} or {delegate:createForInStatement(left,right,body)})[1]; end
+ do return (function() if _bool((_type(left) == "undefined")) then return delegate:createForStatement(init,test,update,body); else return delegate:createForInStatement(left,right,body); end end)(); end
 end)
 parseContinueStatement = (function (this)
 local key,label;
@@ -3031,7 +3031,7 @@ end
 delegate = SyntaxTreeDelegate;
 source = code;
 index = 0;
-lineNumber = (_bool((source.length > 0)) and {1} or {0})[1];
+lineNumber = (function() if _bool((source.length > 0)) then return 1; else return 0; end end)();
 lineStart = 0;
 length = source.length;
 lookahead = null;
@@ -3137,7 +3137,7 @@ end
 delegate = SyntaxTreeDelegate;
 source = code;
 index = 0;
-lineNumber = (_bool((source.length > 0)) and {1} or {0})[1];
+lineNumber = (function() if _bool((source.length > 0)) then return 1; else return 0; end end)();
 lineStart = 0;
 length = source.length;
 lookahead = null;
@@ -3384,7 +3384,7 @@ node.range = _arr({[0]=startToken.start,index},2);
 end
 
 if _bool(extra.loc) then
-node.loc = _new(SourceLocation,(_bool((startToken.startLineNumber == undefined)) and {startToken.lineNumber} or {startToken.startLineNumber})[1],(startToken.start - (_bool((startToken.startLineStart == undefined)) and {startToken.lineStart} or {startToken.startLineStart})[1]),lineNumber,(index - lineStart));
+node.loc = _new(SourceLocation,(function() if _bool((startToken.startLineNumber == undefined)) then return startToken.lineNumber; else return startToken.startLineNumber; end end)(),(startToken.start - (function() if _bool((startToken.startLineStart == undefined)) then return startToken.lineStart; else return startToken.startLineStart; end end)()),lineNumber,(index - lineStart));
 this:postProcess(node);
 end
 
@@ -3417,7 +3417,7 @@ end),
 end),
 ["createBinaryExpression"] = (function (this, operator, left, right)
 local type;
-type = (_bool((_bool((operator == "||")) and (operator == "||") or (operator == "&&"))) and {Syntax.LogicalExpression} or {Syntax.BinaryExpression})[1];
+type = (function() if _bool((_bool((operator == "||")) and (operator == "||") or (operator == "&&"))) then return Syntax.LogicalExpression; else return Syntax.BinaryExpression; end end)();
  do return _obj({
 ["type"] = type,
 ["operator"] = operator,

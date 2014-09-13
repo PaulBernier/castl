@@ -513,7 +513,7 @@ end
 end)
 compileTryStatementFlavored = (function (this, statement, esprima)
 local handler,compiledTryStatement,may,finallyStatements,hasFinalizer,hasHandler;
-hasHandler = (_bool(esprima) and {(statement.handlers.length > 0)} or {(statement.handler ~= null)})[1];
+hasHandler = (function() if _bool(esprima) then return (statement.handlers.length > 0); else return (statement.handler ~= null); end end)();
 hasFinalizer = (statement.finalizer ~= null);
 protectedCallManager:openContext();
 compiledTryStatement = _arr({[0]="local _status, _return = _pcall(function()\10"},1);
@@ -548,7 +548,7 @@ compiledTryStatement:push("if not _status then\10");
 end
 
 if _bool(hasHandler) then
-handler = (_bool(esprima) and {statement.handlers[0]} or {statement.handler})[1];
+handler = (function() if _bool(esprima) then return statement.handlers[0]; else return statement.handler; end end)();
 protectedCallManager:openContext();
 compiledTryStatement:push("local _cstatus, _creturn = _pcall(function()\10");
 compiledTryStatement:push("local ");
@@ -1454,13 +1454,13 @@ compiledBinaryExpression:push(right);
 end)
 compileConditionalExpression = (function (this, expression)
 local compiledConditionalExpression;
-compiledConditionalExpression = _arr({[0]="(_bool("},1);
+compiledConditionalExpression = _arr({[0]="(function() if _bool("},1);
 compiledConditionalExpression:push(compileExpression(_ENV,expression.test));
-compiledConditionalExpression:push(") and {");
+compiledConditionalExpression:push(") then return ");
 compiledConditionalExpression:push(compileExpression(_ENV,expression.consequent));
-compiledConditionalExpression:push("} or {");
+compiledConditionalExpression:push("; else return ");
 compiledConditionalExpression:push(compileExpression(_ENV,expression.alternate));
-compiledConditionalExpression:push("})[1]");
+compiledConditionalExpression:push("; end end)()");
  do return compiledConditionalExpression:join(""); end
 end)
 compileSequenceExpression = (function (this, expression)
@@ -1809,9 +1809,9 @@ source = sanitizeRegExpSource(_ENV,regexp.source);
 compiledRegExp:push(source);
 compiledRegExp:push("\",\"");
 flags = "";
-flags = (_add(flags,(_bool(regexp.global) and {"g"} or {""})[1]));
-flags = (_add(flags,(_bool(regexp.ignoreCase) and {"i"} or {""})[1]));
-flags = (_add(flags,(_bool(regexp.multiline) and {"m"} or {""})[1]));
+flags = (_add(flags,(function() if _bool(regexp.global) then return "g"; else return ""; end end)()));
+flags = (_add(flags,(function() if _bool(regexp.ignoreCase) then return "i"; else return ""; end end)()));
+flags = (_add(flags,(function() if _bool(regexp.multiline) then return "m"; else return ""; end end)()));
 compiledRegExp:push(flags);
 compiledRegExp:push("\")");
 ret = compiledRegExp:join("");

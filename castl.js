@@ -1451,15 +1451,16 @@
     // TernaryOperator: boxing/unboxing solution
     // http://lua-users.org/wiki/TernaryOperator
     function compileConditionalExpression(expression) {
-        var compiledConditionalExpression = ["(_bool("];
-
+        var compiledConditionalExpression = ["(function() if _bool("];
+        
+        // (function() if boolean(a) then return b else return c end end)()
         compiledConditionalExpression.push(compileExpression(expression.test));
-        compiledConditionalExpression.push(") and {");
+        compiledConditionalExpression.push(") then return ");
         compiledConditionalExpression.push(compileExpression(expression.consequent));
-        compiledConditionalExpression.push("} or {");
+        compiledConditionalExpression.push("; else return ");
         compiledConditionalExpression.push(compileExpression(expression.alternate));
-        compiledConditionalExpression.push("})[1]");
-
+        compiledConditionalExpression.push("; end end)()");
+        
         return compiledConditionalExpression.join("");
     }
 
