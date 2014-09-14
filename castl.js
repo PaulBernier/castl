@@ -555,29 +555,27 @@
     function compileLabeledStatement(statement) {
         var compiledLabeledStatement = [];
 
+        var label = statement.label;
+        var compiledLabel = compileIdentifier(label);
+
+        // create tracker for this label
+        labelTracker[compiledLabel] = {
+            mayBreak: false,
+            mayContinue: false
+        };
+
         if (isIterationStatement(statement.body)) {
-            var label = statement.label;
-            var compiledLabel = compileIdentifier(label);
-
-            // create tracker for this label
-            labelTracker[compiledLabel] = {
-                mayBreak: false,
-                mayContinue: false
-            };
-
             compiledLabeledStatement.push(compileIterationStatement(statement.body, compiledLabel));
-
-            if (labelTracker[compiledLabel].mayBreak) {
-                compiledLabeledStatement.push("::" + compiledLabel + "_b::\n");
-            }
-
-            // delete tracker for this label
-            delete labelTracker[compiledLabel];
         } else {
-            // TODO: not sure if this case could happen
-            // for now the label is just ignored
             compiledLabeledStatement.push(compileStatement(statement.body));
         }
+
+        if (labelTracker[compiledLabel].mayBreak) {
+            compiledLabeledStatement.push("::" + compiledLabel + "_b::\n");
+        }
+
+        // delete tracker for this label
+        delete labelTracker[compiledLabel];
 
         return compiledLabeledStatement.join("");
     }
@@ -1452,7 +1450,7 @@
     // http://lua-users.org/wiki/TernaryOperator
     function compileConditionalExpression(expression) {
         var compiledConditionalExpression = ["(function() if _bool("];
-        
+
         // (function() if boolean(a) then return b else return c end end)()
         compiledConditionalExpression.push(compileExpression(expression.test));
         compiledConditionalExpression.push(") then return ");
@@ -1460,7 +1458,7 @@
         compiledConditionalExpression.push("; else return ");
         compiledConditionalExpression.push(compileExpression(expression.alternate));
         compiledConditionalExpression.push("; end end)()");
-        
+
         return compiledConditionalExpression.join("");
     }
 

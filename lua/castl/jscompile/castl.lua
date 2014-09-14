@@ -388,24 +388,24 @@ end)
 compileLabeledStatement = (function (this, statement)
 local compiledLabel,label,compiledLabeledStatement;
 compiledLabeledStatement = _arr({},0);
-if _bool(isIterationStatement(_ENV,statement.body)) then
 label = statement.label;
 compiledLabel = compileIdentifier(_ENV,label);
 labelTracker[compiledLabel] = _obj({
 ["mayBreak"] = false,
 ["mayContinue"] = false
 });
+if _bool(isIterationStatement(_ENV,statement.body)) then
 compiledLabeledStatement:push(compileIterationStatement(_ENV,statement.body,compiledLabel));
+else
+compiledLabeledStatement:push(compileStatement(_ENV,statement.body));
+end
+
 if _bool(labelTracker[compiledLabel].mayBreak) then
 compiledLabeledStatement:push((_add((_add("::",compiledLabel)),"_b::\10")));
 end
 
 (function () local _r = false; local _g, _s = labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel]; labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = labelTracker[compiledLabel]; labelTracker[compiledLabel] = nil; return _r or _v ~= nil; end)();
-else
-compiledLabeledStatement:push(compileStatement(_ENV,statement.body));
-end
-
  do return compiledLabeledStatement:join(""); end
 end)
 compileBreakStatement = (function (this, statement)

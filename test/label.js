@@ -117,3 +117,14 @@ assert(ret[14] === 2);
 assert(ret[15] === 2);
 assert(i === 3);
 assert(j === 3);
+
+// Not iteration statement
+i, j = 0, j;
+label1:{
+    i = 54;
+    break label1;
+    j = 21;
+}
+
+assert(i === 54);
+assert(j === 0);
