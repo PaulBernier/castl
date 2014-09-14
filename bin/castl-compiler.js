@@ -62,14 +62,14 @@ fs.readFile(filename, 'utf8', function (err, data) {
         finalCode.push("return setfenv(function(...)");
         finalCode.push(compiledCode);
         if (nodejs) {
-            finalCode.push("return exports;");
+            finalCode.push("return module.exports;");
         }
         finalCode.push("end, _ENV)();");
     } else {
         finalCode.push("local _ENV = require(\"castl.runtime\");");
         finalCode.push(compiledCode);
         if (nodejs) {
-            finalCode.push("return exports;");
+            finalCode.push("return module.exports;");
         }
     }
 
