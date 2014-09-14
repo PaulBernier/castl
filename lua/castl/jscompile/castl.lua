@@ -56,13 +56,13 @@ compiledFunctionsDeclaration:push(functions[i]);
 i = _add(i, 1);
 end
 
-compiledProgram:push(compiledFunctionsDeclaration:join("\10"));
+compiledProgram:push(compiledFunctionsDeclaration:join("\010"));
 end
 
 compiledProgram:push(topLevelStatements);
  do return _obj({
 ["success"] = true,
-["compiled"] = compiledProgram:join("\10")
+["compiled"] = compiledProgram:join("\010")
 }); end
 end
 
@@ -199,7 +199,7 @@ end
 i = _add(i, 1);
 end
 
- do return compiledStatements:join("\10"); end
+ do return compiledStatements:join("\010"); end
 end)
 compileIfStatement = (function (this, statement, elif)
 local compiledIfStatement;
@@ -211,22 +211,22 @@ compiledIfStatement:push("if _bool(");
 end
 
 compiledIfStatement:push(compileExpression(_ENV,statement.test));
-compiledIfStatement:push(") then\10");
+compiledIfStatement:push(") then\010");
 compiledIfStatement:push(compileStatement(_ENV,statement.consequent));
 if _bool((statement.alternate ~= null)) then
-compiledIfStatement:push("\10");
+compiledIfStatement:push("\010");
 if _bool((statement.alternate.type == "IfStatement")) then
 compiledIfStatement:push(compileIfStatement(_ENV,statement.alternate,true));
 else
-compiledIfStatement:push("else\10");
+compiledIfStatement:push("else\010");
 compiledIfStatement:push(compileStatement(_ENV,statement.alternate));
 end
 
 end
 
 if _bool(not _bool(elif)) then
-compiledIfStatement:push("\10");
-compiledIfStatement:push("end\10");
+compiledIfStatement:push("\010");
+compiledIfStatement:push("end\010");
 end
 
  do return compiledIfStatement:join(""); end
@@ -241,7 +241,7 @@ else
 compiledForInit:push(compileExpressionStatement(_ENV,init));
 end
 
-compiledForInit:push("\10");
+compiledForInit:push("\010");
 end
 
  do return compiledForInit:join(""); end
@@ -251,7 +251,7 @@ local compiledForUpdate;
 compiledForUpdate = _arr({},0);
 if _bool((update ~= null)) then
 compiledForUpdate:push(compileExpressionStatement(_ENV,update));
-compiledForUpdate:push("\10");
+compiledForUpdate:push("\010");
 end
 
  do return compiledForUpdate:join(""); end
@@ -309,19 +309,19 @@ else
 compiledForStatement:push("true");
 end
 
-compiledForStatement:push(") do\10");
+compiledForStatement:push(") do\010");
 compiledForStatement:push(compileStatement(_ENV,statement.body));
-compiledForStatement:push("\10");
+compiledForStatement:push("\010");
 if _bool(continueNoLabelTracker[(continueNoLabelTracker.length - 1)]) then
-compiledForStatement:push("::_continue::\10");
+compiledForStatement:push("::_continue::\010");
 end
 
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
-compiledForStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
+compiledForStatement:push((_add((_add("::",compiledLabel)),"_c::\010")));
 end
 
 compiledForStatement:push(compileForUpdate(_ENV,statement.update));
-compiledForStatement:push("end\10");
+compiledForStatement:push("end\010");
  do return compiledForStatement:join(""); end
 end)
 compileForInStatement = (function (this, statement, compiledLabel)
@@ -338,48 +338,48 @@ end
 
 compiledForInStatement:push(" in _props(");
 compiledForInStatement:push(compileExpression(_ENV,statement.right));
-compiledForInStatement:push(") do\10");
+compiledForInStatement:push(") do\010");
 compiledForInStatement:push(compiledLeft);
 compiledForInStatement:push(" = _tostr(");
 compiledForInStatement:push(compiledLeft);
-compiledForInStatement:push(");\10");
+compiledForInStatement:push(");\010");
 compiledForInStatement:push(compileStatement(_ENV,statement.body));
-compiledForInStatement:push("::_continue::\10");
+compiledForInStatement:push("::_continue::\010");
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
-compiledForInStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
+compiledForInStatement:push((_add((_add("::",compiledLabel)),"_c::\010")));
 end
 
-compiledForInStatement:push("end\10");
+compiledForInStatement:push("end\010");
  do return compiledForInStatement:join(""); end
 end)
 compileWhileStatement = (function (this, statement, compiledLabel)
 local compiledWhileStatement;
 compiledWhileStatement = _arr({[0]="while _bool("},1);
 compiledWhileStatement:push(compileExpression(_ENV,statement.test));
-compiledWhileStatement:push(") do\10");
+compiledWhileStatement:push(") do\010");
 compiledWhileStatement:push(compileStatement(_ENV,statement.body));
-compiledWhileStatement:push("\10");
-compiledWhileStatement:push("::_continue::\10");
+compiledWhileStatement:push("\010");
+compiledWhileStatement:push("::_continue::\010");
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
-compiledWhileStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
+compiledWhileStatement:push((_add((_add("::",compiledLabel)),"_c::\010")));
 end
 
-compiledWhileStatement:push("end\10");
+compiledWhileStatement:push("end\010");
  do return compiledWhileStatement:join(""); end
 end)
 compileDoWhileStatement = (function (this, statement, compiledLabel)
 local compiledDoWhileStatement;
-compiledDoWhileStatement = _arr({[0]="repeat\10"},1);
+compiledDoWhileStatement = _arr({[0]="repeat\010"},1);
 compiledDoWhileStatement:push(compileStatement(_ENV,statement.body));
-compiledDoWhileStatement:push("\10");
-compiledDoWhileStatement:push("::_continue::\10");
+compiledDoWhileStatement:push("\010");
+compiledDoWhileStatement:push("::_continue::\010");
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
-compiledDoWhileStatement:push((_add((_add("::",compiledLabel)),"_c::\10")));
+compiledDoWhileStatement:push((_add((_add("::",compiledLabel)),"_c::\010")));
 end
 
 compiledDoWhileStatement:push("until not _bool(");
 compiledDoWhileStatement:push(compileExpression(_ENV,statement.test));
-compiledDoWhileStatement:push(")\10");
+compiledDoWhileStatement:push(")\010");
  do return compiledDoWhileStatement:join(""); end
 end)
 isIterationStatement = (function (this, statement)
@@ -401,7 +401,7 @@ compiledLabeledStatement:push(compileStatement(_ENV,statement.body));
 end
 
 if _bool(labelTracker[compiledLabel].mayBreak) then
-compiledLabeledStatement:push((_add((_add("::",compiledLabel)),"_b::\10")));
+compiledLabeledStatement:push((_add((_add("::",compiledLabel)),"_b::\010")));
 end
 
 (function () local _r = false; local _g, _s = labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel]; labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel] = nil, nil; _r = _g ~= nil or _s ~= nil;
@@ -442,7 +442,7 @@ local hasDefault,compiledTests,caseTablementElement,casesTable,i,compiledDiscrim
 protectedCallManager:openSwitchStatement();
 cases = statement.cases;
 if _bool((cases.length > 0)) then
-compiledSwitchStatement = _arr({[0]="repeat\10local _into = false;\10"},1);
+compiledSwitchStatement = _arr({[0]="repeat\010local _into = false;\010"},1);
 compiledDiscriminant = compileExpression(_ENV,statement.discriminant);
 casesTable = _arr({},0);
 compiledTests = _arr({},0);
@@ -462,13 +462,13 @@ end
 
 compiledSwitchStatement:push("local _cases = {");
 compiledSwitchStatement:push(casesTable:join(","));
-compiledSwitchStatement:push("};\10");
+compiledSwitchStatement:push("};\010");
 compiledSwitchStatement:push("if (not _cases[");
 compiledSwitchStatement:push(compiledDiscriminant);
-compiledSwitchStatement:push("]) then\10");
-compiledSwitchStatement:push("_into = true;\10");
-compiledSwitchStatement:push("goto _default\10");
-compiledSwitchStatement:push("end\10");
+compiledSwitchStatement:push("]) then\010");
+compiledSwitchStatement:push("_into = true;\010");
+compiledSwitchStatement:push("goto _default\010");
+compiledSwitchStatement:push("end\010");
 hasDefault = false;
 i = 0;
 while _bool((i < cases.length)) do
@@ -477,22 +477,22 @@ compiledSwitchStatement:push("if _into or (");
 compiledSwitchStatement:push(compiledDiscriminant);
 compiledSwitchStatement:push(" == ");
 compiledSwitchStatement:push(compiledTests[i]);
-compiledSwitchStatement:push(") then\10");
+compiledSwitchStatement:push(") then\010");
 else
 hasDefault = true;
-compiledSwitchStatement:push("::_default::\10");
-compiledSwitchStatement:push("if _into then\10");
+compiledSwitchStatement:push("::_default::\010");
+compiledSwitchStatement:push("if _into then\010");
 end
 
 compiledSwitchStatement:push(compileListOfStatements(_ENV,cases[i].consequent));
-compiledSwitchStatement:push("\10");
-compiledSwitchStatement:push("_into = true;\10");
-compiledSwitchStatement:push("end\10");
+compiledSwitchStatement:push("\010");
+compiledSwitchStatement:push("_into = true;\010");
+compiledSwitchStatement:push("end\010");
 i = _add(i, 1);
 end
 
 if _bool(not _bool(hasDefault)) then
-compiledSwitchStatement:push("::_default::\10");
+compiledSwitchStatement:push("::_default::\010");
 end
 
 compiledSwitchStatement:push("until true");
@@ -515,74 +515,74 @@ local handler,compiledTryStatement,may,finallyStatements,hasFinalizer,hasHandler
 hasHandler = (function() if _bool(esprima) then return (statement.handlers.length > 0); else return (statement.handler ~= null); end end)();
 hasFinalizer = (statement.finalizer ~= null);
 protectedCallManager:openContext();
-compiledTryStatement = _arr({[0]="local _status, _return = _pcall(function()\10"},1);
+compiledTryStatement = _arr({[0]="local _status, _return = _pcall(function()\010"},1);
 compiledTryStatement:push(compileListOfStatements(_ENV,statement.block.body));
-compiledTryStatement:push("\10");
-compiledTryStatement:push("end);\10");
+compiledTryStatement:push("\010");
+compiledTryStatement:push("end);\010");
 may = protectedCallManager:may();
 protectedCallManager:closeContext();
 if _bool((_bool((_bool((_bool(hasFinalizer) and hasFinalizer or may.mayReturn)) and (_bool(hasFinalizer) and hasFinalizer or may.mayReturn) or may.mayBreak)) and (_bool((_bool(hasFinalizer) and hasFinalizer or may.mayReturn)) and (_bool(hasFinalizer) and hasFinalizer or may.mayReturn) or may.mayBreak) or may.mayContinue)) then
-compiledTryStatement:push("if _status then\10");
+compiledTryStatement:push("if _status then\010");
 if _bool(hasFinalizer) then
 finallyStatements = compileListOfStatements(_ENV,statement.finalizer.body);
 compiledTryStatement:push(finallyStatements);
-compiledTryStatement:push("\10");
+compiledTryStatement:push("\010");
 end
 
 if _bool(((function() if _bool(may.mayBreak) then return may.mayContinue;  else return may.mayBreak;  end end)())) then
-compiledTryStatement:push("if _return == _break then break; elseif _return == _continue then goto _continue end\10");
+compiledTryStatement:push("if _return == _break then break; elseif _return == _continue then goto _continue end\010");
 elseif _bool(may.mayBreak) then
-compiledTryStatement:push("if _return == _break then break; end\10");
+compiledTryStatement:push("if _return == _break then break; end\010");
 elseif _bool(may.mayContinue) then
-compiledTryStatement:push("if _return == _continue then goto _continue end\10");
+compiledTryStatement:push("if _return == _continue then goto _continue end\010");
 end
 
 if _bool(may.mayReturn) then
-compiledTryStatement:push("if _return ~= nil then return _return; end\10");
+compiledTryStatement:push("if _return ~= nil then return _return; end\010");
 end
 
-compiledTryStatement:push("else\10");
+compiledTryStatement:push("else\010");
 else
-compiledTryStatement:push("if not _status then\10");
+compiledTryStatement:push("if not _status then\010");
 end
 
 if _bool(hasHandler) then
 handler = (function() if _bool(esprima) then return statement.handlers[0]; else return statement.handler; end end)();
 protectedCallManager:openContext();
-compiledTryStatement:push("local _cstatus, _creturn = _pcall(function()\10");
+compiledTryStatement:push("local _cstatus, _creturn = _pcall(function()\010");
 compiledTryStatement:push("local ");
 compiledTryStatement:push(compilePattern(_ENV,handler.param));
-compiledTryStatement:push(" = _return;\10");
+compiledTryStatement:push(" = _return;\010");
 compiledTryStatement:push(compileListOfStatements(_ENV,handler.body.body));
-compiledTryStatement:push("\10");
-compiledTryStatement:push("end);\10");
+compiledTryStatement:push("\010");
+compiledTryStatement:push("end);\010");
 may = protectedCallManager:may();
 protectedCallManager:closeContext();
 end
 
 if _bool(hasFinalizer) then
 compiledTryStatement:push(finallyStatements);
-compiledTryStatement:push("\10");
+compiledTryStatement:push("\010");
 end
 
 if _bool(hasHandler) then
-compiledTryStatement:push("if _cstatus then\10");
+compiledTryStatement:push("if _cstatus then\010");
 if _bool(((function() if _bool(may.mayBreak) then return may.mayContinue;  else return may.mayBreak;  end end)())) then
-compiledTryStatement:push("if _creturn == _break then break; elseif _creturn == _continue then goto _continue end\10");
+compiledTryStatement:push("if _creturn == _break then break; elseif _creturn == _continue then goto _continue end\010");
 elseif _bool(may.mayBreak) then
-compiledTryStatement:push("if _creturn == _break then break; end\10");
+compiledTryStatement:push("if _creturn == _break then break; end\010");
 elseif _bool(may.mayContinue) then
-compiledTryStatement:push("if _creturn == _continue then goto _continue end\10");
+compiledTryStatement:push("if _creturn == _continue then goto _continue end\010");
 end
 
 if _bool(may.mayReturn) then
-compiledTryStatement:push("if _creturn ~= nil then return _creturn; end\10");
+compiledTryStatement:push("if _creturn ~= nil then return _creturn; end\010");
 end
 
-compiledTryStatement:push("else _throw(_creturn,0); end\10");
+compiledTryStatement:push("else _throw(_creturn,0); end\010");
 end
 
-compiledTryStatement:push("end\10");
+compiledTryStatement:push("end\010");
  do return compiledTryStatement:join(""); end
 end)
 compileThrowStatement = (function (this, statement)
@@ -602,17 +602,17 @@ end
 end)
 compileWithStatement = (function (this, statement)
 local compiledWithStatement;
-compiledWithStatement = _arr({[0]="do\10"},1);
+compiledWithStatement = _arr({[0]="do\010"},1);
 compiledWithStatement:push("local _ENV = _with(");
 compiledWithStatement:push(compileExpression(_ENV,statement.object));
-compiledWithStatement:push(", _ENV);\10");
+compiledWithStatement:push(", _ENV);\010");
 if _bool(options.jit) then
-compiledWithStatement:push("_wenv(function(...)\10");
+compiledWithStatement:push("_wenv(function(...)\010");
 end
 
 compiledWithStatement:push(compileStatement(_ENV,statement.body));
 if _bool(options.jit) then
-compiledWithStatement:push("end, _ENV)()\10");
+compiledWithStatement:push("end, _ENV)()\010");
 end
 
 compiledWithStatement:push("end");
@@ -1242,7 +1242,7 @@ compiledUnaryExpression:push("; ");
 compiledUnaryExpression:push(gs.getter);
 compiledUnaryExpression:push(", ");
 compiledUnaryExpression:push(gs.setter);
-compiledUnaryExpression:push(" = nil, nil; _r = _g ~= nil or _s ~= nil;\10");
+compiledUnaryExpression:push(" = nil, nil; _r = _g ~= nil or _s ~= nil;\010");
 end
 
 compiledUnaryExpression:push("local _v = ");
@@ -1479,7 +1479,7 @@ compiledSequenceExpression:push("})");
 end)
 compileObjectExpression = (function (this, expression)
 local compiledKey,compiledProperties,compiledProperty,property,length,i,compiledObjectExpression;
-compiledObjectExpression = _arr({[0]="_obj({\10"},1);
+compiledObjectExpression = _arr({[0]="_obj({\010"},1);
 length = expression.properties.length;
 compiledProperty = _arr({},0);
 compiledProperties = _arr({},0);
@@ -1519,8 +1519,8 @@ compiledProperties:push(compiledProperty:join(""));
 i = _add(i, 1);
 end
 
-compiledObjectExpression:push(compiledProperties:join(",\10"));
-compiledObjectExpression:push("\10})");
+compiledObjectExpression:push(compiledProperties:join(",\010"));
+compiledObjectExpression:push("\010})");
  do return compiledObjectExpression:join(""); end
 end)
 compileMemberExpression = (function (this, expression)
@@ -1650,7 +1650,7 @@ _into = true;
 end
 ::_default::
 until true
- do return compiledDeclarations:join("\10"); end
+ do return compiledDeclarations:join("\010"); end
 end)
 compilePattern = (function (this, pattern)
 repeat
@@ -1686,7 +1686,7 @@ context = localVarManager:popLocalContext();
 useArguments = context[1];
 params = fun.params;
 if _bool(useArguments) then
-compiledFunction:push("...)\10");
+compiledFunction:push("...)\010");
 compiledLocalParams = _arr({[0]="this"},1);
 i = 0;
 while _bool((i < params.length)) do
@@ -1694,8 +1694,8 @@ compiledLocalParams:push(compilePattern(_ENV,params[i]));
 i = _add(i, 1);
 end
 
-compiledFunction:push((_add((_add("local ",compiledLocalParams:join(", ")))," = ...;\10")));
-compiledFunction:push("local arguments = _args(...);\10");
+compiledFunction:push((_add((_add("local ",compiledLocalParams:join(", ")))," = ...;\010")));
+compiledFunction:push("local arguments = _args(...);\010");
 else
 compiledParams = _arr({[0]="this"},1);
 i = 0;
@@ -1705,7 +1705,7 @@ i = _add(i, 1);
 end
 
 compiledFunction:push(compiledParams:join(", "));
-compiledFunction:push(")\10");
+compiledFunction:push(")\010");
 end
 
 locals = context[0];
@@ -1723,11 +1723,11 @@ compiledFunctionsDeclaration:push(functions[i]);
 i = _add(i, 1);
 end
 
-compiledFunction:push(compiledFunctionsDeclaration:join("\10"));
+compiledFunction:push(compiledFunctionsDeclaration:join("\010"));
 end
 
 compiledFunction:push(compiledBody);
-compiledFunction:push("\10");
+compiledFunction:push("\010");
 compiledFunction:push("end)");
  do return compiledFunction:join(""); end
 end)
@@ -1744,7 +1744,7 @@ i = _add(i, 1);
 end
 
 compiledLocalsDeclaration:push(namesSequence:join(","));
-compiledLocalsDeclaration:push(";\10");
+compiledLocalsDeclaration:push(";\010");
  do return compiledLocalsDeclaration:join(""); end
 end)
 sanitizeIdentifier = (function (this, id)
@@ -1788,7 +1788,12 @@ end
 end)
 sanitizeLiteralString = (function (this, str)
  do return str:replace(_regexp("\\\\","g"),"\\\\"):replace(_regexp("\"","g"),"\\\""):replace(_regexp("[\\0-\31\127-\237\159\191\240\144\128\128-\239\191\191]|[\240\144\128\128-\244\143\176\128][\240\144\128\128-\244\143\176\128]|[\240\144\128\128-\244\143\176\128]","g"),(function (this, str)
- do return (_add("\\",toUTF8Array(_ENV,str):join("\\"))); end
+local ut8bytes;
+ut8bytes = toUTF8Array(_ENV,str);
+ut8bytes = ut8bytes:map((function (this, e)
+ do return (_add("\\",(_add("00",e)):slice(-_tonum(3)))); end
+end));
+ do return ut8bytes:join(""); end
 end)); end
 end)
 sanitizeRegExpSource = (function (this, str)

@@ -890,32 +890,32 @@ break;
 _into = true;
 end
 if _into or (ch == "n") then
-str = (_add(str,"\10"));
+str = (_add(str,"\010"));
 break;
 _into = true;
 end
 if _into or (ch == "r") then
-str = (_add(str,"\13"));
+str = (_add(str,"\013"));
 break;
 _into = true;
 end
 if _into or (ch == "t") then
-str = (_add(str,"\9"));
+str = (_add(str,"\009"));
 break;
 _into = true;
 end
 if _into or (ch == "b") then
-str = (_add(str,"\8"));
+str = (_add(str,"\008"));
 break;
 _into = true;
 end
 if _into or (ch == "f") then
-str = (_add(str,"\12"));
+str = (_add(str,"\012"));
 break;
 _into = true;
 end
 if _into or (ch == "v") then
-str = (_add(str,"\11"));
+str = (_add(str,"\011"));
 break;
 _into = true;
 end
@@ -947,7 +947,7 @@ end
 until true
 else
 lineNumber = _add(lineNumber, 1);
-if _bool(((function() if _bool((ch == "\13")) then return (source[index] == "\10");  else return (ch == "\13");  end end)())) then
+if _bool(((function() if _bool((ch == "\013")) then return (source[index] == "\010");  else return (ch == "\013");  end end)())) then
 index = _add(index, 1);
 end
 

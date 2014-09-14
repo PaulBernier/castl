@@ -1829,7 +1829,11 @@
             .replace(/"/g, '\\"') // escape double quotes
             .replace(/[\0-\u001f\u007F-\uD7FF\uDC00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF]/g, // unicode handling
                 function (str) {
-                    return "\\" + toUTF8Array(str).join("\\");
+                    var ut8bytes = toUTF8Array(str);
+                    ut8bytes = ut8bytes.map(function (e) {
+                        return "\\" + ("00" + e).slice(-3);
+                    });
+                    return ut8bytes.join("");
                 });
     }
 
