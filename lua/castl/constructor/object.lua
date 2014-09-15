@@ -23,7 +23,7 @@ local internal = require("castl.internal")
 local objectProto = require("castl.prototype.object")
 local errorHelper = require("castl.modules.error_helper")
 
-local type, error, pairs, tostring = type, error, pairs, tostring
+local type, error, pairs, ipairs, tostring = type, error, pairs, ipairs, tostring
 local getmetatable, rawset, rawget = getmetatable, rawset, rawget
 local null, setNewMetatable, toObject, defaultValueString = internal.null, internal.setNewMetatable, internal.toObject, internal.defaultValueString
 
@@ -123,12 +123,11 @@ Object.getOwnPropertyDescriptor = function (this, obj, prop)
     return nil
 end
 
--- Object.getOwnPropertyNames and Object.keys
--- are equivalent as enumerability is not handled for now
 Object.getOwnPropertyNames = function (this, obj)
     local ret, i = {}, 0
 
-    for key in coreObjects.props(obj) do
+    local props = coreObjects.props(obj, false, true)
+    for _, key in ipairs(props) do
         ret[i] = tostring(key)
         i = i + 1
     end
@@ -168,7 +167,8 @@ Object.keys = function (this, obj)
 
     local ret, i = {}, 0
 
-    for key in coreObjects.props(obj) do
+    local props = coreObjects.props(obj, false, false)
+    for _, key in ipairs(props) do
         ret[i] = tostring(key)
         i = i + 1
     end

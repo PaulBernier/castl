@@ -56,7 +56,7 @@ assert(arr.indexOf("21") > -1);
 
 // array
 var array = ["a", "b", "c"];
-array.prop = "prop"
+array.prop = "prop";
 arr = [];
 for (prop in array) {
     arr.push(prop);
@@ -69,7 +69,18 @@ assert(arr.indexOf("prop") > -1);
 assert(arr.indexOf("length") === -1);
 
 // String
-var str = "abcedf"
+var str = "abcedf";
+arr = [];
+for (prop in str) {
+    arr.push(prop);
+}
+assert(arr.indexOf("0") > -1);
+assert(arr.indexOf("1") > -1);
+assert(arr.indexOf("5") > -1);
+assert(arr.indexOf("6") === -1);
+assert(arr.indexOf("length") === -1);
+
+var str = new String("abcedf");
 arr = [];
 for (prop in str) {
     arr.push(prop);
@@ -113,7 +124,6 @@ for (var prop in obj) {
 }
 
 assert(arr.indexOf("color") > -1);
-// TODO: inheritance not supported yet
-//assert(arr.indexOf("a") > -1);
-//assert(arr.indexOf("b") > -1);
-//assert(arr.indexOf("c") > -1);
+assert(arr.indexOf("a") > -1);
+assert(arr.indexOf("b") > -1);
+assert(arr.indexOf("c") > -1);

@@ -39,8 +39,9 @@ local coreObjects = {}
 -- Dependencies
 local getmetatable, setmetatable, rawget, rawset = getmetatable, setmetatable, rawget, rawset
 local debug = debug
-local type, max, strlen, strsub, tonumber, pack, tinsert, concat = type, math.max, string.len, string.sub, tonumber, table.pack, table.insert, table.concat
-local next, tostring = next, tostring
+local type, max, strlen, strsub, tonumber= type, math.max, string.len, string.sub, tonumber
+local pack, tinsert, concat, sort = table.pack, table.insert, table.concat, table.sort
+local pairs, ipairs, tostring = pairs, ipairs, tostring
 local require, error = require, error
 local getPrototype, get, put, null  = internal.prototype, internal.get, internal.put, internal.null
 local defaultValueNumber, setNewMetatable, toNumber = internal.defaultValueNumber, internal.setNewMetatable, internal.toNumber
@@ -61,7 +62,8 @@ coreObjects.objectToString = function(o)
     local ret = {"{ "}
     local elements = {}
 
-    for key in coreObjects.props(o) do
+    local props = coreObjects.props(o, false, false)
+    for _, key in ipairs(props) do
         local k = key
         local v = o[key]
 
@@ -78,7 +80,6 @@ coreObjects.objectToString = function(o)
         end
 
         tinsert(elements, k .. ": " .. v)
-
     end
     tinsert(ret, concat(elements, ", "))
     tinsert(ret, " }")
@@ -189,22 +190,30 @@ arrayMt.__newindex = function(self, key, value)
 end
 
 arrayMt.__tostring = function(self)
-    local str = ""
-    local bound = self.length - 1
-    for i = 0, bound do
-        if self[i] ~= nil then
-            if type(self[i]) == "string" then
-                str = str .. "'" .. self[i] .."'"
-            else
-                str = str .. tostring(self[i])
-            end
+    local ret = {"[ "}
+    local elements = {}
+
+    local props = coreObjects.props(self, false, false)
+    for _, key in ipairs(props) do
+        local k = key
+        local v = self[key]
+
+        if type(v) == "string" then
+            v = "'" .. tostring(v) .. "'"
+        else
+            v = tostring(v)
         end
-        if i ~= bound then
-            str = str .. ","
+
+        if type(k) == "number" then
+            tinsert(elements, v)
+        else
+            tinsert(elements, k .. ": " .. v)
         end
     end
+    tinsert(ret, concat(elements, ", "))
+    tinsert(ret, " ]")
 
-    return "[ " .. str .. " ]"
+    return concat(ret, "")
 end
 
 arrayMt.__tonumber = function(self)
@@ -540,70 +549,76 @@ function coreObjects.instanceof(object, class)
     return false
 end
 
---[[
-    Iterator for objects
---]]
-
--- Warning: next doesn't support inherited properties
-function coreObjects.next (o, previous)
-    local mt = getmetatable(o)
-    local isArray = mt and (mt._prototype == arrayProto or mt._prototype == "Arguments")
-    local to = type(o)
-
-    -- iteration over array or string is similar
-    if isArray or to == "string" then
-        -- start iteration at 0
-        if previous == nil then
-            if o[0] ~= nil then
-                return 0
-            else
-                local ret = nil
-                repeat
-                    ret = next(o, ret)
-                until (type(ret) ~= 'number') and not (ret == 'length')
-                return ret
-            end
-        end
-
-        -- if previous was a number
-        if type(previous) == "number" then
-            if previous + 1 < o.length then
-                return previous + 1
-            elseif to ~= "string" then
-                -- try to find a non-numerical property (and different from 'length')
-                local ret = nil
-                repeat
-                    ret = next(o, ret)
-                until (type(ret) ~= 'number') and not (ret == 'length')
-                return ret
-            end
-        else
-            local ret = previous
-            repeat
-                ret = next(o, ret)
-            until (type(ret) ~= 'number') and not (ret == 'length')
-            return ret
-        end
-
-        return nil
-
-    elseif to == "table" then
-        -- TODO: enumerability not handled
-        return next(o, previous)
-    end
-
-    -- iteration over booleans, numbers, nil does nothing
-    return nil
-
-end
-
-
-function coreObjects.props (arg)
+function coreObjects.props (arg, inherited, enumAll)
     if type(arg) == 'function' then
         arg = coreObjects.getFunctionProxy(arg)
     end
 
-    return coreObjects.next, arg
+    local ret = {}
+
+    local mt = getmetatable(arg)
+    local isArrayLike = (mt and (mt._prototype == arrayProto or mt._prototype == "Arguments" or mt._prototype == stringProto));
+
+    if isArrayLike then
+        return coreObjects.propsArr(arg, inherited, enumAll)
+    elseif type(arg) == 'table' then
+        return coreObjects.propsObj(arg, inherited, enumAll)
+    elseif type(arg) == 'string' then
+        for i = 0, arg.length - 1 do
+            tinsert(ret, i)
+        end
+    end
+
+    return ret
+end
+
+function coreObjects.propsObj(arg, inherited, enumAll)
+    local ret = {}
+    repeat
+        for i, j in pairs(arg) do
+            tinsert(ret, i)
+        end
+        arg = (getmetatable(arg) or {})._prototype
+    until not inherited or arg == nil or arg == objectProto
+
+    -- sort keys
+    sort(ret, function(a, b)
+        a = tonumber(a) or a
+        b = tonumber(b) or b
+
+        local ta, tb = type(a), type(b)
+        if ta == "number" and tb == "string" then
+            return true
+        elseif ta == "string" and tb == "number" then
+            return false
+        end
+        return a < b
+    end)
+
+    return ret
+end
+
+function coreObjects.propsArr(arg, inherited, enumAll)
+    local ret = {}
+
+    for i, j in pairs(arg) do
+        if enumAll or not (i == "length") then
+            tinsert(ret, i)
+        end
+    end
+
+    -- sort keys
+    sort(ret, function(a, b)
+        local ta, tb = type(a), type(b)
+        if ta == "number" and tb == "string" then
+            return true
+        elseif ta == "string" and tb == "number" then
+            return false
+        end
+        return a < b
+    end)
+
+    return ret
 end
 
 --[[

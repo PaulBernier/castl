@@ -459,22 +459,24 @@
     }
 
     function compileForInStatement(statement, compiledLabel) {
-        var compiledForInStatement = ["for "];
+        var compiledForInStatement = [];
         var compiledLeft;
 
+        compiledForInStatement.push("local _p = _props(");
+        compiledForInStatement.push(compileExpression(statement.right));
+        compiledForInStatement.push(", true);\n");
+        
         if (statement.left.type === "VariableDeclaration") {
             compiledLeft = compilePattern(statement.left.declarations[0].id);
             // Add to current local context
             localVarManager.pushLocal(compiledLeft);
-            compiledForInStatement.push(compiledLeft);
         } else {
             compiledLeft = compileExpression(statement.left);
-            compiledForInStatement.push(compiledLeft);
         }
 
-        compiledForInStatement.push(" in _props(");
-        compiledForInStatement.push(compileExpression(statement.right));
-        compiledForInStatement.push(") do\n");
+        compiledForInStatement.push("for _,");
+        compiledForInStatement.push(compiledLeft);
+        compiledForInStatement.push(" in _ipairs(_p) do\n");
 
         // Cast to string
         compiledForInStatement.push(compiledLeft);

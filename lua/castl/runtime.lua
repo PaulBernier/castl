@@ -105,6 +105,7 @@ local export = {
     _tostr = tostring,
     _pcall = pcall,
     _throw = error,
+    _ipairs = ipairs,
     _seq = table.remove
 }
 

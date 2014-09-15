@@ -141,7 +141,6 @@ stringPrototype.lastIndexOf = function (this, searchValue, fromIndex)
     end
 
     return value.length - ret
-
 end
 
 stringPrototype.link = function(this, url)

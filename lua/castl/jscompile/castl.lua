@@ -326,19 +326,20 @@ compiledForStatement:push("end\010");
 end)
 compileForInStatement = (function (this, statement, compiledLabel)
 local compiledLeft,compiledForInStatement;
-compiledForInStatement = _arr({[0]="for "},1);
+compiledForInStatement = _arr({},0);
+compiledForInStatement:push("local _p = _props(");
+compiledForInStatement:push(compileExpression(_ENV,statement.right));
+compiledForInStatement:push(", true);\010");
 if _bool((statement.left.type == "VariableDeclaration")) then
 compiledLeft = compilePattern(_ENV,statement.left.declarations[0].id);
 localVarManager:pushLocal(compiledLeft);
-compiledForInStatement:push(compiledLeft);
 else
 compiledLeft = compileExpression(_ENV,statement.left);
-compiledForInStatement:push(compiledLeft);
 end
 
-compiledForInStatement:push(" in _props(");
-compiledForInStatement:push(compileExpression(_ENV,statement.right));
-compiledForInStatement:push(") do\010");
+compiledForInStatement:push("for _,");
+compiledForInStatement:push(compiledLeft);
+compiledForInStatement:push(" in _ipairs(_p) do\010");
 compiledForInStatement:push(compiledLeft);
 compiledForInStatement:push(" = _tostr(");
 compiledForInStatement:push(compiledLeft);

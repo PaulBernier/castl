@@ -3705,7 +3705,8 @@ if _bool((_type(Object.create) == "function")) then
 types = Object:create(null);
 end
 
-for name in _props(Syntax) do
+local _p = _props(Syntax, true);
+for _,name in _ipairs(_p) do
 name = _tostr(name);
 if _bool(Syntax:hasOwnProperty(name)) then
 types[name] = Syntax[name];
