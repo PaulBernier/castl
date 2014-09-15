@@ -15,6 +15,8 @@
 
 local internal = {}
 
+local errorHelper = require("castl.modules.error_helper")
+
 local Boolean, Number, String, new, objectToString
 
 local getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset
@@ -25,6 +27,12 @@ _ENV = nil
 internal.null = {}
 local null = internal.null
 setmetatable(internal.null,{
+    __index = function(self, key)
+        error(errorHelper.newTypeError("TypeError: Cannot read property '" .. key .. "' of null"))
+    end,
+    __newindex = function(self, key)
+        error(errorHelper.newTypeError("TypeError: Cannot set property '" .. key .. "' of null"))
+    end,
     __tostring = function ()
         return 'null'
     end,

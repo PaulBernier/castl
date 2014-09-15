@@ -614,10 +614,10 @@ end
 
 compiledWithStatement:push(compileStatement(_ENV,statement.body));
 if _bool(options.jit) then
-compiledWithStatement:push("end, _ENV)()\010");
+compiledWithStatement:push("\010end, _ENV)()");
 end
 
-compiledWithStatement:push("end");
+compiledWithStatement:push("\010end");
  do return compiledWithStatement:join(""); end
 end)
 compileExpression = (function (this, expression)

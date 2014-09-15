@@ -828,10 +828,10 @@
         compiledWithStatement.push(compileStatement(statement.body));
 
         if (options.jit) {
-            compiledWithStatement.push("end, _ENV)()\n");
+            compiledWithStatement.push("\nend, _ENV)()");
         }
 
-        compiledWithStatement.push("end");
+        compiledWithStatement.push("\nend");
 
         return compiledWithStatement.join("");
     }
