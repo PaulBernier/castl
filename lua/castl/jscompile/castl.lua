@@ -708,84 +708,16 @@ end
 end)
 compileExpressionStatementEvalMode = (function (this, expression)
 local compiledExpressionStatement;
-repeat
-local _into = false;
-local _cases = {["UpdateExpression"] = true,["Literal"] = true,["Identifier"] = true,["ThisExpression"] = true,["BinaryExpression"] = true,["LogicalExpression"] = true,["ConditionalExpression"] = true,["MemberExpression"] = true,["AssignmentExpression"] = true,["CallExpression"] = true,["UnaryExpression"] = true,["NewExpression"] = true,["ArrayExpression"] = true,["SequenceExpression"] = true};
-if (not _cases[expression.type]) then
-_into = true;
-goto _default
-end
-if _into or (expression.type == "UpdateExpression") then
-
-_into = true;
-end
-if _into or (expression.type == "Literal") then
-
-_into = true;
-end
-if _into or (expression.type == "Identifier") then
-
-_into = true;
-end
-if _into or (expression.type == "ThisExpression") then
-
-_into = true;
-end
-if _into or (expression.type == "BinaryExpression") then
-
-_into = true;
-end
-if _into or (expression.type == "LogicalExpression") then
-
-_into = true;
-end
-if _into or (expression.type == "ConditionalExpression") then
-
-_into = true;
-end
-if _into or (expression.type == "MemberExpression") then
-
-_into = true;
-end
-if _into or (expression.type == "AssignmentExpression") then
-
-_into = true;
-end
-if _into or (expression.type == "CallExpression") then
-
-_into = true;
-end
-if _into or (expression.type == "UnaryExpression") then
-
-_into = true;
-end
-if _into or (expression.type == "NewExpression") then
-
-_into = true;
-end
-if _into or (expression.type == "ArrayExpression") then
-
-_into = true;
-end
-if _into or (expression.type == "SequenceExpression") then
 compiledExpressionStatement = _arr({[0]="_e("},1);
 compiledExpressionStatement:push(compileExpression(_ENV,expression));
 compiledExpressionStatement:push(");");
  do return compiledExpressionStatement:join(""); end
-_into = true;
-end
-::_default::
-if _into then
-_throw(_new(Error,(_add("Impossible expression type:",expression.type))),0)
-_into = true;
-end
-until true
 end)
 compileExpressionStatementNoEval = (function (this, expression)
 local compiledUnaryExpressionStatement,compiledExpressionStatement;
 repeat
 local _into = false;
-local _cases = {["Literal"] = true,["Identifier"] = true,["ThisExpression"] = true,["UpdateExpression"] = true,["AssignmentExpression"] = true,["BinaryExpression"] = true,["LogicalExpression"] = true,["ConditionalExpression"] = true,["MemberExpression"] = true,["UnaryExpression"] = true,["CallExpression"] = true,["NewExpression"] = true,["ArrayExpression"] = true,["SequenceExpression"] = true};
+local _cases = {["Literal"] = true,["Identifier"] = true,["ThisExpression"] = true,["UpdateExpression"] = true,["AssignmentExpression"] = true,["BinaryExpression"] = true,["LogicalExpression"] = true,["ConditionalExpression"] = true,["MemberExpression"] = true,["FunctionExpression"] = true,["UnaryExpression"] = true,["CallExpression"] = true,["NewExpression"] = true,["ArrayExpression"] = true,["ObjectExpression"] = true,["SequenceExpression"] = true};
 if (not _cases[expression.type]) then
 _into = true;
 goto _default
@@ -823,6 +755,10 @@ if _into or (expression.type == "ConditionalExpression") then
 _into = true;
 end
 if _into or (expression.type == "MemberExpression") then
+
+_into = true;
+end
+if _into or (expression.type == "FunctionExpression") then
 compiledExpressionStatement = _arr({[0]="_e("},1);
 compiledExpressionStatement:push(compileExpression(_ENV,expression));
 compiledExpressionStatement:push(");");
@@ -849,6 +785,10 @@ if _into or (expression.type == "NewExpression") then
 _into = true;
 end
 if _into or (expression.type == "ArrayExpression") then
+
+_into = true;
+end
+if _into or (expression.type == "ObjectExpression") then
 
 _into = true;
 end

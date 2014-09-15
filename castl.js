@@ -465,7 +465,7 @@
         compiledForInStatement.push("local _p = _props(");
         compiledForInStatement.push(compileExpression(statement.right));
         compiledForInStatement.push(", true);\n");
-        
+
         if (statement.left.type === "VariableDeclaration") {
             compiledLeft = compilePattern(statement.left.declarations[0].id);
             // Add to current local context
@@ -891,30 +891,11 @@
 
     // Add a semi-colon at the end of ExpressionStatements
     function compileExpressionStatementEvalMode(expression) {
-        switch (expression.type) {
-        case "UpdateExpression":
-        case "Literal":
-        case "Identifier":
-        case "ThisExpression":
-        case "BinaryExpression":
-        case "LogicalExpression":
-        case "ConditionalExpression":
-        case "MemberExpression":
-        case "AssignmentExpression":
-        case "CallExpression":
-        case "UnaryExpression":
-        case "NewExpression":
-        case "ArrayExpression":
-        case "SequenceExpression":
-            // Enclose the statement in a _e to be evaluated
-            var compiledExpressionStatement = ["_e("];
-            compiledExpressionStatement.push(compileExpression(expression));
-            compiledExpressionStatement.push(");");
-            return compiledExpressionStatement.join("");
-        default:
-            // FunctionExpression, ObjectExpression
-            throw new Error("Impossible expression type:" + expression.type);
-        }
+        // Enclose the statement in a _e to be evaluated
+        var compiledExpressionStatement = ["_e("];
+        compiledExpressionStatement.push(compileExpression(expression));
+        compiledExpressionStatement.push(");");
+        return compiledExpressionStatement.join("");
     }
 
     // Add a semi-colon at the end of ExpressionStatements
@@ -932,6 +913,7 @@
         case "LogicalExpression":
         case "ConditionalExpression":
         case "MemberExpression":
+        case "FunctionExpression":
             // Enclose the statement in a _e to be evaluated
             var compiledExpressionStatement = ["_e("];
             compiledExpressionStatement.push(compileExpression(expression));
@@ -950,10 +932,10 @@
         case "CallExpression":
         case "NewExpression":
         case "ArrayExpression":
+        case "ObjectExpression":
         case "SequenceExpression":
             return compileExpression(expression) + ";";
         default:
-            // FunctionExpression, ObjectExpression
             throw new Error("Impossible expression type:" + expression.type);
         }
     }
@@ -1829,7 +1811,7 @@
     function sanitizeLiteralString(str) {
         return str.replace(/\\/g, '\\\\') // escape backslash
             .replace(/"/g, '\\"') // escape double quotes
-            .replace(/\u00A0/g, " ") // no-break space replaced by space
+            .replace(/\u00A0/g, " ") // no-break space replaced by regular space
             .replace(/[\0-\u001f\u007F-\uD7FF\uDC00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF]/g, // unicode handling
                 function (str) {
                     var ut8bytes = toUTF8Array(str);
