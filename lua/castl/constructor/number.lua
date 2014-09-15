@@ -30,6 +30,7 @@ local get, put, withinNew, toNumber, defaultValueNumber = internal.get, internal
 _ENV = nil
 
 Number = function(this, arg)
+    arg = arg or 0
     -- Number constructor not called within a new
     if not withinNew(this, numberProto) then
         return tonumber(arg) or 0/0
