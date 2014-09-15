@@ -1347,12 +1347,12 @@ assert(_ENV,(index < args.length),"Message reference must be in range");
  do return args[index]; end
 end));
 if _bool((_type(token.lineNumber) == "number")) then
-error = _new(Error,(_add((_add((_add("Line ",token.lineNumber)),": ")),msg)));
+error = _new(SyntaxError,(_add((_add((_add("Line ",token.lineNumber)),": ")),msg)));
 error.index = token.start;
 error.lineNumber = token.lineNumber;
 error.column = (_add((token.start - lineStart),1));
 else
-error = _new(Error,(_add((_add((_add("Line ",lineNumber)),": ")),msg)));
+error = _new(SyntaxError,(_add((_add((_add("Line ",lineNumber)),": ")),msg)));
 error.index = index;
 error.lineNumber = lineNumber;
 error.column = (_add((index - lineStart),1));
