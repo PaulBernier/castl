@@ -20,12 +20,26 @@ local nodejs = {}
 local coreObject = require("castl.core_objects")
 local require = require
 
+local package = package
+local find, sub, len = string.find, string.sub, string.len
+
 _ENV = nil
 
 nodejs.module = coreObject.obj({exports = coreObject.obj({})})
 nodejs.exports = nodejs.module.exports
 
 nodejs.require = function(this, packagename)
+    local index = find(packagename, "/[^/]*$")
+    if index then
+        local path = sub(packagename, 1, index)
+        local file = sub(packagename, index + 1)
+        if sub(file, -3) == ".js" then
+            file = sub(file, 1, len(file) - 3)
+        end
+        package.path = package.path .. ";" .. path .. "?.lua"
+        return require(file)
+    end
+
     return require(packagename)
 end
 

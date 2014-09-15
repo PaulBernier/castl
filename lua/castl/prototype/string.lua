@@ -130,7 +130,7 @@ stringPrototype.lastIndexOf = function (this, searchValue, fromIndex)
     end
 
     -- find in reversed string
-    local ret = find(reverse(value), tostring(searchValue), value.length - fromIndex + 1, true)
+    local ret = find(reverse(value), defaultValueString(searchValue), value.length - fromIndex + 1, true)
     if searchValue == "" then
         ret = ret - 1
     end

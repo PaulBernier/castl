@@ -14,7 +14,7 @@
 #    along with CASTL. If not, see <http://www.gnu.org/licenses/>.
 
 # Set environment variable
-export LUA_PATH=$LUA_PATH";/usr/local/lib/node_modules/castl/lua/?.lua;./?.lua;"
+export LUA_PATH=$LUA_PATH";/usr/local/lib/node_modules/castl/lua/?.lua;"
 
 # Options
 verbose=false
