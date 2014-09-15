@@ -24,6 +24,17 @@ local huge = math.huge
 
 _ENV = nil
 
+function internal.toNumber(value)
+    local mt = getmetatable(value)
+    if (mt or {}).__tonumber then
+        return mt.__tonumber(value)
+    end
+
+    return tonumber(value)
+end
+
+local toNumber = internal.toNumber
+
 internal.null = {}
 local null = internal.null
 setmetatable(internal.null,{
@@ -40,24 +51,24 @@ setmetatable(internal.null,{
         return 0
     end,
     __sub = function(a, b)
-        a = (a == null) and 0 or tonumber(a)
-        b = (b == null) and 0 or tonumber(b)
+        a = (a == null) and 0 or toNumber(a)
+        b = (b == null) and 0 or toNumber(b)
         return a - b
     end,
     __mod = function(a, b)
-        a = (a == null) and 0 or tonumber(a)
-        b = (b == null) and 0 or tonumber(b)
+        a = (a == null) and 0 or toNumber(a)
+        b = (b == null) and 0 or toNumber(b)
         return a % b
     end,
     __div = function(a, b)
         if a == null then
-            return 0 / tonumber(b)
+            return 0 / toNumber(b)
         end
         return huge
     end,
     __mul = function(a, b)
-        a = (a == null) and 0 or tonumber(a)
-        b = (b == null) and 0 or tonumber(b)
+        a = (a == null) and 0 or toNumber(a)
+        b = (b == null) and 0 or toNumber(b)
         return a * b
     end,
     __lt = function(a, b)
@@ -66,7 +77,7 @@ setmetatable(internal.null,{
             return 0 < b
         end
         if tb == "string" then
-            return 0 < tonumber(b)
+            return 0 < toNumber(b)
         end
         if tb == "boolean" then
             return b
@@ -83,7 +94,7 @@ setmetatable(internal.null,{
             return 0 <= b
         end
         if tb == "string" then
-            return 0 <= tonumber(b)
+            return 0 <= toNumber(b)
         end
         if tb == "boolean" then
             return true
@@ -167,17 +178,6 @@ function internal.toObject(v)
 
     return v
 end
-
-function internal.toNumber(value)
-    local mt = getmetatable(value)
-    if (mt or {}).__tonumber then
-        return mt.__tonumber(value)
-    end
-
-    return tonumber(value)
-end
-
-local toNumber = internal.toNumber
 
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.8
 function internal.defaultValueString(o)

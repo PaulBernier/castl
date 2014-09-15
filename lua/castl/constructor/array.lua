@@ -43,6 +43,8 @@ Array = function (this, ...)
     return coreObjects.array(newArray, newArray.length)
 end
 
+Array.length = 1
+
 Array.isArray = function (this, arr)
     return (getmetatable(arr) or {})._prototype == arrayProto
 end
