@@ -31,12 +31,21 @@ local floor = math.floor
 
 _ENV = nil
 
+local castToInt = function(v)
+    local number = toNumber(v)
+    if (number % 1) ~= 0 then
+        return number > 0 and floor(number) or floor(number + 1)
+    else
+        return number
+    end
+end
+
 local ToUint32 = function(n)
     return n % 0x100000000
 end
 
 bit.lshift = function(x, disp)
-    x, disp = floor(toNumber(x)), floor(toNumber(disp))
+    x, disp = castToInt(x), castToInt(disp)
     local shiftCount = band(ToUint32(disp), 0x1F)
     local ret = lshift(x, shiftCount);
 
@@ -49,7 +58,7 @@ bit.lshift = function(x, disp)
 end
 
 bit.rshift = function(x, disp)
-    x, disp = floor(toNumber(x)), floor(toNumber(disp))
+    x, disp = castToInt(x), castToInt(disp)
     if luajit and disp == 0 then
         return ToUint32(x)
     end
@@ -59,7 +68,7 @@ bit.rshift = function(x, disp)
 end
 
 bit.arshift = function(x, disp)
-    x, disp = floor(toNumber(x)), floor(toNumber(disp))
+    x, disp = castToInt(x), castToInt(disp)
     local shiftCount = band(ToUint32(disp), 0x1F)
     local ret = rshift(x, shiftCount)
 
@@ -76,19 +85,19 @@ bit.arshift = function(x, disp)
 end
 
 bit.band = function(x, y)
-    return band(floor(toNumber(x)), floor(toNumber(y)))
+    return band(castToInt(x), castToInt(y))
 end
 
 bit.bor = function(x, y)
-    return bor(floor(toNumber(x)), floor(toNumber(y)))
+    return bor(castToInt(x), castToInt(y))
 end
 
 bit.bxor = function(x, y)
-    return bxor(floor(toNumber(x)), floor(toNumber(y)))
+    return bxor(castToInt(x), castToInt(y))
 end
 
 bit.bnot = function(x)
-    return bnot(floor(toNumber(x)))
+    return bnot(castToInt(x))
 end
 
 return bit
