@@ -1829,6 +1829,7 @@
     function sanitizeLiteralString(str) {
         return str.replace(/\\/g, '\\\\') // escape backslash
             .replace(/"/g, '\\"') // escape double quotes
+            .replace(/\u00A0/g, " ") // no-break space replaced by space
             .replace(/[\0-\u001f\u007F-\uD7FF\uDC00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF]/g, // unicode handling
                 function (str) {
                     var ut8bytes = toUTF8Array(str);
