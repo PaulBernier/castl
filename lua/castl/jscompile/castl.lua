@@ -1325,7 +1325,11 @@ break;
 _into = true;
 end
 if _into or (expression.operator == "%") then
-pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," % ",left,right);
+compiledBinaryExpression:push("_mod(");
+compiledBinaryExpression:push(left);
+compiledBinaryExpression:push(",");
+compiledBinaryExpression:push(right);
+compiledBinaryExpression:push(")");
 break;
 _into = true;
 end

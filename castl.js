@@ -1372,7 +1372,11 @@
             pushSimpleBinaryExpression(compiledBinaryExpression, " / ", left, right);
             break;
         case "%":
-            pushSimpleBinaryExpression(compiledBinaryExpression, " % ", left, right);
+            compiledBinaryExpression.push("_mod(");
+            compiledBinaryExpression.push(left);
+            compiledBinaryExpression.push(",");
+            compiledBinaryExpression.push(right);
+            compiledBinaryExpression.push(")");
             break;
             // Bitwise operators
         case "|":

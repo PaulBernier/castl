@@ -48,6 +48,7 @@ local export = {
     _with = jssupport.with,
     _void = jssupport.void,
     _e = jssupport.e,
+    _mod = jssupport.modulo,
     NaN = 0/0,
     Infinity = jssupport.Infinity,
     isNaN = jssupport.isNaN,

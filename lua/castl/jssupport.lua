@@ -231,6 +231,11 @@ function jssupport.boolean(var)
     end
 end
 
+function jssupport.modulo(a, b)
+    local sign = a > 0 and 1 or -1
+    return sign * (abs(toNumber(a)) % abs(toNumber(b)))
+end
+
 function jssupport.typeof(var)
     if var == nil then
         return "undefined"
