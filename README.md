@@ -108,7 +108,7 @@ I have definitively been inspired on many points by Colony. Nonetheless there is
 
 * CASTL is aimed to run on a native Lua 5.2 (unmodified VM) whereas Colony rely on a fork of Lua 5.1.
 * CASTL can run on LuaJIT.
-* CASTL support eval() function and Function() constructor :) (yes, it uses a Lua version of CASTL and Esprima...)
+* CASTL supports eval() function and Function() constructor :) (yes, it uses a Lua version of CASTL and Esprima...)
 * `castl.js` is not bound to any parser whereas Colony is bound to an old modified version of Acorn.
 * `castl.js` is NodeJS independent, it can be executed in Node as well as in a web browser.
 * Colony has a good support of NodeJS (objects, libraries...) whereas it's almost nonexistent in CASTL.

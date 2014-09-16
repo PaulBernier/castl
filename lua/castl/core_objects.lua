@@ -579,7 +579,12 @@ function coreObjects.propsObj(arg, inherited, enumAll)
             tinsert(ret, i)
         end
         arg = (getmetatable(arg) or {})._prototype
-    until not inherited or arg == nil or arg == objectProto
+    until not inherited or arg == nil
+        -- Hide properties of builtin-object
+        or arg == objectProto or arg == numberProto
+        or arg == booleanProto or arg == stringProto
+        or arg == arrayProto or arg == functionProto
+        or arg == dateProto or arg == regexpProto
 
     -- sort keys
     sort(ret, function(a, b)
