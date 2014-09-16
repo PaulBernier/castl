@@ -16,19 +16,18 @@
 -- [[ CASTL Error prototype submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
 
-local errorPrototype = {}
+return function(errorPrototype)
+    _ENV = nil
 
-_ENV = nil
+    errorPrototype.name = "Error"
+    errorPrototype.message = ""
 
-errorPrototype.name = "Error"
-errorPrototype.message = ""
-
-errorPrototype.toString = function (this)
-    if this.message ~= "" then
-        return this.name .. ": " .. this.message
-    else
-        return this.name
+    errorPrototype.toString = function (this)
+        if this.message ~= "" then
+            return this.name .. ": " .. this.message
+        else
+            return this.name
+        end
     end
-end
 
-return errorPrototype
+end

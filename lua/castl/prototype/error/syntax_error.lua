@@ -16,19 +16,18 @@
 -- [[ CASTL SyntaxError prototype submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError/prototype
 
-local syntaxErrorPrototype = {}
+return function(syntaxErrorPrototype)
+    _ENV = nil
 
-_ENV = nil
+    syntaxErrorPrototype.name = "SyntaxError"
+    syntaxErrorPrototype.message = ""
 
-syntaxErrorPrototype.name = "SyntaxError"
-syntaxErrorPrototype.message = ""
-
-syntaxErrorPrototype.toString = function (this)
-    if this.message ~= "" then
-        return this.name .. ": " .. this.message
-    else
-        return this.name
+    syntaxErrorPrototype.toString = function (this)
+        if this.message ~= "" then
+            return this.name .. ": " .. this.message
+        else
+            return this.name
+        end
     end
-end
 
-return syntaxErrorPrototype
+end

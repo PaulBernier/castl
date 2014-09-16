@@ -16,19 +16,18 @@
 -- [[ CASTL RangeError prototype submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError/prototype
 
-local rangeErrorPrototype = {}
+return function(rangeErrorPrototype)
+    _ENV = nil
 
-_ENV = nil
+    rangeErrorPrototype.name = "RangeError"
+    rangeErrorPrototype.message = ""
 
-rangeErrorPrototype.name = "RangeError"
-rangeErrorPrototype.message = ""
-
-rangeErrorPrototype.toString = function (this)
-    if this.message ~= "" then
-        return this.name .. ": " .. this.message
-    else
-        return this.name
+    rangeErrorPrototype.toString = function (this)
+        if this.message ~= "" then
+            return this.name .. ": " .. this.message
+        else
+            return this.name
+        end
     end
-end
 
-return rangeErrorPrototype
+end

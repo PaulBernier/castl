@@ -18,7 +18,7 @@
 
 local ReferenceError
 
-local referenceErrorProto = require("castl.prototype.error.reference_error")
+local referenceErrorProto = require("castl.protos").referenceErrorProto
 local internal = require("castl.internal")
 
 local setmetatable = setmetatable

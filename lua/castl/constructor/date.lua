@@ -20,7 +20,7 @@ local Date
 
 local internal = require("castl.internal")
 local dateparser = require("castl.modules.dateparser")
-local dateProto = require("castl.prototype.date")
+local dateProto = require("castl.protos").dateProto
 
 local luajit = jit ~= nil
 local date, time = os.date, os.time

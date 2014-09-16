@@ -18,7 +18,7 @@
 
 local RangeError
 
-local rangeErrorProto = require("castl.prototype.error.range_error")
+local rangeErrorProto = require("castl.protos").rangeErrorProto
 local internal = require("castl.internal")
 
 local setmetatable = setmetatable

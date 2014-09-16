@@ -16,26 +16,28 @@
 -- [[ CASTL JS core objects submodule]] --
 
 local internal = require("castl.internal")
-local objectProto = require("castl.prototype.object")
-local functionProto = require("castl.prototype.function")
-local arrayProto = require("castl.prototype.array")
-local booleanProto = require("castl.prototype.boolean")
-local numberProto = require("castl.prototype.number")
-local stringProto = require("castl.prototype.string")
-local dateProto = require("castl.prototype.date")
-local errorProto = require("castl.prototype.error.error")
-local rangeErrorProto = require("castl.prototype.error.range_error")
-local referenceErrorProto = require("castl.prototype.error.reference_error")
-local syntaxErrorProto = require("castl.prototype.error.syntax_error")
-local typeErrorProto = require("castl.prototype.error.type_error")
-local regexpProto = require("castl.prototype.regexp")
 local errorHelper = require("castl.modules.error_helper")
-
 local typeof = require("castl.jssupport").typeof
-
 local RegExp
 
+local protos = require("castl.protos")
+
+local objectProto = protos.objectProto
+local functionProto = protos.functionProto
+local arrayProto = protos.arrayProto
+local booleanProto = protos.booleanProto
+local numberProto = protos.numberProto
+local stringProto = protos.stringProto
+local dateProto = protos.dateProto
+local errorProto = protos.errorProto
+local rangeErrorProto = protos.rangeErrorProto
+local referenceErrorProto = protos.referenceErrorProto
+local syntaxErrorProto = protos.syntaxErrorProto
+local typeErrorProto = protos.typeErrorProto
+local regexpProto = protos.regexpProto
+
 local coreObjects = {}
+
 -- Dependencies
 local getmetatable, setmetatable, rawget, rawset = getmetatable, setmetatable, rawget, rawset
 local debug = debug
@@ -637,13 +639,12 @@ coreObjects.obj(numberProto)
 coreObjects.obj(stringProto)
 coreObjects.obj(dateProto)
 coreObjects.obj(regexpProto)
-coreObjects.obj(errorProto)
 
+coreObjects.obj(errorProto)
 coreObjects.obj(rangeErrorProto)
 coreObjects.obj(referenceErrorProto)
 coreObjects.obj(syntaxErrorProto)
 coreObjects.obj(typeErrorProto)
-coreObjects.obj(regexpProto)
 
 --[[
     Export objectMt and arrayMt for JSON.parse

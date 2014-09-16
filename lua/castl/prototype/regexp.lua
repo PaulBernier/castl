@@ -16,102 +16,97 @@
 -- [[ CASTL RegExp prototype submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/prototype
 
-local regexpPrototype = {}
-local array
+return function(regexpPrototype)
+    local array = require("castl.core_objects").array
+    local internal = require("castl.internal")
+    local regexpHelper = require("castl.modules.regexphelper")
 
-local internal = require("castl.internal")
-local regexpHelper = require("castl.modules.regexphelper")
+    local tostring, rawget, rawset = tostring, rawget, rawset
+    local tinsert, tremove, pack = table.insert, table.remove, table.pack
+    local null = internal.null
 
-local tostring, rawget, rawset, require = tostring, rawget, rawset, require
-local tinsert, tremove, pack = table.insert, table.remove, table.pack
-local null = internal.null
+    _ENV = nil
 
-_ENV = nil
+    regexpPrototype.global = false
+    regexpPrototype.ignoreCase = false
+    regexpPrototype.multiline = false
+    regexpPrototype.source = ""
+    regexpPrototype.lastIndex = 0
 
-regexpPrototype.global = false
-regexpPrototype.ignoreCase = false
-regexpPrototype.multiline = false
-regexpPrototype.source = ""
-regexpPrototype.lastIndex = 0
+    regexpPrototype.exec = function(this, str)
+        -- add a global capture to get the entire match
+        -- (find don't return the entire match, only  the captures)
+        local source =  "(" .. this.source .. ")"
 
-regexpPrototype.exec = function(this, str)
-    array = array or require("castl.core_objects").array
+        local cf = regexpHelper.getPCRECompilationFlag(this)
+        local ret = {}
 
-    -- add a global capture to get the entire match
-    -- (find don't return the entire match, only  the captures)
-    local source =  "(" .. this.source .. ")"
-
-    local cf = regexpHelper.getPCRECompilationFlag(this)
-    local ret = {}
-
-    local rex = regexpHelper.getRex()
-    if this.global then
-        local found = pack(rex.find(str, source, this.lastIndex + 1, cf))
-        if found[1] then
-            this.lastIndex = found[2]
-            ret.index = found[1] - 1
-            ret.input = str
-            for i = 3, found.n do
-                tinsert(ret, found[i])
+        local rex = regexpHelper.getRex()
+        if this.global then
+            local found = pack(rex.find(str, source, this.lastIndex + 1, cf))
+            if found[1] then
+                this.lastIndex = found[2]
+                ret.index = found[1] - 1
+                ret.input = str
+                for i = 3, found.n do
+                    tinsert(ret, found[i])
+                end
+            else
+                this.lastIndex = 0
             end
         else
-            this.lastIndex = 0
-        end
-    else
-        local found = pack(rex.find(str, source, 1, cf))
-        if found[1] then
-            ret.index = found[1] - 1
-            ret.input = str
-            for i = 3, found.n do
-                tinsert(ret, found[i])
+            local found = pack(rex.find(str, source, 1, cf))
+            if found[1] then
+                ret.index = found[1] - 1
+                ret.input = str
+                for i = 3, found.n do
+                    tinsert(ret, found[i])
+                end
             end
         end
-    end
 
-    local length = #ret
+        local length = #ret
 
-    if length == 0 then
-        return null
-    end
-
-    -- shift to 0-based index
-    local tmp = rawget(ret, 1)
-    tremove(ret, 1)
-    rawset(ret, 0, tmp)
-
-    return array(ret, length)
-end
-
-regexpPrototype.toString = function(this)
-    local flags = ""
-    if rawget(this, "global") then flags = flags .. 'g' end
-    if rawget(this, "ignoreCase") then flags = flags .. 'i' end
-    if rawget(this, "multiline") then flags = flags .. 'm' end
-
-    return '/' .. tostring(this.source) .. '/' .. flags
-end
-
-regexpPrototype.test = function(this, str)
-
-    local cf = regexpHelper.getPCRECompilationFlag(this)
-
-    local ret = false
-    local rex = regexpHelper.getRex()
-    if this.global then
-        local _, endFound = rex.find(str, this.source, this.lastIndex + 1, cf)
-        if endFound then
-            this.lastIndex = endFound
-            ret = true
-        else
-            this.lastIndex = 0
-            ret = false
+        if length == 0 then
+            return null
         end
-    else
-        local found = rex.find(str, this.source, 1, cf)
-        ret = found and true or false
+
+        -- shift to 0-based index
+        local tmp = rawget(ret, 1)
+        tremove(ret, 1)
+        rawset(ret, 0, tmp)
+
+        return array(ret, length)
     end
 
-    return ret
-end
+    regexpPrototype.toString = function(this)
+        local flags = ""
+        if rawget(this, "global") then flags = flags .. 'g' end
+        if rawget(this, "ignoreCase") then flags = flags .. 'i' end
+        if rawget(this, "multiline") then flags = flags .. 'm' end
 
-return regexpPrototype
+        return '/' .. tostring(this.source) .. '/' .. flags
+    end
+
+    regexpPrototype.test = function(this, str)
+        local cf = regexpHelper.getPCRECompilationFlag(this)
+
+        local ret = false
+        local rex = regexpHelper.getRex()
+        if this.global then
+            local _, endFound = rex.find(str, this.source, this.lastIndex + 1, cf)
+            if endFound then
+                this.lastIndex = endFound
+                ret = true
+            else
+                this.lastIndex = 0
+                ret = false
+            end
+        else
+            local found = rex.find(str, this.source, 1, cf)
+            ret = found and true or false
+        end
+
+        return ret
+    end
+end

@@ -18,7 +18,7 @@
 
 local Array
 
-local arrayProto = require("castl.prototype.array")
+local arrayProto = require("castl.protos").arrayProto
 local coreObjects = require("castl.core_objects")
 
 local getmetatable, type = getmetatable, type

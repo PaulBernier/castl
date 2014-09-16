@@ -20,7 +20,7 @@ local Number
 
 local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")
-local numberProto = require("castl.prototype.number")
+local numberProto = require("castl.protos").numberProto
 local jssupport = require("castl.jssupport")
 
 local huge = math.huge

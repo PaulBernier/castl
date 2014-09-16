@@ -18,7 +18,7 @@
 
 local String
 
-local stringProto = require("castl.prototype.string")
+local stringProto = require("castl.protos").stringProto
 local bit = require("castl.modules.bit")
 local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")

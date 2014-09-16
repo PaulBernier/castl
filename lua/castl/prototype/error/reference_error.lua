@@ -16,19 +16,18 @@
 -- [[ CASTL ReferenceError prototype submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError/prototype
 
-local referenceErrorPrototype = {}
+return function(referenceErrorPrototype)
+    _ENV = nil
 
-_ENV = nil
+    referenceErrorPrototype.name = "ReferenceError"
+    referenceErrorPrototype.message = ""
 
-referenceErrorPrototype.name = "ReferenceError"
-referenceErrorPrototype.message = ""
-
-referenceErrorPrototype.toString = function (this)
-    if this.message ~= "" then
-        return this.name .. ": " .. this.message
-    else
-        return this.name
+    referenceErrorPrototype.toString = function (this)
+        if this.message ~= "" then
+            return this.name .. ": " .. this.message
+        else
+            return this.name
+        end
     end
-end
 
-return referenceErrorPrototype
+end

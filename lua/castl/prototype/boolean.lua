@@ -16,22 +16,21 @@
 -- [[ CASTL Boolean prototype submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean/prototype
 
-local booleanPrototype = {}
+return function(booleanPrototype)
+    local getmetatable, tostring, type = getmetatable, tostring, type
 
-local getmetatable, tostring, type = getmetatable, tostring, type
+    _ENV = nil
 
-_ENV = nil
-
-booleanPrototype.toString = function (this)
-    return tostring(this:valueOf())
-end
-
-booleanPrototype.valueOf = function (this)
-    if type(this) == "boolean" then
-        return this
-    else
-        return getmetatable(this)._primitive
+    booleanPrototype.toString = function (this)
+        return tostring(this:valueOf())
     end
-end
 
-return booleanPrototype
+    booleanPrototype.valueOf = function (this)
+        if type(this) == "boolean" then
+            return this
+        else
+            return getmetatable(this)._primitive
+        end
+    end
+
+end

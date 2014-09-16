@@ -189,7 +189,6 @@ local toPrimitive = internal.toPrimitive
 
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-9.9
 function internal.toObject(v)
-    null = null or require("castl.jssupport")
     if v == nil or v == null then
         error("ToObject: undefined or null")
     end

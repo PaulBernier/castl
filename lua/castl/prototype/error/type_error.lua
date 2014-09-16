@@ -16,19 +16,18 @@
 -- [[ CASTL TypeError prototype submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError/prototype
 
-local typeErrorPrototype = {}
+return function(typeErrorPrototype)
+    _ENV = nil
 
-_ENV = nil
+    typeErrorPrototype.name = "TypeError"
+    typeErrorPrototype.message = ""
 
-typeErrorPrototype.name = "TypeError"
-typeErrorPrototype.message = ""
-
-typeErrorPrototype.toString = function (this)
-    if this.message ~= "" then
-        return this.name .. ": " .. this.message
-    else
-        return this.name
+    typeErrorPrototype.toString = function (this)
+        if this.message ~= "" then
+            return this.name .. ": " .. this.message
+        else
+            return this.name
+        end
     end
-end
 
-return typeErrorPrototype
+end

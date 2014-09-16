@@ -13,6 +13,8 @@
     along with CASTL. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
+local internal = require("castl.internal")
+local protos = require("castl.protos")
 local jssupport = require("castl.jssupport")
 local coreObjects = require("castl.core_objects")
 local bit = require("castl.modules.bit")
@@ -33,7 +35,9 @@ local RangeError = require("castl.constructor.error.range_error")
 local RegExp = require("castl.constructor.regexp")
 local Math = require("castl.math")
 local eval = require("castl.eval")
-local internal = require("castl.internal")
+
+-- load prototypes definitions
+protos.loadPrototypesDefinition()
 
 -- Exported environment
 local export = {

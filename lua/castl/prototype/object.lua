@@ -16,92 +16,91 @@
 -- [[ CASTL Object prototype submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype
 
-local functionProxyOf
-local internal = require("castl.internal")
-local arrayProto = require("castl.prototype.array")
-local regexpProto = require("castl.prototype.regexp")
-local dateProto = require("castl.prototype.date")
+return function(objectPrototype)
+    local functionProxyOf = require("castl.core_objects").getFunctionProxy
+    local internal = require("castl.internal")
+    local protos = require("castl.protos")
+    local arrayProto = protos.arrayProto
+    local regexpProto = protos.regexpProto
+    local dateProto = protos.dateProto
 
-local objectPrototype = {}
+    local type, rawget = type, rawget
+    local getmetatable = getmetatable
+    local null, getPrototype = internal.null, internal.prototype
 
-local type, rawget = type, rawget
-local require, getmetatable = require, getmetatable
-local null, getPrototype = internal.null, internal.prototype
+    _ENV = nil
 
-_ENV = nil
+    objectPrototype.toString = function (this)
 
-objectPrototype.toString = function (this)
-
-    local mt = getmetatable(this)
-    local tthis = type(this)
-    if this == nil then
-        return "[object Undefined]"
-    elseif this == null then
-        return "[object Null]"
-    elseif tthis == "string" then
-        return "[object String]"
-    elseif tthis == "number" then
-        return "[object Number]"
-    elseif tthis == "boolean" then
-        return "[object Boolean]"
-    elseif mt and mt._prototype == arrayProto then
-        return "[object Array]"
-    elseif mt and mt._prototype == regexpProto then
-        return "[object RegExp]"
-    elseif mt and mt._prototype == dateProto then
-        return "[object Date]"
-    elseif mt and mt._prototype == "Arguments" then
-        return "[object Arguments]"
-    elseif tthis == "function" then
-        return "[object Function]"
-    end
-
-    return '[object Object]'
-end
-
-objectPrototype.toLocaleString = objectPrototype.toString
-
-objectPrototype.valueOf = function (this)
-    return this
-end
-
-objectPrototype.hasOwnProperty = function (this, p)
-    local tthis = type(this)
-    if tthis == "string" then
-        return p == "length"
-    end
-    if tthis == "number" then
-        return false
-    end
-    if tthis == "boolean" then
-        return false
-    end
-    if tthis == "function" then
-        functionProxyOf = functionProxyOf or require("castl.core_objects").getFunctionProxy
-        this = functionProxyOf(this)
-    end
-
-    return rawget(this, p) ~= nil
-end
-
-objectPrototype.isPrototypeOf = function(this, object)
-    if this ~= nil then
-        local classPrototypeAttribute = this
-        local objProto = getPrototype(object)
-
-        while objProto do
-            if objProto == classPrototypeAttribute then
-                return true
-            end
-            objProto = getPrototype(objProto)
+        local mt = getmetatable(this)
+        local tthis = type(this)
+        if this == nil then
+            return "[object Undefined]"
+        elseif this == null then
+            return "[object Null]"
+        elseif tthis == "string" then
+            return "[object String]"
+        elseif tthis == "number" then
+            return "[object Number]"
+        elseif tthis == "boolean" then
+            return "[object Boolean]"
+        elseif mt and mt._prototype == arrayProto then
+            return "[object Array]"
+        elseif mt and mt._prototype == regexpProto then
+            return "[object RegExp]"
+        elseif mt and mt._prototype == dateProto then
+            return "[object Date]"
+        elseif mt and mt._prototype == "Arguments" then
+            return "[object Arguments]"
+        elseif tthis == "function" then
+            return "[object Function]"
         end
+
+        return '[object Object]'
     end
-    return false
-end
 
--- TODO: enumerability
-objectPrototype.propertyIsEnumerable = function(this, prop)
-    return this[prop] ~= nil
-end
+    objectPrototype.toLocaleString = objectPrototype.toString
 
-return objectPrototype
+    objectPrototype.valueOf = function (this)
+        return this
+    end
+
+    objectPrototype.hasOwnProperty = function (this, p)
+        local tthis = type(this)
+        if tthis == "string" then
+            return p == "length"
+        end
+        if tthis == "number" then
+            return false
+        end
+        if tthis == "boolean" then
+            return false
+        end
+        if tthis == "function" then
+            this = functionProxyOf(this)
+        end
+
+        return rawget(this, p) ~= nil
+    end
+
+    objectPrototype.isPrototypeOf = function(this, object)
+        if this ~= nil then
+            local classPrototypeAttribute = this
+            local objProto = getPrototype(object)
+
+            while objProto do
+                if objProto == classPrototypeAttribute then
+                    return true
+                end
+                objProto = getPrototype(objProto)
+            end
+        end
+        return false
+    end
+
+    -- TODO: enumerability
+    objectPrototype.propertyIsEnumerable = function(this, prop)
+        return this[prop] ~= nil
+    end
+
+end

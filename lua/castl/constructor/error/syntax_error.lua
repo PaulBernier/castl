@@ -18,7 +18,7 @@
 
 local SyntaxError
 
-local syntaxErrorProto = require("castl.prototype.error.syntax_error")
+local syntaxErrorProto = require("castl.protos").syntaxErrorProto
 local internal = require("castl.internal")
 
 local setmetatable = setmetatable

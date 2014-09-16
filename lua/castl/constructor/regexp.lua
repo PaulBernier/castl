@@ -18,7 +18,7 @@
 
 local RegExp
 
-local regexpProto = require("castl.prototype.regexp")
+local regexpProto = require("castl.protos").regexpProto
 local internal = require("castl.internal")
 
 local find = string.find

@@ -6,7 +6,7 @@ local always_try_using_lpeg = true
 local register_global_module_table = false
 local global_module_name = 'json'
 
-local arrayProto = require("castl.prototype.array")
+local arrayProto = require("castl.protos").arrayProto
 
 --[==[
 

@@ -20,7 +20,7 @@ local Object
 
 local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")
-local objectProto = require("castl.prototype.object")
+local objectProto = require("castl.protos").objectProto
 local errorHelper = require("castl.modules.error_helper")
 
 local type, error, pairs, ipairs, tostring = type, error, pairs, ipairs, tostring

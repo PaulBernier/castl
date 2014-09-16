@@ -18,7 +18,7 @@
 
 local TypeError
 
-local typeErrorProto = require("castl.prototype.error.type_error")
+local typeErrorProto = require("castl.protos").typeErrorProto
 local internal = require("castl.internal")
 
 local setmetatable = setmetatable

@@ -16,83 +16,82 @@
 -- [[ CASTL Number prototype submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/prototype
 
-local numberPrototype = {}
+return function(numberPrototype)
+    local errorHelper = require("castl.modules.error_helper")
 
-local errorHelper = require("castl.modules.error_helper")
+    local tonumber, tostring, floor, concat, insert = tonumber, tostring, math.floor, table.concat, table.insert
+    local strsub, strlen, gsub, format, getmetatable, type = string.sub, string.len, string.gsub, string.format, getmetatable, type
+    local error = error
 
-local tonumber, tostring, floor, concat, insert = tonumber, tostring, math.floor, table.concat, table.insert
-local strsub, strlen, gsub, format, getmetatable, type = string.sub, string.len, string.gsub, string.format, getmetatable, type
-local error = error
+    _ENV = nil
 
-_ENV = nil
-
-numberPrototype.valueOf = function (this)
-    if type(this) == "number" then
-        return this
-    else
-        return getmetatable(this)._primitive
-    end
-end
-
-local valueof = numberPrototype.valueOf
-
-numberPrototype.toString = function(this, radix)
-    local value = valueof(this)
-
-    if not radix or radix == 10 then
-        return tostring(value)
-    end
-
-    -- TODO: do not handle floating point numbers
-    -- http://stackoverflow.com/a/3554821
-    local n = floor(value)
-    local digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    local t = {}
-    local sign = ""
-    if n < 0 then
-        sign = "-"
-        n = -n
-    end
-    repeat
-        local d = (n % radix) + 1
-        n = floor(n / radix)
-        insert(t, 1, strsub(digits, d, d))
-    until n == 0
-
-    return sign .. concat(t, "")
-end
-
-numberPrototype.toLocaleString = numberPrototype.toString
-
-numberPrototype.toFixed = function(this, digits)
-    local value = valueof(this)
-    digits = digits or 0
-    return format("%." .. tonumber(digits) .. "f", value)
-end
-
-numberPrototype.toExponential = function(this, fractionDigits)
-    local value = valueof(this)
-    if fractionDigits == nil then
-        fractionDigits = strlen(tostring(value)) - 1
-        if floor(value) ~= value then
-            fractionDigits = fractionDigits - 1
+    numberPrototype.valueOf = function (this)
+        if type(this) == "number" then
+            return this
+        else
+            return getmetatable(this)._primitive
         end
     end
-    if fractionDigits < 0 or fractionDigits > 20 then
-        error(errorHelper.newRangeError("RangeError: toExponential() argument must be between 0 and 20"))
-    end
-    local formatted = format("%." .. fractionDigits .. "e", value)
-    return (gsub(formatted, "%+0", "+"))
-end
 
-numberPrototype.toPrecision = function(this, precision)
-    local value = valueof(this)
-    if precision == nil then return tostring(value) end
-    if precision < 1 or precision > 21 then
-        error(errorHelper.newRangeError("RangeError: toPrecision() argument must be between 1 and 21"))
-    end
-    local formatted = format("%." .. precision .. "g", value)
-    return (gsub(formatted, "%+0", "+"))
-end
+    local valueof = numberPrototype.valueOf
 
-return numberPrototype
+    numberPrototype.toString = function(this, radix)
+        local value = valueof(this)
+
+        if not radix or radix == 10 then
+            return tostring(value)
+        end
+
+        -- TODO: do not handle floating point numbers
+        -- http://stackoverflow.com/a/3554821
+        local n = floor(value)
+        local digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        local t = {}
+        local sign = ""
+        if n < 0 then
+            sign = "-"
+            n = -n
+        end
+        repeat
+            local d = (n % radix) + 1
+            n = floor(n / radix)
+            insert(t, 1, strsub(digits, d, d))
+        until n == 0
+
+        return sign .. concat(t, "")
+    end
+
+    numberPrototype.toLocaleString = numberPrototype.toString
+
+    numberPrototype.toFixed = function(this, digits)
+        local value = valueof(this)
+        digits = digits or 0
+        return format("%." .. tonumber(digits) .. "f", value)
+    end
+
+    numberPrototype.toExponential = function(this, fractionDigits)
+        local value = valueof(this)
+        if fractionDigits == nil then
+            fractionDigits = strlen(tostring(value)) - 1
+            if floor(value) ~= value then
+                fractionDigits = fractionDigits - 1
+            end
+        end
+        if fractionDigits < 0 or fractionDigits > 20 then
+            error(errorHelper.newRangeError("RangeError: toExponential() argument must be between 0 and 20"))
+        end
+        local formatted = format("%." .. fractionDigits .. "e", value)
+        return (gsub(formatted, "%+0", "+"))
+    end
+
+    numberPrototype.toPrecision = function(this, precision)
+        local value = valueof(this)
+        if precision == nil then return tostring(value) end
+        if precision < 1 or precision > 21 then
+            error(errorHelper.newRangeError("RangeError: toPrecision() argument must be between 1 and 21"))
+        end
+        local formatted = format("%." .. precision .. "g", value)
+        return (gsub(formatted, "%+0", "+"))
+    end
+
+end

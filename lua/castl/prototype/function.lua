@@ -16,53 +16,52 @@
 -- [[ CASTL Function prototype submodule]] --
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/prototype
 
-local functionPrototype = {}
+return function(functionPrototype)
+    local pack, unpack = table.pack, table.unpack
 
-local pack, unpack = table.pack, table.unpack
+    _ENV = nil
 
-_ENV = nil
-
-functionPrototype.call = function(this, thisArg, ...)
-    return this(thisArg, ...)
-end
-
-functionPrototype.bind = function(this, thisArg, ...)
-    local argsToPrepend = pack(...)
-
-    return function(_, ...)
-        local argset, j = {}, 1
-        local argsToAppend = pack(...)
-
-        for i = 1, argsToPrepend.n do
-            argset[j] = argsToPrepend[i]
-            j = j + 1
-        end
-
-        for i = 1, argsToAppend.n do
-            argset[j] = argsToAppend[i]
-            j = j + 1
-        end
-
-        return this(thisArg, unpack(argset, 1, argsToPrepend.n + argsToAppend.n))
+    functionPrototype.call = function(this, thisArg, ...)
+        return this(thisArg, ...)
     end
-end
 
-functionPrototype.apply = function(this, thisArg, argsArray)
-    local args, length = {}, 0
+    functionPrototype.bind = function(this, thisArg, ...)
+        local argsToPrepend = pack(...)
 
-    if argsArray ~= nil then
-        length = argsArray.length
-        for i = 0, length - 1 do
-            args[i+1] = argsArray[i]
+        return function(_, ...)
+            local argset, j = {}, 1
+            local argsToAppend = pack(...)
+
+            for i = 1, argsToPrepend.n do
+                argset[j] = argsToPrepend[i]
+                j = j + 1
+            end
+
+            for i = 1, argsToAppend.n do
+                argset[j] = argsToAppend[i]
+                j = j + 1
+            end
+
+            return this(thisArg, unpack(argset, 1, argsToPrepend.n + argsToAppend.n))
         end
     end
 
-    return this(thisArg, unpack(args, 1, length))
-end
+    functionPrototype.apply = function(this, thisArg, argsArray)
+        local args, length = {}, 0
 
-functionPrototype.toString = function(this)
-    -- TODO: rough approximation...
-    return "function (){}"
-end
+        if argsArray ~= nil then
+            length = argsArray.length
+            for i = 0, length - 1 do
+                args[i+1] = argsArray[i]
+            end
+        end
 
-return functionPrototype
+        return this(thisArg, unpack(args, 1, length))
+    end
+
+    functionPrototype.toString = function(this)
+        -- TODO: rough approximation...
+        return "function (){}"
+    end
+
+end
