@@ -109,22 +109,53 @@ setmetatable(internal.null,{
 })
 
 -- get/put
+
+-- manually goes along the prototype chain
 function internal.get(self, prototype, key)
-    -- case of built-in types: boolean, string and number
-    if self == nil then return prototype[key] end
-    -- check getter
-    local getter = rawget(self, "_g" .. tostring(key))
-    return getter and getter(self) or prototype[key]
+    local getterName, getter = "_g" .. tostring(key)
+
+    -- self == nil => case of built-in types: boolean, string and number
+    -- they are immutable, so we don't have to look for a getter
+    if self ~= nil then
+        getter = rawget(self, getterName)
+        if getter then
+            return getter(self)
+        end
+    end
+
+    local current, att = prototype
+    while current do
+        -- try to get attribute
+        att = rawget(current, key)
+        if att ~= nil then
+            return att
+        end
+        --try to get getter
+        getter = rawget(current, getterName)
+        if getter ~= nil then
+            -- call getter with the good this (self, and not current)
+            return getter(self)
+        end
+        current = (getmetatable(current) or {})._prototype
+    end
+
+    return nil
 end
 
 function internal.put(self, key, value)
-    -- check setter
-    local setter = rawget(self, "_s" .. tostring(key))
-    if setter then
-        setter(self, value)
-    else
-        rawset(self, key, value)
+    -- try to find a setter in
+    local setterName, current, setter = "_s" .. tostring(key), self
+    while current do
+        setter = rawget(current, setterName)
+        if setter ~= nil then
+            -- call setter with the good this (self, and not current)
+            setter(self, value)
+            return;
+        end
+        current = (getmetatable(current) or {})._prototype
     end
+
+    rawset(self, key, value)
 end
 
 local get, put = internal.get, internal.put
