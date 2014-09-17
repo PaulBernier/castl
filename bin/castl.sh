@@ -23,8 +23,9 @@ output=false
 compiled=false
 tolerant=true
 node=false
-evalmode=false
+eval=false
 debug=false
+mini=false
 linenumers=false
 luajit=false
 outputname="output.lua"
@@ -41,6 +42,7 @@ function help {
     printf "\t%-15s %s\n" "-h, --help" "display this help"
     printf "\t%-15s %s\n" "--cat" "don't execute, just print code that would be run"
     printf "\t%-15s %s\n" "--jit" "compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active)"
+    printf "\t%-15s %s\n" "--mini" "minify AST using Esprima before compiling. Size of outputted file is shrunk"
     printf "\t%-15s %s\n" "--debug" "add comments in the Lua code referring to the line number of the original statement in the JS file"
     printf "\t%-15s %s\n" "--eval" "eval mode (loss of performances)"
     printf "\t%-15s %s\n" "--acorn" "use Acorn parser. If not specified Esprima is used"
@@ -66,6 +68,8 @@ for arg in "$@"; do
             debug=true
         elif [ $arg = "--eval" ]; then
             eval=true
+        elif [ $arg = "--mini" ]; then
+            mini=true
         elif [ $arg = "--cat" ]; then
             execute=false
             verbose=true
@@ -106,7 +110,7 @@ for arg in "$@"; do
     fi
 done
 
-castl-compiler $filename $parser $node $luajit $tolerant $debug $eval > ".tmp.lua"
+castl-compiler $filename $parser $node $luajit $tolerant $debug $eval $mini > ".tmp.lua"
 compileStatus=$?
 
 # compilation failed

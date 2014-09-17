@@ -9,6 +9,7 @@ var luajit = process.argv[5] === "true";
 var tolerant = process.argv[6] === "true";
 var debug = process.argv[7] === "true";
 var evalMode = process.argv[8] === "true";
+var mini = process.argv[9] === "true";
 
 var parser = require(parserName);
 
@@ -46,6 +47,11 @@ fs.readFile(filename, 'utf8', function (err, data) {
     var syntax = "";
     try {
         syntax = parser.parse(data, parserOptions);
+        // Minify AST
+        if (mini) {
+            var esmangle = require("esmangle");
+            syntax = esmangle.mangle(syntax);
+        }
     } catch (e) {
         throw new SyntaxError("Couldn't parse JS code");
     }
