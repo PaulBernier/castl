@@ -17,6 +17,7 @@ local internal = require("castl.internal")
 local protos = require("castl.protos")
 local jssupport = require("castl.jssupport")
 local coreObjects = require("castl.core_objects")
+local globalFunctions = require("castl.global_functions")
 local bit = require("castl.modules.bit")
 local others = require("castl.others")
 local json = require("castl.json")
@@ -55,14 +56,16 @@ local export = {
     _mod = jssupport.modulo,
     NaN = 0/0,
     Infinity = jssupport.Infinity,
-    isNaN = jssupport.isNaN,
-    isFinite = jssupport.isFinite,
-    parseFloat = jssupport.parseFloat,
-    parseInt = jssupport.parseInt,
-    encodeURI = jssupport.encodeURI,
-    encodeURIComponent = jssupport.encodeURIComponent,
-    decodeURI = jssupport.decodeURI,
-    decodeURIComponent = jssupport.decodeURIComponent,
+    
+    -- global functions
+    isNaN = globalFunctions.isNaN,
+    isFinite = globalFunctions.isFinite,
+    parseFloat = globalFunctions.parseFloat,
+    parseInt = globalFunctions.parseInt,
+    encodeURI = globalFunctions.encodeURI,
+    encodeURIComponent = globalFunctions.encodeURIComponent,
+    decodeURI = globalFunctions.decodeURI,
+    decodeURIComponent = globalFunctions.decodeURIComponent,
     eval = eval.eval,
 
     -- internal

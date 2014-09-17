@@ -22,6 +22,7 @@ local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")
 local numberProto = require("castl.protos").numberProto
 local jssupport = require("castl.jssupport")
+local globalFunctions = require("castl.global_functions")
 
 local huge = math.huge
 local tonumber, type, getmetatable, setmetatable = tonumber, type, getmetatable, setmetatable
@@ -91,11 +92,11 @@ Number.isNaN = function (this, arg)
 end
 
 Number.parseInt = function (this, str, radix)
-    return jssupport.parseInt(this, str, radix)
+    return globalFunctions.parseInt(this, str, radix)
 end
 
 Number.parseFloat = function (this, str)
-    return jssupport.parseFloat(this, str)
+    return globalFunctions.parseFloat(this, str)
 end
 
 -- Static properties
