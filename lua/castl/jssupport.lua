@@ -36,9 +36,8 @@ jssupport._break = {}
 jssupport._continue = {}
 
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3
-function jssupport.equal(x, y)
-    x = toPrimitive(x)
-    y = toPrimitive(y)
+local equal
+equal = function(x, y)
     local tx, ty = type(x), type(y)
 
     -- case 1
@@ -67,21 +66,29 @@ function jssupport.equal(x, y)
     if tx == "nil" and y == null then return true end
     -- case 4
     if tx == "number" and ty == "string" then
-        return jssupport.equal(x, tonumber(y))
+        return equal(x, tonumber(y))
     end
     -- case 5
     if tx == "string" and ty == "number" then
-        return jssupport.equal(tonumber(x), y)
+        return equal(tonumber(x), y)
     end
     -- case 6
-    if tx == "boolean" then return jssupport.equal(x and 1 or 0, y) end
+    if tx == "boolean" then return equal(x and 1 or 0, y) end
     -- case 7
-    if ty == "boolean" then return jssupport.equal(x, y and 1 or 0) end
-    -- case 8 - 9
-    -- TODO ? (comparison with objects)
+    if ty == "boolean" then return equal(x, y and 1 or 0) end
+    -- case 8
+    if (tx == "string" or tx == "number") and ty == "table" then
+        return equal(x, toPrimitive(y))
+    end
+    -- case 9
+    if tx == "table" and (ty == "string" or ty == "number") then
+        return equal(toPrimitive(x), y)
+    end
     -- case 10
     return false
 end
+
+jssupport.equal = equal
 
 -- Avoid Lua coercion
 function jssupport.add(x , y)
