@@ -53,10 +53,12 @@ local export = {
     _with = jssupport.with,
     _void = jssupport.void,
     _e = jssupport.e,
+    _inc = jssupport.inc,
+    _dec = jssupport.dec,
     _mod = jssupport.modulo,
     NaN = 0/0,
     Infinity = jssupport.Infinity,
-    
+
     -- global functions
     isNaN = globalFunctions.isNaN,
     isFinite = globalFunctions.isFinite,

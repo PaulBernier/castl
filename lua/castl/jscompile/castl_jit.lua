@@ -54,7 +54,7 @@ compiledFunctionsDeclaration = _arr({},0);
 i = 0;
 while (i < functions.length) do
 compiledFunctionsDeclaration:push(functions[i]);
-i = _add(i, 1);
+i = _inc(i);
 end
 
 compiledProgram:push(compiledFunctionsDeclaration:join("\010"));
@@ -197,7 +197,7 @@ if _bool(((function() if (compiledStatement ~= "") then return (compiledStatemen
 compiledStatements:push(compiledStatement);
 end
 
-i = _add(i, 1);
+i = _inc(i);
 end
 
  do return compiledStatements:join("\010"); end
@@ -479,7 +479,7 @@ caseTablementElement:push("] = true");
 casesTable:push(caseTablementElement:join(""));
 end
 
-i = _add(i, 1);
+i = _inc(i);
 end
 
 compiledSwitchStatement:push("local _cases = {");
@@ -510,7 +510,7 @@ compiledSwitchStatement:push(compileListOfStatements(_ENV,cases[i].consequent));
 compiledSwitchStatement:push("\010");
 compiledSwitchStatement:push("_into = true;\010");
 compiledSwitchStatement:push("end\010");
-i = _add(i, 1);
+i = _inc(i);
 end
 
 if _bool(not _bool(hasDefault)) then
@@ -911,15 +911,12 @@ _into = true;
 goto _default
 end
 if _into or (expression.operator == "++") then
-compiledUpdateExpression:push("_add(");
-compiledUpdateExpression:push(compiledArgument);
-compiledUpdateExpression:push(", 1)");
+compiledUpdateExpression:push("_inc(");
 break;
 _into = true;
 end
 if _into or (expression.operator == "--") then
-compiledUpdateExpression:push(compiledArgument);
-compiledUpdateExpression:push(" - 1");
+compiledUpdateExpression:push("_dec(");
 break;
 _into = true;
 end
@@ -929,6 +926,8 @@ _throw(_new(Error,(_add("Unknown UpdateOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
+compiledUpdateExpression:push(compiledArgument);
+compiledUpdateExpression:push(")");
  do return compiledUpdateExpression:join(""); end
 end)
 compileUpdateExpression = (function (this, expression)
@@ -944,15 +943,12 @@ _into = true;
 goto _default
 end
 if _into or (expression.operator == "++") then
-compiledUpdateExpression:push("_add(");
-compiledUpdateExpression:push(compiledArgument);
-compiledUpdateExpression:push(", 1); ");
+compiledUpdateExpression:push("_inc(");
 break;
 _into = true;
 end
 if _into or (expression.operator == "--") then
-compiledUpdateExpression:push(compiledArgument);
-compiledUpdateExpression:push(" - 1; ");
+compiledUpdateExpression:push("_dec(");
 break;
 _into = true;
 end
@@ -962,6 +958,8 @@ _throw(_new(Error,(_add("Unknown UpdateOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
+compiledUpdateExpression:push(compiledArgument);
+compiledUpdateExpression:push("); ");
 compiledUpdateExpression:push(compiledArgument);
 compiledUpdateExpression:push(" = _tmp");
 else
@@ -977,12 +975,12 @@ _into = true;
 goto _default
 end
 if _into or (expression.operator == "++") then
-compiledUpdateExpression:push("_add(_tmp, 1)");
+compiledUpdateExpression:push("_inc(_tmp)");
 break;
 _into = true;
 end
 if _into or (expression.operator == "--") then
-compiledUpdateExpression:push("_tmp - 1");
+compiledUpdateExpression:push("_dec(_tmp)");
 break;
 _into = true;
 end
@@ -1011,12 +1009,12 @@ if (count == 0) then
 startIndex = i;
 end
 
-count = _add(count, 1);
+count = _inc(count);
 elseif (str[i] == "]") then
-count = count - 1;
+count = _dec(count);
 end
 
-i = _add(i, 1);
+i = _inc(i);
 end
 
  do return startIndex; end
@@ -1027,7 +1025,7 @@ compiledArguments = _arr({},0);
 i = 0;
 while (i < args.length) do
 compiledArguments:push(compileExpression(_ENV,args[i]));
-i = _add(i, 1);
+i = _inc(i);
 end
 
  do return compiledArguments:join(","); end
@@ -1435,7 +1433,7 @@ sequence = _arr({},0);
 i = 0;
 while (i < expressions.length) do
 sequence:push(compileExpression(_ENV,expressions[i]));
-i = _add(i, 1);
+i = _inc(i);
 end
 
 compiledSequenceExpression:push(sequence:join(","));
@@ -1481,7 +1479,7 @@ compiledProperty:push(compiledKey);
 compiledProperty:push("] = ");
 compiledProperty:push(compileExpression(_ENV,property.value));
 compiledProperties:push(compiledProperty:join(""));
-i = _add(i, 1);
+i = _inc(i);
 end
 
 compiledObjectExpression:push(compiledProperties:join(",\010"));
@@ -1526,7 +1524,7 @@ length = expression.arguments.length;
 i = 0;
 while (i < length) do
 newArguments:push(compileExpression(_ENV,expression.arguments[i]));
-i = _add(i, 1);
+i = _inc(i);
 end
 
 compiledNewExpression:push(newArguments:join(","));
@@ -1553,7 +1551,7 @@ else
 compiledElements:push("nil");
 end
 
-i = _add(i, 1);
+i = _inc(i);
 end
 
 compiledArrayExpression:push(compiledElements:join(","));
@@ -1603,7 +1601,7 @@ compiledDeclarationInit:push(";");
 compiledDeclarations:push(compiledDeclarationInit:join(""));
 end
 
-i = _add(i, 1);
+i = _inc(i);
 end
 
 break;
@@ -1656,7 +1654,7 @@ compiledLocalParams = _arr({[0]="this"},1);
 i = 0;
 while (i < params.length) do
 compiledLocalParams:push(compilePattern(_ENV,params[i]));
-i = _add(i, 1);
+i = _inc(i);
 end
 
 compiledFunction:push((_add((_add("local ",compiledLocalParams:join(", ")))," = ...;\010")));
@@ -1666,7 +1664,7 @@ compiledParams = _arr({[0]="this"},1);
 i = 0;
 while (i < params.length) do
 compiledParams:push(compilePattern(_ENV,params[i]));
-i = _add(i, 1);
+i = _inc(i);
 end
 
 compiledFunction:push(compiledParams:join(", "));
@@ -1685,7 +1683,7 @@ compiledFunctionsDeclaration = _arr({},0);
 i = 0;
 while (i < functions.length) do
 compiledFunctionsDeclaration:push(functions[i]);
-i = _add(i, 1);
+i = _inc(i);
 end
 
 compiledFunction:push(compiledFunctionsDeclaration:join("\010"));
@@ -1705,7 +1703,7 @@ i = 0;
 while (i < length) do
 _g_local = locals:pop();
 namesSequence:push(_g_local);
-i = _add(i, 1);
+i = _inc(i);
 end
 
 compiledLocalsDeclaration:push(namesSequence:join(","));
@@ -1741,12 +1739,12 @@ utf8:push((_bor(192,(_arshift(charcode,6)))),(_bor(128,(_band(charcode,63)))));
 elseif _bool(((charcode < 55296) and (charcode < 55296) or (charcode >= 57344))) then
 utf8:push((_bor(224,(_arshift(charcode,12)))),(_bor(128,(_band((_arshift(charcode,6)),63)))),(_bor(128,(_band(charcode,63)))));
 else
-i = _add(i, 1);
+i = _inc(i);
 charcode = (_add(65536,(_bor((_lshift((_band(charcode,1023)),10)),(_band(str:charCodeAt(i),1023))))));
 utf8:push((_bor(240,(_arshift(charcode,18)))),(_bor(128,(_band((_arshift(charcode,12)),63)))),(_bor(128,(_band((_arshift(charcode,6)),63)))),(_bor(128,(_band(charcode,63)))));
 end
 
-i = _add(i, 1);
+i = _inc(i);
 end
 
  do return utf8; end

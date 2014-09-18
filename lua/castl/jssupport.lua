@@ -93,6 +93,14 @@ function jssupport.add(x , y)
     end
 end
 
+function jssupport.inc(x)
+    return toNumber(x) + 1
+end
+
+function jssupport.dec(x)
+    return toNumber(x) - 1
+end
+
 -- 0, NaN and "" are true in Lua and false in JS
 function jssupport.boolean(var)
     if var == 0 or var == "" or var == null or var ~= var then

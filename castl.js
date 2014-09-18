@@ -1035,17 +1035,18 @@
 
         switch (expression.operator) {
         case "++":
-            compiledUpdateExpression.push("_add(");
-            compiledUpdateExpression.push(compiledArgument);
-            compiledUpdateExpression.push(", 1)");
+            compiledUpdateExpression.push("_inc(");
             break;
         case "--":
-            compiledUpdateExpression.push(compiledArgument);
-            compiledUpdateExpression.push(" - 1");
+            compiledUpdateExpression.push("_dec(");
+
             break;
         default:
             throw new Error("Unknown UpdateOperator: " + expression.operator);
         }
+
+        compiledUpdateExpression.push(compiledArgument);
+        compiledUpdateExpression.push(")");
 
         return compiledUpdateExpression.join('');
     }
@@ -1058,33 +1059,32 @@
             // Prefix
             switch (expression.operator) {
             case "++":
-                compiledUpdateExpression.push("_add(");
-                compiledUpdateExpression.push(compiledArgument);
-                compiledUpdateExpression.push(", 1); ");
-
+                compiledUpdateExpression.push("_inc(");
                 break;
             case "--":
-                compiledUpdateExpression.push(compiledArgument);
-                compiledUpdateExpression.push(" - 1; ");
+                compiledUpdateExpression.push("_dec(");
                 break;
             default:
                 throw new Error("Unknown UpdateOperator: " + expression.operator);
             }
+
+            compiledUpdateExpression.push(compiledArgument);
+            compiledUpdateExpression.push("); ");
             compiledUpdateExpression.push(compiledArgument);
             compiledUpdateExpression.push(" = _tmp");
         } else {
+            // Postfix
             compiledUpdateExpression.push(compiledArgument);
             compiledUpdateExpression.push("; ");
             compiledUpdateExpression.push(compiledArgument);
             compiledUpdateExpression.push(" = ");
 
-            // Postfix
             switch (expression.operator) {
             case "++":
-                compiledUpdateExpression.push("_add(_tmp, 1)");
+                compiledUpdateExpression.push("_inc(_tmp)");
                 break;
             case "--":
-                compiledUpdateExpression.push("_tmp - 1");
+                compiledUpdateExpression.push("_dec(_tmp)");
                 break;
             default:
                 throw new Error("Unknown UpdateOperator: " + expression.operator);

@@ -52,7 +52,6 @@ function testFile {
     
     offset=$((60 - ${#testString}))
     printf "%-"$offset"s %s\n" "" "--> Everything Is AWESOME!!!";
-    #echo "--> Everything Is AWESOME!!!";
     ((success++));
 }
 
