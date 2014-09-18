@@ -334,17 +334,40 @@
         return compiledStatements.join("\n");
     }
 
+    function expressionReturnsBoolean(expression) {
+        if (expression.type === "BinaryExpression") {
+            // True if equality or relational operator
+            return ["==", "!=", "===", "!==", "<", ">", "<=", ">="].indexOf(expression.operator) !== -1;
+        }
+
+        return false;
+    }
+
+    function compileBooleanExpression(expression) {
+        var compiledBooleanExpression = [];
+
+        if (expressionReturnsBoolean(expression)) {
+            compiledBooleanExpression.push(compileExpression(expression));
+        } else {
+            compiledBooleanExpression.push("_bool(");
+            compiledBooleanExpression.push(compileExpression(expression));
+            compiledBooleanExpression.push(")");
+        }
+
+        return compiledBooleanExpression.join("");
+    }
+
     function compileIfStatement(statement, elif) {
         var compiledIfStatement = [];
 
         if (elif) {
-            compiledIfStatement.push("elseif _bool(");
+            compiledIfStatement.push("elseif ");
         } else {
-            compiledIfStatement.push("if _bool(");
+            compiledIfStatement.push("if ");
         }
 
-        compiledIfStatement.push(compileExpression(statement.test));
-        compiledIfStatement.push(") then\n");
+        compiledIfStatement.push(compileBooleanExpression(statement.test));
+        compiledIfStatement.push(" then\n");
 
         compiledIfStatement.push(compileStatement(statement.consequent));
 
@@ -425,16 +448,16 @@
         // Init
         compiledForStatement.push(compileForInit(statement.init));
 
-        compiledForStatement.push("while _bool(");
+        compiledForStatement.push("while ");
 
         // Test
         if (statement.test !== null) {
-            compiledForStatement.push(compileExpression(statement.test));
+            compiledForStatement.push(compileBooleanExpression(statement.test));
         } else {
             compiledForStatement.push("true");
         }
 
-        compiledForStatement.push(") do\n");
+        compiledForStatement.push(" do\n");
 
         // Body
         compiledForStatement.push(compileStatement(statement.body));
@@ -501,11 +524,11 @@
     }
 
     function compileWhileStatement(statement, compiledLabel) {
-        var compiledWhileStatement = ["while _bool("];
+        var compiledWhileStatement = ["while "];
 
         // Test
-        compiledWhileStatement.push(compileExpression(statement.test));
-        compiledWhileStatement.push(") do\n");
+        compiledWhileStatement.push(compileBooleanExpression(statement.test));
+        compiledWhileStatement.push(" do\n");
 
         // Body
         compiledWhileStatement.push(compileStatement(statement.body));
@@ -540,9 +563,9 @@
         }
 
         // Test
-        compiledDoWhileStatement.push("until not _bool(");
-        compiledDoWhileStatement.push(compileExpression(statement.test));
-        compiledDoWhileStatement.push(")\n");
+        compiledDoWhileStatement.push("until not ");
+        compiledDoWhileStatement.push(compileBooleanExpression(statement.test));
+        compiledDoWhileStatement.push("\n");
 
         return compiledDoWhileStatement.join("");
     }
@@ -1155,15 +1178,16 @@
     function compileLogicalExpression(expression) {
         var compiledLogicalExpression = ["("];
 
+        var leftCondition = compileBooleanExpression(expression.left);
         var left = compileExpression(expression.left);
         var right = compileExpression(expression.right);
 
         switch (expression.operator) {
         case "&&":
             // (function() if boolean(a) then return b else return a end end)()
-            compiledLogicalExpression.push("(function() if _bool(");
-            compiledLogicalExpression.push(left);
-            compiledLogicalExpression.push(") then return ");
+            compiledLogicalExpression.push("(function() if ");
+            compiledLogicalExpression.push(leftCondition);
+            compiledLogicalExpression.push(" then return ");
             compiledLogicalExpression.push(right);
             compiledLogicalExpression.push(";  else return ");
             compiledLogicalExpression.push(left);
@@ -1171,9 +1195,8 @@
             break;
         case "||":
             // boolean(a) and a or b
-            compiledLogicalExpression.push("_bool(");
-            compiledLogicalExpression.push(left);
-            compiledLogicalExpression.push(") and ");
+            compiledLogicalExpression.push(leftCondition);
+            compiledLogicalExpression.push(" and ");
             compiledLogicalExpression.push(left);
             compiledLogicalExpression.push(" or ");
             compiledLogicalExpression.push(right);
@@ -1235,9 +1258,8 @@
                 break;
                 // Negate
             case "!":
-                compiledUnaryExpression.push("not _bool(");
-                compiledUnaryExpression.push(compiledExpression);
-                compiledUnaryExpression.push(")");
+                compiledUnaryExpression.push("not ");
+                compiledUnaryExpression.push(compileBooleanExpression(expression.argument));
                 break;
                 // Bit not
             case "~":
@@ -1437,11 +1459,11 @@
     // TernaryOperator: boxing/unboxing solution
     // http://lua-users.org/wiki/TernaryOperator
     function compileConditionalExpression(expression) {
-        var compiledConditionalExpression = ["(function() if _bool("];
+        var compiledConditionalExpression = ["(function() if "];
 
         // (function() if boolean(a) then return b else return c end end)()
-        compiledConditionalExpression.push(compileExpression(expression.test));
-        compiledConditionalExpression.push(") then return ");
+        compiledConditionalExpression.push(compileBooleanExpression(expression.test));
+        compiledConditionalExpression.push(" then return ");
         compiledConditionalExpression.push(compileExpression(expression.consequent));
         compiledConditionalExpression.push("; else return ");
         compiledConditionalExpression.push(compileExpression(expression.alternate));
