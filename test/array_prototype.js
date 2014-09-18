@@ -207,11 +207,17 @@ assert(!arr9.some(isBigEnough));
 arr9 = [12, 5, 8, 1, 4];
 assert(arr9.some(isBigEnough));
 
+arr9 = [0,0,0];
+assert(!arr9.some(function(e){return e}));
+
 // Every
 var arr10 = [12, 5, 8, 130, 44];
 assert(!arr10.every(isBigEnough));
 arr10 = [12, 54, 18, 130, 44];
 assert(arr10.every(isBigEnough));
+
+arr10 = [0,0,0];
+assert(!arr10.some(function(e){return e}));
 
 // indexOf
 var arr11 = [1, 2, 3, 4];
@@ -416,6 +422,9 @@ assert(filtered.length === 3);
 assert(filtered[0] === 12);
 assert(filtered[1] === 130);
 assert(filtered[2] === 44);
+
+arr16 = [0,0,0];
+assert(arr16.filter(function(e){return e}).length === 0);
 
 // forEach
 ret = [];

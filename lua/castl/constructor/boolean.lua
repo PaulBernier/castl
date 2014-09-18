@@ -17,9 +17,9 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
 
-local coreObjects = require("castl.core_objects")
-local internal = require("castl.internal")
+local objectToString = require("castl.core_objects").objectToString
 local booleanProto = require("castl.protos").booleanProto
+local internal = require("castl.internal")
 
 local Boolean
 
@@ -54,7 +54,7 @@ Boolean = function(this, arg)
             return put(self, key, value)
         end,
         __tostring = function(self)
-            return coreObjects.objectToString(self)
+            return objectToString(self)
         end,
         __tonumber = function(self)
             local mt = getmetatable(self)

@@ -19,6 +19,7 @@
 return function(arrayPrototype)
     local runtime
     local makeArray = require("castl.core_objects").array
+    local boolean = require("castl.jssupport").boolean
     local internal = require("castl.internal")
     local errorHelper = require("castl.modules.error_helper")
 
@@ -337,7 +338,7 @@ return function(arrayPrototype)
 
         for i = 0, this.length - 1 do
             -- filter
-            if this[i] ~= nil and callback(thisArg, this[i], i, this) then
+            if this[i] ~= nil and boolean(callback(thisArg, this[i], i, this)) then
                 insert(ret, this[i])
                 length = length + 1
             end
@@ -411,7 +412,7 @@ return function(arrayPrototype)
         thisArg = getThisArg(thisArg)
 
         for i = 0, this.length - 1 do
-            if this[i] ~= nil and callback(thisArg, this[i], i, this) then
+            if this[i] ~= nil and boolean(callback(thisArg, this[i], i, this)) then
                 return true
             end
         end
@@ -423,7 +424,7 @@ return function(arrayPrototype)
         thisArg = getThisArg(thisArg)
 
         for i = 0, this.length - 1 do
-            if not callback(thisArg, this[i], i, this) then
+            if not boolean(callback(thisArg, this[i], i, this)) then
                 return false
             end
         end
