@@ -126,22 +126,16 @@ setmetatable(functionsProxyObjects, {__mode = 'k'})
 function coreObjects.getFunctionProxy(fun)
     local proxy = rawget(functionsProxyObjects, fun)
     if proxy == nil then
-        proxy = coreObjects.obj({})
+        proxy = {prototype = coreObjects.obj({constructor = fun})}
         rawset(functionsProxyObjects, fun, proxy)
     end
     return proxy
 end
 
-functionMt.__index = function(self, key)
-    local proxy = coreObjects.getFunctionProxy(self)
+local getFunctionProxy = coreObjects.getFunctionProxy
 
-    -- prototype attribute of functions should always "exist"
-    if key == 'prototype' then
-        if proxy.prototype == nil then
-            proxy.prototype = coreObjects.obj({constructor = self})
-        end
-        return proxy.prototype
-    end
+functionMt.__index = function(self, key)
+    local proxy = getFunctionProxy(self)
 
     local value = rawget(proxy, key)
     if value ~= nil then
@@ -152,7 +146,7 @@ functionMt.__index = function(self, key)
 end
 
 functionMt.__newindex = function(self, key, value)
-    local proxy = coreObjects.getFunctionProxy(self)
+    local proxy = getFunctionProxy(self)
     put(proxy, key, value)
 end
 
@@ -553,7 +547,7 @@ end
 
 function coreObjects.props (arg, inherited, enumAll)
     if type(arg) == 'function' then
-        arg = coreObjects.getFunctionProxy(arg)
+        arg = getFunctionProxy(arg)
     end
 
     local ret = {}
