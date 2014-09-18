@@ -416,9 +416,8 @@ return function(stringPrototype)
     stringPrototype.search = function (this, regexp)
         local value = valueof(this)
 
-        -- TODO: how to convert other types to RegExp?
-        if type(regexp) == "string" then
-            regexp = _regexp(regexp, "")
+        if not instanceof(regexp, RegExp) then
+            regexp = _regexp(regexp)
         end
 
         local cf = regexpHelper.getPCRECompilationFlag(regexp)
@@ -431,9 +430,8 @@ return function(stringPrototype)
     stringPrototype.match = function (this, regexp)
         local value = valueof(this)
 
-        -- TODO: how to convert other types to RegExp?
-        if type(regexp) == "string" then
-            regexp = _regexp(regexp, "")
+        if not instanceof(regexp, RegExp) then
+            regexp = _regexp(regexp)
         end
 
         -- add a global capture to get the entire match
