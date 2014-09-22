@@ -29,11 +29,12 @@ return function(stringPrototype)
     local common = require("castl.modules.common")
 
     local type, tostring, tonumber, min, rawget, rawset = type, tostring, tonumber, math.min, rawget, rawset
-    local pack, tinsert, tremove, concat = table.pack, table.insert, table.remove, table.concat
+    local pack = table.pack or function(...) return {n = select('#',...),...} end
+    local tinsert, tremove, concat = table.insert, table.remove, table.concat
     local error, require, getmetatable = error, require, getmetatable
     local sub, byte, gmatch, find, reverse = string.sub, string.byte, string.gmatch, string.find, string.reverse
     local lower, upper, match, gsub, len = string.lower, string.upper, string.match, string.gsub, string.len
-    local null, defaultValueString = internal.null, internal.defaultValueString
+    local null, ToString = internal.null, internal.ToString
 
     _ENV = nil
 
@@ -59,7 +60,7 @@ return function(stringPrototype)
     stringPrototype.anchor = function(this, name)
         local value = valueof(this)
         local t = {'<a name="'}
-        tinsert(t, defaultValueString(name))
+        tinsert(t, ToString(name))
         tinsert(t, '">')
         tinsert(t, value)
         tinsert(t, '</a>')
@@ -135,7 +136,7 @@ return function(stringPrototype)
         end
 
         -- find in reversed string
-        local ret = find(reverse(value), defaultValueString(searchValue), value.length - fromIndex + 1, true)
+        local ret = find(reverse(value), ToString(searchValue), value.length - fromIndex + 1, true)
         if searchValue == "" then
             ret = ret - 1
         end
@@ -151,7 +152,7 @@ return function(stringPrototype)
     stringPrototype.link = function(this, url)
         local value = valueof(this)
         local t = {'<a href="'}
-        tinsert(t, defaultValueString(url))
+        tinsert(t, ToString(url))
         tinsert(t, '">')
         tinsert(t, value)
         tinsert(t, '</a>')
@@ -334,10 +335,10 @@ return function(stringPrototype)
         if type(newSubStr) == "function" then
             runtime = runtime or require("castl.runtime")
             replacer = function(...)
-                return defaultValueString(newSubStr(runtime, ...))
+                return ToString(newSubStr(runtime, ...))
             end
         else
-            replacer = defaultValueString(newSubStr)
+            replacer = ToString(newSubStr)
 
             -- handle $ parameters
             replacer = gsub(replacer, "%$&", "$0")
@@ -364,7 +365,7 @@ return function(stringPrototype)
     end
 
     local getReplacerString = function(newSubStr)
-        local replacer = defaultValueString(newSubStr)
+        local replacer = ToString(newSubStr)
 
         -- handle $ parameters
         replacer = gsub(replacer, "%$&", "%%0")
@@ -387,7 +388,7 @@ return function(stringPrototype)
         local value = valueof(this)
 
         if type(match) ~= "string" and not instanceof(match, RegExp) then
-            match = defaultValueString(match)
+            match = ToString(match)
         end
 
         if type(match) == "string" then

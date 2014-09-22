@@ -17,7 +17,8 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/prototype
 
 return function(functionPrototype)
-    local pack, unpack = table.pack, table.unpack
+    local pack = table.pack or function(...) return {n = select('#',...),...} end
+    local unpack = table.unpack or unpack
 
     _ENV = nil
 

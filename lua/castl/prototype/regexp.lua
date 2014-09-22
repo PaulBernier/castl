@@ -22,7 +22,8 @@ return function(regexpPrototype)
     local regexpHelper = require("castl.modules.regexphelper")
 
     local tostring, rawget, rawset = tostring, rawget, rawset
-    local tinsert, tremove, pack = table.insert, table.remove, table.pack
+    local pack = table.pack or function(...) return {n = select('#',...),...} end
+    local tinsert, tremove = table.insert, table.remove
     local null = internal.null
 
     _ENV = nil

@@ -23,7 +23,8 @@ local functionProto = require("castl.protos").functionProto
 
 local Function
 
-local error, pack, require, assert, load, tinsert, concat = error, table.pack, require, assert, load, table.insert, table.concat
+local pack = table.pack or function(...) return {n = select('#',...),...} end
+local error, require, assert, load, tinsert, concat = error, require, assert, load, table.insert, table.concat
 
 _ENV = nil
 

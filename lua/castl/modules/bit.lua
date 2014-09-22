@@ -14,25 +14,25 @@
 --]]
 
 local luajit = jit ~= nil
-local band, bor, bnot, bxor, lshift, arshift, rshift
+local band, bor, bnot, bxor, lshift, rshift
 
 -- if executed by LuaJIT use its bit library as base
 if luajit then
-    band, bor, bnot, bxor, lshift, arshift, rshift = bit.band, bit.bor, bit.bnot, bit.bxor, bit.lshift, bit.arshift, bit.rshift
+    band, bor, bnot, bxor, lshift, rshift = bit.band, bit.bor, bit.bnot, bit.bxor, bit.lshift, bit.rshift
 else
     -- else use bit32 lib of Lua 5.2
-    band, bor, bnot, bxor, lshift, arshift, rshift = bit32.band, bit32.bor, bit32.bnot, bit32.bxor, bit32.lshift, bit32.arshift, bit32.rshift
+    band, bor, bnot, bxor, lshift, rshift = bit32.band, bit32.bor, bit32.bnot, bit32.bxor, bit32.lshift, bit32.rshift
 end
 
 local bit = {}
 
-local toNumber = require("castl.internal").toNumber
+local ToNumber = require("castl.internal").ToNumber
 local floor = math.floor
 
 _ENV = nil
 
 local castToInt = function(v)
-    local number = toNumber(v)
+    local number = ToNumber(v)
     if (number % 1) ~= 0 then
         return number > 0 and floor(number) or floor(number + 1)
     else

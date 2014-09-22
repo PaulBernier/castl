@@ -23,8 +23,8 @@ local internal = require("castl.internal")
 
 local Boolean
 
-local setmetatable, getmetatable = setmetatable, getmetatable
-local null, get, put, withinNew, toNumber, defaultValueNumber = internal.null, internal.get, internal.put, internal.withinNew, internal.toNumber, internal.defaultValueNumber
+local setmetatable = setmetatable
+local null, get, put, withinNew, ToNumber = internal.null, internal.get, internal.put, internal.withinNew, internal.ToNumber
 
 _ENV = nil
 
@@ -56,25 +56,15 @@ Boolean = function(this, arg)
         __tostring = function(self)
             return objectToString(self)
         end,
-        __tonumber = function(self)
-            local mt = getmetatable(self)
-            return mt._primitive and 1 or 0
-        end,
         _primitive = booleanPrimitive(arg),
         __sub = function(a, b)
-            return toNumber(a) - toNumber(b)
+            return ToNumber(a) - ToNumber(b)
         end,
         __mul = function(a, b)
-            return toNumber(a) * toNumber(b)
+            return ToNumber(a) * ToNumber(b)
         end,
         __div = function(a, b)
-            return toNumber(a) / toNumber(b)
-        end,
-        __lt = function(a, b)
-            return defaultValueNumber(a) < defaultValueNumber(b)
-        end,
-        __le = function(a, b)
-            return defaultValueNumber(a) <= defaultValueNumber(b)
+            return ToNumber(a) / ToNumber(b)
         end,
         _prototype = booleanProto
     })

@@ -1,6 +1,6 @@
 CAST(L): compile JavaScript to Lua
 ==========
-CASTL (Compile Abstract Syntax Tree to Lua) is a free and open source project that allows you to "compile" some JavaScript code to Lua 5.2 code and run it (works also with LuaJIT).
+CASTL (Compile Abstract Syntax Tree to Lua) is a free and open source project that allows you to "compile" some JavaScript code to Lua 5.2 or LuaJIT 2 code and run it.
 
 ## Installation
 
@@ -20,7 +20,7 @@ The easy way to install this dependency is to use Luarocks package manager:
 ```
 sudo luarocks-5.2 install lrexlib-pcre
 ```
-* if you want to execute on LuaJIT (see also LuaJIT entry of this README)
+* if you want to execute on LuaJIT
 ```
 sudo luarocks-5.1 install lrexlib-pcre
 ```
@@ -76,16 +76,6 @@ There is also a useful bash script `bin/castl.sh` to easily both compile and exe
 CASTL has one dependency, [Lrexlib](http://rrthomas.github.io/lrexlib/), which provides a binding of PCRE regular expression library API.
 
 CASTL also needs a JavaScript parser able to produce an AST (Abstract Syntax Tree) compliant with the SpiderMonkey AST structure. You can use Esprima or Acorn for instance (if you installed CASTL as stated above Esprima and Acorn are automatically downloaded as dependencies, you don't need to do anything).
-
-## LuaJIT
-
-Good news, if you want to use CASTL with LuaJIT (2.x) , you can!
-
-The only point is that you'll have to compile LuaJIT with the -DLUAJIT\_ENABLE\_LUA52COMPAT option [http://luajit.org/extensions.html#lua52](http://luajit.org/extensions.html#lua52) (i.e. uncomment line 'XCFLAGS+= -DLUAJIT_ENABLE_LUA52COMPAT' in `src/Makefile`). Then you can use the `--jit` option of the castl command line tool:
-
-```
-castl --jit <file.js>
-```
 
 ## Not Supported yet
 

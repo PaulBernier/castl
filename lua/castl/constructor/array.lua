@@ -22,7 +22,7 @@ local arrayProto = require("castl.protos").arrayProto
 local coreObjects = require("castl.core_objects")
 
 local getmetatable, type = getmetatable, type
-local pack = table.pack
+local pack = table.pack or function(...) return {n = select('#',...),...} end
 
 _ENV = nil
 

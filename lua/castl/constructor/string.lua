@@ -24,9 +24,10 @@ local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")
 
 local bor, band, arshift = bit.bor, bit.band, bit.arshift
-local pack, unpack, tinsert, concat, stochar =  table.pack, table.unpack, table.insert, table.concat, string.char
-local setmetatable, getmetatable, tonumber = setmetatable, getmetatable, tonumber
-local defaultValueString, defaultValueNumber, withinNew, get, put, toNumber = internal.defaultValueString, internal.defaultValueNumber, internal.withinNew, internal.get, internal.put, internal.toNumber
+local pack = table.pack or function(...) return {n = select('#',...),...} end
+local unpack, tinsert, concat, stochar =  table.unpack or unpack, table.insert, table.concat, string.char
+local setmetatable = setmetatable
+local ToString, withinNew, get, put, ToNumber = internal.ToString, internal.withinNew, internal.get, internal.put, internal.ToNumber
 
 _ENV = nil
 
@@ -34,7 +35,7 @@ String = function(this, arg)
     if arg == nil then
         arg = ""
     else
-        arg = defaultValueString(arg)
+        arg = ToString(arg)
     end
 
     -- String constructor not called within a new
@@ -58,25 +59,15 @@ String = function(this, arg)
         __tostring = function(self)
             return coreObjects.objectToString(self)
         end,
-        __tonumber = function(self)
-            local mt = getmetatable(self)
-            return tonumber(mt._primitive) or 0/0
-        end,
         _primitive = arg,
         __sub = function(a, b)
-            return toNumber(a) - toNumber(b)
+            return ToNumber(a) - ToNumber(b)
         end,
         __mul = function(a, b)
-            return toNumber(a) * toNumber(b)
+            return ToNumber(a) * ToNumber(b)
         end,
         __div = function(a, b)
-            return toNumber(a) / toNumber(b)
-        end,
-        __lt = function(a, b)
-            return defaultValueNumber(a) < defaultValueNumber(b)
-        end,
-        __le = function(a, b)
-            return defaultValueNumber(a) <= defaultValueNumber(b)
+            return ToNumber(a) / ToNumber(b)
         end,
         _prototype = stringProto
     })
@@ -105,7 +96,7 @@ String.fromCharCode = function(this, ...)
     local args = pack(...)
     local str = {}
     for i = 1, args.n do
-        local charCode = tonumber(args[i]);
+        local charCode = ToNumber(args[i]);
         local char = stochar(unpack(toUTF8Array(charCode)))
 
         tinsert(str, char)

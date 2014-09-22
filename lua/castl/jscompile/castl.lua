@@ -42,16 +42,16 @@ compiledProgram:push("local arguments = _args(...);");
 end
 
 locals = context[0];
-if (locals.length > 0) then
+if (_gt(locals.length,0)) then
 compiledLocalsDeclaration = buildLocalsDeclarationString(_ENV,locals);
 compiledProgram:push(compiledLocalsDeclaration);
 end
 
 functions = context[2];
-if (functions.length > 0) then
+if (_gt(functions.length,0)) then
 compiledFunctionsDeclaration = _arr({},0);
 i = 0;
-while (i < functions.length) do
+while (_lt(i,functions.length)) do
 compiledFunctionsDeclaration:push(functions[i]);
 i = _inc(i);
 end
@@ -190,7 +190,7 @@ compileListOfStatements = (function (this, statementList)
 local compiledStatement,i,compiledStatements;
 compiledStatements = _arr({},0);
 i = 0;
-while (i < statementList.length) do
+while (_lt(i,statementList.length)) do
 compiledStatement = compileStatement(_ENV,statementList[i]);
 if _bool(((function() if (compiledStatement ~= "") then return (compiledStatement ~= undefined);  else return (compiledStatement ~= "");  end end)())) then
 compiledStatements:push(compiledStatement);
@@ -436,7 +436,12 @@ if _bool(protectedCallManager:breakOutside()) then
  do return "do return _break; end"; end
 end
 
+if _bool(options.jit) then
+ do return "do break end;"; end
+else
  do return "break;"; end
+end
+
 end
 
 compiledLabel = compileIdentifier(_ENV,statement.label);
@@ -462,13 +467,13 @@ compileSwitchStatement = (function (this, statement)
 local hasDefault,compiledTests,caseTablementElement,casesTable,i,compiledDiscriminant,compiledSwitchStatement,cases;
 protectedCallManager:openSwitchStatement();
 cases = statement.cases;
-if (cases.length > 0) then
+if (_gt(cases.length,0)) then
 compiledSwitchStatement = _arr({[0]="repeat\010local _into = false;\010"},1);
 compiledDiscriminant = compileExpression(_ENV,statement.discriminant);
 casesTable = _arr({},0);
 compiledTests = _arr({},0);
 i = 0;
-while (i < cases.length) do
+while (_lt(i,cases.length)) do
 if (cases[i].test ~= null) then
 compiledTests[i] = compileExpression(_ENV,cases[i].test);
 caseTablementElement = _arr({},0);
@@ -492,7 +497,7 @@ compiledSwitchStatement:push("goto _default\010");
 compiledSwitchStatement:push("end\010");
 hasDefault = false;
 i = 0;
-while (i < cases.length) do
+while (_lt(i,cases.length)) do
 if (cases[i].test ~= null) then
 compiledSwitchStatement:push("if _into or (");
 compiledSwitchStatement:push(compiledDiscriminant);
@@ -533,7 +538,7 @@ end
 end)
 compileTryStatementFlavored = (function (this, statement, esprima)
 local handler,compiledTryStatement,may,finallyStatements,hasFinalizer,hasHandler;
-hasHandler = (function() if _bool(esprima) then return (statement.handlers.length > 0); else return (statement.handler ~= null); end end)();
+hasHandler = (function() if _bool(esprima) then return (_gt(statement.handlers.length,0)); else return (statement.handler ~= null); end end)();
 hasFinalizer = (statement.finalizer ~= null);
 protectedCallManager:openContext();
 compiledTryStatement = _arr({[0]="local _status, _return = _pcall(function()\010"},1);
@@ -1002,7 +1007,7 @@ local i,count,startIndex;
 startIndex = 0;
 count = 0;
 i = 0;
-while (i < str.length) do
+while (_lt(i,str.length)) do
 if (str[i] == "[") then
 if (count == 0) then
 startIndex = i;
@@ -1022,7 +1027,7 @@ compileCallArguments = (function (this, args)
 local i,compiledArguments;
 compiledArguments = _arr({},0);
 i = 0;
-while (i < args.length) do
+while (_lt(i,args.length)) do
 compiledArguments:push(compileExpression(_ENV,args[i]));
 i = _inc(i);
 end
@@ -1271,22 +1276,38 @@ break;
 _into = true;
 end
 if _into or (expression.operator == "<") then
-pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," < ",left,right);
+compiledBinaryExpression:push("_lt(");
+compiledBinaryExpression:push(left);
+compiledBinaryExpression:push(",");
+compiledBinaryExpression:push(right);
+compiledBinaryExpression:push(")");
 break;
 _into = true;
 end
 if _into or (expression.operator == "<=") then
-pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," <= ",left,right);
+compiledBinaryExpression:push("_le(");
+compiledBinaryExpression:push(left);
+compiledBinaryExpression:push(",");
+compiledBinaryExpression:push(right);
+compiledBinaryExpression:push(")");
 break;
 _into = true;
 end
 if _into or (expression.operator == ">") then
-pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," > ",left,right);
+compiledBinaryExpression:push("_gt(");
+compiledBinaryExpression:push(left);
+compiledBinaryExpression:push(",");
+compiledBinaryExpression:push(right);
+compiledBinaryExpression:push(")");
 break;
 _into = true;
 end
 if _into or (expression.operator == ">=") then
-pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," >= ",left,right);
+compiledBinaryExpression:push("_ge(");
+compiledBinaryExpression:push(left);
+compiledBinaryExpression:push(",");
+compiledBinaryExpression:push(right);
+compiledBinaryExpression:push(")");
 break;
 _into = true;
 end
@@ -1430,7 +1451,7 @@ compiledSequenceExpression = _arr({[0]="_seq({"},1);
 expressions = expression.expressions;
 sequence = _arr({},0);
 i = 0;
-while (i < expressions.length) do
+while (_lt(i,expressions.length)) do
 sequence:push(compileExpression(_ENV,expressions[i]));
 i = _inc(i);
 end
@@ -1447,7 +1468,7 @@ compiledProperty = _arr({},0);
 compiledProperties = _arr({},0);
 compiledKey = "";
 i = 0;
-while (i < length) do
+while (_lt(i,length)) do
 compiledProperty = _arr({[0]="["},1);
 property = expression.properties[i];
 if (property.key.type == "Literal") then
@@ -1521,7 +1542,7 @@ compiledNewExpression = _arr({[0]="_new("},1);
 newArguments = _arr({[0]=compileExpression(_ENV,expression.callee)},1);
 length = expression.arguments.length;
 i = 0;
-while (i < length) do
+while (_lt(i,length)) do
 newArguments:push(compileExpression(_ENV,expression.arguments[i]));
 i = _inc(i);
 end
@@ -1538,12 +1559,12 @@ local length,i,compiledElements,compiledArrayExpression;
 compiledArrayExpression = _arr({[0]="_arr({"},1);
 compiledElements = _arr({},0);
 length = expression.elements.length;
-if (length > 0) then
+if (_gt(length,0)) then
 compiledArrayExpression:push("[0]=");
 end
 
 i = 0;
-while (i < length) do
+while (_lt(i,length)) do
 if (expression.elements[i] ~= null) then
 compiledElements:push(compileExpression(_ENV,expression.elements[i]));
 else
@@ -1586,7 +1607,7 @@ end
 if _into or (variableDeclaration.kind == "var") then
 declarations = variableDeclaration.declarations;
 i = 0;
-while (i < declarations.length) do
+while (_lt(i,declarations.length)) do
 declarator = declarations[i];
 pattern = compilePattern(_ENV,declarator.id);
 localVarManager:pushLocal(pattern);
@@ -1651,7 +1672,7 @@ if _bool(useArguments) then
 compiledFunction:push("...)\010");
 compiledLocalParams = _arr({[0]="this"},1);
 i = 0;
-while (i < params.length) do
+while (_lt(i,params.length)) do
 compiledLocalParams:push(compilePattern(_ENV,params[i]));
 i = _inc(i);
 end
@@ -1661,7 +1682,7 @@ compiledFunction:push("local arguments = _args(...);\010");
 else
 compiledParams = _arr({[0]="this"},1);
 i = 0;
-while (i < params.length) do
+while (_lt(i,params.length)) do
 compiledParams:push(compilePattern(_ENV,params[i]));
 i = _inc(i);
 end
@@ -1671,16 +1692,16 @@ compiledFunction:push(")\010");
 end
 
 locals = context[0];
-if (locals.length > 0) then
+if (_gt(locals.length,0)) then
 compiledLocalsDeclaration = buildLocalsDeclarationString(_ENV,locals);
 compiledFunction:push(compiledLocalsDeclaration);
 end
 
 functions = context[2];
-if (functions.length > 0) then
+if (_gt(functions.length,0)) then
 compiledFunctionsDeclaration = _arr({},0);
 i = 0;
-while (i < functions.length) do
+while (_lt(i,functions.length)) do
 compiledFunctionsDeclaration:push(functions[i]);
 i = _inc(i);
 end
@@ -1699,7 +1720,7 @@ compiledLocalsDeclaration = _arr({[0]="local "},1);
 namesSequence = _arr({},0);
 length = locals.length;
 i = 0;
-while (i < length) do
+while (_lt(i,length)) do
 _g_local = locals:pop();
 namesSequence:push(_g_local);
 i = _inc(i);
@@ -1710,7 +1731,7 @@ compiledLocalsDeclaration:push(";\010");
  do return compiledLocalsDeclaration:join(""); end
 end)
 sanitizeIdentifier = (function (this, id)
-if (luaKeywords:indexOf(id) > -_tonum(1)) then
+if (_gt(luaKeywords:indexOf(id),-_tonum(1))) then
  do return (_add("_g_",id)); end
 end
 
@@ -1729,13 +1750,13 @@ toUTF8Array = (function (this, str)
 local charcode,i,utf8;
 utf8 = _arr({},0);
 i = 0;
-while (i < str.length) do
+while (_lt(i,str.length)) do
 charcode = str:charCodeAt(i);
-if (charcode < 128) then
+if (_lt(charcode,128)) then
 utf8:push(charcode);
-elseif (charcode < 2048) then
+elseif (_lt(charcode,2048)) then
 utf8:push((_bor(192,(_arshift(charcode,6)))),(_bor(128,(_band(charcode,63)))));
-elseif _bool(((charcode < 55296) and (charcode < 55296) or (charcode >= 57344))) then
+elseif _bool(((_lt(charcode,55296)) and (_lt(charcode,55296)) or (_ge(charcode,57344)))) then
 utf8:push((_bor(224,(_arshift(charcode,12)))),(_bor(128,(_band((_arshift(charcode,6)),63)))),(_bor(128,(_band(charcode,63)))));
 else
 i = _inc(i);
@@ -1797,7 +1818,7 @@ labelTracker = _arr({},0);
 continueNoLabelTracker = _arr({},0);
 ProtectedCallManager.prototype = _obj({
 ["isInProtectedCallContext"] = (function (this)
-if (this.protectedCallContext.length > 0) then
+if (_gt(this.protectedCallContext.length,0)) then
  do return true; end
 end
 
@@ -1882,7 +1903,7 @@ end)
 protectedCallManager = _new(ProtectedCallManager);
 LocalVarManager.prototype = _obj({
 ["popLocalContext"] = (function (this)
-if (this.locals.length > 0) then
+if (_gt(this.locals.length,0)) then
  do return _arr({[0]=this.locals:pop(),this.args:pop(),this.functions:pop()},3); end
 end
 
@@ -1894,7 +1915,7 @@ this.functions:push(_arr({},0));
 this.args:push(false);
 end),
 ["pushLocal"] = (function (this, varName)
-if (this.locals.length > 0) then
+if (_gt(this.locals.length,0)) then
 this.locals[(this.locals.length - 1)]:push(varName);
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)
@@ -1902,7 +1923,7 @@ end
 
 end),
 ["pushFunction"] = (function (this, functionDeclaration)
-if (this.functions.length > 0) then
+if (_gt(this.functions.length,0)) then
 this.functions[(this.functions.length - 1)]:push(functionDeclaration);
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)
@@ -1910,7 +1931,7 @@ end
 
 end),
 ["useArguments"] = (function (this)
-if (this.args.length > 0) then
+if (_gt(this.args.length,0)) then
 this.args[(this.args.length - 1)] = true;
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)

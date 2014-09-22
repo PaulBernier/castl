@@ -20,7 +20,7 @@ local jssupport = {}
 local internal = require("castl.internal")
 
 -- Dependencies
-local null, toPrimitive, toNumber = internal.null, internal.toPrimitive, internal.toNumber
+local null, ToPrimitiveNumber, ToNumber = internal.null, internal.ToPrimitiveNumber, internal.ToNumber
 local type, tonumber, tostring, pairs, setmetatable = type, tonumber, tostring, pairs, setmetatable
 local huge, abs = math.huge, math.abs
 
@@ -42,22 +42,6 @@ equal = function(x, y)
 
     -- case 1
     if tx == ty then
-        -- a
-        if tx == nil then return true end
-        -- b
-        if x == null then return true end
-        -- c
-        if tx == "number" then
-            -- testNaN
-            if x ~= x or y ~= y then return false end
-            if x == y then return true end
-            return false
-        end
-        -- d
-        if tx == "string" then return x == y end
-        -- e
-        if tx == "boolean" then return x == y end
-        -- f
         return x == y
     end
     -- case 2
@@ -77,12 +61,12 @@ equal = function(x, y)
     -- case 7
     if ty == "boolean" then return equal(x, y and 1 or 0) end
     -- case 8
-    if (tx == "string" or tx == "number") and ty == "table" then
-        return equal(x, toPrimitive(y))
+    if (tx == "string" or tx == "number") and (ty == "table" and y ~= null) then
+        return equal(x, ToPrimitiveNumber(y))
     end
     -- case 9
-    if tx == "table" and (ty == "string" or ty == "number") then
-        return equal(toPrimitive(x), y)
+    if (tx == "table" and x ~= null) and (ty == "string" or ty == "number") then
+        return equal(ToPrimitiveNumber(x), y)
     end
     -- case 10
     return false
@@ -91,21 +75,62 @@ end
 jssupport.equal = equal
 
 -- Avoid Lua coercion
-function jssupport.add(x , y)
-    local x, y = toPrimitive(x), toPrimitive(y)
-    if type(x) == "string" or type(y) == "string" then
+function jssupport.add(x, y)
+    x, y = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+    local tx, ty = type(x), type(y)
+    if tx == "string" or ty == "string" then
         return tostring(x) .. tostring(y)
     else
-        return toNumber(x) + toNumber(y)
+        return ToNumber(x, tx) + ToNumber(y, ty)
     end
 end
 
+function jssupport.lt(x, y)
+    local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+    local tpx, tpy = type(px), type(py)
+    if tpx == "string" and tpy == "string" then
+        return px < py
+    end
+
+    return ToNumber(px, tpx) < ToNumber(py, tpy)
+end
+
+function jssupport.le(x, y)
+    local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+    local tpx, tpy = type(px), type(py)
+    if tpx == "string" and tpy == "string" then
+        return px <= py
+    end
+
+    return ToNumber(px, tpx) <= ToNumber(py, tpy)
+end
+
+function jssupport.gt(x, y)
+    local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+    local tpx, tpy = type(px), type(py)
+    if tpx == "string" and tpy == "string" then
+        return px > py
+    end
+
+    return ToNumber(px, tpx) > ToNumber(py, tpy)
+end
+
+function jssupport.ge(x, y)
+    local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+    local tpx, tpy = type(px), type(py)
+    if tpx == "string" and tpy == "string" then
+        return px >= py
+    end
+
+    return ToNumber(px, tpx) >= ToNumber(py, tpy)
+end
+
 function jssupport.inc(x)
-    return toNumber(x) + 1
+    return ToNumber(x) + 1
 end
 
 function jssupport.dec(x)
-    return toNumber(x) - 1
+    return ToNumber(x) - 1
 end
 
 -- 0, NaN and "" are true in Lua and false in JS
@@ -118,8 +143,9 @@ function jssupport.boolean(var)
 end
 
 function jssupport.modulo(a, b)
+    a, b  = ToNumber(a), ToNumber(b)
     local sign = a > 0 and 1 or -1
-    return sign * (abs(toNumber(a)) % abs(toNumber(b)))
+    return sign * (abs(a) % abs(b))
 end
 
 function jssupport.typeof(var)

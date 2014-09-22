@@ -19,25 +19,25 @@ end
 
 end)
 isDecimalDigit = (function (this, ch)
- do return ((function() if (ch >= 48) then return (ch <= 57);  else return (ch >= 48);  end end)()); end
+ do return ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)()); end
 end)
 isHexDigit = (function (this, ch)
- do return (("0123456789abcdefABCDEF"):indexOf(ch) >= 0); end
+ do return (_ge(("0123456789abcdefABCDEF"):indexOf(ch),0)); end
 end)
 isOctalDigit = (function (this, ch)
- do return (("01234567"):indexOf(ch) >= 0); end
+ do return (_ge(("01234567"):indexOf(ch),0)); end
 end)
 isWhiteSpace = (function (this, ch)
- do return (_bool((_bool((_bool((_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12))) and (_bool((_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160))) and (_bool((_bool((_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12))) and (_bool((_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) or ((function() if (ch >= 5760) then return (_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch) >= 0);  else return (ch >= 5760);  end end)())); end
+ do return (_bool((_bool((_bool((_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12))) and (_bool((_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160))) and (_bool((_bool((_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12))) and (_bool((_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11))) and (_bool(((ch == 32) and (ch == 32) or (ch == 9))) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) or ((function() if (_ge(ch,5760)) then return (_ge(_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch),0));  else return (_ge(ch,5760));  end end)())); end
 end)
 isLineTerminator = (function (this, ch)
  do return (_bool((_bool(((ch == 10) and (ch == 10) or (ch == 13))) and ((ch == 10) and (ch == 10) or (ch == 13)) or (ch == 8232))) and (_bool(((ch == 10) and (ch == 10) or (ch == 13))) and ((ch == 10) and (ch == 10) or (ch == 13)) or (ch == 8232)) or (ch == 8233)); end
 end)
 isIdentifierStart = (function (this, ch)
- do return (_bool((_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)())) or (ch == 92))) and (_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)())) or (ch == 92)) or ((function() if (ch >= 128) then return Regex.NonAsciiIdentifierStart:test(String:fromCharCode(ch));  else return (ch >= 128);  end end)())); end
+ do return (_bool((_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or (ch == 92))) and (_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or (ch == 92)) or ((function() if (_ge(ch,128)) then return Regex.NonAsciiIdentifierStart:test(String:fromCharCode(ch));  else return (_ge(ch,128));  end end)())); end
 end)
 isIdentifierPart = (function (this, ch)
- do return (_bool((_bool((_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)())) or ((function() if (ch >= 48) then return (ch <= 57);  else return (ch >= 48);  end end)()))) and (_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)())) or ((function() if (ch >= 48) then return (ch <= 57);  else return (ch >= 48);  end end)())) or (ch == 92))) and (_bool((_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)())) or ((function() if (ch >= 48) then return (ch <= 57);  else return (ch >= 48);  end end)()))) and (_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (ch >= 65) then return (ch <= 90);  else return (ch >= 65);  end end)())) or ((function() if (ch >= 97) then return (ch <= 122);  else return (ch >= 97);  end end)())) or ((function() if (ch >= 48) then return (ch <= 57);  else return (ch >= 48);  end end)())) or (ch == 92)) or ((function() if (ch >= 128) then return Regex.NonAsciiIdentifierPart:test(String:fromCharCode(ch));  else return (ch >= 128);  end end)())); end
+ do return (_bool((_bool((_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)()))) and (_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)())) or (ch == 92))) and (_bool((_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)()))) and (_bool((_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)()))) and (_bool((_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)()))) and (_bool(((ch == 36) and (ch == 36) or (ch == 95))) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)())) or (ch == 92)) or ((function() if (_ge(ch,128)) then return Regex.NonAsciiIdentifierPart:test(String:fromCharCode(ch));  else return (_ge(ch,128));  end end)())); end
 end)
 isFutureReservedWord = (function (this, id)
 repeat
@@ -186,7 +186,7 @@ end)
 addComment = (function (this, type, value, start, _g_end, loc)
 local attacher,comment;
 assert(_ENV,(_type(start) == "number"),"Comment must have valid position");
-if (state.lastCommentStart >= start) then
+if (_ge(state.lastCommentStart,start)) then
 do return end
 end
 
@@ -219,7 +219,7 @@ loc = _obj({
 ["column"] = ((index - lineStart) - offset)
 })
 });
-while (index < length) do
+while (_lt(index,length)) do
 ch = source:charCodeAt(index);
 index = _inc(index);
 if _bool(isLineTerminator(_ENV,ch)) then
@@ -266,7 +266,7 @@ loc = _obj({
 });
 end
 
-while (index < length) do
+while (_lt(index,length)) do
 ch = source:charCodeAt(index);
 if _bool(isLineTerminator(_ENV,ch)) then
 if _bool(((function() if (ch == 13) then return (source:charCodeAt((_add(index,1))) == 10);  else return (ch == 13);  end end)())) then
@@ -276,7 +276,7 @@ end
 lineNumber = _inc(lineNumber);
 index = _inc(index);
 lineStart = index;
-if (index >= length) then
+if (_ge(index,length)) then
 throwError(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
@@ -313,7 +313,7 @@ end)
 skipComment = (function (this)
 local start,ch;
 start = (index == 0);
-while (index < length) do
+while (_lt(index,length)) do
 ch = source:charCodeAt(index);
 if _bool(isWhiteSpace(_ENV,ch)) then
 index = _inc(index);
@@ -373,8 +373,8 @@ local code,ch,len,i;
 code = 0;
 len = (function() if (prefix == "u") then return 4; else return 2; end end)();
 i = 0;
-while (i < len) do
-if _bool(((function() if (index < length) then return isHexDigit(_ENV,source[index]);  else return (index < length);  end end)())) then
+while (_lt(i,len)) do
+if _bool(((function() if (_lt(index,length)) then return isHexDigit(_ENV,source[index]);  else return (_lt(index,length));  end end)())) then
 ch = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
 code = (_add((code * 16),("0123456789abcdef"):indexOf(ch:toLowerCase())));
 else
@@ -408,7 +408,7 @@ end
 id = ch;
 end
 
-while (index < length) do
+while (_lt(index,length)) do
 ch = source:charCodeAt(index);
 if _bool(not _bool(isIdentifierPart(_ENV,ch))) then
 break;
@@ -443,7 +443,7 @@ end)
 getIdentifier = (function (this)
 local ch,start;
 start = (function () local _tmp = index; index = _inc(_tmp); return _tmp; end)();
-while (index < length) do
+while (_lt(index,length)) do
 ch = source:charCodeAt(index);
 if (ch == 92) then
 index = start;
@@ -676,7 +676,7 @@ index = (_add(index,3));
 end
 
 ch2 = ch3:substr(0,2);
-if _bool((_bool(((function() if (ch1 == ch2[1]) then return (("+-<>&|"):indexOf(ch1) >= 0);  else return (ch1 == ch2[1]);  end end)())) and ((function() if (ch1 == ch2[1]) then return (("+-<>&|"):indexOf(ch1) >= 0);  else return (ch1 == ch2[1]);  end end)()) or (ch2 == "=>"))) then
+if _bool((_bool(((function() if (ch1 == ch2[1]) then return (_ge(("+-<>&|"):indexOf(ch1),0));  else return (ch1 == ch2[1]);  end end)())) and ((function() if (ch1 == ch2[1]) then return (_ge(("+-<>&|"):indexOf(ch1),0));  else return (ch1 == ch2[1]);  end end)()) or (ch2 == "=>"))) then
 index = (_add(index,2));
  do return _obj({
 ["type"] = Token.Punctuator,
@@ -688,7 +688,7 @@ index = (_add(index,2));
 }); end
 end
 
-if (("<>=!+-*%&|^/"):indexOf(ch1) >= 0) then
+if (_ge(("<>=!+-*%&|^/"):indexOf(ch1),0)) then
 index = _inc(index);
  do return _obj({
 ["type"] = Token.Punctuator,
@@ -707,7 +707,7 @@ end)
 scanHexLiteral = (function (this, start)
 local number;
 number = "";
-while (index < length) do
+while (_lt(index,length)) do
 if _bool(not _bool(isHexDigit(_ENV,source[index]))) then
 break;
 end
@@ -740,7 +740,7 @@ end)
 scanOctalLiteral = (function (this, start)
 local number;
 number = (_add("0",source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()]));
-while (index < length) do
+while (_lt(index,length)) do
 if _bool(not _bool(isOctalDigit(_ENV,source[index]))) then
 break;
 end
@@ -856,7 +856,7 @@ quote = source[index];
 assert(_ENV,((quote == "'") and (quote == "'") or (quote == "\"")),"String literal must starts with a quote");
 start = index;
 index = _inc(index);
-while (index < length) do
+while (_lt(index,length)) do
 ch = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
 if (ch == quote) then
 quote = "";
@@ -926,10 +926,10 @@ if (code ~= 0) then
 octal = true;
 end
 
-if _bool(((function() if (index < length) then return isOctalDigit(_ENV,source[index]);  else return (index < length);  end end)())) then
+if _bool(((function() if (_lt(index,length)) then return isOctalDigit(_ENV,source[index]);  else return (_lt(index,length));  end end)())) then
 octal = true;
 code = (_add((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
-if _bool(((function() if _bool(((function() if (("0123"):indexOf(ch) >= 0) then return (index < length);  else return (("0123"):indexOf(ch) >= 0);  end end)())) then return isOctalDigit(_ENV,source[index]);  else return ((function() if (("0123"):indexOf(ch) >= 0) then return (index < length);  else return (("0123"):indexOf(ch) >= 0);  end end)());  end end)())) then
+if _bool(((function() if _bool(((function() if (_ge(("0123"):indexOf(ch),0)) then return (_lt(index,length));  else return (_ge(("0123"):indexOf(ch),0));  end end)())) then return isOctalDigit(_ENV,source[index]);  else return ((function() if (_ge(("0123"):indexOf(ch),0)) then return (_lt(index,length));  else return (_ge(("0123"):indexOf(ch),0));  end end)());  end end)())) then
 code = (_add((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
 end
 
@@ -1005,7 +1005,7 @@ assert(_ENV,(ch == "/"),"Regular expression literal must start with a slash");
 str = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
 classMarker = false;
 terminated = false;
-while (index < length) do
+while (_lt(index,length)) do
 ch = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
 str = (_add(str,ch));
 if (ch == "\\") then
@@ -1055,14 +1055,14 @@ scanRegExpFlags = (function (this)
 local restore,flags,str,ch;
 str = "";
 flags = "";
-while (index < length) do
+while (_lt(index,length)) do
 ch = source[index];
 if _bool(not _bool(isIdentifierPart(_ENV,ch:charCodeAt(0)))) then
 break;
 end
 
 index = _inc(index);
-if _bool(((function() if (ch == "\\") then return (index < length);  else return (ch == "\\");  end end)())) then
+if _bool(((function() if (ch == "\\") then return (_lt(index,length));  else return (ch == "\\");  end end)())) then
 ch = source[index];
 if (ch == "u") then
 index = _inc(index);
@@ -1071,7 +1071,7 @@ ch = scanHexEscape(_ENV,"u");
 if _bool(ch) then
 flags = (_add(flags,ch));
 str = (_add(str,"\\u"));
-while (restore < index) do
+while (_lt(restore,index)) do
 str = (_add(str,source[restore]));
 restore = _inc(restore);
 end
@@ -1147,7 +1147,7 @@ loc["end"] = _obj({
 ["column"] = (index - lineStart)
 });
 if _bool(not _bool(extra.tokenize)) then
-if (extra.tokens.length > 0) then
+if (_gt(extra.tokens.length,0)) then
 token = extra.tokens[(extra.tokens.length - 1)];
 if _bool(((function() if (token.range[0] == pos) then return (token.type == "Punctuator");  else return (token.range[0] == pos);  end end)())) then
 if _bool(((token.value == "/") and (token.value == "/") or (token.value == "/="))) then
@@ -1209,7 +1209,7 @@ else
  do return scanPunctuator(_ENV); end
 end
 
-if (FnExprTokens:indexOf(checkToken.value) >= 0) then
+if (_ge(FnExprTokens:indexOf(checkToken.value),0)) then
  do return scanPunctuator(_ENV); end
 end
 
@@ -1228,7 +1228,7 @@ end)
 advance = (function (this)
 local ch;
 skipComment(_ENV);
-if (index >= length) then
+if (_ge(index,length)) then
  do return _obj({
 ["type"] = Token.EOF,
 ["lineNumber"] = lineNumber,
@@ -1343,7 +1343,7 @@ local arguments = _args(...);
 local msg,args,error;
 args = Array.prototype.slice:call(arguments,2);
 msg = messageFormat:replace(_regexp("%(\\d)","g"),(function (this, whole, index)
-assert(_ENV,(index < args.length),"Message reference must be in range");
+assert(_ENV,(_lt(index,args.length)),"Message reference must be in range");
  do return args[index]; end
 end));
 if (_type(token.lineNumber) == "number") then
@@ -1689,7 +1689,7 @@ local args;
 args = _arr({},0);
 expect(_ENV,"(");
 if _bool(not _bool(match(_ENV,")"))) then
-while (index < length) do
+while (_lt(index,length)) do
 args:push(parseAssignmentExpression(_ENV));
 if _bool(match(_ENV,")")) then
 break;
@@ -1992,8 +1992,8 @@ lex(_ENV);
 markers = _arr({[0]=marker,lookahead},2);
 right = parseUnaryExpression(_ENV);
 stack = _arr({[0]=left,token,right},3);
-while ((function () local _tmp = binaryPrecedence(_ENV,lookahead,state.allowIn); prec  = _tmp; return _tmp; end)() > 0) do
-while _bool(((function() if (stack.length > 2) then return (prec <= stack[(stack.length - 2)].prec);  else return (stack.length > 2);  end end)())) do
+while (_gt((function () local _tmp = binaryPrecedence(_ENV,lookahead,state.allowIn); prec  = _tmp; return _tmp; end)(),0)) do
+while _bool(((function() if (_gt(stack.length,2)) then return (_le(prec,stack[(stack.length - 2)].prec));  else return (_gt(stack.length,2));  end end)())) do
 right = stack:pop();
 operator = stack:pop().value;
 left = stack:pop();
@@ -2017,7 +2017,7 @@ end
 i = (stack.length - 1);
 expr = stack[i];
 markers:pop();
-while (i > 1) do
+while (_gt(i,1)) do
 expr = delegate:createBinaryExpression(stack[(i - 1)].value,stack[(i - 2)],expr);
 i = (i - 2);
 marker = markers:pop();
@@ -2074,7 +2074,7 @@ startToken = lookahead;
 expr = parseAssignmentExpression(_ENV);
 if _bool(match(_ENV,",")) then
 expr = delegate:createSequenceExpression(_arr({[0]=expr},1));
-while (index < length) do
+while (_lt(index,length)) do
 if _bool(not _bool(match(_ENV,","))) then
 break;
 end
@@ -2092,7 +2092,7 @@ end)
 parseStatementList = (function (this)
 local statement,list;
 list = _arr({},0);
-while (index < length) do
+while (_lt(index,length)) do
 if _bool(match(_ENV,"}")) then
 break;
 end
@@ -2158,7 +2158,7 @@ end
 
 lex(_ENV);
 ::_continue::
-until not (index < length)
+until not (_lt(index,length))
 
  do return list; end
 end)
@@ -2454,7 +2454,7 @@ test = parseExpression(_ENV);
 end
 
 expect(_ENV,":");
-while (index < length) do
+while (_lt(index,length)) do
 if _bool((_bool((_bool(match(_ENV,"}")) and match(_ENV,"}") or matchKeyword(_ENV,"default"))) and (_bool(match(_ENV,"}")) and match(_ENV,"}") or matchKeyword(_ENV,"default")) or matchKeyword(_ENV,"case"))) then
 break;
 end
@@ -2482,7 +2482,7 @@ end
 oldInSwitch = state.inSwitch;
 state.inSwitch = true;
 defaultFound = false;
-while (index < length) do
+while (_lt(index,length)) do
 if _bool(match(_ENV,"}")) then
 break;
 end
@@ -2700,7 +2700,7 @@ local startToken,oldInFunctionBody,oldInSwitch,oldInIteration,oldLabelSet,firstR
 sourceElements = _arr({},0);
 startToken = lookahead;
 expect(_ENV,"{");
-while (index < length) do
+while (_lt(index,length)) do
 if (lookahead.type ~= Token.StringLiteral) then
 break;
 end
@@ -2739,7 +2739,7 @@ state.labelSet = _obj({
 state.inIteration = false;
 state.inSwitch = false;
 state.inFunctionBody = true;
-while (index < length) do
+while (_lt(index,length)) do
 if _bool(match(_ENV,"}")) then
 break;
 end
@@ -2768,7 +2768,7 @@ if _bool(not _bool(match(_ENV,")"))) then
 paramSet = _obj({
 
 });
-while (index < length) do
+while (_lt(index,length)) do
 token = lookahead;
 param = parseVariableIdentifier(_ENV);
 key = (_add("$",token.value));
@@ -2946,7 +2946,7 @@ end)
 parseSourceElements = (function (this)
 local firstRestricted,directive,token,sourceElements,sourceElement;
 sourceElements = _arr({},0);
-while (index < length) do
+while (_lt(index,length)) do
 token = lookahead;
 if (token.type ~= Token.StringLiteral) then
 break;
@@ -2975,7 +2975,7 @@ end
 ::_continue::
 end
 
-while (index < length) do
+while (_lt(index,length)) do
 sourceElement = parseSourceElement(_ENV);
 if (_type(sourceElement) == "undefined") then
 break;
@@ -3000,7 +3000,7 @@ filterTokenLocation = (function (this)
 local tokens,token,entry,i;
 tokens = _arr({},0);
 i = 0;
-while (i < extra.tokens.length) do
+while (_lt(i,extra.tokens.length)) do
 entry = extra.tokens[i];
 token = _obj({
 ["type"] = entry.type,
@@ -3030,7 +3030,7 @@ end
 delegate = SyntaxTreeDelegate;
 source = code;
 index = 0;
-lineNumber = (function() if (source.length > 0) then return 1; else return 0; end end)();
+lineNumber = (function() if (_gt(source.length,0)) then return 1; else return 0; end end)();
 lineStart = 0;
 length = source.length;
 lookahead = null;
@@ -3136,7 +3136,7 @@ end
 delegate = SyntaxTreeDelegate;
 source = code;
 index = 0;
-lineNumber = (function() if (source.length > 0) then return 1; else return 0; end end)();
+lineNumber = (function() if (_gt(source.length,0)) then return 1; else return 0; end end)();
 lineStart = 0;
 length = source.length;
 lookahead = null;
@@ -3331,14 +3331,14 @@ SyntaxTreeDelegate = _obj({
 ["processComment"] = (function (this, node)
 local trailingComments,lastChild;
 if (node.type == Syntax.Program) then
-if (node.body.length > 0) then
+if (_gt(node.body.length,0)) then
 do return end
 end
 
 end
 
-if (extra.trailingComments.length > 0) then
-if (extra.trailingComments[0].range[0] >= node.range[1]) then
+if (_gt(extra.trailingComments.length,0)) then
+if (_ge(extra.trailingComments[0].range[0],node.range[1])) then
 trailingComments = extra.trailingComments;
 extra.trailingComments = _arr({},0);
 else
@@ -3346,7 +3346,7 @@ extra.trailingComments.length = 0;
 end
 
 else
-if _bool(((function() if _bool(((function() if (extra.bottomRightStack.length > 0) then return extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments;  else return (extra.bottomRightStack.length > 0);  end end)())) then return (extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments[0].range[0] >= node.range[1]);  else return ((function() if (extra.bottomRightStack.length > 0) then return extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments;  else return (extra.bottomRightStack.length > 0);  end end)());  end end)())) then
+if _bool(((function() if _bool(((function() if (_gt(extra.bottomRightStack.length,0)) then return extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments;  else return (_gt(extra.bottomRightStack.length,0));  end end)())) then return (_ge(extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments[0].range[0],node.range[1]));  else return ((function() if (_gt(extra.bottomRightStack.length,0)) then return extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments;  else return (_gt(extra.bottomRightStack.length,0));  end end)());  end end)())) then
 trailingComments = extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments;
 (function () local _r = false; local _g, _s = extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_g" .. "trailingComments"], extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_s" .. "trailingComments"]; extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_g" .. "trailingComments"], extra.bottomRightStack[(extra.bottomRightStack.length - 1)]["_s" .. "trailingComments"] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments; extra.bottomRightStack[(extra.bottomRightStack.length - 1)].trailingComments = nil; return _r or _v ~= nil; end)();
@@ -3354,19 +3354,19 @@ end
 
 end
 
-while _bool(((function() if (extra.bottomRightStack.length > 0) then return (extra.bottomRightStack[(extra.bottomRightStack.length - 1)].range[0] >= node.range[0]);  else return (extra.bottomRightStack.length > 0);  end end)())) do
+while _bool(((function() if (_gt(extra.bottomRightStack.length,0)) then return (_ge(extra.bottomRightStack[(extra.bottomRightStack.length - 1)].range[0],node.range[0]));  else return (_gt(extra.bottomRightStack.length,0));  end end)())) do
 lastChild = extra.bottomRightStack:pop();
 ::_continue::
 end
 
 if _bool(lastChild) then
-if _bool(((function() if _bool(lastChild.leadingComments) then return (lastChild.leadingComments[(lastChild.leadingComments.length - 1)].range[1] <= node.range[0]);  else return lastChild.leadingComments;  end end)())) then
+if _bool(((function() if _bool(lastChild.leadingComments) then return (_le(lastChild.leadingComments[(lastChild.leadingComments.length - 1)].range[1],node.range[0]));  else return lastChild.leadingComments;  end end)())) then
 node.leadingComments = lastChild.leadingComments;
 (function () local _r = false; local _g, _s = lastChild["_g" .. "leadingComments"], lastChild["_s" .. "leadingComments"]; lastChild["_g" .. "leadingComments"], lastChild["_s" .. "leadingComments"] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = lastChild.leadingComments; lastChild.leadingComments = nil; return _r or _v ~= nil; end)();
 end
 
-elseif _bool(((function() if (extra.leadingComments.length > 0) then return (extra.leadingComments[(extra.leadingComments.length - 1)].range[1] <= node.range[0]);  else return (extra.leadingComments.length > 0);  end end)())) then
+elseif _bool(((function() if (_gt(extra.leadingComments.length,0)) then return (_le(extra.leadingComments[(extra.leadingComments.length - 1)].range[1],node.range[0]));  else return (_gt(extra.leadingComments.length,0));  end end)())) then
 node.leadingComments = extra.leadingComments;
 extra.leadingComments = _arr({},0);
 end

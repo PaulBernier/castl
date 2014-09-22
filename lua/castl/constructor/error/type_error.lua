@@ -22,7 +22,7 @@ local typeErrorProto = require("castl.protos").typeErrorProto
 local internal = require("castl.internal")
 
 local setmetatable = setmetatable
-local get, put = internal.get, internal.put
+local get, put, ToNumber = internal.get, internal.put, internal.ToNumber
 local traceback = debug.traceback
 
 _ENV = nil
@@ -41,8 +41,14 @@ TypeError = function(this, message)
         __tostring = function(self)
             return traceback(self:toString(), 4)
         end,
-        __tonumber = function(self)
-            return 0/0
+        __sub = function(a, b)
+            return ToNumber(a) - ToNumber(b)
+        end,
+        __mul = function(a, b)
+            return ToNumber(a) * ToNumber(b)
+        end,
+        __div = function(a, b)
+            return ToNumber(a) / ToNumber(b)
         end,
         _prototype = typeErrorProto})
 end

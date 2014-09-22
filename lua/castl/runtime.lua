@@ -56,6 +56,10 @@ local export = {
     _inc = jssupport.inc,
     _dec = jssupport.dec,
     _mod = jssupport.modulo,
+    _lt = jssupport.lt,
+    _le = jssupport.le,
+    _gt = jssupport.gt,
+    _ge = jssupport.ge,
     NaN = 0/0,
     Infinity = jssupport.Infinity,
 
@@ -71,7 +75,7 @@ local export = {
     eval = eval.eval,
 
     -- internal
-    _tonum = internal.toNumber,
+    _tonum = internal.ToNumber,
     null = internal.null,
 
     -- core object

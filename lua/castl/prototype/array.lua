@@ -25,8 +25,9 @@ return function(arrayPrototype)
 
     local rawget, rawset, require, getmetatable, error = rawget, rawset, require, getmetatable, error
     local tostring, tonumber, min, floor, type = tostring, tonumber, math.min, math.floor, type
-    local pack, remove, insert, sort = table.pack, table.remove, table.insert, table.sort
-    local null, defaultValueString = internal.null, internal.defaultValueString
+    local pack = table.pack or function(...) return {n = select('#',...),...} end
+    local remove, insert, sort = table.remove, table.insert, table.sort
+    local null, ToString = internal.null, internal.ToString
 
     _ENV = nil
 
@@ -257,7 +258,7 @@ return function(arrayPrototype)
     arrayPrototype.join = function (this, arg)
         local separator = ","
         if arg ~= nil then
-            separator = defaultValueString(arg)
+            separator = ToString(arg)
         end
 
         local str = ""

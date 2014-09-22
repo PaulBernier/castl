@@ -25,7 +25,7 @@ local errorHelper = require("castl.modules.error_helper")
 
 local type, error, pairs, ipairs, tostring = type, error, pairs, ipairs, tostring
 local getmetatable, rawset, rawget = getmetatable, rawset, rawget
-local null, setNewMetatable, toObject, defaultValueString = internal.null, internal.setNewMetatable, internal.toObject, internal.defaultValueString
+local null, setNewMetatable, toObject, ToString = internal.null, internal.setNewMetatable, internal.toObject, internal.ToString
 
 _ENV = nil
 
@@ -81,13 +81,13 @@ Object.defineProperty = function(this, obj, prop, descriptor)
     if descriptor.value ~= nil then
         -- TODO: related to weak typing
         if type(prop) ~= "number" then
-            prop = defaultValueString(prop)
+            prop = ToString(prop)
         end
         rawset(obj, prop, descriptor.value)
         return obj
     end
 
-    prop = defaultValueString(prop)
+    prop = ToString(prop)
 
     -- getter
     if descriptor.get ~= nil then

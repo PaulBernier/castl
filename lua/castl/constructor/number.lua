@@ -25,8 +25,8 @@ local jssupport = require("castl.jssupport")
 local globalFunctions = require("castl.global_functions")
 
 local huge = math.huge
-local tonumber, type, getmetatable, setmetatable = tonumber, type, getmetatable, setmetatable
-local get, put, withinNew, toNumber, defaultValueNumber = internal.get, internal.put, internal.withinNew, internal.toNumber, internal.defaultValueNumber
+local tonumber, type, setmetatable = tonumber, type, setmetatable
+local get, put, withinNew, ToNumber = internal.get, internal.put, internal.withinNew, internal.ToNumber
 
 _ENV = nil
 
@@ -49,25 +49,15 @@ Number = function(this, arg)
         __tostring = function(self)
             return coreObjects.objectToString(self)
         end,
-        __tonumber = function(self)
-            local mt = getmetatable(self)
-            return mt._primitive
-        end,
         _primitive = tonumber(arg),
         __sub = function(a, b)
-            return toNumber(a) - toNumber(b)
+            return ToNumber(a) - ToNumber(b)
         end,
         __mul = function(a, b)
-            return toNumber(a) * toNumber(b)
+            return ToNumber(a) * ToNumber(b)
         end,
         __div = function(a, b)
-            return toNumber(a) / toNumber(b)
-        end,
-        __lt = function(a, b)
-            return defaultValueNumber(a) < defaultValueNumber(b)
-        end,
-        __le = function(a, b)
-            return defaultValueNumber(a) <= defaultValueNumber(b)
+            return ToNumber(a) / ToNumber(b)
         end,
         _prototype = numberProto
     })

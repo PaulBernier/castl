@@ -24,13 +24,13 @@ local dateProto = require("castl.protos").dateProto
 
 local luajit = jit ~= nil
 local date, time = os.date, os.time
-local pack, type, setmetatable, require, tonumber = table.pack, type, setmetatable, require, tonumber
-local get, put, withinNew, toNumber, defaultValueNumber = internal.get, internal.put, internal.withinNew, internal.toNumber, internal.defaultValueNumber
+local pack = table.pack or function(...) return {n = select('#',...),...} end
+local type, setmetatable, require, tonumber = type, setmetatable, require, tonumber
+local get, put, withinNew, ToNumber = internal.get, internal.put, internal.withinNew, internal.ToNumber
 
 _ENV = nil
 
 Date = function(this, ...)
-
     -- Date constructor not called within a new
     if not withinNew(this, dateProto) then
         return date("%a %h %d %Y %H:%M:%S GMT%z (%Z)")
@@ -77,23 +77,14 @@ Date = function(this, ...)
             return put(self, key, value)
         end,
         __tostring = dateProto.toString,
-        __tonumber = function(self)
-            return self:getTime()
-        end,
         __sub = function(a, b)
-            return toNumber(a) - toNumber(b)
+            return ToNumber(a) - ToNumber(b)
         end,
         __mul = function(a, b)
-            return toNumber(a) * toNumber(b)
+            return ToNumber(a) * ToNumber(b)
         end,
         __div = function(a, b)
-            return toNumber(a) / toNumber(b)
-        end,
-        __lt = function(a, b)
-            return defaultValueNumber(a) < defaultValueNumber(b)
-        end,
-        __le = function(a, b)
-            return defaultValueNumber(a) <= defaultValueNumber(b)
+            return ToNumber(a) / ToNumber(b)
         end,
         _prototype = dateProto
     })
@@ -133,8 +124,7 @@ Date.parse = function(this, str)
 end
 
 Date.UTC = function(this, year, month, day, hrs, min, sec, ms)
-    local timestamp = 0
-    timestamp = time{year=year,
+    local timestamp = time{year=year,
         month = month + 1,
         day = day or 1,
         hour = hrs or 0,

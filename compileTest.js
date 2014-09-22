@@ -6,6 +6,13 @@ var parserName = process.argv[4];
 
 var parser = require(parserName);
 
+var parserOptions = {};
+if (parserName === "esprima") {
+    parserOptions.loc = true;
+} else if (parserName === "acorn") {
+    parserOptions.locations = true;
+}
+
 // Read code from js file
 fs.readFile(filename, 'utf8', function (err, data) {
     if (err) {
@@ -24,14 +31,15 @@ fs.readFile(filename, 'utf8', function (err, data) {
 
             var syntax = "";
             try {
-                syntax = parser.parse(data);
+                syntax = parser.parse(data, parserOptions);
             } catch (e) {
                 throw new SyntaxError("Couldn't parse JS code");
             }
 
             var castlOptions = {
                 jit: luajit,
-                evalMode: false
+                evalMode: false,
+                debug: true
             };
             var compiledCode = castl.compileAST(syntax, castlOptions).compiled;
             compiledCode = compiledCode.replace(/assert\(_ENV,/g, "assert(");

@@ -611,8 +611,11 @@
             if (protectedCallManager.breakOutside()) {
                 return "do return _break; end";
             }
-
-            return "break;";
+            if (options.jit) {
+                return "do break end;";
+            } else {
+                return "break;";
+            }
         }
 
         var compiledLabel = compileIdentifier(statement.label);
@@ -1343,16 +1346,32 @@
             break;
             // Comparison
         case "<":
-            pushSimpleBinaryExpression(compiledBinaryExpression, " < ", left, right);
+            compiledBinaryExpression.push("_lt(");
+            compiledBinaryExpression.push(left);
+            compiledBinaryExpression.push(",");
+            compiledBinaryExpression.push(right);
+            compiledBinaryExpression.push(")");
             break;
         case "<=":
-            pushSimpleBinaryExpression(compiledBinaryExpression, " <= ", left, right);
+            compiledBinaryExpression.push("_le(");
+            compiledBinaryExpression.push(left);
+            compiledBinaryExpression.push(",");
+            compiledBinaryExpression.push(right);
+            compiledBinaryExpression.push(")");
             break;
         case ">":
-            pushSimpleBinaryExpression(compiledBinaryExpression, " > ", left, right);
+            compiledBinaryExpression.push("_gt(");
+            compiledBinaryExpression.push(left);
+            compiledBinaryExpression.push(",");
+            compiledBinaryExpression.push(right);
+            compiledBinaryExpression.push(")");
             break;
         case ">=":
-            pushSimpleBinaryExpression(compiledBinaryExpression, " >= ", left, right);
+            compiledBinaryExpression.push("_ge(");
+            compiledBinaryExpression.push(left);
+            compiledBinaryExpression.push(",");
+            compiledBinaryExpression.push(right);
+            compiledBinaryExpression.push(")");
             break;
             // Bits shift
         case "<<":

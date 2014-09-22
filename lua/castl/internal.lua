@@ -20,23 +20,104 @@ local errorHelper = require("castl.modules.error_helper")
 local Boolean, Number, String, new, objectToString
 
 local getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset
-local huge = math.huge
+local gsub = string.gsub
 
 _ENV = nil
 
-function internal.toNumber(value)
-    local mt = getmetatable(value)
-    if (mt or {}).__tonumber then
-        return mt.__tonumber(value)
-    end
-
-    return tonumber(value)
-end
-
-local toNumber = internal.toNumber
-
+-- forward declaration of null
 internal.null = {}
 local null = internal.null
+
+function internal.isPrimitiveValue(v)
+    local tv = type(v)
+    return tv == "string" or tv == "number" or tv == "boolean" or v == null or v == nil
+end
+
+local isPrimitiveValue = internal.isPrimitiveValue
+
+-- http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.8
+function internal.defaultValueString(o)
+    if type(o.toString) == "function" then
+        local value = o:toString()
+        if isPrimitiveValue(value) then
+            return value
+        end
+    end
+    if type(o.valueOf) == "function" then
+        local value = o:valueOf()
+        if isPrimitiveValue(value) then
+            return value
+        end
+    end
+
+    error("[[DefaultValue(String)]]")
+end
+
+function internal.defaultValueNumber(o)
+    if type(o.valueOf) == "function" then
+        local value = o:valueOf()
+        if isPrimitiveValue(value) then
+            return value
+        end
+    end
+    if type(o.toString) == "function" then
+        local value = o:toString()
+        if isPrimitiveValue(value) then
+            return value
+        end
+    end
+
+    error("[[DefaultValue(Number)]]")
+end
+
+local defaultValueNumber = internal.defaultValueNumber
+local defaultValueString = internal.defaultValueString
+
+function internal.ToPrimitiveString(o)
+    if isPrimitiveValue(o) then
+        return o
+    end
+    return defaultValueString(o)
+end
+
+function internal.ToPrimitiveNumber(o)
+    if isPrimitiveValue(o) then
+        return o
+    end
+    return defaultValueNumber(o)
+end
+
+local ToPrimitiveString = internal.ToPrimitiveString
+local ToPrimitiveNumber = internal.ToPrimitiveNumber
+
+function internal.ToNumber(value, typeV)
+    local tvalue = typeV or type(value)
+    if tvalue == "number" then
+        return value
+    elseif tvalue == "string" then
+        if gsub(value, " ", "") == "" then return 0 end
+        return tonumber(value) or 0/0
+    elseif tvalue == "boolean" then
+        return value and 1 or 0
+    elseif value == null then
+        return 0
+    elseif value == nil then
+        return 0/0
+    end
+
+    return internal.ToNumber(ToPrimitiveNumber(value))
+end
+
+local ToNumber = internal.ToNumber
+
+function internal.ToString(value)
+    if isPrimitiveValue(value) then
+        return tostring(value)
+    end
+
+    return tostring(ToPrimitiveString(value))
+end
+
 setmetatable(internal.null,{
     __index = function(self, key)
         error(errorHelper.newTypeError("TypeError: Cannot read property '" .. key .. "' of null"))
@@ -47,63 +128,14 @@ setmetatable(internal.null,{
     __tostring = function ()
         return 'null'
     end,
-    __tonumber = function()
-        return 0
-    end,
     __sub = function(a, b)
-        a = (a == null) and 0 or toNumber(a)
-        b = (b == null) and 0 or toNumber(b)
-        return a - b
-    end,
-    __mod = function(a, b)
-        a = (a == null) and 0 or toNumber(a)
-        b = (b == null) and 0 or toNumber(b)
-        return a % b
+        return ToNumber(a) - ToNumber(b)
     end,
     __div = function(a, b)
-        if a == null then
-            return 0 / toNumber(b)
-        end
-        return huge
+        return ToNumber(a) / ToNumber(b)
     end,
     __mul = function(a, b)
-        a = (a == null) and 0 or toNumber(a)
-        b = (b == null) and 0 or toNumber(b)
-        return a * b
-    end,
-    __lt = function(a, b)
-        local tb = type(b)
-        if tb == "number" then
-            return 0 < b
-        end
-        if tb == "string" then
-            return 0 < toNumber(b)
-        end
-        if tb == "boolean" then
-            return b
-        end
-        if b == null then
-            return false
-        end
-
-        return false
-    end,
-    __le = function(a, b)
-        local tb = type(b)
-        if tb == "number" then
-            return 0 <= b
-        end
-        if tb == "string" then
-            return 0 <= toNumber(b)
-        end
-        if tb == "boolean" then
-            return true
-        end
-        if b == null then
-            return true
-        end
-
-        return false
+        return ToNumber(a) * ToNumber(b)
     end,
     __tojson = function () return "null" end
 })
@@ -175,18 +207,6 @@ function internal.withinNew(this, proto)
     return mt and mt._prototype == proto
 end
 
-function internal.toPrimitive(o)
-    local mt = getmetatable(o)
-
-    if mt._primitive then
-        return mt._primitive
-    end
-
-    return o
-end
-
-local toPrimitive = internal.toPrimitive
-
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-9.9
 function internal.toObject(v)
     if v == nil or v == null then
@@ -209,39 +229,6 @@ function internal.toObject(v)
     return v
 end
 
--- http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.8
-function internal.defaultValueString(o)
-    if type(o) == "table" and type(o.toString) == "function" then
-        return o:toString()
-    end
-
-    return tostring(o)
-end
-
--- Wibbly Wobbly Codey Wimey Stuff
-function internal.defaultValueNumber(o)
-    local to = type(o)
-    if to == "table" and type(o.valueOf) == "function" then
-        local value = o:valueOf()
-        local tvalue = type(value)
-        if tvalue ~= "table" then
-            return value
-        end
-        return value:toString()
-    elseif to == "table" and type(o.toString) == "function" then
-        local value = o:toString()
-        local tvalue = type(value)
-        if tvalue ~= "table" then
-            return value
-        end
-        error("[[DefaultValue(Number)")
-    end
-
-    return toNumber(o)
-end
-
-local defaultValueNumber = internal.defaultValueNumber
-
 -- create a metatable for a new object (used in new statement and Object.create)
 function internal.setNewMetatable(o, prototype)
     local mt = {
@@ -251,14 +238,14 @@ function internal.setNewMetatable(o, prototype)
         __newindex = function (self, key, value)
             put(self, key, value)
         end,
-        __tonumber = function(self)
-            return tonumber(toPrimitive(self)) or 0/0
+        __sub = function(a, b)
+            return ToNumber(a) - ToNumber(b)
         end,
-        __lt = function(a, b)
-            return defaultValueNumber(a) < defaultValueNumber(b)
+        __mul = function(a, b)
+            return ToNumber(a) * ToNumber(b)
         end,
-        __le = function(a, b)
-            return defaultValueNumber(a) <= defaultValueNumber(b)
+        __div = function(a, b)
+            return ToNumber(a) / ToNumber(b)
         end,
         _prototype = prototype
     }

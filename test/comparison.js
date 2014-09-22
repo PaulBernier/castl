@@ -1,81 +1,33 @@
 var assert = require("assert");
 
-assert(2 < 4);
-assert(2 <= 4);
-assert(!(2 > 4));
-assert(!(2 >= 4));
+var result = [[false,true,false,true,true,true,true,false,false,false,false,true,false,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true,false,true,true,false,false,false,false,true,false,true,true,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,true,true,false,false,false],[false,false,true,true,false,false,true,false,true,true,false,false,true,true,false,false,true,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,true,false,true,true,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true,true,false,true,false,true,true],[false,true,false,true,true,true,true,false,false,false,false,true,false,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true,false,true,true,false,false,false,false,true,false,true,true,true,true,false,false,false,true,true,false,false,false,true,true,false,false,false,true,true,false,false,false],[false,false,true,true,false,false,true,false,true,true,false,false,true,true,false,false,true,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,true,false,true,true,false,false,true,true,false,true,true,false,false,false,true,true,false,false,false,false,true,false,true,true,false,true,false,true,true],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,true,false,true,false,true,true,false,false,false,false,true,false,true,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true,false,true,true,true,true,false,false,false,false,true,false,true,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,true,true,false,false,false],[false,false,true,true,false,false,true,false,true,true,false,false,true,true,false,false,true,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,true,false,true,true,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true,true,false,true,false,true,true],[false,true,false,true,true,true,true,false,false,false,false,true,false,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true,false,true,true,false,false,false,false,true,false,true,true,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,true,true,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true,true,false,false,true,true,false,false,false,false,false,false,false,false,true,true,false],[false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,true,false,true,true,false,false,false,false,false,false,false,true,true,false],[false,false,true,true,false,false,true,false,true,true,false,false,true,true,false,false,true,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,true,false,true,true,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,false,true,true,false,true,false,true,false],[false,false,true,true,false,false,true,false,true,true,false,false,true,true,false,false,true,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,true,false,true,true,false,false,true,true,false,true,true,false,false,false,true,true,false,false,false,false,true,false,true,false,false,true,false,true,true]];
 
-// Strings
+var array = [0,1, "0", "1", NaN, undefined,null,true, false, "str", function(){}, {valueOf: function(){return 1}}, {toString: function(){return "1"}}];
 
-assert("2" < "4");
-assert("2" <= "4");
-assert(!("2" > "4"));
-assert(!("2" >= "4"));
+for(var i = 0 ; i<array.length ; ++i) {
+    for(var j = 0 ; j<array.length ; ++j) {
+        assert((array[i] < array[j]) === result[i][j * 5]);
+        assert((array[i] <= array[j]) === result[i][j * 5 + 1]);
+        assert((array[i] > array[j]) === result[i][j * 5 + 2]);
+        assert((array[i] >= array[j]) === result[i][j * 5 + 3]);
+        assert((array[i] == array[j]) === result[i][j * 5 + 4]);
+    }
+}
 
-// Strings and numbers
-
-assert(2 < "4");
-assert("2" < 4);
-assert(2 <= "4");
-assert("2" <= 4);
-assert(!(2 > "4"));
-assert(!("2" > 4));
-assert(!(2 >= "4"));
-assert(!("2" >= 4));
-assert("4" < "awba");
-assert(!("4" > "awba"));
-assert(!(4 < "awba"));
-assert(!(4 > "awba"));
-
-// null
-assert(!(2 < null));
-assert(null < 2);
-assert(-2 < null);
-assert(!(null < -2));
-assert(!("2" < null));
-assert(null < "2");
-assert("-2" < null);
-assert(!(null < "-2"));
-assert(!("fez" < null));
-assert(!(null < "fez"));
-assert(!("fez" < null));
-assert(!(null < "fez"));
-
-// boolean
-assert(!(1 < true));
-assert(!(true < 1));
-assert(1 <= true);
-assert(true <= 1);
-assert(!(1 < false));
-assert(false < 1);
-assert(!(1 <= false));
-assert(false <= 1);
-assert(0 < true);
-assert(!(true < 0));
-assert(0 <= true);
-assert(!(true <= 0));
-assert(!(0 < false));
-assert(!(false < 0));
-assert(0 <= false);
-assert(false <= 0);
-assert(false < true);
-assert(!(true < false));
-
-assert(!("1" < true));
-assert(!(true < "1"));
-assert("1" <= true);
-assert(true <= "1");
-assert(!("1" < false));
-assert(false < "1");
-assert(!("1" <= false));
-assert(false <= "1");
-assert("0" < true);
-assert(!(true < "0"));
-assert("0" <= true);
-assert(!(true <= "0"));
-assert(!("0" < false));
-assert(!(false < "0"));
-assert("0" <= false);
-assert(false <= "0");
-assert(false < true);
-assert(!(true < false));
+// Generator
+//
+//~ var array = [0,1, "0", "1", NaN, undefined,null,true, false, "str", function(){}, {valueOf: function(){return 1}}, {toString: function(){return "1"}}]
+//~ 
+//~ var res = [];
+//~ for(var i = 0 ; i<array.length ; ++i) {
+    //~ res.push([]);
+    //~ for(var j = 0 ; j<array.length ; ++j) {
+        //~ res[i].push(array[i] < array[j]);
+        //~ res[i].push(array[i] <= array[j]);
+        //~ res[i].push(array[i] > array[j]);
+        //~ res[i].push(array[i] >= array[j]);
+        //~ res[i].push(array[i] == array[j]);
+    //~ }
+//~ }
+//~ 
+//~ console.log(res);

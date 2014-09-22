@@ -41,12 +41,13 @@ local coreObjects = {}
 -- Dependencies
 local getmetatable, setmetatable, rawget, rawset = getmetatable, setmetatable, rawget, rawset
 local debug = debug
-local type, max, strlen, strsub, tonumber= type, math.max, string.len, string.sub, tonumber
-local pack, tinsert, concat, sort = table.pack, table.insert, table.concat, table.sort
+local type, max, strlen, strsub, tonumber = type, math.max, string.len, string.sub, tonumber
+local pack = table.pack or function(...) return {n = select('#',...),...} end
+local tinsert, concat, sort = table.insert, table.concat, table.sort
 local pairs, ipairs, tostring = pairs, ipairs, tostring
 local require, error = require, error
-local getPrototype, get, put, null  = internal.prototype, internal.get, internal.put, internal.null
-local defaultValueNumber, setNewMetatable, toNumber = internal.defaultValueNumber, internal.setNewMetatable, internal.toNumber
+local getPrototype, get, put  = internal.prototype, internal.get, internal.put
+local setNewMetatable, ToNumber = internal.setNewMetatable, internal.ToNumber
 
 _ENV = nil
 
@@ -103,16 +104,16 @@ objectMt.__tostring = function(self)
     return coreObjects.objectToString(self)
 end
 
-objectMt.__tonumber = function(self)
-    return 0/0
+objectMt.__sub = function(a, b)
+    return ToNumber(a) - ToNumber(b)
 end
 
-objectMt.__lt = function(a, b)
-    return defaultValueNumber(a) < defaultValueNumber(b)
+objectMt.__mul = function(a, b)
+    return ToNumber(a) * ToNumber(b)
 end
 
-objectMt.__le = function(a, b)
-    return defaultValueNumber(a) <= defaultValueNumber(b)
+objectMt.__div = function(a, b)
+    return ToNumber(a) / ToNumber(b)
 end
 
 --[[
@@ -151,20 +152,19 @@ functionMt.__newindex = function(self, key, value)
 end
 
 functionMt.__tostring = function(self)
-    -- TODO: approximation
     return "[Function]"
 end
 
-functionMt.__tonumber = function(self)
-    return 0/0
+functionMt.__sub = function(a, b)
+    return ToNumber(a) - ToNumber(b)
 end
 
-functionMt.__lt = function(a, b)
-    return defaultValueNumber(a) < defaultValueNumber(b)
+functionMt.__mul = function(a, b)
+    return ToNumber(a) * ToNumber(b)
 end
 
-functionMt.__le = function(a, b)
-    return defaultValueNumber(a) <= defaultValueNumber(b)
+functionMt.__div = function(a, b)
+    return ToNumber(a) / ToNumber(b)
 end
 
 debug.setmetatable((function () end), functionMt)
@@ -212,15 +212,16 @@ arrayMt.__tostring = function(self)
     return concat(ret, "")
 end
 
-arrayMt.__tonumber = function(self)
-    return 0/0
+arrayMt.__sub = function(a, b)
+    return ToNumber(a) - ToNumber(b)
 end
 
-arrayMt.__lt = function(a, b)
-    return defaultValueNumber(a) < defaultValueNumber(b)
+arrayMt.__mul = function(a, b)
+    return ToNumber(a) * ToNumber(b)
 end
-arrayMt.__le = function(a, b)
-    return defaultValueNumber(a) <= defaultValueNumber(b)
+
+arrayMt.__div = function(a, b)
+    return ToNumber(a) / ToNumber(b)
 end
 
 --[[
@@ -234,55 +235,16 @@ end
 -- immutable
 booleanMt.__newindex = function() end
 
-booleanMt.__lt = function(a, b)
-    local numValueA = a and 1 or 0
-
-    if type(b) == "boolean" then
-        return numValueA < (b and 1 or 0)
-    end
-
-    return numValueA < defaultValueNumber(b)
-end
-
-booleanMt.__le = function(a, b)
-    local numValueA = a and 1 or 0
-
-    if type(b) == "boolean" then
-        return numValueA <= (b and 1 or 0)
-    end
-
-    return numValueA <= defaultValueNumber(b)
-end
-
-booleanMt.__tonumber = function(self)
-    return self and 1 or 0
-end
-
 booleanMt.__sub = function(a, b)
-    local ta, tb = type(a), type(b)
-    if ta == "boolean" then
-        return (a and 1 or 0) - toNumber(b)
-    else
-        return toNumber(a)  - (b and 1 or 0)
-    end
-end
-
-booleanMt.__div = function(a, b)
-    local ta, tb = type(a), type(b)
-    if ta == "boolean" then
-        return (a and 1 or 0) / toNumber(b)
-    else
-        return toNumber(a)  / (b and 1 or 0)
-    end
+    return ToNumber(a) - ToNumber(b)
 end
 
 booleanMt.__mul = function(a, b)
-    local ta, tb = type(a), type(b)
-    if ta == "boolean" then
-        return (a and 1 or 0) * toNumber(b)
-    else
-        return toNumber(a)  * (b and 1 or 0)
-    end
+    return ToNumber(a) * ToNumber(b)
+end
+
+booleanMt.__div = function(a, b)
+    return ToNumber(a) / ToNumber(b)
 end
 
 debug.setmetatable(true, booleanMt)
@@ -298,42 +260,6 @@ end
 -- immutable
 numberMt.__newindex = function() end
 
-numberMt.__lt = function(a, b)
-    local tb = type(b)
-    if tb == "string" then
-        return a < tonumber(b)
-    end
-    if tb == "boolean" then
-        return a < (b and 1 or 0)
-    end
-    if b == null then
-        return a < 0
-    end
-    if tb == "table" then
-        return a < defaultValueNumber(b)
-    end
-
-    return false
-end
-
-numberMt.__le = function(a, b)
-    local tb = type(b)
-    if tb == "string" then
-        return a <= tonumber(b)
-    end
-    if tb == "boolean" then
-        return a <= (b and 1 or 0)
-    end
-    if b == null then
-        return a <= 0
-    end
-    if tb == "table" then
-        return a <= defaultValueNumber(b)
-    end
-
-    return false
-end
-
 debug.setmetatable(0, numberMt)
 
 --[[
@@ -341,7 +267,6 @@ debug.setmetatable(0, numberMt)
 --]]
 
 stringMt.__index = function(self, key)
-
     local length = strlen(self)
 
     if key == "length" then
@@ -363,42 +288,16 @@ end
 -- immutable
 stringMt.__newindex = function() end
 
-stringMt.__lt = function(a, b)
-    local tb = type(b)
-    if tb == "number" then
-        return tonumber(a) < b
-    end
-    if tb == "boolean" then
-        return tonumber(a) < (b and 1 or 0)
-    end
-    if b == null then
-        return a < 0
-    end
-
-    return a < defaultValueNumber(b)
+stringMt.__sub = function(a, b)
+    return ToNumber(a) - ToNumber(b)
 end
 
-stringMt.__le = function(a, b)
-    local t = type(b)
-    if t == "number" then
-        return tonumber(a) <= b
-    end
-    if t == "boolean" then
-        return tonumber(a) <= (b and 1 or 0)
-    end
-    if b == null then
-        return tonumber(a) <= 0
-    end
-
-    return a <= defaultValueNumber(b)
+stringMt.__mul = function(a, b)
+    return ToNumber(a) * ToNumber(b)
 end
 
-stringMt.__add= function(a, b)
-    return tostring(a) .. tostring(b)
-end
-
-stringMt.__tonumber = function(self)
-    return tonumber(self) or 0/0
+stringMt.__div = function(a, b)
+    return ToNumber(a) / ToNumber(b)
 end
 
 debug.setmetatable("", stringMt)
@@ -408,21 +307,7 @@ debug.setmetatable("", stringMt)
 --]]
 
 undefinedMt.__tostring = function ()
-    return 'undefined'
-end
-
-undefinedMt.__add = function (a, b)
-    local ta, tb = type(a), type(b)
-    if ta == "number" or tb == "number" or
-        ta == "boolean" or tb == "boolean" then
-        return 0/0
-    end
-
-    if ta == "string" or tb == "string" then
-        return tostring(a) .. tostring(b)
-    end
-
-    return a + b
+    return "undefined"
 end
 
 undefinedMt.__sub = function ()
@@ -432,23 +317,6 @@ undefinedMt.__mul = function ()
     return 0/0
 end
 undefinedMt.__div = function ()
-    return 0/0
-end
-undefinedMt.__mod = function ()
-    return 0/0
-end
-undefinedMt.__pow = function ()
-    return 0/0
-end
-
-undefinedMt.__lt = function ()
-    return false
-end
-undefinedMt.__le = function ()
-    return false
-end
-
-undefinedMt.__tonumber = function ()
     return 0/0
 end
 
@@ -515,9 +383,6 @@ function coreObjects.arguments(...)
         __tostring = function(self)
             return coreObjects.objectToString(self)
         end,
-        __tonumber = function()
-            return 0/0
-        end,
         _prototype = "Arguments"
     }
 
@@ -556,9 +421,9 @@ function coreObjects.props (arg, inherited, enumAll)
     local isArrayLike = (mt and (mt._prototype == arrayProto or mt._prototype == "Arguments" or mt._prototype == stringProto));
 
     if isArrayLike then
-        return coreObjects.propsArr(arg, inherited, enumAll)
+        return coreObjects.propsArr(arg, enumAll)
     elseif type(arg) == 'table' then
-        return coreObjects.propsObj(arg, inherited, enumAll)
+        return coreObjects.propsObj(arg, inherited)
     elseif type(arg) == 'string' then
         for i = 0, arg.length - 1 do
             tinsert(ret, i)
@@ -568,10 +433,10 @@ function coreObjects.props (arg, inherited, enumAll)
     return ret
 end
 
-function coreObjects.propsObj(arg, inherited, enumAll)
+function coreObjects.propsObj(arg, inherited)
     local ret = {}
     repeat
-        for i, j in pairs(arg) do
+        for i in pairs(arg) do
             tinsert(ret, i)
         end
         arg = (getmetatable(arg) or {})._prototype
@@ -599,10 +464,10 @@ function coreObjects.propsObj(arg, inherited, enumAll)
     return ret
 end
 
-function coreObjects.propsArr(arg, inherited, enumAll)
+function coreObjects.propsArr(arg, enumAll)
     local ret = {}
 
-    for i, j in pairs(arg) do
+    for i in pairs(arg) do
         if enumAll or not (i == "length") then
             tinsert(ret, i)
         end
