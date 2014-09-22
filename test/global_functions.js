@@ -20,6 +20,8 @@ assert(isNaN(isNaN));
 assert(!isNaN(true));
 assert(!isNaN(null));
 assert(!isNaN(37));
+assert(!isNaN({valueOf: function(){return 3}}));
+assert(isNaN({}));
 
 // strings
 assert(isNaN("NaN"));

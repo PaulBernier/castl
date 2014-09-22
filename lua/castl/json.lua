@@ -20,7 +20,7 @@ local internal = require("castl.internal")
 local json = require("castl.modules.dkjson")
 local errorHelper = require("castl.modules.error_helper")
 
-local null = internal.null
+local null, ToString = internal.null, internal.ToString
 
 local JSON = {}
 
@@ -29,6 +29,7 @@ local error = error
 _ENV = nil
 
 JSON.parse = function(this, text)
+    text = ToString(text)
     local obj, pos, err = json.decode(text, 1, null, coreObjects.objectMt, coreObjects.arrayMt)
     if err then
         error(errorHelper.newSyntaxError(err))

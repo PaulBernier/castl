@@ -21,10 +21,10 @@ return function(regexpPrototype)
     local internal = require("castl.internal")
     local regexpHelper = require("castl.modules.regexphelper")
 
-    local tostring, rawget, rawset = tostring, rawget, rawset
+    local rawget, rawset = rawget, rawset
     local pack = table.pack or function(...) return {n = select('#',...),...} end
     local tinsert, tremove = table.insert, table.remove
-    local null = internal.null
+    local null, ToString = internal.null, internal.ToString
 
     _ENV = nil
 
@@ -35,6 +35,7 @@ return function(regexpPrototype)
     regexpPrototype.lastIndex = 0
 
     regexpPrototype.exec = function(this, str)
+        str = ToString(str)
         -- add a global capture to get the entire match
         -- (find don't return the entire match, only  the captures)
         local source =  "(" .. this.source .. ")"
@@ -86,10 +87,11 @@ return function(regexpPrototype)
         if rawget(this, "ignoreCase") then flags = flags .. 'i' end
         if rawget(this, "multiline") then flags = flags .. 'm' end
 
-        return '/' .. tostring(this.source) .. '/' .. flags
+        return '/' .. this.source .. '/' .. flags
     end
 
     regexpPrototype.test = function(this, str)
+        str = ToString(str)
         local cf = regexpHelper.getPCRECompilationFlag(this)
 
         local ret = false

@@ -15,46 +15,28 @@
 
 local globalFunctions = {}
 
+local internal = require("castl.internal")
 
 -- Dependencies
-local null = require("castl.internal").null
-local type, tonumber, tostring = type, tonumber, tostring
+local null, ToNumber, ToString = internal.null, internal.ToNumber, internal.ToString
+local type, tonumber = type, tonumber
 local huge, floor, abs = math.huge, math.floor, math.abs
 local gsub, sub, match, format, sbyte, find, char = string.gsub, string.sub, string.match, string.format, string.byte, string.find, string.char
 
 _ENV = nil
 
 function globalFunctions.isNaN(this, n)
-    local tn = type(n)
-    if tn == "number" then
-        return n ~= n
-    elseif n == nil then
-        return true
-    elseif n == null then
-        return false
-    elseif tn == "table" or tn == "function" then
-        return true
-    elseif tn == "string" then
-        -- trim to compare with ""
-        local s = match(n, '^()%s*$') and '' or match(n, '^%s*(.*%S)')
-        if s == "" then return false end
-        -- Warning!: tonumber() expects decimal numbers with the country-specific decimal separator instead of always the dot separator
-        s = tonumber(s)
-        -- LuaJIT return nan when tonumber fails
-        local castfailed = s == nil or s ~= s
-        if castfailed then return true else return false end
-    end
-
-    return false
+    local tonum = ToNumber(n)
+    return tonum ~= tonum
 end
 
 function globalFunctions.isFinite(this, arg)
-    arg = tonumber(arg)
-    return type(arg) == 'number' and arg ~= huge and arg ~= -huge and not (arg ~= arg)
+    arg = ToNumber(arg)
+    return arg ~= huge and arg ~= -huge and not (arg ~= arg)
 end
 
 function globalFunctions.parseFloat(this, str)
-    local v = tonumber(tostring(str))
+    local v = tonumber(ToString(str))
     if v == nil then
         return 0/0
     else
@@ -118,7 +100,7 @@ function globalFunctions.parseInt(this, str, radix)
     end
 
     if type(str) ~= "number" then
-        str = tostring(str)
+        str = ToString(str)
 
         -- trim
         str = match(str,'^()%s*$') and '' or match(str,'^%s*(.*%S)')
@@ -178,12 +160,12 @@ local encode = function(str, unescapedSet)
 end
 
 globalFunctions.encodeURI = function (this, uri)
-    uri = tostring(uri)
+    uri = ToString(uri)
     return encode(uri, patternEncodeURI)
 end
 
 globalFunctions.encodeURIComponent = function (this, uri)
-    uri = tostring(uri)
+    uri = ToString(uri)
     return encode(uri, patternEncodeURIComponent)
 end
 
@@ -204,12 +186,12 @@ end
 local reservedURISet = ";/?:@&=+$,#"
 
 globalFunctions.decodeURI = function (this, uri)
-    uri = tostring(uri)
+    uri = ToString(uri)
     return decode(uri, reservedURISet)
 end
 
 globalFunctions.decodeURIComponent = function (this, uri)
-    uri = tostring(uri)
+    uri = ToString(uri)
     return decode(uri, "")
 end
 

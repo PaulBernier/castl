@@ -18,7 +18,7 @@ local luajit = jit ~= nil
 
 local eval = {}
 
-local debug, setmetatable, assert, load, error, require = debug, setmetatable, assert, load, error, require
+local debug, setmetatable, assert, load, error, require, type = debug, setmetatable, assert, load, error, require, type
 
 _ENV = nil
 
@@ -141,7 +141,9 @@ local evalLuaString = function(str, _G)
 end
 
 function eval.eval(this, str)
-    runtime = runtime or require("castl.runtime")
+    if type(str) ~= "string" then
+        return str
+    end
 
     if luajit then
         castl = castl or require("castl.jscompile.castl_jit")
@@ -160,6 +162,7 @@ function eval.eval(this, str)
 
     if castlResult.success then
         local luaCode = castlResult.compiled
+        runtime = runtime or require("castl.runtime")
         ret = evalLuaString(luaCode, runtime)
     else
         error("Eval(): Failed to compile AST to Lua code")

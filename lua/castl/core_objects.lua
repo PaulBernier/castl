@@ -72,12 +72,10 @@ coreObjects.objectToString = function(o)
 
         if type(k) == "number" then
             k = "'" .. tostring(k) .. "'"
-        else
-            k = tostring(k)
         end
 
         if type(v) == "string" then
-            v = "'" .. tostring(v) .. "'"
+            v = "'" .. v .. "'"
         else
             v = tostring(v)
         end
@@ -195,7 +193,7 @@ arrayMt.__tostring = function(self)
         local v = self[key]
 
         if type(v) == "string" then
-            v = "'" .. tostring(v) .. "'"
+            v = "'" .. v .. "'"
         else
             v = tostring(v)
         end

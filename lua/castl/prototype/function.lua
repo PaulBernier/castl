@@ -61,7 +61,6 @@ return function(functionPrototype)
     end
 
     functionPrototype.toString = function(this)
-        -- TODO: rough approximation...
         return "function (){}"
     end
 

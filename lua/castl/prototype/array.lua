@@ -24,7 +24,7 @@ return function(arrayPrototype)
     local errorHelper = require("castl.modules.error_helper")
 
     local rawget, rawset, require, getmetatable, error = rawget, rawset, require, getmetatable, error
-    local tostring, tonumber, min, floor, type = tostring, tonumber, math.min, math.floor, type
+    local tonumber, min, floor, type = tonumber, math.min, math.floor, type
     local pack = table.pack or function(...) return {n = select('#',...),...} end
     local remove, insert, sort = table.remove, table.insert, table.sort
     local null, ToString = internal.null, internal.ToString
@@ -231,7 +231,7 @@ return function(arrayPrototype)
             end
 
             if not compareFunction then
-                return (tostring(a) < tostring(b))
+                return (ToString(a) < ToString(b))
             else
                 local comp = compareFunction(this, a, b)
                 local tcomp = type(comp)
@@ -266,7 +266,7 @@ return function(arrayPrototype)
 
         for i = 0, bound do
             if not (this[i] == nil or this[i] == null) then
-                str = str .. tostring(this[i])
+                str = str .. ToString(this[i])
             end
             if i ~= bound then
                 str = str .. separator

@@ -28,7 +28,7 @@ return function(stringPrototype)
     local regexpHelper = require("castl.modules.regexphelper")
     local common = require("castl.modules.common")
 
-    local type, tostring, tonumber, min, rawget, rawset = type, tostring, tonumber, math.min, rawget, rawset
+    local type, tonumber, min, rawget, rawset = type, tonumber, math.min, rawget, rawset
     local pack = table.pack or function(...) return {n = select('#',...),...} end
     local tinsert, tremove, concat = table.insert, table.remove, table.concat
     local error, require, getmetatable = error, require, getmetatable
@@ -87,13 +87,14 @@ return function(stringPrototype)
         local ret = valueof(this)
 
         for i = 1,args.n do
-            ret = ret .. args[i]
+            ret = ret .. ToString(args[i])
         end
 
         return ret
     end
 
     stringPrototype.indexOf = function (this, searchValue, fromIndex)
+        searchValue = ToString(searchValue)
         local value = valueof(this)
         fromIndex = fromIndex or 0
         if fromIndex < 0 then
@@ -116,7 +117,7 @@ return function(stringPrototype)
         end
 
         -- find
-        local ret = find(value, tostring(searchValue), fromIndex, true)
+        local ret = find(value, searchValue, fromIndex, true)
 
         -- not found
         if ret == nil then
@@ -127,6 +128,7 @@ return function(stringPrototype)
     end
 
     stringPrototype.lastIndexOf = function (this, searchValue, fromIndex)
+        searchValue = ToString(searchValue)
         local value = valueof(this)
         fromIndex = fromIndex or value.length
         if fromIndex < 0 then
@@ -136,7 +138,7 @@ return function(stringPrototype)
         end
 
         -- find in reversed string
-        local ret = find(reverse(value), ToString(searchValue), value.length - fromIndex + 1, true)
+        local ret = find(reverse(value), searchValue, value.length - fromIndex + 1, true)
         if searchValue == "" then
             ret = ret - 1
         end
@@ -270,10 +272,18 @@ return function(stringPrototype)
 
     stringPrototype.split = function (this, separator, limit)
         local value = valueof(this)
-        -- special cases
+
         if separator == nil or value == "" then
             return array({[0] = value}, 1)
-        elseif separator == "" then
+        end
+
+        local isRegExp = instanceof(separator, RegExp)
+        if not isRegExp then
+            separator = ToString(separator)
+        end
+
+        -- If separator is an empty string, str is converted to an array of characters
+        if separator == "" then
             local ret, length = {}, value.length
             for i = 0, length - 1 do
                 ret[i] = value:charAt(i)
@@ -283,13 +293,7 @@ return function(stringPrototype)
 
         local ret = {}
 
-        if type(separator) == "string" then
-            -- escape magic chars as seperator is a string not a RegExp
-            separator = '[^' .. common.escapeMagicChars(separator) .. ']+'
-            for k in gmatch(value, separator) do
-                tinsert(ret, k)
-            end
-        elseif instanceof(separator, RegExp) then
+        if isRegExp then
             local captures = regexpHelper.regExpHasCaptured(value, separator)
             local iter = regexpHelper.split(value, separator)
 
@@ -305,6 +309,12 @@ return function(stringPrototype)
                         tinsert(ret, match[i])
                     end
                 end
+            end
+        else
+            -- escape magic chars as seperator is a string not a RegExp
+            separator = '[^' .. common.escapeMagicChars(separator) .. ']+'
+            for k in gmatch(value, separator) do
+                tinsert(ret, k)
             end
         end
 
@@ -386,12 +396,10 @@ return function(stringPrototype)
 
     stringPrototype.replace = function (this, match, newSubStr, flags)
         local value = valueof(this)
+        local isRegExp = instanceof(match, RegExp)
 
-        if type(match) ~= "string" and not instanceof(match, RegExp) then
+        if not isRegExp then
             match = ToString(match)
-        end
-
-        if type(match) == "string" then
             -- if flags are passed, match is converted to a regexp
             if flags ~= nil then
                 match = new(RegExp, match, flags)
@@ -406,11 +414,9 @@ return function(stringPrototype)
         if type(match) == "string" then
             replacer = getReplacerString(newSubStr)
             return (gsub(value, match, replacer, 1))
-        elseif instanceof(match, RegExp) then
+        else
             replacer = getReplacerRegExp(newSubStr)
             return (regexpHelper.gsub(value, match, replacer))
-        else
-            error("Unknown regex invocation object: " .. type(match))
         end
     end
 
