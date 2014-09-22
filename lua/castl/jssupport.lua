@@ -18,11 +18,13 @@
 local jssupport = {}
 
 local internal = require("castl.internal")
+local luajit = jit ~= nil
 
 -- Dependencies
 local null, ToPrimitiveNumber, ToNumber = internal.null, internal.ToPrimitiveNumber, internal.ToNumber
 local type, tonumber, tostring, pairs, setmetatable = type, tonumber, tostring, pairs, setmetatable
 local huge, abs = math.huge, math.abs
+local pcall = pcall
 
 -- Prevent modification of global environment
 _ENV = nil
@@ -85,44 +87,103 @@ function jssupport.add(x, y)
     end
 end
 
-function jssupport.lt(x, y)
-    local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
-    local tpx, tpy = type(px), type(py)
-    if tpx == "string" and tpy == "string" then
-        return px < py
+if luajit then
+    function jssupport.lt(x, y)
+        local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+        local tpx, tpy = type(px), type(py)
+        if tpx == "string" and tpy == "string" then
+            return px < py
+        end
+
+        return ToNumber(px, tpx) < ToNumber(py, tpy)
     end
 
-    return ToNumber(px, tpx) < ToNumber(py, tpy)
-end
+    function jssupport.le(x, y)
+        local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+        local tpx, tpy = type(px), type(py)
+        if tpx == "string" and tpy == "string" then
+            return px <= py
+        end
 
-function jssupport.le(x, y)
-    local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
-    local tpx, tpy = type(px), type(py)
-    if tpx == "string" and tpy == "string" then
-        return px <= py
+        return ToNumber(px, tpx) <= ToNumber(py, tpy)
     end
 
-    return ToNumber(px, tpx) <= ToNumber(py, tpy)
-end
+    function jssupport.gt(x, y)
+        local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+        local tpx, tpy = type(px), type(py)
+        if tpx == "string" and tpy == "string" then
+            return px > py
+        end
 
-function jssupport.gt(x, y)
-    local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
-    local tpx, tpy = type(px), type(py)
-    if tpx == "string" and tpy == "string" then
-        return px > py
+        return ToNumber(px, tpx) > ToNumber(py, tpy)
     end
 
-    return ToNumber(px, tpx) > ToNumber(py, tpy)
-end
+    function jssupport.ge(x, y)
+        local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+        local tpx, tpy = type(px), type(py)
+        if tpx == "string" and tpy == "string" then
+            return px >= py
+        end
 
-function jssupport.ge(x, y)
-    local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
-    local tpx, tpy = type(px), type(py)
-    if tpx == "string" and tpy == "string" then
-        return px >= py
+        return ToNumber(px, tpx) >= ToNumber(py, tpy)
+
+    end
+else
+    function jssupport.lt(x, y)
+        local status, value = pcall(function() return x < y end)
+        if status then return value
+        else
+            local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+            local tpx, tpy = type(px), type(py)
+            if tpx == "string" and tpy == "string" then
+                return px < py
+            end
+
+            return ToNumber(px, tpx) < ToNumber(py, tpy)
+        end
     end
 
-    return ToNumber(px, tpx) >= ToNumber(py, tpy)
+    function jssupport.le(x, y)
+        local status, value = pcall(function() return x <= y end)
+        if status then return value
+        else
+            local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+            local tpx, tpy = type(px), type(py)
+            if tpx == "string" and tpy == "string" then
+                return px <= py
+            end
+
+            return ToNumber(px, tpx) <= ToNumber(py, tpy)
+        end
+    end
+
+    function jssupport.gt(x, y)
+        local status, value = pcall(function() return x > y end)
+        if status then return value
+        else
+            local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+            local tpx, tpy = type(px), type(py)
+            if tpx == "string" and tpy == "string" then
+                return px > py
+            end
+
+            return ToNumber(px, tpx) > ToNumber(py, tpy)
+        end
+    end
+
+    function jssupport.ge(x, y)
+        local status, value = pcall(function() return x >= y end)
+        if status then return value
+        else
+            local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
+            local tpx, tpy = type(px), type(py)
+            if tpx == "string" and tpy == "string" then
+                return px >= py
+            end
+
+            return ToNumber(px, tpx) >= ToNumber(py, tpy)
+        end
+    end
 end
 
 function jssupport.inc(x)

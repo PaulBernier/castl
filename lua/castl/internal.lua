@@ -87,9 +87,6 @@ function internal.ToPrimitiveNumber(o)
     return defaultValueNumber(o)
 end
 
-local ToPrimitiveString = internal.ToPrimitiveString
-local ToPrimitiveNumber = internal.ToPrimitiveNumber
-
 function internal.ToNumber(value, typeV)
     local tvalue = typeV or type(value)
     if tvalue == "number" then
@@ -105,7 +102,7 @@ function internal.ToNumber(value, typeV)
         return 0/0
     end
 
-    return internal.ToNumber(ToPrimitiveNumber(value))
+    return internal.ToNumber(defaultValueNumber(value))
 end
 
 local ToNumber = internal.ToNumber
@@ -115,7 +112,7 @@ function internal.ToString(value)
         return tostring(value)
     end
 
-    return tostring(ToPrimitiveString(value))
+    return tostring(defaultValueString(value))
 end
 
 setmetatable(internal.null,{
