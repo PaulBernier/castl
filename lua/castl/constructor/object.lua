@@ -25,7 +25,7 @@ local errorHelper = require("castl.modules.error_helper")
 
 local type, error, pairs, ipairs, tostring = type, error, pairs, ipairs, tostring
 local getmetatable, rawset, rawget = getmetatable, rawset, rawget
-local null, setNewMetatable, toObject, ToString = internal.null, internal.setNewMetatable, internal.toObject, internal.ToString
+local null, setNewMetatable, ToObject, ToString = internal.null, internal.setNewMetatable, internal.ToObject, internal.ToString
 
 _ENV = nil
 
@@ -34,7 +34,7 @@ Object = function (this, obj)
         return coreObjects.obj({})
     end
 
-    return toObject(obj)
+    return ToObject(obj)
 end
 
 Object.create = function (this, prototype, props)
@@ -74,7 +74,7 @@ Object.defineProperty = function(this, obj, prop, descriptor)
         error(errorHelper.newTypeError("Property description must be an object: " .. tostring(descriptor)))
     end
     if descriptor.value ~= nil and (descriptor.get ~= nil or descriptor.set ~= nil) then
-        error(errorHelper.newTypeError("TypeError: Invalid property.  A property cannot both have accessors and be writable or have a value"))
+        error(errorHelper.newTypeError("Invalid property.  A property cannot both have accessors and be writable or have a value"))
     end
 
     -- value

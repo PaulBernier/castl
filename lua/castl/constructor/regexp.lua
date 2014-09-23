@@ -32,7 +32,7 @@ RegExp = function(this, pattern, flags)
     local patternIsRegexp = (getmetatable(pattern) or {})._prototype == regexpProto
 
     if patternIsRegexp and flags ~= nil then
-        error(errorHelper.newTypeError("TypeError: Cannot supply flags when constructing one RegExp from another"))
+        error(errorHelper.newTypeError("Cannot supply flags when constructing one RegExp from another"))
     end
 
     if not withinNew(this, regexpProto) and patternIsRegexp then

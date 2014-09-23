@@ -117,10 +117,10 @@ end
 
 setmetatable(internal.null,{
     __index = function(self, key)
-        error(errorHelper.newTypeError("TypeError: Cannot read property '" .. key .. "' of null"))
+        error(errorHelper.newTypeError("Cannot read property '" .. key .. "' of null"))
     end,
     __newindex = function(self, key)
-        error(errorHelper.newTypeError("TypeError: Cannot set property '" .. key .. "' of null"))
+        error(errorHelper.newTypeError("Cannot set property '" .. key .. "' of null"))
     end,
     __tostring = function ()
         return 'null'
@@ -205,9 +205,9 @@ function internal.withinNew(this, proto)
 end
 
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-9.9
-function internal.toObject(v)
+function internal.ToObject(v)
     if v == nil or v == null then
-        error("ToObject: undefined or null")
+        error(errorHelper.newTypeError("Cannot convert undefined or null to object"))
     end
 
     local tv = type(v)

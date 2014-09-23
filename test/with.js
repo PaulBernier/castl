@@ -16,3 +16,43 @@ assert(x == -10);
 assert(y == 10);
 assert(p < 3.15 && p > 3.14);
 assert(Math instanceof Object);
+
+var thisGlobal, thisWith
+var f = function () {
+    thisGlobal = this;
+}
+f();
+
+with(3.1267) {
+    assert(toPrecision(2) === "3.1");
+    var f2 = function () {
+        assert(toPrecision(2) === "3.1");
+        thisWith = this;
+    };
+    f2();
+}
+
+assert(thisGlobal === thisWith);
+
+var obj = {
+    mark: 33
+}
+obj.lulz = function () {
+    return this;
+}
+
+with(obj) {
+    assert(lulz().mark === 33);
+}
+
+try {
+    with(undefined) {}
+} catch (e) {
+    assert(e instanceof TypeError);
+}
+
+try {
+    with(null) {}
+} catch (e) {
+    assert(e instanceof TypeError);
+}

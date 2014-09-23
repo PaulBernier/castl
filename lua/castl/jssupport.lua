@@ -17,12 +17,14 @@
 
 local jssupport = {}
 
+local errorHelper = require("castl.modules.error_helper")
 local internal = require("castl.internal")
 local luajit = jit ~= nil
 
 -- Dependencies
-local null, ToPrimitiveNumber, ToNumber = internal.null, internal.ToPrimitiveNumber, internal.ToNumber
-local type, tonumber, tostring, pairs, setmetatable = type, tonumber, tostring, pairs, setmetatable
+local null, ToPrimitiveNumber, ToNumber, ToObject = internal.null, internal.ToPrimitiveNumber, internal.ToNumber, internal.ToObject
+local type, tonumber, tostring, pairs, setmetatable, getmetatable, error, select = type, tonumber, tostring, pairs, setmetatable, getmetatable, error, select
+local tinsert = table.insert
 local huge, abs = math.huge, math.abs
 local pcall = pcall
 
@@ -224,10 +226,40 @@ function jssupport.inOp (object, key)
     return object[key] ~= nil
 end
 
+local propsObj = function (arg)
+    local ret = {}
+    repeat
+        for i in pairs(arg) do
+            tinsert(ret, i)
+        end
+        arg = (getmetatable(arg) or {})._prototype
+    until arg == nil
+
+    return ret
+end
+
 function jssupport.with(obj, env)
     local copy = {}
-    for i,j in pairs(obj) do
-        copy[i] = j
+
+    if obj == nil then
+        error(errorHelper.newTypeError("undefined has no properties"))
+    elseif obj == null then
+        error(errorHelper.newTypeError("null has no properties"))
+    end
+
+    obj = ToObject(obj)
+    local props = propsObj(obj)
+
+    for _, key in pairs(props) do
+        if type(obj[key]) == "function" then
+            copy[key] = function(...)
+                -- 'this' argument of the function is the object
+                -- thus the original 'this' is discarded
+                return obj[key](obj, select(2, ...))
+            end
+        else
+            copy[key] = obj[key]
+        end
     end
 
     -- return new environment

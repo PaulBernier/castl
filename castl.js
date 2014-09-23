@@ -33,6 +33,7 @@
 
     var labelTracker = [];
     var continueNoLabelTracker = [];
+    var withTracker = [];
 
     /********************************
      *
@@ -839,9 +840,11 @@
     }
 
     function compileWithStatement(statement) {
+        withTracker.push(true);
         var compiledWithStatement = ["do\n"];
 
         // with
+        compiledWithStatement.push("local _oldENV = _ENV;\n");
         compiledWithStatement.push("local _ENV = _with(");
         compiledWithStatement.push(compileExpression(statement.object));
         compiledWithStatement.push(", _ENV);\n");
@@ -859,6 +862,7 @@
 
         compiledWithStatement.push("\nend");
 
+        withTracker.pop();
         return compiledWithStatement.join("");
     }
 
@@ -1168,7 +1172,12 @@
             }
         } else {
             compiledCallExpression.push(compiledCallee);
-            compiledCallExpression.push("(_ENV");
+            if (withTracker.length === 0) {
+                compiledCallExpression.push("(_ENV");
+            } else {
+                compiledCallExpression.push("(_oldENV");
+            }
+
             if (compiledArguments) {
                 compiledCallExpression.push("," + compiledArguments);
             }
@@ -1276,7 +1285,12 @@
                 compiledUnaryExpression.push(")");
                 break;
             case "delete":
-                var scope = "_ENV.";
+                var scope;
+                if (withTracker.length === 0) {
+                    scope = "_ENV.";
+                } else {
+                    scope = "_oldENV.";
+                }
                 compiledUnaryExpression.push("(function () local _r = false; ");
 
                 // Delete getter/setter

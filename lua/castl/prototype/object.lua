@@ -31,7 +31,6 @@ return function(objectPrototype)
     _ENV = nil
 
     objectPrototype.toString = function (this)
-
         local mt = getmetatable(this)
         local tthis = type(this)
         if this == nil then

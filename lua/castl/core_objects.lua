@@ -304,6 +304,14 @@ debug.setmetatable("", stringMt)
     Nil metatable
 --]]
 
+undefinedMt.__index = function(self, key)
+    error(errorHelper.newTypeError("Cannot read property '" .. key .. "' of undefined"))
+end
+
+undefinedMt.__newindex = function(self, key)
+    error(errorHelper.newTypeError("Cannot set property '" .. key .. "' of undefined"))
+end
+
 undefinedMt.__tostring = function ()
     return "undefined"
 end

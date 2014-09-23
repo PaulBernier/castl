@@ -12,7 +12,7 @@ factory(_ENV,root.castl);
 end
 
 end)(_ENV,this,(function (this, exports)
-local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,compileUpdateExpressionNoEval,extractBinaryOperator,compileAssignmentExpression,compileAssignmentExpressionNoEval,compileExpressionStatementNoEval,compileExpressionStatementEvalMode,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileBooleanExpression,expressionReturnsBoolean,compileListOfStatements,compileStatement,compileAST,options,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,continueNoLabelTracker,labelTracker,luaKeywords;
+local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,compileUpdateExpressionNoEval,extractBinaryOperator,compileAssignmentExpression,compileAssignmentExpressionNoEval,compileExpressionStatementNoEval,compileExpressionStatementEvalMode,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileBooleanExpression,expressionReturnsBoolean,compileListOfStatements,compileStatement,compileAST,options,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,withTracker,continueNoLabelTracker,labelTracker,luaKeywords;
 ProtectedCallManager = (function (this)
 this.protectedCallContext = _arr({},0);
 this.mayReturnStack = _arr({},0);
@@ -628,7 +628,9 @@ end
 end)
 compileWithStatement = (function (this, statement)
 local compiledWithStatement;
+withTracker:push(true);
 compiledWithStatement = _arr({[0]="do\010"},1);
+compiledWithStatement:push("local _oldENV = _ENV;\010");
 compiledWithStatement:push("local _ENV = _with(");
 compiledWithStatement:push(compileExpression(_ENV,statement.object));
 compiledWithStatement:push(", _ENV);\010");
@@ -642,6 +644,7 @@ compiledWithStatement:push("\010end, _ENV)()");
 end
 
 compiledWithStatement:push("\010end");
+withTracker:pop();
  do return compiledWithStatement:join(""); end
 end)
 compileExpression = (function (this, expression)
@@ -1067,7 +1070,12 @@ end
 
 else
 compiledCallExpression:push(compiledCallee);
+if (withTracker.length == 0) then
 compiledCallExpression:push("(_ENV");
+else
+compiledCallExpression:push("(_oldENV");
+end
+
 if _bool(compiledArguments) then
 compiledCallExpression:push((_add(",",compiledArguments)));
 end
@@ -1192,7 +1200,12 @@ break;
 _into = true;
 end
 if _into or (expression.operator == "delete") then
+if (withTracker.length == 0) then
 scope = "_ENV.";
+else
+scope = "_oldENV.";
+end
+
 compiledUnaryExpression:push("(function () local _r = false; ");
 if (expression.argument.type == "MemberExpression") then
 scope = "";
@@ -1816,6 +1829,7 @@ end
 end)luaKeywords = _arr({[0]="and","break","do","else","elseif","end","false","for","function","goto","if","in","local","nil","not","or","repeat","return","then","true","until","while"},22);
 labelTracker = _arr({},0);
 continueNoLabelTracker = _arr({},0);
+withTracker = _arr({},0);
 ProtectedCallManager.prototype = _obj({
 ["isInProtectedCallContext"] = (function (this)
 if (_gt(this.protectedCallContext.length,0)) then
