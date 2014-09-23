@@ -21,6 +21,7 @@ local Boolean, Number, String, new, objectToString
 
 local getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset
 local gsub = string.gsub
+local floor = math.floor
 
 _ENV = nil
 
@@ -256,6 +257,33 @@ function internal.setNewMetatable(o, prototype)
     end
 
     setmetatable(o, mt)
+end
+
+function internal.ToInteger(v)
+    local number = ToNumber(v)
+    if (number % 1) ~= 0 then
+        return number > 0 and floor(number) or floor(number + 1)
+    else
+        return number
+    end
+end
+
+function internal.ToUint32(v)
+    local number = ToNumber(v)
+    if (number % 1) ~= 0 then
+        return number > 0 and floor(number) % 0x100000000 or floor(number + 1) % 0x100000000
+    else
+        return number % 0x100000000
+    end
+end
+
+function internal.ToUint16(v)
+    local number = ToNumber(v)
+    if (number % 1) ~= 0 then
+        return number > 0 and floor(number) % 0x10000 or floor(number + 1) % 0x10000
+    else
+        return number % 0x10000
+    end
 end
 
 return internal

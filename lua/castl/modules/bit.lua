@@ -26,27 +26,14 @@ end
 
 local bit = {}
 
-local ToNumber = require("castl.internal").ToNumber
-local floor = math.floor
+local ToUint32 = require("castl.internal").ToUint32
+local ToInteger = require("castl.internal").ToInteger
 
 _ENV = nil
 
-local castToInt = function(v)
-    local number = ToNumber(v)
-    if (number % 1) ~= 0 then
-        return number > 0 and floor(number) or floor(number + 1)
-    else
-        return number
-    end
-end
-
-local ToUint32 = function(n)
-    return n % 0x100000000
-end
-
 bit.lshift = function(x, disp)
-    x, disp = castToInt(x), castToInt(disp)
-    local shiftCount = band(ToUint32(disp), 0x1F)
+    x, disp = ToInteger(x), ToUint32(disp)
+    local shiftCount = band(disp, 0x1F)
     local ret = lshift(x, shiftCount);
 
     -- Ones' complement
@@ -58,18 +45,18 @@ bit.lshift = function(x, disp)
 end
 
 bit.rshift = function(x, disp)
-    x, disp = castToInt(x), castToInt(disp)
+    x, disp = ToInteger(x), ToUint32(disp)
     if luajit and disp == 0 then
-        return ToUint32(x)
+        return x % 0x100000000
     end
 
-    local shiftCount = band(ToUint32(disp), 0x1F)
+    local shiftCount = band(disp, 0x1F)
     return rshift(x, shiftCount)
 end
 
 bit.arshift = function(x, disp)
-    x, disp = castToInt(x), castToInt(disp)
-    local shiftCount = band(ToUint32(disp), 0x1F)
+    x, disp = ToInteger(x), ToUint32(disp)
+    local shiftCount = band(disp, 0x1F)
     local ret = rshift(x, shiftCount)
 
     if x < 0 then
@@ -85,19 +72,19 @@ bit.arshift = function(x, disp)
 end
 
 bit.band = function(x, y)
-    return band(castToInt(x), castToInt(y))
+    return band(ToInteger(x), ToInteger(y))
 end
 
 bit.bor = function(x, y)
-    return bor(castToInt(x), castToInt(y))
+    return bor(ToInteger(x), ToInteger(y))
 end
 
 bit.bxor = function(x, y)
-    return bxor(castToInt(x), castToInt(y))
+    return bxor(ToInteger(x), ToInteger(y))
 end
 
 bit.bnot = function(x)
-    return bnot(castToInt(x))
+    return bnot(ToInteger(x))
 end
 
 return bit

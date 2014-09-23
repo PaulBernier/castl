@@ -27,7 +27,7 @@ local bor, band, arshift = bit.bor, bit.band, bit.arshift
 local pack = table.pack or function(...) return {n = select('#',...),...} end
 local unpack, tinsert, concat, stochar =  table.unpack or unpack, table.insert, table.concat, string.char
 local setmetatable = setmetatable
-local ToString, withinNew, get, put, ToNumber = internal.ToString, internal.withinNew, internal.get, internal.put, internal.ToNumber
+local ToString, withinNew, get, put, ToNumber, ToUint16 = internal.ToString, internal.withinNew, internal.get, internal.put, internal.ToNumber, internal.ToUint16
 
 _ENV = nil
 
@@ -96,7 +96,7 @@ String.fromCharCode = function(this, ...)
     local args = pack(...)
     local str = {}
     for i = 1, args.n do
-        local charCode = ToNumber(args[i]);
+        local charCode = ToUint16(args[i]);
         local char = stochar(unpack(toUTF8Array(charCode)))
 
         tinsert(str, char)
