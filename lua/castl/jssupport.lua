@@ -226,18 +226,6 @@ function jssupport.inOp (object, key)
     return object[key] ~= nil
 end
 
-local propsObj = function (arg)
-    local ret = {}
-    repeat
-        for i in pairs(arg) do
-            tinsert(ret, i)
-        end
-        arg = (getmetatable(arg) or {})._prototype
-    until arg == nil
-
-    return ret
-end
-
 function jssupport.with(obj, env)
     local copy = {}
 
@@ -248,22 +236,30 @@ function jssupport.with(obj, env)
     end
 
     obj = ToObject(obj)
-    local props = propsObj(obj)
-
-    for _, key in pairs(props) do
-        if type(obj[key]) == "function" then
-            copy[key] = function(...)
-                -- 'this' argument of the function is the object
-                -- thus the original 'this' is discarded
-                return obj[key](obj, select(2, ...))
-            end
-        else
-            copy[key] = obj[key]
-        end
-    end
 
     -- return new environment
-    return setmetatable(copy, {__index = env})
+    return setmetatable({}, {
+        __index = function(self, key)
+            if obj[key] ~= nil then
+                if type(obj[key]) == "function" then
+                    return function(...)
+                        -- 'this' argument of the function is the object
+                        -- thus the original 'this' is discarded
+                        return obj[key](obj, select(2, ...))
+                    end
+                end
+                return obj[key]
+            end
+
+            return env[key]
+        end,
+        __newindex = function(self, key, value)
+            if obj[key] ~= nil then
+                obj[key] = value
+            else
+                env[key] = value
+            end
+        end})
 end
 
 return jssupport

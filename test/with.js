@@ -56,3 +56,15 @@ try {
 } catch (e) {
     assert(e instanceof TypeError);
 }
+
+// new index
+var o = {p1: 3}
+
+with(o){
+    k = 11;// new global variable
+    p1 = 12; // p1 property of o
+    assert(p1 === 12);
+}
+
+assert(k === 11);
+assert(o.p1 === 12);
