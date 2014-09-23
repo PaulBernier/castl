@@ -109,6 +109,10 @@ Object.freeze = function (this, obj)
 end
 
 Object.getOwnPropertyDescriptor = function (this, obj, prop)
+    if type(obj) ~= "table" or obj == null then
+        error(errorHelper.newTypeError("Object.getOwnPropertyDescriptor called on non-object"))
+    end
+
     local mt = getmetatable(obj)
 
     if mt then

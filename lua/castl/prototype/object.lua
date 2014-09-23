@@ -49,7 +49,7 @@ return function(objectPrototype)
             return "[object RegExp]"
         elseif mt and mt._prototype == dateProto then
             return "[object Date]"
-        elseif mt and mt._prototype == "Arguments" then
+        elseif mt and mt._arguments then
             return "[object Arguments]"
         elseif tthis == "function" then
             return "[object Function]"

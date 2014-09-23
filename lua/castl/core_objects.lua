@@ -389,7 +389,8 @@ function coreObjects.arguments(...)
         __tostring = function(self)
             return coreObjects.objectToString(self)
         end,
-        _prototype = "Arguments"
+        _arguments = true,
+        _prototype = objectProto
     }
 
     setmetatable(obj, mt)
@@ -424,7 +425,7 @@ function coreObjects.props (arg, inherited, enumAll)
     local ret = {}
 
     local mt = getmetatable(arg)
-    local isArrayLike = (mt and (mt._prototype == arrayProto or mt._prototype == "Arguments" or mt._prototype == stringProto));
+    local isArrayLike = (mt and (mt._prototype == arrayProto or mt._arguments or mt._prototype == stringProto));
 
     if isArrayLike then
         return coreObjects.propsArr(arg, enumAll)
@@ -517,7 +518,6 @@ coreObjects.obj(typeErrorProto)
 
 coreObjects.objectMt = objectMt
 coreObjects.arrayMt = arrayMt
-
 
 -- global this
 coreObjects.this = coreObjects.obj({})

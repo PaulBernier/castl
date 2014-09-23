@@ -1009,7 +1009,7 @@
             compiledAssignmentExpression.push(right);
             compiledAssignmentExpression.push("; ");
             compiledAssignmentExpression.push(left);
-            compiledAssignmentExpression.push("  = _tmp; return _tmp; end)()");
+            compiledAssignmentExpression.push(" = _tmp; return _tmp; end)()");
             break;
         default:
             // Build a binary expression node to compile
@@ -1023,7 +1023,7 @@
             compiledAssignmentExpression.push(compiledBinaryExpression);
             compiledAssignmentExpression.push("; ");
             compiledAssignmentExpression.push(left);
-            compiledAssignmentExpression.push("  = _tmp; return _tmp; end)()");
+            compiledAssignmentExpression.push(" = _tmp; return _tmp; end)()");
         }
 
         return compiledAssignmentExpression.join('');
@@ -1657,6 +1657,7 @@
         compiledFunctionDeclaration.push(compiledId);
         compiledFunctionDeclaration.push(" = ");
         compiledFunctionDeclaration.push(compileFunction(declaration));
+        compiledFunctionDeclaration.push(";");
 
         localVarManager.pushLocal(compiledId);
         localVarManager.pushFunction(compiledFunctionDeclaration.join(""));
@@ -1738,38 +1739,35 @@
             compiledBody = compileExpression(fun.body);
         }
 
+        // Params
+        var params = fun.params;
+        var compiledParams = ["this"];
+        for (i = 0; i < params.length; ++i) {
+            compiledParams.push(compilePattern(params[i]));
+        }
+
         // Get context information
         var context = localVarManager.popLocalContext();
-        var useArguments = context[1];
+        var locals = context[0];
+        // Do not create Argument object if one of the parameters is called 'arguments'
+        var useArguments = context[1] && (compiledParams.indexOf("arguments") === -1);
 
-        var params = fun.params;
         var i;
         if (useArguments) {
             compiledFunction.push("...)\n");
-
-            var compiledLocalParams = ["this"];
-
-            for (i = 0; i < params.length; ++i) {
-                compiledLocalParams.push(compilePattern(params[i]));
-            }
-
-            compiledFunction.push("local " + compiledLocalParams.join(", ") + " = ...;\n");
-
+            compiledFunction.push("local " + compiledParams.join(", ") + " = ...;\n");
             compiledFunction.push("local arguments = _args(...);\n");
-        } else {
-            var compiledParams = ["this"];
 
-            for (i = 0; i < params.length; ++i) {
-                compiledParams.push(compilePattern(params[i]));
-            }
+            compiledParams.push("arguments");
+        } else {
             compiledFunction.push(compiledParams.join(", "));
             compiledFunction.push(")\n");
         }
 
         // Locals
-        var locals = context[0];
         if (locals.length > 0) {
-            var compiledLocalsDeclaration = buildLocalsDeclarationString(locals);
+            // local that has the same identifier as one of the arguments will not be redefined
+            var compiledLocalsDeclaration = buildLocalsDeclarationString(locals, compiledParams);
             compiledFunction.push(compiledLocalsDeclaration);
         }
 
@@ -1793,20 +1791,26 @@
         return compiledFunction.join('');
     }
 
-    function buildLocalsDeclarationString(locals) {
-        var compiledLocalsDeclaration = ["local "];
+    function buildLocalsDeclarationString(locals, ignore) {
+        ignore = ignore || [];
         var namesSequence = [];
 
         var i, local, length = locals.length;
         for (i = 0; i < length; ++i) {
             local = locals.pop();
-            namesSequence.push(local);
+            if (ignore.indexOf(local) === -1) {
+                namesSequence.push(local);
+            }
         }
 
-        compiledLocalsDeclaration.push(namesSequence.join(","));
-        compiledLocalsDeclaration.push(";\n");
+        if (namesSequence.length > 0) {
+            var compiledLocalsDeclaration = ["local "];
+            compiledLocalsDeclaration.push(namesSequence.join(","));
+            compiledLocalsDeclaration.push(";\n");
 
-        return compiledLocalsDeclaration.join("");
+            return compiledLocalsDeclaration.join("");
+        }
+        return "";
     }
 
     /*************************

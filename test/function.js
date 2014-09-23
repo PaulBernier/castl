@@ -46,3 +46,26 @@ function f5() {
 }
 
 assert(f5(1, 2, 3, 4, 21) === 21);
+
+// Variables with same identifier as one of arguments
+
+(function(a){
+    assert(a === 3);
+    var a = 44;
+    assert(a === 44);
+})(3);
+
+(function(b){
+    assert(b === 32);
+    b = 11;
+    assert(b === 11);
+})(32);
+
+var d = 12;
+function f(){
+    assert(typeof(d) === "undefined");
+    var d = 13;
+    assert(d === 13);
+};
+
+f();
