@@ -50,7 +50,7 @@ function internal.defaultValueString(o)
         end
     end
 
-    error("[[DefaultValue(String)]]")
+    error(errorHelper.newTypeError("Cannot convert object to primitive value"))
 end
 
 function internal.defaultValueNumber(o)
@@ -67,7 +67,7 @@ function internal.defaultValueNumber(o)
         end
     end
 
-    error("[[DefaultValue(Number)]]")
+    error(errorHelper.newTypeError("Cannot convert object to primitive value"))
 end
 
 local defaultValueNumber = internal.defaultValueNumber
