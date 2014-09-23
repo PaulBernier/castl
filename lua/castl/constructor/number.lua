@@ -25,16 +25,16 @@ local jssupport = require("castl.jssupport")
 local globalFunctions = require("castl.global_functions")
 
 local huge = math.huge
-local tonumber, type, setmetatable = tonumber, type, setmetatable
+local type, setmetatable = type, setmetatable
 local get, put, withinNew, ToNumber = internal.get, internal.put, internal.withinNew, internal.ToNumber
 
 _ENV = nil
 
 Number = function(this, arg)
-    arg = arg or 0
+    arg = ToNumber(arg)
     -- Number constructor not called within a new
     if not withinNew(this, numberProto) then
-        return tonumber(arg) or 0/0
+        return arg
     end
 
     local o = {}
@@ -49,7 +49,7 @@ Number = function(this, arg)
         __tostring = function(self)
             return coreObjects.objectToString(self)
         end,
-        _primitive = tonumber(arg),
+        _primitive = arg,
         __sub = function(a, b)
             return ToNumber(a) - ToNumber(b)
         end,
