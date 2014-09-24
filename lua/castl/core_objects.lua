@@ -500,6 +500,27 @@ end
     Prototypes inheritance
 --]]
 
+-- Object.prototype has no _prototype
+setmetatable(objectProto, {
+    __index = function(self, key)
+        return get(self, objectProto, key)
+    end,
+    __newindex = put,
+    __tostring = function(self)
+        return coreObjects.objectToString(self)
+    end,
+    __sub = function(a, b)
+        return ToNumber(a) - ToNumber(b)
+    end,
+    __mul = function(a, b)
+        return ToNumber(a) * ToNumber(b)
+    end,
+    __div = function(a, b)
+        return ToNumber(a) / ToNumber(b)
+    end
+})
+
+-- inherit from Object
 coreObjects.obj(functionProto)
 coreObjects.obj(arrayProto)
 coreObjects.obj(booleanProto)
@@ -532,6 +553,7 @@ local err = function(o)
         _prototype = errorProto})
 end
 
+-- inherit from Error
 err(rangeErrorProto)
 err(referenceErrorProto)
 err(syntaxErrorProto)
