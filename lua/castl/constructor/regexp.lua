@@ -59,9 +59,7 @@ RegExp = function(this, pattern, flags)
         __index = function (self, key)
             return get(self, regexpProto, key)
         end,
-        __newindex = function (self, key, value)
-            return put(self, key, value)
-        end,
+        __newindex = put,
         __tostring = regexpProto.toString,
         __sub = function(a, b)
             return ToNumber(a) - ToNumber(b)

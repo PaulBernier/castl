@@ -43,9 +43,7 @@ Number = function(this, arg)
         __index = function (self, key)
             return get(self, numberProto, key)
         end,
-        __newindex = function (self, key, value)
-            return put(self, key, value)
-        end,
+        __newindex = put,
         __tostring = function(self)
             return coreObjects.objectToString(self)
         end,

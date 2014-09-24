@@ -73,9 +73,7 @@ Date = function(this, ...)
         __index = function (self, key)
             return get(self, dateProto, key)
         end,
-        __newindex = function (self, key, value)
-            return put(self, key, value)
-        end,
+        __newindex = put,
         __tostring = dateProto.toString,
         __sub = function(a, b)
             return ToNumber(a) - ToNumber(b)

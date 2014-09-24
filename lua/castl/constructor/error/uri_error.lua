@@ -35,9 +35,7 @@ URIError = function(this, message)
         __index = function (self, key)
             return get(self, uriErrorProto, key)
         end,
-        __newindex = function (self, key, value)
-            return put(self, key, value)
-        end,
+        __newindex = put,
         __tostring = function(self)
             return traceback(self:toString(), 4)
         end,

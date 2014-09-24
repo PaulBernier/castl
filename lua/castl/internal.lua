@@ -233,9 +233,7 @@ function internal.setNewMetatable(o, prototype)
         __index = function (self, key)
             return get(self, prototype, key)
         end,
-        __newindex = function (self, key, value)
-            put(self, key, value)
-        end,
+        __newindex = put,
         __sub = function(a, b)
             return ToNumber(a) - ToNumber(b)
         end,

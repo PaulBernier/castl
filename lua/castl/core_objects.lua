@@ -385,9 +385,7 @@ function coreObjects.arguments(...)
         __index = function (self, key)
             return get(self, objectProto, key)
         end,
-        __newindex = function (self, key, value)
-            return put(self, key, value)
-        end,
+        __newindex = put,
         __tostring = function(self)
             return coreObjects.objectToString(self)
         end,
@@ -535,9 +533,7 @@ local err = function(o)
         __index = function (self, key)
             return get(self, errorProto, key)
         end,
-        __newindex = function (self, key, value)
-            return put(self, key, value)
-        end,
+        __newindex = put,
         __tostring = function(self)
             return debug.traceback(self:toString(), 4)
         end,
