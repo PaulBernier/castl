@@ -21,13 +21,4 @@ return function(typeErrorPrototype)
 
     typeErrorPrototype.name = "TypeError"
     typeErrorPrototype.message = ""
-
-    typeErrorPrototype.toString = function (this)
-        if this.message ~= "" then
-            return this.name .. ": " .. this.message
-        else
-            return this.name
-        end
-    end
-
 end

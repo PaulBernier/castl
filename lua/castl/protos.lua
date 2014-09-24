@@ -30,6 +30,8 @@ protos.rangeErrorProto = {}
 protos.referenceErrorProto = {}
 protos.syntaxErrorProto = {}
 protos.typeErrorProto = {}
+protos.evalErrorProto = {}
+protos.uriErrorProto = {}
 
 -- load definition
 protos.loadPrototypesDefinition = function()
@@ -47,6 +49,8 @@ protos.loadPrototypesDefinition = function()
     require("castl.prototype.error.reference_error")(protos.referenceErrorProto)
     require("castl.prototype.error.syntax_error")(protos.syntaxErrorProto)
     require("castl.prototype.error.type_error")(protos.typeErrorProto)
+    require("castl.prototype.error.eval_error")(protos.evalErrorProto)
+    require("castl.prototype.error.uri_error")(protos.uriErrorProto)
 end
 
 return protos

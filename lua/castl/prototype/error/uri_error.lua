@@ -13,12 +13,12 @@
     along with CASTL. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
--- [[ CASTL RangeError prototype submodule]] --
--- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError/prototype
+-- [[ CASTL URIError prototype submodule]] --
+-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError/prototype
 
-return function(rangeErrorPrototype)
+return function(uriErrorPrototype)
     _ENV = nil
 
-    rangeErrorPrototype.name = "RangeError"
-    rangeErrorPrototype.message = ""
+    uriErrorPrototype.name = "URIError"
+    uriErrorPrototype.message = ""
 end

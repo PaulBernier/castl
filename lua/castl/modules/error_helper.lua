@@ -16,7 +16,7 @@
 local errorHelper = {}
 
 local new
-local Error, TypeError, SyntaxError, RangeError, ReferenceError
+local Error, TypeError, SyntaxError, RangeError, ReferenceError, URIError, EvalError
 local require = require
 
 _ENV = nil
@@ -41,6 +41,14 @@ local loadReferenceError = function()
     new = new or require("castl.core_objects").new
     ReferenceError = ReferenceError or require("castl.constructor.error.reference_error")
 end
+local loadEvalError = function()
+    new = new or require("castl.core_objects").new
+    EvalError = EvalError or require("castl.constructor.error.eval_error")
+end
+local loadURIError = function()
+    new = new or require("castl.core_objects").new
+    URIError = URIError or require("castl.constructor.error.uri_error")
+end
 
 function errorHelper.newError(message)
     loadError()
@@ -61,6 +69,14 @@ end
 function errorHelper.newReferenceError(message)
     loadReferenceError()
     return new(ReferenceError, message)
+end
+function errorHelper.newURIError(message)
+    loadURIError()
+    return new(URIError, message)
+end
+function errorHelper.newEvalError(message)
+    loadEvalError()
+    return new(EvalError, message)
 end
 
 return errorHelper

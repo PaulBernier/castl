@@ -21,13 +21,4 @@ return function(syntaxErrorPrototype)
 
     syntaxErrorPrototype.name = "SyntaxError"
     syntaxErrorPrototype.message = ""
-
-    syntaxErrorPrototype.toString = function (this)
-        if this.message ~= "" then
-            return this.name .. ": " .. this.message
-        else
-            return this.name
-        end
-    end
-
 end

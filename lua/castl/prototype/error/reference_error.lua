@@ -21,13 +21,4 @@ return function(referenceErrorPrototype)
 
     referenceErrorPrototype.name = "ReferenceError"
     referenceErrorPrototype.message = ""
-
-    referenceErrorPrototype.toString = function (this)
-        if this.message ~= "" then
-            return this.name .. ": " .. this.message
-        else
-            return this.name
-        end
-    end
-
 end

@@ -47,3 +47,26 @@ try{
     assert(e.message === "reference");
     assert(e.name === "ReferenceError");
 }
+
+// URIError
+try{
+    throw URIError("reference");
+}catch(e) {
+    assert(e.message === "reference");
+    assert(e.name === "URIError");
+}
+
+// EvalError
+try{
+    throw EvalError("reference");
+}catch(e) {
+    assert(e.message === "reference");
+    assert(e.name === "EvalError");
+}
+
+//
+var a = new RangeError("yolo");
+assert(a instanceof Error);
+assert(a.toString === RangeError.prototype.toString);
+assert(a.toString === Error.prototype.toString);
+assert(!(RangeError.prototype === Error.prototype));

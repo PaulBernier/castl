@@ -29,12 +29,14 @@ local booleanProto = protos.booleanProto
 local numberProto = protos.numberProto
 local stringProto = protos.stringProto
 local dateProto = protos.dateProto
+local regexpProto = protos.regexpProto
 local errorProto = protos.errorProto
 local rangeErrorProto = protos.rangeErrorProto
 local referenceErrorProto = protos.referenceErrorProto
 local syntaxErrorProto = protos.syntaxErrorProto
 local typeErrorProto = protos.typeErrorProto
-local regexpProto = protos.regexpProto
+local uriErrorProto = protos.uriErrorProto
+local evalErrorProto = protos.evalErrorProto
 
 local coreObjects = {}
 
@@ -495,7 +497,7 @@ function coreObjects.propsArr(arg, enumAll)
 end
 
 --[[
-    Prototypes inherit from object (not the same as ECMAScript spec)
+    Prototypes inheritance
 --]]
 
 coreObjects.obj(functionProto)
@@ -505,12 +507,38 @@ coreObjects.obj(numberProto)
 coreObjects.obj(stringProto)
 coreObjects.obj(dateProto)
 coreObjects.obj(regexpProto)
-
 coreObjects.obj(errorProto)
-coreObjects.obj(rangeErrorProto)
-coreObjects.obj(referenceErrorProto)
-coreObjects.obj(syntaxErrorProto)
-coreObjects.obj(typeErrorProto)
+
+local err = function(o)
+    setmetatable(o, {
+        __index = function (self, key)
+            return get(self, errorProto, key)
+        end,
+        __newindex = function (self, key, value)
+            return put(self, key, value)
+        end,
+        __tostring = function(self)
+            return debug.traceback(self:toString(), 4)
+        end,
+        __sub = function(a, b)
+            return ToNumber(a) - ToNumber(b)
+        end,
+        __mul = function(a, b)
+            return ToNumber(a) * ToNumber(b)
+        end,
+        __div = function(a, b)
+            return ToNumber(a) / ToNumber(b)
+        end,
+        _prototype = errorProto})
+end
+
+err(rangeErrorProto)
+err(referenceErrorProto)
+err(syntaxErrorProto)
+err(typeErrorProto)
+err(uriErrorProto)
+err(evalErrorProto)
+
 
 --[[
     Export objectMt and arrayMt for JSON.parse
