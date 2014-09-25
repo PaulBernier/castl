@@ -1737,7 +1737,7 @@
         return compiledObjectExpression.join("");
     }
 
-    function compileMemberExpression(expression) {
+    function compileMemberExpression(expression, meta) {
         var compiledMemberExpression = [];
         var compiledObject = compileExpression(expression.object);
 
@@ -1760,6 +1760,13 @@
             } else {
                 compiledMemberExpression.push(".");
                 compiledMemberExpression.push(compiledProperty);
+            }
+        }
+
+        if (options.annotation) {
+            // if there is an annotation the line before
+            if (annotations[expression.loc.start.line - 1] && meta) {
+                meta.type = annotations[expression.loc.start.line - 1];
             }
         }
 
@@ -1879,10 +1886,10 @@
      *
      * ******************/
 
-    function compilePattern(pattern) {
+    function compilePattern(pattern, meta) {
         switch (pattern.type) {
         case "Identifier":
-            return compileIdentifier(pattern);
+            return compileIdentifier(pattern, meta);
         default:
             throw new Error("Unknwown Pattern type" + pattern.type);
         }
@@ -2003,10 +2010,18 @@
             });
     }
 
-    function compileIdentifier(identifier) {
+    function compileIdentifier(identifier, meta) {
         if (identifier.name === "arguments") {
             localVarManager.useArguments();
         }
+
+        if (options.annotation) {
+            // if there is an annotation the line before
+            if (annotations[identifier.loc.start.line - 1] && meta) {
+                meta.type = annotations[identifier.loc.start.line - 1];
+            }
+        }
+
         return sanitizeIdentifier(identifier.name);
     }
 

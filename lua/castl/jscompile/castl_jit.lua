@@ -1752,7 +1752,7 @@ end
 
  do return compiledObjectExpression:join(""); end
 end);
-compileMemberExpression = (function (this, expression)
+compileMemberExpression = (function (this, expression, meta)
 local compiledProperty,compiledObject,compiledMemberExpression;
 compiledMemberExpression = _arr({},0);
 compiledObject = compileExpression(_ENV,expression.object);
@@ -1774,6 +1774,13 @@ compiledMemberExpression:push("\"]");
 else
 compiledMemberExpression:push(".");
 compiledMemberExpression:push(compiledProperty);
+end
+
+end
+
+if _bool(options.annotation) then
+if _bool(((function() if _bool(annotations[(expression.loc.start.line - 1)]) then return meta;  else return annotations[(expression.loc.start.line - 1)];  end end)())) then
+meta.type = annotations[(expression.loc.start.line - 1)];
 end
 
 end
@@ -1886,7 +1893,7 @@ end
 until true
  do return compiledDeclarations:join("\010"); end
 end);
-compilePattern = (function (this, pattern)
+compilePattern = (function (this, pattern, meta)
 repeat
 local _into = false;
 local _cases = {["Identifier"] = true};
@@ -1895,7 +1902,7 @@ _into = true;
 goto _default
 end
 if _into or (pattern.type == "Identifier") then
- do return compileIdentifier(_ENV,pattern); end
+ do return compileIdentifier(_ENV,pattern,meta); end
 _into = true;
 end
 ::_default::
@@ -1992,9 +1999,16 @@ end
  do return (_add("_",c:charCodeAt(0))); end
 end)); end
 end);
-compileIdentifier = (function (this, identifier)
+compileIdentifier = (function (this, identifier, meta)
 if (identifier.name == "arguments") then
 localVarManager:useArguments();
+end
+
+if _bool(options.annotation) then
+if _bool(((function() if _bool(annotations[(identifier.loc.start.line - 1)]) then return meta;  else return annotations[(identifier.loc.start.line - 1)];  end end)())) then
+meta.type = annotations[(identifier.loc.start.line - 1)];
+end
+
 end
 
  do return sanitizeIdentifier(_ENV,identifier.name); end
