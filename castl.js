@@ -321,6 +321,7 @@
         if (compiledStatement !== undefined) {
             if (options.debug) {
                 var line = statement.loc.start.line;
+                // @string
                 return "--[[" + line + "--]] " + compiledStatement;
             }
             return compiledStatement;
@@ -746,6 +747,7 @@
     // esprima = true: use statement.handlers array
     // esprima = false: use statement.handler
     function compileTryStatementFlavored(statement, esprima) {
+        // @number
         var hasHandler = esprima ? (statement.handlers.length > 0) : statement.handler !== null;
         var hasFinalizer = (statement.finalizer !== null);
         var finallyStatements;
@@ -847,6 +849,7 @@
         protectedCallManager.returnStatement();
 
         if (statement.argument !== null) {
+            // @string
             return " do return " + compileExpression(statement.argument) + "; end";
         }
 
@@ -951,8 +954,10 @@
         case "ThisExpression":
             return;
         case "UpdateExpression":
+            // @string
             return compileUpdateExpressionNoEval(expression, meta) + ";";
         case "AssignmentExpression":
+            // @string
             return compileAssignmentExpressionNoEval(expression, meta) + ";";
         case "BinaryExpression":
         case "LogicalExpression":
@@ -973,12 +978,14 @@
                 compiledUnaryExpressionStatement.push(");");
                 return compiledUnaryExpressionStatement.join("");
             }
+            // @string
             return compileUnaryExpression(expression, meta) + ";";
         case "CallExpression":
         case "NewExpression":
         case "ArrayExpression":
         case "ObjectExpression":
         case "SequenceExpression":
+            // @string
             return compileExpression(expression, meta) + ";";
         default:
             // @string
@@ -1166,7 +1173,10 @@
 
     // Replace the character in str at the given index by char
     function replaceAt(str, index, char) {
-        return str.substr(0, index) + char + str.substr(index + 1);
+        // @string
+        return str.substr(0, index) + char + str.substr(
+            // @number
+            index + 1);
     }
 
     function lastTopLevelBracketedGroupStartIndex(str) {
@@ -1202,7 +1212,7 @@
         return compiledArguments.join(',');
     }
 
-    function compileCallExpression(expression) {
+    function compileCallExpression(expression, meta) {
         var compiledCallExpression = [];
         var compiledCallee = compileExpression(expression.callee);
         var compiledArguments = compileCallArguments(expression.arguments);
@@ -1250,6 +1260,13 @@
                 compiledCallExpression.push(compiledArguments);
             }
             compiledCallExpression.push(")");
+        }
+
+        if (options.annotation) {
+            // if there is an annotation the line before
+            if (annotations[expression.loc.start.line - 1] && meta) {
+                meta.type = annotations[expression.loc.start.line - 1];
+            }
         }
 
         return compiledCallExpression.join('');
@@ -1314,6 +1331,7 @@
             startIndex = expession.lastIndexOf('.');
             return {
                 base: expession.slice(0, startIndex),
+                // @string
                 member: '"' + expession.slice(
                     // @number
                     startIndex + 1
@@ -1691,16 +1709,23 @@
 
     // TernaryOperator: boxing/unboxing solution
     // http://lua-users.org/wiki/TernaryOperator
-    function compileConditionalExpression(expression) {
+    function compileConditionalExpression(expression, meta) {
         var compiledConditionalExpression = ["(function() if "];
-
+        var metaConsequent = {},
+            metaAlternate = {};
         // (function() if boolean(a) then return b else return c end end)()
         compiledConditionalExpression.push(compileBooleanExpression(expression.test));
         compiledConditionalExpression.push(" then return ");
-        compiledConditionalExpression.push(compileExpression(expression.consequent));
+        compiledConditionalExpression.push(compileExpression(expression.consequent, metaConsequent));
         compiledConditionalExpression.push("; else return ");
-        compiledConditionalExpression.push(compileExpression(expression.alternate));
+        compiledConditionalExpression.push(compileExpression(expression.alternate, metaAlternate));
         compiledConditionalExpression.push("; end end)()");
+
+        if (meta) {
+            if (metaConsequent.type === metaAlternate.type && metaConsequent.type !== undefined) {
+                meta.type = metaConsequent.type;
+            }
+        }
 
         return compiledConditionalExpression.join("");
     }
@@ -1746,6 +1771,7 @@
             } else if (property.key.type === "Identifier") {
                 compiledKey = '"';
                 // compile the identifier as a string literal
+                // @string
                 compiledKey += sanitizeLiteralString(property.key.name);
                 // @string
                 compiledKey += '"';
@@ -1989,6 +2015,7 @@
 
         if (useArguments) {
             compiledFunction.push("...)\n");
+            // @string
             compiledFunction.push("local " + compiledParams.join(", ") + " = ...;\n");
             compiledFunction.push("local arguments = _args(...);\n");
 
@@ -2060,6 +2087,7 @@
 
     function sanitizeIdentifier(id) {
         // Reserved lua keywords are guarded
+        // @number
         if (luaKeywords.indexOf(id) > -1) {
             // @string
             return '_g_' + id;
@@ -2069,6 +2097,7 @@
             .replace(/_/g, '__') // (one consequence: CASTL can internally safely use identifiers begining by exactly one undescore) 
             .replace(/\$/g, 'S') // variable name can contain a $ in JS, not in Lua
             .replace(/[\u0080-\uFFFF]/g, function (c) { // Latin-1 Supplement is allowed in JS var names, not yet in Lua
+                // @string
                 return '_' + c.charCodeAt(0);
             });
     }
@@ -2133,6 +2162,7 @@
                 function (str) {
                     var ut8bytes = toUTF8Array(str);
                     ut8bytes = ut8bytes.map(function (e) {
+                        // @string
                         return "\\" + ("00" + e).slice(-3);
                     });
                     return ut8bytes.join("");
@@ -2145,6 +2175,7 @@
             .replace(/\\\\u([0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])/g, // convert "\uXXXX" string to character, then handle it
                 function (str, hexaCode) {
                     var chars = String.fromCharCode(parseInt(hexaCode, 16));
+                    // @string
                     return "\\" + toUTF8Array(chars).join("\\");
                 });
     }
@@ -2161,8 +2192,11 @@
             compiledRegExp.push("\",\"");
 
             var flags = "";
+            // @string
             flags += regexp.global ? "g" : "";
+            // @string
             flags += regexp.ignoreCase ? "i" : "";
+            // @string
             flags += regexp.multiline ? "m" : "";
             compiledRegExp.push(flags);
             compiledRegExp.push("\")");
@@ -2178,6 +2212,7 @@
 
         switch (typeof (literal.value)) {
         case "string":
+            // @string
             ret = '"' + sanitizeLiteralString(literal.value) + '"';
             if (meta) {
                 meta.type = "string";

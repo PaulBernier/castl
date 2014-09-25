@@ -183,7 +183,7 @@ until true
 if (compiledStatement ~= undefined) then
 if _bool(options.debug) then
 line = statement.loc.start.line;
- do return (_add((_add((_add("--[[",line)),"--]] ")),compiledStatement)); end
+ do return ((("--[[" .. line) .. "--]] ") .. compiledStatement); end
 end
 
  do return compiledStatement; end
@@ -539,7 +539,7 @@ end
 end);
 compileTryStatementFlavored = (function (this, statement, esprima)
 local handler,compiledTryStatement,may,finallyStatements,hasFinalizer,hasHandler;
-hasHandler = (function() if _bool(esprima) then return (_gt(statement.handlers.length,0)); else return (statement.handler ~= null); end end)();
+hasHandler = (function() if _bool(esprima) then return (statement.handlers.length>0); else return (statement.handler ~= null); end end)();
 hasFinalizer = (statement.finalizer ~= null);
 protectedCallManager:openContext();
 compiledTryStatement = _arr({[0]="local _status, _return = _pcall(function()\010"},1);
@@ -622,7 +622,7 @@ end);
 compileReturnStatement = (function (this, statement)
 protectedCallManager:returnStatement();
 if (statement.argument ~= null) then
- do return (_add((_add(" do return ",compileExpression(_ENV,statement.argument))),"; end")); end
+ do return ((" do return " .. compileExpression(_ENV,statement.argument)) .. "; end"); end
 end
 
  do return "do return end"; end
@@ -764,11 +764,11 @@ do return end
 _into = true;
 end
 if _into or (expression.type == "UpdateExpression") then
- do return (_add(compileUpdateExpressionNoEval(_ENV,expression,meta),";")); end
+ do return (compileUpdateExpressionNoEval(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
 if _into or (expression.type == "AssignmentExpression") then
- do return (_add(compileAssignmentExpressionNoEval(_ENV,expression,meta),";")); end
+ do return (compileAssignmentExpressionNoEval(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
 if _into or (expression.type == "BinaryExpression") then
@@ -802,7 +802,7 @@ compiledUnaryExpressionStatement:push(");");
  do return compiledUnaryExpressionStatement:join(""); end
 end
 
- do return (_add(compileUnaryExpression(_ENV,expression,meta),";")); end
+ do return (compileUnaryExpression(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
 if _into or (expression.type == "CallExpression") then
@@ -822,7 +822,7 @@ if _into or (expression.type == "ObjectExpression") then
 _into = true;
 end
 if _into or (expression.type == "SequenceExpression") then
- do return (_add(compileExpression(_ENV,expression,meta),";")); end
+ do return (compileExpression(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
 ::_default::
@@ -1059,7 +1059,7 @@ end
  do return compiledUpdateExpression:join(""); end
 end);
 replaceAt = (function (this, str, index, char)
- do return (_add((_add(str:substr(0,index),char)),str:substr((_add(index,1))))); end
+ do return ((str:substr(0,index) .. char) .. str:substr((index + 1))); end
 end);
 lastTopLevelBracketedGroupStartIndex = (function (this, str)
 local i,count,startIndex;
@@ -1094,7 +1094,7 @@ end
  do return compiledArguments:join(","); end
 end);
 compileCallExpression = (function (...)
-local this, expression = ...;
+local this, expression, meta = ...;
 local arguments = _args(...);
 local lastPointIndex,member,base,startIndex,compiledArguments,compiledCallee,compiledCallExpression;
 compiledCallExpression = _arr({},0);
@@ -1139,6 +1139,13 @@ compiledCallExpression:push(compiledArguments);
 end
 
 compiledCallExpression:push(")");
+end
+
+if _bool(options.annotation) then
+if _bool(((function() if _bool(annotations[(expression.loc.start.line - 1)]) then return meta;  else return annotations[(expression.loc.start.line - 1)];  end end)())) then
+meta.type = annotations[(expression.loc.start.line - 1)];
+end
+
 end
 
  do return compiledCallExpression:join(""); end
@@ -1211,7 +1218,7 @@ else
 startIndex = expession:lastIndexOf(".");
  do return _obj({
 ["base"] = expession:slice(0,startIndex),
-["member"] = (_add((_add("\"",expession:slice((startIndex + 1)))),"\""))
+["member"] = (("\"" .. expession:slice((startIndex + 1))) .. "\"")
 }); end
 end
 
@@ -1671,15 +1678,28 @@ compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(operator);
 compiledBinaryExpression:push(right);
 end);
-compileConditionalExpression = (function (this, expression)
-local compiledConditionalExpression;
+compileConditionalExpression = (function (this, expression, meta)
+local metaAlternate,metaConsequent,compiledConditionalExpression;
 compiledConditionalExpression = _arr({[0]="(function() if "},1);
+metaConsequent = _obj({
+
+});
+metaAlternate = _obj({
+
+});
 compiledConditionalExpression:push(compileBooleanExpression(_ENV,expression.test));
 compiledConditionalExpression:push(" then return ");
-compiledConditionalExpression:push(compileExpression(_ENV,expression.consequent));
+compiledConditionalExpression:push(compileExpression(_ENV,expression.consequent,metaConsequent));
 compiledConditionalExpression:push("; else return ");
-compiledConditionalExpression:push(compileExpression(_ENV,expression.alternate));
+compiledConditionalExpression:push(compileExpression(_ENV,expression.alternate,metaAlternate));
 compiledConditionalExpression:push("; end end)()");
+if _bool(meta) then
+if ((function() if (metaConsequent.type == metaAlternate.type) then return (metaConsequent.type ~= undefined);  else return (metaConsequent.type == metaAlternate.type);  end end)()) then
+meta.type = metaConsequent.type;
+end
+
+end
+
  do return compiledConditionalExpression:join(""); end
 end);
 compileSequenceExpression = (function (this, expression, meta)
@@ -1719,7 +1739,7 @@ if (property.key.type == "Literal") then
 compiledKey = compileLiteral(_ENV,property.key);
 elseif (property.key.type == "Identifier") then
 compiledKey = "\"";
-compiledKey = (_add(compiledKey,sanitizeLiteralString(_ENV,property.key.name)));
+compiledKey = (compiledKey .. sanitizeLiteralString(_ENV,property.key.name));
 compiledKey = (compiledKey .. "\"");
 else
 _throw(_new(Error,("Unexpected property key type: " .. property.key.type)),0)
@@ -1938,7 +1958,7 @@ locals = context[0];
 useArguments = ((function() if _bool(context[1]) then return (compiledParams:indexOf("arguments") == -_tonum(1));  else return context[1];  end end)());
 if _bool(useArguments) then
 compiledFunction:push("...)\010");
-compiledFunction:push((_add((_add("local ",compiledParams:join(", ")))," = ...;\010")));
+compiledFunction:push((("local " .. compiledParams:join(", ")) .. " = ...;\010"));
 compiledFunction:push("local arguments = _args(...);\010");
 compiledParams:push("arguments");
 else
@@ -1993,12 +2013,12 @@ end
  do return ""; end
 end);
 sanitizeIdentifier = (function (this, id)
-if (_gt(luaKeywords:indexOf(id),-_tonum(1))) then
+if (luaKeywords:indexOf(id)>-_tonum(1)) then
  do return ("_g_" .. id); end
 end
 
  do return id:replace(_regexp("_","g"),"__"):replace(_regexp("\\$","g"),"S"):replace(_regexp("[\194\128-\239\191\191]","g"),(function (this, c)
- do return (_add("_",c:charCodeAt(0))); end
+ do return ("_" .. c:charCodeAt(0)); end
 end)); end
 end);
 compileIdentifier = (function (this, identifier, meta)
@@ -2043,7 +2063,7 @@ sanitizeLiteralString = (function (this, str)
 local ut8bytes;
 ut8bytes = toUTF8Array(_ENV,str);
 ut8bytes = ut8bytes:map((function (this, e)
- do return (_add("\\",(_add("00",e)):slice(-_tonum(3)))); end
+ do return ("\\" .. ("00" .. e):slice(-_tonum(3))); end
 end));
  do return ut8bytes:join(""); end
 end)); end
@@ -2052,7 +2072,7 @@ sanitizeRegExpSource = (function (this, str)
  do return str:replace(_regexp("\\\\","g"),"\\\\"):replace(_regexp("\"","g"),"\\\""):replace(_regexp("\\\\\\\\u([0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])","g"),(function (this, str, hexaCode)
 local chars;
 chars = String:fromCharCode(parseInt(_ENV,hexaCode,16));
- do return (_add("\\",toUTF8Array(_ENV,chars):join("\\"))); end
+ do return ("\\" .. toUTF8Array(_ENV,chars):join("\\")); end
 end)); end
 end);
 compileLiteral = (function (this, literal, meta)
@@ -2065,9 +2085,9 @@ source = sanitizeRegExpSource(_ENV,regexp.source);
 compiledRegExp:push(source);
 compiledRegExp:push("\",\"");
 flags = "";
-flags = (_add(flags,(function() if _bool(regexp.global) then return "g"; else return ""; end end)()));
-flags = (_add(flags,(function() if _bool(regexp.ignoreCase) then return "i"; else return ""; end end)()));
-flags = (_add(flags,(function() if _bool(regexp.multiline) then return "m"; else return ""; end end)()));
+flags = (flags .. (function() if _bool(regexp.global) then return "g"; else return ""; end end)());
+flags = (flags .. (function() if _bool(regexp.ignoreCase) then return "i"; else return ""; end end)());
+flags = (flags .. (function() if _bool(regexp.multiline) then return "m"; else return ""; end end)());
 compiledRegExp:push(flags);
 compiledRegExp:push("\")");
 ret = compiledRegExp:join("");
@@ -2086,7 +2106,7 @@ _into = true;
 goto _default
 end
 if _into or (_type(literal.value) == "string") then
-ret = (_add((_add("\"",sanitizeLiteralString(_ENV,literal.value))),"\""));
+ret = (("\"" .. sanitizeLiteralString(_ENV,literal.value)) .. "\"");
 if _bool(meta) then
 meta.type = "string";
 end
