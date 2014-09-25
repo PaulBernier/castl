@@ -57,9 +57,9 @@ Option  | Description
 -h, --help | display help.
 --cat | don't execute, just print code that would be run.
 --jit | compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active).
+--annotation | use annotations to optimize generated code.
 --mini | minify AST using Esprima before compiling. Size of outputted file is shrunk.
 --debug | add comments in the Lua code referring to the line number of the original statement in the JS file.
---eval | eval mode (loss of performances).
 --acorn | use Acorn parser. If not specified Esprima is used.
 --strict | make Esprima and Acorn not error-tolerant.
 --node | add a very basic support of NodeJS 'require' system.
