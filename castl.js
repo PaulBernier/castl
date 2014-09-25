@@ -151,7 +151,6 @@
             throw new Error("LocalVarManager error: no current local context");
         },
 
-        // Using a set as context would be better (ECMA6)
         createLocalContext: function () {
             this.locals.push([]);
             this.functions.push([]);
@@ -192,10 +191,11 @@
      *
      * ***************/
 
-    var options;
+    var options, annotations;
 
-    function compileAST(ast, opts) {
+    function compileAST(ast, opts, anno) {
         options = opts || {};
+        annotations = anno || {};
 
         // Compile top level
         if (ast.type === 'Program') {

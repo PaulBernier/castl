@@ -10,6 +10,7 @@ var tolerant = process.argv[6] === "true";
 var debug = process.argv[7] === "true";
 var evalMode = process.argv[8] === "true";
 var mini = process.argv[9] === "true";
+var annotation = process.argv[10] === "true";
 
 var parser = require(parserName);
 
@@ -37,6 +38,36 @@ if (debug) {
     }
 }
 
+var annotations = {};
+if (annotation) {
+    castlOptions.annotation = true;
+
+    if (parserName === "esprima") {
+        parserOptions.comment = true;
+        parserOptions.loc = true;
+
+        function processEsprimaComments(comments) {
+            const regexp = /@(\S*)/;
+            var i, comment, castlComment;
+            for (i = 0; i < comments.length; ++i) {
+                comment = regexp.exec(comments[i].value);
+                if (comment !== null) {
+                    annotations[comments[i].loc.start.line] = comment[1];
+                }
+            }
+        }
+    } else if (parserName === "acorn") {
+        parserOptions.onComment = function (block, text, start, end, loc) {
+            const regexp = /@(\S*)/;
+            var comment = regexp.exec(text);
+            if (comment !== null) {
+                annotations[loc.line] = comment[1];
+            }
+        };
+        parserOptions.locations = true;
+    }
+}
+
 // Read code from js file
 fs.readFile(filename, 'utf8', function (err, data) {
     if (err) {
@@ -44,19 +75,24 @@ fs.readFile(filename, 'utf8', function (err, data) {
         process.exit(1);
     }
 
-    var syntax = "";
+    var ast;
     try {
-        syntax = parser.parse(data, parserOptions);
+        ast = parser.parse(data, parserOptions);
+
+        if (annotation && parserName === "esprima") {
+            processEsprimaComments(ast.comments);
+        }
+
         // Minify AST
         if (mini) {
             var esmangle = require("esmangle");
-            syntax = esmangle.mangle(syntax);
+            ast = esmangle.mangle(ast);
         }
     } catch (e) {
-        throw new SyntaxError("Couldn't parse JS code");
+        throw new SyntaxError("Couldn't parse JS code" + e);
     }
 
-    var compiledCode = castl.compileAST(syntax, castlOptions).compiled;
+    var compiledCode = castl.compileAST(ast, castlOptions, annotations).compiled;
     var finalCode = [];
 
     // Set environment

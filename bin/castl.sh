@@ -25,6 +25,7 @@ tolerant=true
 node=false
 eval=false
 debug=false
+annotation=false
 mini=false
 linenumers=false
 luajit=false
@@ -70,6 +71,8 @@ for arg in "$@"; do
             eval=true
         elif [ $arg = "--mini" ]; then
             mini=true
+        elif [ $arg = "--annotation" ]; then
+            annotation=true
         elif [ $arg = "--cat" ]; then
             execute=false
             verbose=true
@@ -110,7 +113,7 @@ for arg in "$@"; do
     fi
 done
 
-castl-compiler $filename $parser $node $luajit $tolerant $debug $eval $mini > ".tmp.lua"
+castl-compiler $filename $parser $node $luajit $tolerant $debug $eval $mini $annotation > ".tmp.lua"
 compileStatus=$?
 
 # compilation failed
