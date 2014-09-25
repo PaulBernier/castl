@@ -335,23 +335,16 @@
         return compiledStatements.join("\n");
     }
 
-    function expressionReturnsBoolean(expression) {
-        if (expression.type === "BinaryExpression") {
-            // True if equality or relational operator
-            return ["==", "!=", "===", "!==", "<", ">", "<=", ">="].indexOf(expression.operator) !== -1;
-        }
-
-        return false;
-    }
-
     function compileBooleanExpression(expression) {
         var compiledBooleanExpression = [];
+        var meta = {};
+        var compiledExpression = compileExpression(expression, meta);
 
-        if (expressionReturnsBoolean(expression)) {
-            compiledBooleanExpression.push(compileExpression(expression));
+        if (meta.type === "boolean") {
+            compiledBooleanExpression.push(compiledExpression);
         } else {
             compiledBooleanExpression.push("_bool(");
-            compiledBooleanExpression.push(compileExpression(expression));
+            compiledBooleanExpression.push(compiledExpression);
             compiledBooleanExpression.push(")");
         }
 
@@ -872,73 +865,73 @@
      *
      * ******************/
 
-    function compileExpression(expression) {
+    function compileExpression(expression, meta) {
         switch (expression.type) {
         case "AssignmentExpression":
-            return compileAssignmentExpression(expression);
+            return compileAssignmentExpression(expression, meta);
         case "FunctionExpression":
-            return compileFunction(expression);
+            return compileFunction(expression, meta);
         case "Identifier":
-            return compileIdentifier(expression);
+            return compileIdentifier(expression, meta);
         case "Literal":
-            return compileLiteral(expression);
+            return compileLiteral(expression, meta);
         case "UnaryExpression":
-            return compileUnaryExpression(expression);
+            return compileUnaryExpression(expression, meta);
         case "BinaryExpression":
-            return compileBinaryExpression(expression);
+            return compileBinaryExpression(expression, meta);
         case "LogicalExpression":
-            return compileLogicalExpression(expression);
+            return compileLogicalExpression(expression, meta);
         case "MemberExpression":
-            return compileMemberExpression(expression);
+            return compileMemberExpression(expression, meta);
         case "CallExpression":
-            return compileCallExpression(expression);
+            return compileCallExpression(expression, meta);
         case "NewExpression":
-            return compileNewExpression(expression);
+            return compileNewExpression(expression, meta);
         case "ThisExpression":
-            return compileThisExpression(expression);
+            return compileThisExpression(expression, meta);
         case "ObjectExpression":
-            return compileObjectExpression(expression);
+            return compileObjectExpression(expression, meta);
         case "UpdateExpression":
-            return compileUpdateExpression(expression);
+            return compileUpdateExpression(expression, meta);
         case "ArrayExpression":
-            return compileArrayExpression(expression);
+            return compileArrayExpression(expression, meta);
         case "ConditionalExpression":
-            return compileConditionalExpression(expression);
+            return compileConditionalExpression(expression, meta);
         case "SequenceExpression":
-            return compileSequenceExpression(expression);
+            return compileSequenceExpression(expression, meta);
         default:
             throw new Error("Unknown Expression type: " + expression.type);
         }
     }
 
-    function compileExpressionStatement(expression) {
+    function compileExpressionStatement(expression, meta) {
         if (options.evalMode) {
-            return compileExpressionStatementEvalMode(expression);
+            return compileExpressionStatementEvalMode(expression, meta);
         } else {
-            return compileExpressionStatementNoEval(expression);
+            return compileExpressionStatementNoEval(expression, meta);
         }
     }
 
     // Add a semi-colon at the end of ExpressionStatements
-    function compileExpressionStatementEvalMode(expression) {
+    function compileExpressionStatementEvalMode(expression, meta) {
         // Enclose the statement in a _e to be evaluated
         var compiledExpressionStatement = ["_e("];
-        compiledExpressionStatement.push(compileExpression(expression));
+        compiledExpressionStatement.push(compileExpression(expression, meta));
         compiledExpressionStatement.push(");");
         return compiledExpressionStatement.join("");
     }
 
     // Add a semi-colon at the end of ExpressionStatements
-    function compileExpressionStatementNoEval(expression) {
+    function compileExpressionStatementNoEval(expression, meta) {
         switch (expression.type) {
         case "Literal":
         case "Identifier":
         case "ThisExpression":
             return;
         case "UpdateExpression":
-            return compileUpdateExpressionNoEval(expression) + ";";
+            return compileUpdateExpressionNoEval(expression, meta) + ";";
         case "AssignmentExpression":
-            return compileAssignmentExpressionNoEval(expression) + ";";
+            return compileAssignmentExpressionNoEval(expression, meta) + ";";
         case "BinaryExpression":
         case "LogicalExpression":
         case "ConditionalExpression":
@@ -946,7 +939,7 @@
         case "FunctionExpression":
             // Enclose the statement in a _e to be evaluated
             var compiledExpressionStatement = ["_e("];
-            compiledExpressionStatement.push(compileExpression(expression));
+            compiledExpressionStatement.push(compileExpression(expression, meta));
             compiledExpressionStatement.push(");");
             return compiledExpressionStatement.join("");
         case "UnaryExpression":
@@ -954,17 +947,17 @@
             // so we enclose it in _e
             if (expression.operator === "!") {
                 var compiledUnaryExpressionStatement = ["_e("];
-                compiledUnaryExpressionStatement.push(compileUnaryExpression(expression));
+                compiledUnaryExpressionStatement.push(compileUnaryExpression(expression, meta));
                 compiledUnaryExpressionStatement.push(");");
                 return compiledUnaryExpressionStatement.join("");
             }
-            return compileUnaryExpression(expression) + ";";
+            return compileUnaryExpression(expression, meta) + ";";
         case "CallExpression":
         case "NewExpression":
         case "ArrayExpression":
         case "ObjectExpression":
         case "SequenceExpression":
-            return compileExpression(expression) + ";";
+            return compileExpression(expression, meta) + ";";
         default:
             throw new Error("Impossible expression type:" + expression.type);
         }
@@ -997,14 +990,15 @@
         return compiledAssignmentExpression.join('');
     }
 
-    function compileAssignmentExpression(expression) {
+    function compileAssignmentExpression(expression, meta) {
         var compiledAssignmentExpression = ["(function () local _tmp = "];
 
         var left = compileExpression(expression.left);
+        var metaRight = {};
 
         switch (expression.operator) {
         case "=":
-            var right = compileExpression(expression.right);
+            var right = compileExpression(expression.right, metaRight);
 
             compiledAssignmentExpression.push(right);
             compiledAssignmentExpression.push("; ");
@@ -1018,12 +1012,16 @@
             binaryExpression.operator = extractBinaryOperator(expression.operator);
             binaryExpression.left = expression.left;
             binaryExpression.right = expression.right;
-            var compiledBinaryExpression = compileBinaryExpression(binaryExpression);
+            var compiledBinaryExpression = compileBinaryExpression(binaryExpression, metaRight);
 
             compiledAssignmentExpression.push(compiledBinaryExpression);
             compiledAssignmentExpression.push("; ");
             compiledAssignmentExpression.push(left);
             compiledAssignmentExpression.push(" = _tmp; return _tmp; end)()");
+        }
+
+        if (meta) {
+            meta.type = metaRight.type;
         }
 
         return compiledAssignmentExpression.join('');
@@ -1035,48 +1033,72 @@
 
     function compileUpdateExpressionNoEval(expression) {
         var compiledUpdateExpression = [];
-        var compiledArgument = compileExpression(expression.argument);
+        var metaArgument = {};
+        var compiledArgument = compileExpression(expression.argument, metaArgument);
 
         compiledUpdateExpression.push(compiledArgument);
         compiledUpdateExpression.push(" = ");
 
         switch (expression.operator) {
         case "++":
-            compiledUpdateExpression.push("_inc(");
+            if (metaArgument.type === "number") {
+                compiledUpdateExpression.push(compiledArgument);
+                compiledUpdateExpression.push(" + 1");
+            } else {
+                compiledUpdateExpression.push("_inc(");
+                compiledUpdateExpression.push(compiledArgument);
+                compiledUpdateExpression.push(")");
+            }
             break;
         case "--":
-            compiledUpdateExpression.push("_dec(");
-
+            if (metaArgument.type === "number") {
+                compiledUpdateExpression.push(compiledArgument);
+                compiledUpdateExpression.push(" - 1");
+            } else {
+                compiledUpdateExpression.push("_dec(");
+                compiledUpdateExpression.push(compiledArgument);
+                compiledUpdateExpression.push(")");
+            }
             break;
         default:
             throw new Error("Unknown UpdateOperator: " + expression.operator);
         }
 
-        compiledUpdateExpression.push(compiledArgument);
-        compiledUpdateExpression.push(")");
-
         return compiledUpdateExpression.join('');
     }
 
-    function compileUpdateExpression(expression) {
+    function compileUpdateExpression(expression, meta) {
         var compiledUpdateExpression = ["(function () local _tmp = "];
-        var compiledArgument = compileExpression(expression.argument);
+        var metaArgument = {};
+        var compiledArgument = compileExpression(expression.argument, metaArgument);
 
         if (expression.prefix) {
             // Prefix
             switch (expression.operator) {
             case "++":
-                compiledUpdateExpression.push("_inc(");
+                if (metaArgument.type === "number") {
+                    compiledUpdateExpression.push(compiledArgument);
+                    compiledUpdateExpression.push(" + 1; ");
+                } else {
+                    compiledUpdateExpression.push("_inc(");
+                    compiledUpdateExpression.push(compiledArgument);
+                    compiledUpdateExpression.push("); ");
+                }
                 break;
             case "--":
-                compiledUpdateExpression.push("_dec(");
+                if (metaArgument.type === "number") {
+                    compiledUpdateExpression.push(compiledArgument);
+                    compiledUpdateExpression.push(" - 1; ");
+                } else {
+                    compiledUpdateExpression.push("_dec(");
+                    compiledUpdateExpression.push(compiledArgument);
+                    compiledUpdateExpression.push("); ");
+                }
                 break;
             default:
                 throw new Error("Unknown UpdateOperator: " + expression.operator);
             }
 
-            compiledUpdateExpression.push(compiledArgument);
-            compiledUpdateExpression.push("); ");
             compiledUpdateExpression.push(compiledArgument);
             compiledUpdateExpression.push(" = _tmp");
         } else {
@@ -1088,10 +1110,18 @@
 
             switch (expression.operator) {
             case "++":
-                compiledUpdateExpression.push("_inc(_tmp)");
+                if (metaArgument.type === "number") {
+                    compiledUpdateExpression.push("_tmp + 1");
+                } else {
+                    compiledUpdateExpression.push("_inc(_tmp)");
+                }
                 break;
             case "--":
-                compiledUpdateExpression.push("_dec(_tmp)");
+                if (metaArgument.type === "number") {
+                    compiledUpdateExpression.push("_tmp - 1");
+                } else {
+                    compiledUpdateExpression.push("_dec(_tmp)");
+                }
                 break;
             default:
                 throw new Error("Unknown UpdateOperator: " + expression.operator);
@@ -1099,6 +1129,11 @@
         }
 
         compiledUpdateExpression.push("; return _tmp; end)()");
+
+        // UpdateExpression always returns a number
+        if (meta) {
+            meta.type = "number";
+        }
 
         return compiledUpdateExpression.join('');
     }
@@ -1187,12 +1222,14 @@
         return compiledCallExpression.join('');
     }
 
-    function compileLogicalExpression(expression) {
+    function compileLogicalExpression(expression, meta) {
         var compiledLogicalExpression = ["("];
 
         var leftCondition = compileBooleanExpression(expression.left);
-        var left = compileExpression(expression.left);
-        var right = compileExpression(expression.right);
+        var metaLeft = {},
+            metaRight = {};
+        var left = compileExpression(expression.left, metaLeft),
+            right = compileExpression(expression.right, metaRight);
 
         switch (expression.operator) {
         case "&&":
@@ -1219,6 +1256,13 @@
         }
 
         compiledLogicalExpression.push(")");
+
+        if (meta) {
+            // if left and right are same type then return type is known
+            if (metaLeft.type === metaRight.type && metaLeft.type !== undefined) {
+                meta.type = metaLeft.type;
+            }
+        }
 
         return compiledLogicalExpression.join('');
     }
@@ -1248,7 +1292,7 @@
         };
     }
 
-    function compileUnaryExpression(expression) {
+    function compileUnaryExpression(expression, meta) {
         var compiledUnaryExpression = [];
         var compiledExpression = compileExpression(expression.argument);
 
@@ -1261,28 +1305,43 @@
                 compiledUnaryExpression.push("-_tonum(");
                 compiledUnaryExpression.push(compiledExpression);
                 compiledUnaryExpression.push(")");
+                if (meta) {
+                    meta.type = "number";
+                }
                 break;
                 // convert to number
             case "+":
                 compiledUnaryExpression.push("_tonum(");
                 compiledUnaryExpression.push(compiledExpression);
                 compiledUnaryExpression.push(")");
+                if (meta) {
+                    meta.type = "number";
+                }
                 break;
                 // Negate
             case "!":
                 compiledUnaryExpression.push("not ");
                 compiledUnaryExpression.push(compileBooleanExpression(expression.argument));
+                if (meta) {
+                    meta.type = "boolean";
+                }
                 break;
                 // Bit not
             case "~":
                 compiledUnaryExpression.push("_bnot(");
                 compiledUnaryExpression.push(compiledExpression);
                 compiledUnaryExpression.push(")");
+                if (meta) {
+                    meta.type = "number";
+                }
                 break;
             case "typeof":
                 compiledUnaryExpression.push("_type(");
                 compiledUnaryExpression.push(compiledExpression);
                 compiledUnaryExpression.push(")");
+                if (meta) {
+                    meta.type = "string";
+                }
                 break;
             case "delete":
                 var scope;
@@ -1315,11 +1374,18 @@
                 compiledUnaryExpression.push("; ");
                 compiledUnaryExpression.push(scope + compiledExpression);
                 compiledUnaryExpression.push(" = nil; return _r or _v ~= nil; end)()");
+
+                if (meta) {
+                    meta.type = "boolean";
+                }
                 break;
             case "void":
                 compiledUnaryExpression.push("_void(");
                 compiledUnaryExpression.push(compiledExpression);
                 compiledUnaryExpression.push(")");
+                if (meta) {
+                    meta.type = "undefined";
+                }
                 break;
             default:
                 throw new Error("Unknown UnaryOperator: " + expression.operator);
@@ -1331,10 +1397,78 @@
         return compiledUnaryExpression.join('');
     }
 
-    function compileBinaryExpression(expression) {
+    function compileAdditionOperator(left, right, metaLeft, metaRight, meta) {
+        var compiledAdditionOperator = [];
+
+        if (metaLeft.type === "string" && metaRight.type === "string") {
+            compiledAdditionOperator.push(left);
+            compiledAdditionOperator.push(" .. ");
+            compiledAdditionOperator.push(right);
+            if (meta) {
+                meta.type = "string";
+            }
+        } else if (metaLeft.type === "number" && metaRight.type === "number") {
+            compiledAdditionOperator.push(left);
+            compiledAdditionOperator.push(" + ");
+            compiledAdditionOperator.push(right);
+            if (meta) {
+                meta.type = "number";
+            }
+        } else {
+            // Default case
+            compiledAdditionOperator.push("_add(");
+            compiledAdditionOperator.push(left);
+            compiledAdditionOperator.push(",");
+            compiledAdditionOperator.push(right);
+            compiledAdditionOperator.push(")");
+        }
+
+        return compiledAdditionOperator.join("");
+    }
+
+    function compileComparisonOperator(left, right, operator, metaLeft, metaRight, meta) {
+        var compiledComparisonOperator = [];
+
+        // Raw comparison
+        if ((metaLeft.type === "string" && metaRight.type === "string") || (metaLeft.type === "number" && metaRight.type === "number")) {
+            compiledComparisonOperator.push(left);
+            compiledComparisonOperator.push(operator);
+            compiledComparisonOperator.push(right);
+        } else {
+            switch (operator) {
+            case "<":
+                compiledComparisonOperator.push("_lt(");
+                break;
+            case "<=":
+                compiledComparisonOperator.push("_le(");
+                break;
+            case ">":
+                compiledComparisonOperator.push("_gt(");
+                break;
+            case ">=":
+                compiledComparisonOperator.push("_ge(");
+                break;
+            }
+            compiledComparisonOperator.push(left);
+            compiledComparisonOperator.push(",");
+            compiledComparisonOperator.push(right);
+            compiledComparisonOperator.push(")");
+        }
+
+        // Result of comparison is always a boolean
+        if (meta) {
+            meta.type = "boolean";
+        }
+
+        return compiledComparisonOperator.join("");
+    }
+
+    function compileBinaryExpression(expression, meta) {
         var compiledBinaryExpression = ["("];
-        var left = compileExpression(expression.left);
-        var right = compileExpression(expression.right);
+        var metaLeft = {},
+            metaRight = {};
+        var left = compileExpression(expression.left, metaLeft),
+            right = compileExpression(expression.right, metaRight);
 
         switch (expression.operator) {
             // Equality
@@ -1344,6 +1478,9 @@
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "boolean";
+            }
             break;
         case "!=":
             compiledBinaryExpression.push("not _eq(");
@@ -1351,41 +1488,28 @@
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "boolean";
+            }
             break;
         case "===":
             pushSimpleBinaryExpression(compiledBinaryExpression, " == ", left, right);
+            if (meta) {
+                meta.type = "boolean";
+            }
             break;
         case "!==":
             pushSimpleBinaryExpression(compiledBinaryExpression, " ~= ", left, right);
+            if (meta) {
+                meta.type = "boolean";
+            }
             break;
             // Comparison
         case "<":
-            compiledBinaryExpression.push("_lt(");
-            compiledBinaryExpression.push(left);
-            compiledBinaryExpression.push(",");
-            compiledBinaryExpression.push(right);
-            compiledBinaryExpression.push(")");
-            break;
         case "<=":
-            compiledBinaryExpression.push("_le(");
-            compiledBinaryExpression.push(left);
-            compiledBinaryExpression.push(",");
-            compiledBinaryExpression.push(right);
-            compiledBinaryExpression.push(")");
-            break;
         case ">":
-            compiledBinaryExpression.push("_gt(");
-            compiledBinaryExpression.push(left);
-            compiledBinaryExpression.push(",");
-            compiledBinaryExpression.push(right);
-            compiledBinaryExpression.push(")");
-            break;
         case ">=":
-            compiledBinaryExpression.push("_ge(");
-            compiledBinaryExpression.push(left);
-            compiledBinaryExpression.push(",");
-            compiledBinaryExpression.push(right);
-            compiledBinaryExpression.push(")");
+            compiledBinaryExpression.push(compileComparisonOperator(left, right, expression.operator, metaLeft, metaRight, meta));
             break;
             // Bits shift
         case "<<":
@@ -1394,6 +1518,9 @@
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
             break;
         case ">>":
             compiledBinaryExpression.push("_arshift(");
@@ -1401,6 +1528,9 @@
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
             break;
         case ">>>":
             compiledBinaryExpression.push("_rshift(");
@@ -1408,23 +1538,31 @@
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
             break;
             // Arithmetic
         case "+":
-            compiledBinaryExpression.push("_add(");
-            compiledBinaryExpression.push(left);
-            compiledBinaryExpression.push(",");
-            compiledBinaryExpression.push(right);
-            compiledBinaryExpression.push(")");
+            compiledBinaryExpression.push(compileAdditionOperator(left, right, metaLeft, metaRight, meta));
             break;
         case "-":
             pushSimpleBinaryExpression(compiledBinaryExpression, " - ", left, right);
+            if (meta) {
+                meta.type = "number";
+            }
             break;
         case "*":
             pushSimpleBinaryExpression(compiledBinaryExpression, " * ", left, right);
+            if (meta) {
+                meta.type = "number";
+            }
             break;
         case "/":
             pushSimpleBinaryExpression(compiledBinaryExpression, " / ", left, right);
+            if (meta) {
+                meta.type = "number";
+            }
             break;
         case "%":
             compiledBinaryExpression.push("_mod(");
@@ -1432,6 +1570,9 @@
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
             break;
             // Bitwise operators
         case "|":
@@ -1440,6 +1581,9 @@
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
             break;
         case "^":
             compiledBinaryExpression.push("_bxor(");
@@ -1447,6 +1591,9 @@
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
             break;
         case "&":
             compiledBinaryExpression.push("_band(");
@@ -1454,6 +1601,9 @@
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
             break;
             // Other
         case "in":
@@ -1462,6 +1612,9 @@
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(left);
             compiledBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "boolean";
+            }
             break;
         case "instanceof":
             compiledBinaryExpression.push("_instanceof(");
@@ -1469,6 +1622,9 @@
             compiledBinaryExpression.push(",");
             compiledBinaryExpression.push(right);
             compiledBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "boolean";
+            }
             break;
         case "..":
             // E4X operator
@@ -1505,22 +1661,28 @@
         return compiledConditionalExpression.join("");
     }
 
-    function compileSequenceExpression(expression) {
+    function compileSequenceExpression(expression, meta) {
         var compiledSequenceExpression = ["_seq({"];
 
-        var i, expressions = expression.expressions,
-            sequence = [];
+        var i, expressions = expression.expressions;
+        var sequence = [];
+        var metaLast = {};
         for (i = 0; i < expressions.length; ++i) {
-            sequence.push(compileExpression(expressions[i]));
+            sequence.push(compileExpression(expressions[i], metaLast));
         }
 
         compiledSequenceExpression.push(sequence.join(","));
         compiledSequenceExpression.push("})");
 
+        // Type returned by sequence is the same as the type of the last expression in the sequence
+        if (meta) {
+            meta.type = metaLast.type;
+        }
+
         return compiledSequenceExpression.join("");
     }
 
-    function compileObjectExpression(expression) {
+    function compileObjectExpression(expression, meta) {
         var compiledObjectExpression = ["_obj({\n"];
 
         var i, length = expression.properties.length;
@@ -1567,6 +1729,10 @@
 
         compiledObjectExpression.push(compiledProperties.join(",\n"));
         compiledObjectExpression.push("\n})");
+
+        if (meta) {
+            meta.type = "object";
+        }
 
         return compiledObjectExpression.join("");
     }
@@ -1619,7 +1785,7 @@
         return "this";
     }
 
-    function compileArrayExpression(expression) {
+    function compileArrayExpression(expression, meta) {
         var compiledArrayExpression = ["_arr({"];
 
         var compiledElements = [];
@@ -1640,6 +1806,10 @@
         compiledArrayExpression.push("},");
         compiledArrayExpression.push(length);
         compiledArrayExpression.push(")");
+
+        if (meta) {
+            meta.type = "object";
+        }
 
         return compiledArrayExpression.join("");
     }
@@ -1740,6 +1910,7 @@
         }
 
         // Params
+        var i;
         var params = fun.params;
         var compiledParams = ["this"];
         for (i = 0; i < params.length; ++i) {
@@ -1752,7 +1923,6 @@
         // Do not create Argument object if one of the parameters is called 'arguments'
         var useArguments = context[1] && (compiledParams.indexOf("arguments") === -1);
 
-        var i;
         if (useArguments) {
             compiledFunction.push("...)\n");
             compiledFunction.push("local " + compiledParams.join(", ") + " = ...;\n");
@@ -1895,7 +2065,7 @@
                 });
     }
 
-    function compileLiteral(literal) {
+    function compileLiteral(literal, meta) {
         var ret = literal.raw;
 
         if (literal.value instanceof RegExp) {
@@ -1914,14 +2084,35 @@
             compiledRegExp.push("\")");
 
             ret = compiledRegExp.join("");
+
+            if (meta) {
+                meta.type = "object";
+            }
+
+            return ret;
         }
-        if (typeof (literal.value) === "string") {
+
+        switch (typeof (literal.value)) {
+        case "string":
             ret = '"' + sanitizeLiteralString(literal.value) + '"';
-        }
-        if (typeof (literal.value) === "number") {
+            if (meta) {
+                meta.type = "string";
+            }
+            break;
+        case "number":
             // JSON.stringify write numbers in base 10
             // (Lua doesn't handle octal notation)
             ret = JSON.stringify(literal.value);
+            if (meta) {
+                meta.type = "number";
+            }
+            break;
+        case "boolean":
+            if (meta) {
+                meta.type = "boolean";
+            }
+
+            break;
         }
 
         return ret;
