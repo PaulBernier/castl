@@ -27,7 +27,7 @@ fs.readFile(filename, 'utf8', function (err, data) {
         if (firstLine === "var assert = require('assert');" ||
             firstLine === "var assert = require(\"assert\");") {
             // Skip first line
-            data = data.substr(position + 1);
+            data = data.replace(/^[^\n]*\n/, "\n")
 
             var syntax = "";
             try {
