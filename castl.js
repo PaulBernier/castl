@@ -52,6 +52,7 @@
 
     ProtectedCallManager.prototype = {
         isInProtectedCallContext: function () {
+            // @number
             if (this.protectedCallContext.length > 0) {
                 return true;
             }
@@ -144,6 +145,7 @@
 
     LocalVarManager.prototype = {
         popLocalContext: function () {
+            // @number
             if (this.locals.length > 0) {
                 return [this.locals.pop(), this.args.pop(), this.functions.pop()];
             }
@@ -158,6 +160,7 @@
         },
 
         pushLocal: function (varName) {
+            // @number
             if (this.locals.length > 0) {
                 this.locals[this.locals.length - 1].push(varName);
             } else {
@@ -166,6 +169,7 @@
         },
 
         pushFunction: function (functionDeclaration) {
+            // @number
             if (this.functions.length > 0) {
                 this.functions[this.functions.length - 1].push(functionDeclaration);
             } else {
@@ -174,6 +178,7 @@
         },
 
         useArguments: function () {
+            // @number
             if (this.args.length > 0) {
                 this.args[this.args.length - 1] = true;
             } else {
@@ -214,6 +219,7 @@
 
             // Locals
             var locals = context[0];
+            // @number
             if (locals.length > 0) {
                 var compiledLocalsDeclaration = buildLocalsDeclarationString(locals);
                 compiledProgram.push(compiledLocalsDeclaration);
@@ -221,9 +227,11 @@
 
             // Function declarations
             var functions = context[2];
+            // @number
             if (functions.length > 0) {
                 var compiledFunctionsDeclaration = [];
                 var i;
+                // @number
                 for (i = 0; i < functions.length; ++i) {
                     compiledFunctionsDeclaration.push(functions[i]);
                 }
@@ -306,6 +314,7 @@
         case "DebuggerStatement":
             return "";
         default:
+            // @string
             throw new Error("Unknown Statement type: " + statement.type);
         }
 
@@ -322,6 +331,7 @@
         var compiledStatements = [];
 
         var i, compiledStatement;
+        // @number
         for (i = 0; i < statementList.length; ++i) {
             compiledStatement = compileStatement(statementList[i]);
 
@@ -428,6 +438,7 @@
             compiledIterationStatement = compileForInStatement(statement, compiledLabel);
             break;
         default:
+            // @string
             throw new Error("Not an IterationStatement " + statement.type);
         }
         protectedCallManager.closeIterationStatement();
@@ -464,6 +475,7 @@
 
         // Label for continue with label
         if (compiledLabel && labelTracker[compiledLabel].mayContinue) {
+            // @string
             compiledForStatement.push("::" + compiledLabel + "_c::\n");
         }
 
@@ -509,6 +521,7 @@
 
         // Label for continue with label
         if (compiledLabel && labelTracker[compiledLabel].mayContinue) {
+            // @string
             compiledForInStatement.push("::" + compiledLabel + "_c::\n");
         }
 
@@ -533,6 +546,7 @@
 
         // Label for continue with label
         if (compiledLabel && labelTracker[compiledLabel].mayContinue) {
+            // @string
             compiledWhileStatement.push("::" + compiledLabel + "_c::\n");
         }
 
@@ -553,6 +567,7 @@
 
         // Label for continue with label
         if (compiledLabel && labelTracker[compiledLabel].mayContinue) {
+            // @string
             compiledDoWhileStatement.push("::" + compiledLabel + "_c::\n");
         }
 
@@ -590,6 +605,7 @@
         }
 
         if (labelTracker[compiledLabel].mayBreak) {
+            // @string
             compiledLabeledStatement.push("::" + compiledLabel + "_b::\n");
         }
 
@@ -614,6 +630,7 @@
 
         var compiledLabel = compileIdentifier(statement.label);
         labelTracker[compiledLabel].mayBreak = true;
+        // @string
         return "goto " + compiledLabel + "_b;";
     }
 
@@ -632,6 +649,7 @@
 
         var compiledLabel = compileIdentifier(statement.label);
         labelTracker[compiledLabel].mayContinue = true;
+        // @string
         return "goto " + compiledLabel + "_c;";
     }
 
@@ -640,6 +658,7 @@
 
         var cases = statement.cases;
 
+        // @number
         if (cases.length > 0) {
             // Use a useless repeat loop to be able to use break
             var compiledSwitchStatement = ["repeat\nlocal _into = false;\n"];
@@ -650,6 +669,7 @@
             var casesTable = [];
             var caseTablementElement;
             var compiledTests = [];
+            // @number
             for (i = 0; i < cases.length; ++i) {
                 if (cases[i].test !== null) {
                     compiledTests[i] = compileExpression(cases[i].test);
@@ -677,6 +697,7 @@
 
             // Cases
             var hasDefault = false;
+            // @number
             for (i = 0; i < cases.length; ++i) {
                 if (cases[i].test !== null) {
                     compiledSwitchStatement.push("if _into or (");
@@ -900,6 +921,7 @@
         case "SequenceExpression":
             return compileSequenceExpression(expression, meta);
         default:
+            // @string
             throw new Error("Unknown Expression type: " + expression.type);
         }
     }
@@ -959,6 +981,7 @@
         case "SequenceExpression":
             return compileExpression(expression, meta) + ";";
         default:
+            // @string
             throw new Error("Impossible expression type:" + expression.type);
         }
     }
@@ -1061,6 +1084,7 @@
             }
             break;
         default:
+            // @string
             throw new Error("Unknown UpdateOperator: " + expression.operator);
         }
 
@@ -1096,6 +1120,7 @@
                 }
                 break;
             default:
+                // @string
                 throw new Error("Unknown UpdateOperator: " + expression.operator);
             }
 
@@ -1124,6 +1149,7 @@
                 }
                 break;
             default:
+                // @string
                 throw new Error("Unknown UpdateOperator: " + expression.operator);
             }
         }
@@ -1147,13 +1173,16 @@
         var startIndex = 0,
             count = 0,
             i;
+        // @number
         for (i = 0; i < str.length; ++i) {
             if (str[i] === '[') {
                 if (count === 0) {
                     startIndex = i;
                 }
+                // @number
                 count++;
             } else if (str[i] === ']') {
+                // @number
                 count--;
             }
         }
@@ -1165,6 +1194,7 @@
         var compiledArguments = [];
 
         var i;
+        // @number
         for (i = 0; i < args.length; ++i) {
             compiledArguments.push(compileExpression(args[i]));
         }
@@ -1183,6 +1213,7 @@
             if (compiledCallee.match(/\]$/)) {
                 var startIndex = lastTopLevelBracketedGroupStartIndex(compiledCallee);
                 var base = compiledCallee.substr(0, startIndex);
+                // @number
                 var member = compiledCallee.substr(startIndex + 1);
 
                 compiledCallExpression.push("(function() local _this = ");
@@ -1192,7 +1223,8 @@
                 compiledCallExpression.push("; return _f(_this");
 
                 if (compiledArguments !== "") {
-                    compiledCallExpression.push("," + compiledArguments);
+                    compiledCallExpression.push(",");
+                    compiledCallExpression.push(compiledArguments);
                 }
 
                 compiledCallExpression.push("); end)()");
@@ -1214,7 +1246,8 @@
             }
 
             if (compiledArguments) {
-                compiledCallExpression.push("," + compiledArguments);
+                compiledCallExpression.push(",");
+                compiledCallExpression.push(compiledArguments);
             }
             compiledCallExpression.push(")");
         }
@@ -1252,6 +1285,7 @@
 
             break;
         default:
+            // @string
             throw new Error("Unknown LogicalOperator: " + expression.operator);
         }
 
@@ -1273,13 +1307,17 @@
             startIndex = lastTopLevelBracketedGroupStartIndex(expession);
             return {
                 base: expession.slice(0, startIndex),
+                // @number
                 member: expession.slice(startIndex + 1, -1)
             };
         } else {
             startIndex = expession.lastIndexOf('.');
             return {
                 base: expession.slice(0, startIndex),
-                member: '"' + expession.slice(startIndex + 1) + '"'
+                member: '"' + expession.slice(
+                    // @number
+                    startIndex + 1
+                ) + '"'
             };
         }
     }
@@ -1287,7 +1325,9 @@
     function getGetterSetterExpression(expression) {
         var split = getBaseMember(expression);
         return {
+            // @string
             getter: split.base + '["_g" .. ' + split.member + ']',
+            // @string
             setter: split.base + '["_s" .. ' + split.member + ']'
         };
     }
@@ -1370,8 +1410,10 @@
 
                 // Delete value
                 compiledUnaryExpression.push("local _v = ");
+                // @string
                 compiledUnaryExpression.push(scope + compiledExpression);
                 compiledUnaryExpression.push("; ");
+                // @string
                 compiledUnaryExpression.push(scope + compiledExpression);
                 compiledUnaryExpression.push(" = nil; return _r or _v ~= nil; end)()");
 
@@ -1388,6 +1430,7 @@
                 }
                 break;
             default:
+                // @string
                 throw new Error("Unknown UnaryOperator: " + expression.operator);
             }
         } else {
@@ -1631,6 +1674,7 @@
             // doesn't worth to be implemented for now
             break;
         default:
+            // @string
             throw new Error("Unknown BinaryOperator: " + expression.operator);
         }
 
@@ -1667,6 +1711,7 @@
         var i, expressions = expression.expressions;
         var sequence = [];
         var metaLast = {};
+        // @number
         for (i = 0; i < expressions.length; ++i) {
             sequence.push(compileExpression(expressions[i], metaLast));
         }
@@ -1691,6 +1736,7 @@
             compiledProperties = [];
         var compiledKey = "";
 
+        // @number
         for (i = 0; i < length; ++i) {
             compiledProperty = ["["];
             property = expression.properties[i];
@@ -1701,20 +1747,24 @@
                 compiledKey = '"';
                 // compile the identifier as a string literal
                 compiledKey += sanitizeLiteralString(property.key.name);
+                // @string
                 compiledKey += '"';
             } else {
+                // @string
                 throw new Error("Unexpected property key type: " + property.key.type);
             }
 
             if (property.kind === "get") {
                 // TODO: related to weak typing
                 if (typeof (property.key.value) === "number") {
+                    // @string
                     compiledKey = '"' + compiledKey + '"';
                 }
                 compiledKey = compiledKey.replace(/^"/, '"_g');
             } else if (property.kind === "set") {
                 // TODO: related to weak typing
                 if (typeof (property.key.value) === "number") {
+                    // @string
                     compiledKey = '"' + compiledKey + '"';
                 }
                 compiledKey = compiledKey.replace(/^"/, '"_s');
@@ -1742,6 +1792,7 @@
         var compiledObject = compileExpression(expression.object);
 
         if (expression.object.type === "Literal") {
+            // @string
             compiledObject = "(" + compiledObject + ")";
         }
         compiledMemberExpression.push(compiledObject);
@@ -1778,6 +1829,7 @@
 
         var newArguments = [compileExpression(expression.callee)];
         var i, length = expression.arguments.length;
+        // @number
         for (i = 0; i < length; ++i) {
             newArguments.push(compileExpression(expression.arguments[i]));
         }
@@ -1798,10 +1850,12 @@
         var compiledElements = [];
         var i, length = expression.elements.length;
 
+        // @number
         if (length > 0) {
             compiledArrayExpression.push("[0]=");
         }
 
+        // @number
         for (i = 0; i < length; ++i) {
             if (expression.elements[i] !== null) {
                 compiledElements.push(compileExpression(expression.elements[i]));
@@ -1852,6 +1906,7 @@
             var declarations = variableDeclaration.declarations;
             var i, declarator, pattern, expression, compiledDeclarationInit;
 
+            // @number
             for (i = 0; i < declarations.length; ++i) {
                 declarator = declarations[i];
                 pattern = compilePattern(declarator.id);
@@ -1891,6 +1946,7 @@
         case "Identifier":
             return compileIdentifier(pattern, meta);
         default:
+            // @string
             throw new Error("Unknwown Pattern type" + pattern.type);
         }
     }
@@ -1920,6 +1976,7 @@
         var i;
         var params = fun.params;
         var compiledParams = ["this"];
+        // @number
         for (i = 0; i < params.length; ++i) {
             compiledParams.push(compilePattern(params[i]));
         }
@@ -1942,6 +1999,7 @@
         }
 
         // Locals
+        // @number
         if (locals.length > 0) {
             // local that has the same identifier as one of the arguments will not be redefined
             var compiledLocalsDeclaration = buildLocalsDeclarationString(locals, compiledParams);
@@ -1950,9 +2008,11 @@
 
         // Function declarations
         var functions = context[2];
+        // @number
         if (functions.length > 0) {
             var compiledFunctionsDeclaration = [];
 
+            // @number
             for (i = 0; i < functions.length; ++i) {
                 compiledFunctionsDeclaration.push(functions[i]);
             }
@@ -1973,6 +2033,7 @@
         var namesSequence = [];
 
         var i, local, length = locals.length;
+        // @number
         for (i = 0; i < length; ++i) {
             local = locals.pop();
             if (ignore.indexOf(local) === -1) {
@@ -1980,6 +2041,7 @@
             }
         }
 
+        // @number
         if (namesSequence.length > 0) {
             var compiledLocalsDeclaration = ["local "];
             compiledLocalsDeclaration.push(namesSequence.join(","));
@@ -1999,6 +2061,7 @@
     function sanitizeIdentifier(id) {
         // Reserved lua keywords are guarded
         if (luaKeywords.indexOf(id) > -1) {
+            // @string
             return '_g_' + id;
         }
 
@@ -2030,22 +2093,28 @@
     function toUTF8Array(str) {
         var utf8 = [];
         var i, charcode;
+        // @number
         for (i = 0; i < str.length; ++i) {
             charcode = str.charCodeAt(i);
+            // @number
             if (charcode < 0x80) {
                 utf8.push(charcode);
+                // @number
             } else if (charcode < 0x800) {
                 utf8.push(0xc0 | (charcode >> 6),
                     0x80 | (charcode & 0x3f));
+                // @number
             } else if (charcode < 0xd800 || charcode >= 0xe000) {
                 utf8.push(0xe0 | (charcode >> 12),
                     0x80 | ((charcode >> 6) & 0x3f),
                     0x80 | (charcode & 0x3f));
             } else { // surrogate pair
+                // @number
                 i++;
                 // UTF-16 encodes 0x10000-0x10FFFF by
                 // subtracting 0x10000 and splitting the
                 // 20 bits of 0x0-0xFFFFF into two halves
+                // @number
                 charcode = 0x10000 + (((charcode & 0x3ff) << 10) | (str.charCodeAt(i) & 0x3ff));
                 utf8.push(0xf0 | (charcode >> 18),
                     0x80 | ((charcode >> 12) & 0x3f),

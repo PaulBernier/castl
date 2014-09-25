@@ -45,18 +45,18 @@ compiledProgram:push("local arguments = _args(...);");
 end
 
 locals = context[0];
-if (_gt(locals.length,0)) then
+if (locals.length>0) then
 compiledLocalsDeclaration = buildLocalsDeclarationString(_ENV,locals);
 compiledProgram:push(compiledLocalsDeclaration);
 end
 
 functions = context[2];
-if (_gt(functions.length,0)) then
+if (functions.length>0) then
 compiledFunctionsDeclaration = _arr({},0);
 i = 0;
-while (_lt(i,functions.length)) do
+while (i<functions.length) do
 compiledFunctionsDeclaration:push(functions[i]);
-i = _inc(i);
+i = i + 1;
 end
 
 compiledProgram:push(compiledFunctionsDeclaration:join("\010"));
@@ -175,7 +175,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,(_add("Unknown Statement type: ",statement.type))),0)
+_throw(_new(Error,("Unknown Statement type: " .. statement.type)),0)
 _into = true;
 end
 until true
@@ -193,13 +193,13 @@ compileListOfStatements = (function (this, statementList)
 local compiledStatement,i,compiledStatements;
 compiledStatements = _arr({},0);
 i = 0;
-while (_lt(i,statementList.length)) do
+while (i<statementList.length) do
 compiledStatement = compileStatement(_ENV,statementList[i]);
 if ((function() if (compiledStatement ~= "") then return (compiledStatement ~= undefined);  else return (compiledStatement ~= "");  end end)()) then
 compiledStatements:push(compiledStatement);
 end
 
-i = _inc(i);
+i = i + 1;
 end
 
  do return compiledStatements:join("\010"); end
@@ -310,7 +310,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,(_add("Not an IterationStatement ",statement.type))),0)
+_throw(_new(Error,("Not an IterationStatement " .. statement.type)),0)
 _into = true;
 end
 until true
@@ -337,7 +337,7 @@ compiledForStatement:push("::_continue::\010");
 end
 
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
-compiledForStatement:push((_add((_add("::",compiledLabel)),"_c::\010")));
+compiledForStatement:push((("::" .. compiledLabel) .. "_c::\010"));
 end
 
 compiledForStatement:push(compileForUpdate(_ENV,statement.update));
@@ -367,7 +367,7 @@ compiledForInStatement:push(");\010");
 compiledForInStatement:push(compileStatement(_ENV,statement.body));
 compiledForInStatement:push("::_continue::\010");
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
-compiledForInStatement:push((_add((_add("::",compiledLabel)),"_c::\010")));
+compiledForInStatement:push((("::" .. compiledLabel) .. "_c::\010"));
 end
 
 compiledForInStatement:push("end\010");
@@ -382,7 +382,7 @@ compiledWhileStatement:push(compileStatement(_ENV,statement.body));
 compiledWhileStatement:push("\010");
 compiledWhileStatement:push("::_continue::\010");
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
-compiledWhileStatement:push((_add((_add("::",compiledLabel)),"_c::\010")));
+compiledWhileStatement:push((("::" .. compiledLabel) .. "_c::\010"));
 end
 
 compiledWhileStatement:push("end\010");
@@ -395,7 +395,7 @@ compiledDoWhileStatement:push(compileStatement(_ENV,statement.body));
 compiledDoWhileStatement:push("\010");
 compiledDoWhileStatement:push("::_continue::\010");
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue;  else return compiledLabel;  end end)())) then
-compiledDoWhileStatement:push((_add((_add("::",compiledLabel)),"_c::\010")));
+compiledDoWhileStatement:push((("::" .. compiledLabel) .. "_c::\010"));
 end
 
 compiledDoWhileStatement:push("until not ");
@@ -422,7 +422,7 @@ compiledLabeledStatement:push(compileStatement(_ENV,statement.body));
 end
 
 if _bool(labelTracker[compiledLabel].mayBreak) then
-compiledLabeledStatement:push((_add((_add("::",compiledLabel)),"_b::\010")));
+compiledLabeledStatement:push((("::" .. compiledLabel) .. "_b::\010"));
 end
 
 (function () local _r = false; local _g, _s = labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel]; labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel] = nil, nil; _r = _g ~= nil or _s ~= nil;
@@ -446,7 +446,7 @@ end
 
 compiledLabel = compileIdentifier(_ENV,statement.label);
 labelTracker[compiledLabel].mayBreak = true;
- do return (_add((_add("goto ",compiledLabel)),"_b;")); end
+ do return (("goto " .. compiledLabel) .. "_b;"); end
 end);
 compileContinueStatement = (function (this, statement)
 local compiledLabel;
@@ -461,19 +461,19 @@ end
 
 compiledLabel = compileIdentifier(_ENV,statement.label);
 labelTracker[compiledLabel].mayContinue = true;
- do return (_add((_add("goto ",compiledLabel)),"_c;")); end
+ do return (("goto " .. compiledLabel) .. "_c;"); end
 end);
 compileSwitchStatement = (function (this, statement)
 local hasDefault,compiledTests,caseTablementElement,casesTable,i,compiledDiscriminant,compiledSwitchStatement,cases;
 protectedCallManager:openSwitchStatement();
 cases = statement.cases;
-if (_gt(cases.length,0)) then
+if (cases.length>0) then
 compiledSwitchStatement = _arr({[0]="repeat\010local _into = false;\010"},1);
 compiledDiscriminant = compileExpression(_ENV,statement.discriminant);
 casesTable = _arr({},0);
 compiledTests = _arr({},0);
 i = 0;
-while (_lt(i,cases.length)) do
+while (i<cases.length) do
 if (cases[i].test ~= null) then
 compiledTests[i] = compileExpression(_ENV,cases[i].test);
 caseTablementElement = _arr({},0);
@@ -483,7 +483,7 @@ caseTablementElement:push("] = true");
 casesTable:push(caseTablementElement:join(""));
 end
 
-i = _inc(i);
+i = i + 1;
 end
 
 compiledSwitchStatement:push("local _cases = {");
@@ -497,7 +497,7 @@ compiledSwitchStatement:push("goto _default\010");
 compiledSwitchStatement:push("end\010");
 hasDefault = false;
 i = 0;
-while (_lt(i,cases.length)) do
+while (i<cases.length) do
 if (cases[i].test ~= null) then
 compiledSwitchStatement:push("if _into or (");
 compiledSwitchStatement:push(compiledDiscriminant);
@@ -514,7 +514,7 @@ compiledSwitchStatement:push(compileListOfStatements(_ENV,cases[i].consequent));
 compiledSwitchStatement:push("\010");
 compiledSwitchStatement:push("_into = true;\010");
 compiledSwitchStatement:push("end\010");
-i = _inc(i);
+i = i + 1;
 end
 
 if not _bool(hasDefault) then
@@ -721,7 +721,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,(_add("Unknown Expression type: ",expression.type))),0)
+_throw(_new(Error,("Unknown Expression type: " .. expression.type)),0)
 _into = true;
 end
 until true
@@ -826,7 +826,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,(_add("Impossible expression type:",expression.type))),0)
+_throw(_new(Error,("Impossible expression type:" .. expression.type)),0)
 _into = true;
 end
 until true
@@ -955,7 +955,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,(_add("Unknown UpdateOperator: ",expression.operator))),0)
+_throw(_new(Error,("Unknown UpdateOperator: " .. expression.operator)),0)
 _into = true;
 end
 until true
@@ -1004,7 +1004,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,(_add("Unknown UpdateOperator: ",expression.operator))),0)
+_throw(_new(Error,("Unknown UpdateOperator: " .. expression.operator)),0)
 _into = true;
 end
 until true
@@ -1044,7 +1044,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,(_add("Unknown UpdateOperator: ",expression.operator))),0)
+_throw(_new(Error,("Unknown UpdateOperator: " .. expression.operator)),0)
 _into = true;
 end
 until true
@@ -1065,18 +1065,18 @@ local i,count,startIndex;
 startIndex = 0;
 count = 0;
 i = 0;
-while (_lt(i,str.length)) do
+while (i<str.length) do
 if (str[i] == "[") then
 if (count == 0) then
 startIndex = i;
 end
 
-count = _inc(count);
+count = count + 1;
 elseif (str[i] == "]") then
-count = _dec(count);
+count = count - 1;
 end
 
-i = _inc(i);
+i = i + 1;
 end
 
  do return startIndex; end
@@ -1085,9 +1085,9 @@ compileCallArguments = (function (this, args)
 local i,compiledArguments;
 compiledArguments = _arr({},0);
 i = 0;
-while (_lt(i,args.length)) do
+while (i<args.length) do
 compiledArguments:push(compileExpression(_ENV,args[i]));
-i = _inc(i);
+i = i + 1;
 end
 
  do return compiledArguments:join(","); end
@@ -1103,14 +1103,15 @@ if (expression.callee.type == "MemberExpression") then
 if _bool(compiledCallee:match(_regexp("\\]$",""))) then
 startIndex = lastTopLevelBracketedGroupStartIndex(_ENV,compiledCallee);
 base = compiledCallee:substr(0,startIndex);
-member = compiledCallee:substr((_add(startIndex,1)));
+member = compiledCallee:substr((startIndex + 1));
 compiledCallExpression:push("(function() local _this = ");
 compiledCallExpression:push(base);
 compiledCallExpression:push("; local _f = _this[");
 compiledCallExpression:push(member);
 compiledCallExpression:push("; return _f(_this");
 if (compiledArguments ~= "") then
-compiledCallExpression:push((_add(",",compiledArguments)));
+compiledCallExpression:push(",");
+compiledCallExpression:push(compiledArguments);
 end
 
 compiledCallExpression:push("); end)()");
@@ -1132,7 +1133,8 @@ compiledCallExpression:push("(_oldENV");
 end
 
 if _bool(compiledArguments) then
-compiledCallExpression:push((_add(",",compiledArguments)));
+compiledCallExpression:push(",");
+compiledCallExpression:push(compiledArguments);
 end
 
 compiledCallExpression:push(")");
@@ -1181,7 +1183,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,(_add("Unknown LogicalOperator: ",expression.operator))),0)
+_throw(_new(Error,("Unknown LogicalOperator: " .. expression.operator)),0)
 _into = true;
 end
 until true
@@ -1202,13 +1204,13 @@ if _bool(expession:match(_regexp("\\]$",""))) then
 startIndex = lastTopLevelBracketedGroupStartIndex(_ENV,expession);
  do return _obj({
 ["base"] = expession:slice(0,startIndex),
-["member"] = expession:slice((_add(startIndex,1)),-_tonum(1))
+["member"] = expession:slice((startIndex + 1),-_tonum(1))
 }); end
 else
 startIndex = expession:lastIndexOf(".");
  do return _obj({
 ["base"] = expession:slice(0,startIndex),
-["member"] = (_add((_add("\"",expession:slice((_add(startIndex,1))))),"\""))
+["member"] = (_add((_add("\"",expession:slice((startIndex + 1)))),"\""))
 }); end
 end
 
@@ -1217,8 +1219,8 @@ getGetterSetterExpression = (function (this, expression)
 local split;
 split = getBaseMember(_ENV,expression);
  do return _obj({
-["getter"] = (_add((_add((_add(split.base,"[\"_g\" .. ")),split.member)),"]")),
-["setter"] = (_add((_add((_add(split.base,"[\"_s\" .. ")),split.member)),"]"))
+["getter"] = (((split.base .. "[\"_g\" .. ") .. split.member) .. "]"),
+["setter"] = (((split.base .. "[\"_s\" .. ") .. split.member) .. "]")
 }); end
 end);
 compileUnaryExpression = (function (this, expression, meta)
@@ -1310,9 +1312,9 @@ compiledUnaryExpression:push(" = nil, nil; _r = _g ~= nil or _s ~= nil;\010");
 end
 
 compiledUnaryExpression:push("local _v = ");
-compiledUnaryExpression:push((_add(scope,compiledExpression)));
+compiledUnaryExpression:push((scope .. compiledExpression));
 compiledUnaryExpression:push("; ");
-compiledUnaryExpression:push((_add(scope,compiledExpression)));
+compiledUnaryExpression:push((scope .. compiledExpression));
 compiledUnaryExpression:push(" = nil; return _r or _v ~= nil; end)()");
 if _bool(meta) then
 meta.type = "boolean";
@@ -1334,7 +1336,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,(_add("Unknown UnaryOperator: ",expression.operator))),0)
+_throw(_new(Error,("Unknown UnaryOperator: " .. expression.operator)),0)
 _into = true;
 end
 until true
@@ -1656,7 +1658,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,(_add("Unknown BinaryOperator: ",expression.operator))),0)
+_throw(_new(Error,("Unknown BinaryOperator: " .. expression.operator)),0)
 _into = true;
 end
 until true
@@ -1688,9 +1690,9 @@ metaLast = _obj({
 
 });
 i = 0;
-while (_lt(i,expressions.length)) do
+while (i<expressions.length) do
 sequence:push(compileExpression(_ENV,expressions[i],metaLast));
-i = _inc(i);
+i = i + 1;
 end
 
 compiledSequenceExpression:push(sequence:join(","));
@@ -1709,7 +1711,7 @@ compiledProperty = _arr({},0);
 compiledProperties = _arr({},0);
 compiledKey = "";
 i = 0;
-while (_lt(i,length)) do
+while (i<length) do
 compiledProperty = _arr({[0]="["},1);
 property = expression.properties[i];
 if (property.key.type == "Literal") then
@@ -1717,20 +1719,20 @@ compiledKey = compileLiteral(_ENV,property.key);
 elseif (property.key.type == "Identifier") then
 compiledKey = "\"";
 compiledKey = (_add(compiledKey,sanitizeLiteralString(_ENV,property.key.name)));
-compiledKey = (_add(compiledKey,"\""));
+compiledKey = (compiledKey .. "\"");
 else
-_throw(_new(Error,(_add("Unexpected property key type: ",property.key.type))),0)
+_throw(_new(Error,("Unexpected property key type: " .. property.key.type)),0)
 end
 
 if (property.kind == "get") then
 if (_type(property.key.value) == "number") then
-compiledKey = (_add((_add("\"",compiledKey)),"\""));
+compiledKey = (("\"" .. compiledKey) .. "\"");
 end
 
 compiledKey = compiledKey:replace(_regexp("^\"",""),"\"_g");
 elseif (property.kind == "set") then
 if (_type(property.key.value) == "number") then
-compiledKey = (_add((_add("\"",compiledKey)),"\""));
+compiledKey = (("\"" .. compiledKey) .. "\"");
 end
 
 compiledKey = compiledKey:replace(_regexp("^\"",""),"\"_s");
@@ -1740,7 +1742,7 @@ compiledProperty:push(compiledKey);
 compiledProperty:push("] = ");
 compiledProperty:push(compileExpression(_ENV,property.value));
 compiledProperties:push(compiledProperty:join(""));
-i = _inc(i);
+i = i + 1;
 end
 
 compiledObjectExpression:push(compiledProperties:join(",\010"));
@@ -1756,7 +1758,7 @@ local compiledProperty,compiledObject,compiledMemberExpression;
 compiledMemberExpression = _arr({},0);
 compiledObject = compileExpression(_ENV,expression.object);
 if (expression.object.type == "Literal") then
-compiledObject = (_add((_add("(",compiledObject)),")"));
+compiledObject = (("(" .. compiledObject) .. ")");
 end
 
 compiledMemberExpression:push(compiledObject);
@@ -1794,9 +1796,9 @@ compiledNewExpression = _arr({[0]="_new("},1);
 newArguments = _arr({[0]=compileExpression(_ENV,expression.callee)},1);
 length = expression.arguments.length;
 i = 0;
-while (_lt(i,length)) do
+while (i<length) do
 newArguments:push(compileExpression(_ENV,expression.arguments[i]));
-i = _inc(i);
+i = i + 1;
 end
 
 compiledNewExpression:push(newArguments:join(","));
@@ -1811,19 +1813,19 @@ local length,i,compiledElements,compiledArrayExpression;
 compiledArrayExpression = _arr({[0]="_arr({"},1);
 compiledElements = _arr({},0);
 length = expression.elements.length;
-if (_gt(length,0)) then
+if (length>0) then
 compiledArrayExpression:push("[0]=");
 end
 
 i = 0;
-while (_lt(i,length)) do
+while (i<length) do
 if (expression.elements[i] ~= null) then
 compiledElements:push(compileExpression(_ENV,expression.elements[i]));
 else
 compiledElements:push("nil");
 end
 
-i = _inc(i);
+i = i + 1;
 end
 
 compiledArrayExpression:push(compiledElements:join(","));
@@ -1864,7 +1866,7 @@ end
 if _into or (variableDeclaration.kind == "var") then
 declarations = variableDeclaration.declarations;
 i = 0;
-while (_lt(i,declarations.length)) do
+while (i<declarations.length) do
 declarator = declarations[i];
 pattern = compilePattern(_ENV,declarator.id);
 localVarManager:pushLocal(pattern);
@@ -1878,7 +1880,7 @@ compiledDeclarationInit:push(";");
 compiledDeclarations:push(compiledDeclarationInit:join(""));
 end
 
-i = _inc(i);
+i = i + 1;
 end
 
 break;
@@ -1906,7 +1908,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,(_add("Unknwown Pattern type",pattern.type))),0)
+_throw(_new(Error,("Unknwown Pattern type" .. pattern.type)),0)
 _into = true;
 end
 until true
@@ -1925,9 +1927,9 @@ end
 params = fun.params;
 compiledParams = _arr({[0]="this"},1);
 i = 0;
-while (_lt(i,params.length)) do
+while (i<params.length) do
 compiledParams:push(compilePattern(_ENV,params[i]));
-i = _inc(i);
+i = i + 1;
 end
 
 context = localVarManager:popLocalContext();
@@ -1943,18 +1945,18 @@ compiledFunction:push(compiledParams:join(", "));
 compiledFunction:push(")\010");
 end
 
-if (_gt(locals.length,0)) then
+if (locals.length>0) then
 compiledLocalsDeclaration = buildLocalsDeclarationString(_ENV,locals,compiledParams);
 compiledFunction:push(compiledLocalsDeclaration);
 end
 
 functions = context[2];
-if (_gt(functions.length,0)) then
+if (functions.length>0) then
 compiledFunctionsDeclaration = _arr({},0);
 i = 0;
-while (_lt(i,functions.length)) do
+while (i<functions.length) do
 compiledFunctionsDeclaration:push(functions[i]);
-i = _inc(i);
+i = i + 1;
 end
 
 compiledFunction:push(compiledFunctionsDeclaration:join("\010"));
@@ -1971,16 +1973,16 @@ ignore = (_bool(ignore) and ignore or _arr({},0));
 namesSequence = _arr({},0);
 length = locals.length;
 i = 0;
-while (_lt(i,length)) do
+while (i<length) do
 _g_local = locals:pop();
 if (ignore:indexOf(_g_local) == -_tonum(1)) then
 namesSequence:push(_g_local);
 end
 
-i = _inc(i);
+i = i + 1;
 end
 
-if (_gt(namesSequence.length,0)) then
+if (namesSequence.length>0) then
 compiledLocalsDeclaration = _arr({[0]="local "},1);
 compiledLocalsDeclaration:push(namesSequence:join(","));
 compiledLocalsDeclaration:push(";\010");
@@ -1991,7 +1993,7 @@ end
 end);
 sanitizeIdentifier = (function (this, id)
 if (_gt(luaKeywords:indexOf(id),-_tonum(1))) then
- do return (_add("_g_",id)); end
+ do return ("_g_" .. id); end
 end
 
  do return id:replace(_regexp("_","g"),"__"):replace(_regexp("\\$","g"),"S"):replace(_regexp("[\194\128-\239\191\191]","g"),(function (this, c)
@@ -2016,21 +2018,21 @@ toUTF8Array = (function (this, str)
 local charcode,i,utf8;
 utf8 = _arr({},0);
 i = 0;
-while (_lt(i,str.length)) do
+while (i<str.length) do
 charcode = str:charCodeAt(i);
-if (_lt(charcode,128)) then
+if (charcode<128) then
 utf8:push(charcode);
-elseif (_lt(charcode,2048)) then
+elseif (charcode<2048) then
 utf8:push((_bor(192,(_arshift(charcode,6)))),(_bor(128,(_band(charcode,63)))));
-elseif ((_lt(charcode,55296)) and (_lt(charcode,55296)) or (_ge(charcode,57344))) then
+elseif ((charcode<55296) and (charcode<55296) or (charcode>=57344)) then
 utf8:push((_bor(224,(_arshift(charcode,12)))),(_bor(128,(_band((_arshift(charcode,6)),63)))),(_bor(128,(_band(charcode,63)))));
 else
-i = _inc(i);
+i = i + 1;
 charcode = (65536 + (_bor((_lshift((_band(charcode,1023)),10)),(_band(str:charCodeAt(i),1023)))));
 utf8:push((_bor(240,(_arshift(charcode,18)))),(_bor(128,(_band((_arshift(charcode,12)),63)))),(_bor(128,(_band((_arshift(charcode,6)),63)))),(_bor(128,(_band(charcode,63)))));
 end
 
-i = _inc(i);
+i = i + 1;
 end
 
  do return utf8; end
@@ -2117,7 +2119,7 @@ continueNoLabelTracker = _arr({},0);
 withTracker = _arr({},0);
 ProtectedCallManager.prototype = _obj({
 ["isInProtectedCallContext"] = (function (this)
-if (_gt(this.protectedCallContext.length,0)) then
+if (this.protectedCallContext.length>0) then
  do return true; end
 end
 
@@ -2202,7 +2204,7 @@ end)
 protectedCallManager = _new(ProtectedCallManager);
 LocalVarManager.prototype = _obj({
 ["popLocalContext"] = (function (this)
-if (_gt(this.locals.length,0)) then
+if (this.locals.length>0) then
  do return _arr({[0]=this.locals:pop(),this.args:pop(),this.functions:pop()},3); end
 end
 
@@ -2214,7 +2216,7 @@ this.functions:push(_arr({},0));
 this.args:push(false);
 end),
 ["pushLocal"] = (function (this, varName)
-if (_gt(this.locals.length,0)) then
+if (this.locals.length>0) then
 this.locals[(this.locals.length - 1)]:push(varName);
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)
@@ -2222,7 +2224,7 @@ end
 
 end),
 ["pushFunction"] = (function (this, functionDeclaration)
-if (_gt(this.functions.length,0)) then
+if (this.functions.length>0) then
 this.functions[(this.functions.length - 1)]:push(functionDeclaration);
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)
@@ -2230,7 +2232,7 @@ end
 
 end),
 ["useArguments"] = (function (this)
-if (_gt(this.args.length,0)) then
+if (this.args.length>0) then
 this.args[(this.args.length - 1)] = true;
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)
