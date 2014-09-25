@@ -15,7 +15,7 @@ end)(_ENV,this,(function (this, exports)
 local parse,tokenize,filterTokenLocation,parseProgram,parseSourceElements,parseSourceElement,parseFunctionExpression,parseFunctionDeclaration,parseParams,parseFunctionSourceElements,parseStatement,parseDebuggerStatement,parseTryStatement,parseCatchClause,parseThrowStatement,parseSwitchStatement,parseSwitchCase,parseWithStatement,parseReturnStatement,parseBreakStatement,parseContinueStatement,parseForStatement,parseForVariableDeclaration,parseWhileStatement,parseDoWhileStatement,parseIfStatement,parseExpressionStatement,parseEmptyStatement,parseConstLetDeclaration,parseVariableStatement,parseVariableDeclarationList,parseVariableDeclaration,parseVariableIdentifier,parseBlock,parseStatementList,parseExpression,parseAssignmentExpression,parseConditionalExpression,parseBinaryExpression,binaryPrecedence,parseUnaryExpression,parsePostfixExpression,parseLeftHandSideExpression,parseLeftHandSideExpressionAllowCall,parseNewExpression,parseComputedMember,parseNonComputedMember,parseNonComputedProperty,parseArguments,parsePrimaryExpression,parseGroupExpression,parseObjectInitialiser,parseObjectProperty,parseObjectPropertyKey,parsePropertyFunction,parseArrayInitialiser,isLeftHandSide,consumeSemicolon,matchAssign,matchKeyword,match,expectKeyword,expect,throwUnexpected,throwErrorTolerant,throwError,peekLineTerminator,SourceLocation,Position,peek,lex,collectToken,advance,advanceSlash,isIdentifierName,collectRegex,scanRegExp,scanRegExpFlags,scanRegExpBody,testRegExp,scanStringLiteral,scanNumericLiteral,scanOctalLiteral,scanHexLiteral,scanPunctuator,scanIdentifier,getIdentifier,getEscapedIdentifier,scanHexEscape,skipComment,skipMultiLineComment,skipSingleLineComment,addComment,isKeyword,isRestrictedWord,isStrictModeReservedWord,isFutureReservedWord,isIdentifierPart,isIdentifierStart,isLineTerminator,isWhiteSpace,isOctalDigit,isHexDigit,isDecimalDigit,assert,extra,state,lookahead,delegate,length,lineStart,lineNumber,index,strict,source,SyntaxTreeDelegate,Regex,Messages,PropertyKind,Syntax,FnExprTokens,TokenName,Token;
 assert = (function (this, condition, message)
 if not _bool(condition) then
-_throw(_new(Error,(_add("ASSERT: ",message))),0)
+_throw(_new(Error,(_addStr("ASSERT: ",message))),0)
 end
 
 end);
@@ -270,7 +270,7 @@ end
 while (_lt(index,length)) do
 ch = source:charCodeAt(index);
 if _bool(isLineTerminator(_ENV,ch)) then
-if ((function() if (ch == 13) then return (source:charCodeAt((_add(index,1))) == 10);  else return (ch == 13);  end end)()) then
+if ((function() if (ch == 13) then return (source:charCodeAt((_addNum(1,index))) == 10);  else return (ch == 13);  end end)()) then
 index = _inc(index);
 end
 
@@ -284,11 +284,11 @@ throwError(_ENV,_obj({
 end
 
 elseif (ch == 42) then
-if (source:charCodeAt((_add(index,1))) == 47) then
+if (source:charCodeAt((_addNum(1,index))) == 47) then
 index = _inc(index);
 index = _inc(index);
 if _bool(extra.comments) then
-comment = source:slice((_add(start,2)),(index - 2));
+comment = source:slice((_addNum(2,start)),(index - 2));
 loc["end"] = _obj({
 ["line"] = lineNumber,
 ["column"] = (index - lineStart)
@@ -328,7 +328,7 @@ lineNumber = _inc(lineNumber);
 lineStart = index;
 start = true;
 elseif (ch == 47) then
-ch = source:charCodeAt((_add(index,1)));
+ch = source:charCodeAt((_addNum(1,index)));
 if (ch == 47) then
 index = _inc(index);
 index = _inc(index);
@@ -343,15 +343,15 @@ do break end;
 end
 
 elseif _bool(((function() if _bool(start) then return (ch == 45);  else return start;  end end)())) then
-if ((function() if (source:charCodeAt((_add(index,1))) == 45) then return (source:charCodeAt((_add(index,2))) == 62);  else return (source:charCodeAt((_add(index,1))) == 45);  end end)()) then
-index = (_add(index,3));
+if ((function() if (source:charCodeAt((_addNum(1,index))) == 45) then return (source:charCodeAt((_addNum(2,index))) == 62);  else return (source:charCodeAt((_addNum(1,index))) == 45);  end end)()) then
+index = (_addNum(3,index));
 skipSingleLineComment(_ENV,3);
 else
 do break end;
 end
 
 elseif (ch == 60) then
-if (source:slice((_add(index,1)),(_add(index,4))) == "!--") then
+if (source:slice((_addNum(1,index)),(_addNum(4,index))) == "!--") then
 index = _inc(index);
 index = _inc(index);
 index = _inc(index);
@@ -377,7 +377,7 @@ i = 0;
 while (_lt(i,len)) do
 if _bool(((function() if (_lt(index,length)) then return isHexDigit(_ENV,source[index]);  else return (_lt(index,length));  end end)())) then
 ch = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
-code = (_add((code * 16),("0123456789abcdef"):indexOf(ch:toLowerCase())));
+code = (_addNum((code * 16),("0123456789abcdef"):indexOf(ch:toLowerCase())));
 else
  do return ""; end
 end
@@ -566,7 +566,7 @@ _into = true;
 end
 ::_default::
 if _into then
-code2 = source:charCodeAt((_add(index,1)));
+code2 = source:charCodeAt((_addNum(1,index)));
 if (code2 == 61) then
 repeat
 local _into = false;
@@ -612,7 +612,7 @@ if _into or (code == 38) then
 _into = true;
 end
 if _into or (code == 42) then
-index = (_add(index,2));
+index = (_addNum(2,index));
  do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = (_add(String:fromCharCode(code),String:fromCharCode(code2))),
@@ -628,7 +628,7 @@ if _into or (code == 33) then
 _into = true;
 end
 if _into or (code == 61) then
-index = (_add(index,2));
+index = (_addNum(2,index));
 if (source:charCodeAt(index) == 61) then
 index = _inc(index);
 end
@@ -652,7 +652,7 @@ end
 until true
 ch4 = source:substr(index,4);
 if (ch4 == ">>>=") then
-index = (_add(index,4));
+index = (_addNum(4,index));
  do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = ch4,
@@ -665,7 +665,7 @@ end
 
 ch3 = ch4:substr(0,3);
 if (((ch3 == ">>>") and (ch3 == ">>>") or (ch3 == "<<=")) and ((ch3 == ">>>") and (ch3 == ">>>") or (ch3 == "<<=")) or (ch3 == ">>=")) then
-index = (_add(index,3));
+index = (_addNum(3,index));
  do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = ch3,
@@ -678,7 +678,7 @@ end
 
 ch2 = ch3:substr(0,2);
 if (((function() if (ch1 == ch2[1]) then return (_ge(("+-<>&|"):indexOf(ch1),0));  else return (ch1 == ch2[1]);  end end)()) and ((function() if (ch1 == ch2[1]) then return (_ge(("+-<>&|"):indexOf(ch1),0));  else return (ch1 == ch2[1]);  end end)()) or (ch2 == "=>")) then
-index = (_add(index,2));
+index = (_addNum(2,index));
  do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = ch2,
@@ -731,7 +731,7 @@ end
 
  do return _obj({
 ["type"] = Token.NumericLiteral,
-["value"] = parseInt(_ENV,(_add("0x",number)),16),
+["value"] = parseInt(_ENV,(_addStr("0x",number)),16),
 ["lineNumber"] = lineNumber,
 ["lineStart"] = lineStart,
 ["start"] = start,
@@ -740,7 +740,7 @@ end
 end);
 scanOctalLiteral = (function (this, start)
 local number;
-number = (_add("0",source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()]));
+number = (_addStr("0",source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()]));
 while (_lt(index,length)) do
 if not _bool(isOctalDigit(_ENV,source[index])) then
 do break end;
@@ -890,32 +890,32 @@ do break end;
 _into = true;
 end
 if _into or (ch == "n") then
-str = (_add(str,"\010"));
+str = (_addStr("\010",str));
 do break end;
 _into = true;
 end
 if _into or (ch == "r") then
-str = (_add(str,"\013"));
+str = (_addStr("\013",str));
 do break end;
 _into = true;
 end
 if _into or (ch == "t") then
-str = (_add(str,"\009"));
+str = (_addStr("\009",str));
 do break end;
 _into = true;
 end
 if _into or (ch == "b") then
-str = (_add(str,"\008"));
+str = (_addStr("\008",str));
 do break end;
 _into = true;
 end
 if _into or (ch == "f") then
-str = (_add(str,"\012"));
+str = (_addStr("\012",str));
 do break end;
 _into = true;
 end
 if _into or (ch == "v") then
-str = (_add(str,"\011"));
+str = (_addStr("\011",str));
 do break end;
 _into = true;
 end
@@ -929,9 +929,9 @@ end
 
 if _bool(((function() if (_lt(index,length)) then return isOctalDigit(_ENV,source[index]);  else return (_lt(index,length));  end end)())) then
 octal = true;
-code = (_add((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
+code = (_addNum((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
 if _bool(((function() if ((function() if (_ge(("0123"):indexOf(ch),0)) then return (_lt(index,length));  else return (_ge(("0123"):indexOf(ch),0));  end end)()) then return isOctalDigit(_ENV,source[index]);  else return ((function() if (_ge(("0123"):indexOf(ch),0)) then return (_lt(index,length));  else return (_ge(("0123"):indexOf(ch),0));  end end)());  end end)())) then
-code = (_add((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
+code = (_addNum((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
 end
 
 end
@@ -1071,7 +1071,7 @@ restore = index;
 ch = scanHexEscape(_ENV,"u");
 if _bool(ch) then
 flags = (_add(flags,ch));
-str = (_add(str,"\\u"));
+str = (_addStr("\\u",str));
 while (_lt(restore,index)) do
 str = (_add(str,source[restore]));
 restore = _inc(restore);
@@ -1079,15 +1079,15 @@ end
 
 else
 index = restore;
-flags = (_add(flags,"u"));
-str = (_add(str,"\\u"));
+flags = (_addStr("u",flags));
+str = (_addStr("\\u",str));
 end
 
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
 else
-str = (_add(str,"\\"));
+str = (_addStr("\\",str));
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
@@ -1253,7 +1253,7 @@ if ((ch == 39) and (ch == 39) or (ch == 34)) then
 end
 
 if (ch == 46) then
-if _bool(isDecimalDigit(_ENV,source:charCodeAt((_add(index,1))))) then
+if _bool(isDecimalDigit(_ENV,source:charCodeAt((_addNum(1,index))))) then
  do return scanNumericLiteral(_ENV); end
 end
 
@@ -1348,12 +1348,12 @@ assert(_ENV,(_lt(index,args.length)),"Message reference must be in range");
  do return args[index]; end
 end));
 if (_type(token.lineNumber) == "number") then
-error = _new(SyntaxError,(_add((_add((_add("Line ",token.lineNumber)),": ")),msg)));
+error = _new(SyntaxError,(_addStr(((_addStr("Line ",token.lineNumber)) .. ": "),msg)));
 error.index = token.start;
 error.lineNumber = token.lineNumber;
 error.column = ((token.start - lineStart) + 1);
 else
-error = _new(SyntaxError,(_add((_add((_add("Line ",lineNumber)),": ")),msg)));
+error = _new(SyntaxError,(_addStr(((_addStr("Line ",lineNumber)) .. ": "),msg)));
 error.index = index;
 error.lineNumber = lineNumber;
 error.column = ((index - lineStart) + 1);
@@ -1578,7 +1578,7 @@ name = toString(_ENV,property.key.value);
 end
 
 kind = (function() if (property.kind == "init") then return PropertyKind.Data; else return (function() if (property.kind == "get") then return PropertyKind.Get; else return PropertyKind.Set; end end)(); end end)();
-key = (_add("$",name));
+key = (_addStr("$",name));
 if _bool(Object.prototype.hasOwnProperty:call(map,key)) then
 if (map[key] == PropertyKind.Data) then
 if _bool(((function() if _bool(strict) then return (kind == PropertyKind.Data);  else return strict;  end end)())) then
@@ -2330,7 +2330,7 @@ end
 
 if (lookahead.type == Token.Identifier) then
 label = parseVariableIdentifier(_ENV);
-key = (_add("$",label.name));
+key = (_addStr("$",label.name));
 if not _bool(Object.prototype.hasOwnProperty:call(state.labelSet,key)) then
 throwError(_ENV,_obj({
 
@@ -2375,7 +2375,7 @@ end
 
 if (lookahead.type == Token.Identifier) then
 label = parseVariableIdentifier(_ENV);
-key = (_add("$",label.name));
+key = (_addStr("$",label.name));
 if not _bool(Object.prototype.hasOwnProperty:call(state.labelSet,key)) then
 throwError(_ENV,_obj({
 
@@ -2404,7 +2404,7 @@ throwErrorTolerant(_ENV,_obj({
 end
 
 if (source:charCodeAt(index) == 32) then
-if _bool(isIdentifierStart(_ENV,source:charCodeAt((_add(index,1))))) then
+if _bool(isIdentifierStart(_ENV,source:charCodeAt((_addNum(1,index))))) then
 argument = parseExpression(_ENV);
 consumeSemicolon(_ENV);
  do return delegate:createReturnStatement(argument); end
@@ -2679,7 +2679,7 @@ end
 expr = parseExpression(_ENV);
 if _bool(((function() if (expr.type == Syntax.Identifier) then return match(_ENV,":");  else return (expr.type == Syntax.Identifier);  end end)())) then
 lex(_ENV);
-key = (_add("$",expr.name));
+key = (_addStr("$",expr.name));
 if _bool(Object.prototype.hasOwnProperty:call(state.labelSet,key)) then
 throwError(_ENV,_obj({
 
@@ -2713,7 +2713,7 @@ if (sourceElement.expression.type ~= Syntax.Literal) then
 do break end;
 end
 
-directive = source:slice((_add(token.start,1)),(token["end"] - 1));
+directive = source:slice((_addNum(1,token.start)),(token["end"] - 1));
 if (directive == "use strict") then
 strict = true;
 if _bool(firstRestricted) then
@@ -2772,7 +2772,7 @@ paramSet = _obj({
 while (_lt(index,length)) do
 token = lookahead;
 param = parseVariableIdentifier(_ENV);
-key = (_add("$",token.value));
+key = (_addStr("$",token.value));
 if _bool(strict) then
 if _bool(isRestrictedWord(_ENV,token.value)) then
 stricted = token;
@@ -2959,7 +2959,7 @@ if (sourceElement.expression.type ~= Syntax.Literal) then
 do break end;
 end
 
-directive = source:slice((_add(token.start,1)),(token["end"] - 1));
+directive = source:slice((_addNum(1,token.start)),(token["end"] - 1));
 if (directive == "use strict") then
 strict = true;
 if _bool(firstRestricted) then

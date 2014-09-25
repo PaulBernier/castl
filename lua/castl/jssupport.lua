@@ -89,6 +89,22 @@ function jssupport.add(x, y)
     end
 end
 
+-- first param is known to be a string, second is unknown
+function jssupport.addString(str, other)
+    return str .. tostring(ToPrimitiveNumber(other))
+end
+
+-- first param is known to be a string, second is unknown
+function jssupport.addNumber(num, other)
+    other = ToPrimitiveNumber(other)
+    local tother = type(other)
+    if tother == "string" then
+        return num .. tostring(other)
+    else
+        return num + ToNumber(other, tother)
+    end
+end
+
 if luajit then
     function jssupport.lt(x, y)
         local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)

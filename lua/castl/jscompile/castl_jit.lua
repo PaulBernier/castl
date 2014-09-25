@@ -1373,6 +1373,38 @@ if _bool(meta) then
 meta.type = "number";
 end
 
+elseif (metaLeft.type == "string") then
+compiledAdditionOperator:push("_addStr(");
+compiledAdditionOperator:push(left);
+compiledAdditionOperator:push(",");
+compiledAdditionOperator:push(right);
+compiledAdditionOperator:push(")");
+if _bool(meta) then
+meta.type = "string";
+end
+
+elseif (metaRight.type == "string") then
+compiledAdditionOperator:push("_addStr(");
+compiledAdditionOperator:push(right);
+compiledAdditionOperator:push(",");
+compiledAdditionOperator:push(left);
+compiledAdditionOperator:push(")");
+if _bool(meta) then
+meta.type = "string";
+end
+
+elseif (metaLeft.type == "number") then
+compiledAdditionOperator:push("_addNum(");
+compiledAdditionOperator:push(left);
+compiledAdditionOperator:push(",");
+compiledAdditionOperator:push(right);
+compiledAdditionOperator:push(")");
+elseif (metaRight.type == "number") then
+compiledAdditionOperator:push("_addNum(");
+compiledAdditionOperator:push(right);
+compiledAdditionOperator:push(",");
+compiledAdditionOperator:push(left);
+compiledAdditionOperator:push(")");
 else
 compiledAdditionOperator:push("_add(");
 compiledAdditionOperator:push(left);

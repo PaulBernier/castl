@@ -47,6 +47,8 @@ local export = {
     -- jssupport
     _eq = jssupport.equal,
     _add = jssupport.add,
+    _addStr = jssupport.addString,
+    _addNum = jssupport.addNumber,
     _bool = jssupport.boolean,
     _type = jssupport.typeof,
     _break = jssupport._break,

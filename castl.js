@@ -1461,6 +1461,7 @@
     function compileAdditionOperator(left, right, metaLeft, metaRight, meta) {
         var compiledAdditionOperator = [];
 
+        // Both operands are strings, thus + surely means concat (..)
         if (metaLeft.type === "string" && metaRight.type === "string") {
             compiledAdditionOperator.push(left);
             compiledAdditionOperator.push(" .. ");
@@ -1468,6 +1469,7 @@
             if (meta) {
                 meta.type = "string";
             }
+            // Both operands are numbers, thus + surely means regular addition
         } else if (metaLeft.type === "number" && metaRight.type === "number") {
             compiledAdditionOperator.push(left);
             compiledAdditionOperator.push(" + ");
@@ -1475,6 +1477,36 @@
             if (meta) {
                 meta.type = "number";
             }
+        } else if (metaLeft.type === "string") {
+            compiledAdditionOperator.push("_addStr(");
+            compiledAdditionOperator.push(left);
+            compiledAdditionOperator.push(",");
+            compiledAdditionOperator.push(right);
+            compiledAdditionOperator.push(")");
+            if (meta) {
+                meta.type = "string";
+            }
+        } else if (metaRight.type === "string") {
+            compiledAdditionOperator.push("_addStr(");
+            compiledAdditionOperator.push(right);
+            compiledAdditionOperator.push(",");
+            compiledAdditionOperator.push(left);
+            compiledAdditionOperator.push(")");
+            if (meta) {
+                meta.type = "string";
+            }
+        } else if (metaLeft.type === "number") {
+            compiledAdditionOperator.push("_addNum(");
+            compiledAdditionOperator.push(left);
+            compiledAdditionOperator.push(",");
+            compiledAdditionOperator.push(right);
+            compiledAdditionOperator.push(")");
+        } else if (metaRight.type === "number") {
+            compiledAdditionOperator.push("_addNum(");
+            compiledAdditionOperator.push(right);
+            compiledAdditionOperator.push(",");
+            compiledAdditionOperator.push(left);
+            compiledAdditionOperator.push(")");
         } else {
             // Default case
             compiledAdditionOperator.push("_add(");
