@@ -221,7 +221,7 @@ loc = _obj({
 });
 while (_lt(index,length)) do
 ch = source:charCodeAt(index);
-index = _inc(index);
+index = index + 1;
 if _bool(isLineTerminator(_ENV,ch)) then
 if _bool(extra.comments) then
 comment = source:slice((_add(start,offset)),(index - 1));
@@ -233,10 +233,10 @@ addComment(_ENV,"Line",comment,start,(index - 1),loc);
 end
 
 if ((function() if (ch == 13) then return (source:charCodeAt(index) == 10);  else return (ch == 13);  end end)()) then
-index = _inc(index);
+index = index + 1;
 end
 
-lineNumber = _inc(lineNumber);
+lineNumber = lineNumber + 1;
 lineStart = index;
 do return end
 end
@@ -270,11 +270,11 @@ while (_lt(index,length)) do
 ch = source:charCodeAt(index);
 if _bool(isLineTerminator(_ENV,ch)) then
 if ((function() if (ch == 13) then return (source:charCodeAt((_addNum(1,index))) == 10);  else return (ch == 13);  end end)()) then
-index = _inc(index);
+index = index + 1;
 end
 
-lineNumber = _inc(lineNumber);
-index = _inc(index);
+lineNumber = lineNumber + 1;
+index = index + 1;
 lineStart = index;
 if (_ge(index,length)) then
 throwError(_ENV,_obj({
@@ -284,8 +284,8 @@ end
 
 elseif (ch == 42) then
 if (source:charCodeAt((_addNum(1,index))) == 47) then
-index = _inc(index);
-index = _inc(index);
+index = index + 1;
+index = index + 1;
 if _bool(extra.comments) then
 comment = source:slice((_addNum(2,start)),(index - 2));
 loc["end"] = _obj({
@@ -298,9 +298,9 @@ end
 do return end
 end
 
-index = _inc(index);
+index = index + 1;
 else
-index = _inc(index);
+index = index + 1;
 end
 
 ::_continue::
@@ -316,26 +316,26 @@ start = (index == 0);
 while (_lt(index,length)) do
 ch = source:charCodeAt(index);
 if _bool(isWhiteSpace(_ENV,ch)) then
-index = _inc(index);
+index = index + 1;
 elseif _bool(isLineTerminator(_ENV,ch)) then
-index = _inc(index);
+index = index + 1;
 if ((function() if (ch == 13) then return (source:charCodeAt(index) == 10);  else return (ch == 13);  end end)()) then
-index = _inc(index);
+index = index + 1;
 end
 
-lineNumber = _inc(lineNumber);
+lineNumber = lineNumber + 1;
 lineStart = index;
 start = true;
 elseif (ch == 47) then
 ch = source:charCodeAt((_addNum(1,index)));
 if (ch == 47) then
-index = _inc(index);
-index = _inc(index);
+index = index + 1;
+index = index + 1;
 skipSingleLineComment(_ENV,2);
 start = true;
 elseif (ch == 42) then
-index = _inc(index);
-index = _inc(index);
+index = index + 1;
+index = index + 1;
 skipMultiLineComment(_ENV);
 else
 break;
@@ -351,10 +351,10 @@ end
 
 elseif (ch == 60) then
 if (source:slice((_addNum(1,index)),(_addNum(4,index))) == "!--") then
-index = _inc(index);
-index = _inc(index);
-index = _inc(index);
-index = _inc(index);
+index = index + 1;
+index = index + 1;
+index = index + 1;
+index = index + 1;
 skipSingleLineComment(_ENV,4);
 else
 break;
@@ -373,7 +373,7 @@ local code,ch,len,i;
 code = 0;
 len = (function() if (prefix == "u") then return 4; else return 2; end end)();
 i = 0;
-while (_lt(i,len)) do
+while (i<len) do
 if _bool(((function() if (_lt(index,length)) then return isHexDigit(_ENV,source[index]);  else return (_lt(index,length));  end end)())) then
 ch = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
 code = (_addNum((code * 16),("0123456789abcdef"):indexOf(ch:toLowerCase())));
@@ -381,7 +381,7 @@ else
  do return ""; end
 end
 
-i = _inc(i);
+i = i + 1;
 end
 
  do return String:fromCharCode(code); end
@@ -397,7 +397,7 @@ throwError(_ENV,_obj({
 }),Messages.UnexpectedToken,"ILLEGAL");
 end
 
-index = _inc(index);
+index = index + 1;
 ch = scanHexEscape(_ENV,"u");
 if ((not _bool(ch) and not _bool(ch) or (ch == "\\")) and (not _bool(ch) and not _bool(ch) or (ch == "\\")) or not _bool(isIdentifierStart(_ENV,ch:charCodeAt(0)))) then
 throwError(_ENV,_obj({
@@ -414,7 +414,7 @@ if not _bool(isIdentifierPart(_ENV,ch)) then
 break;
 end
 
-index = _inc(index);
+index = index + 1;
 id = (_add(id,String:fromCharCode(ch)));
 if (ch == 92) then
 id = id:substr(0,(id.length - 1));
@@ -424,7 +424,7 @@ throwError(_ENV,_obj({
 }),Messages.UnexpectedToken,"ILLEGAL");
 end
 
-index = _inc(index);
+index = index + 1;
 ch = scanHexEscape(_ENV,"u");
 if ((not _bool(ch) and not _bool(ch) or (ch == "\\")) and (not _bool(ch) and not _bool(ch) or (ch == "\\")) or not _bool(isIdentifierPart(_ENV,ch:charCodeAt(0)))) then
 throwError(_ENV,_obj({
@@ -442,7 +442,7 @@ end
 end);
 getIdentifier = (function (this)
 local ch,start;
-start = (function () local _tmp = index; index = _inc(_tmp); return _tmp; end)();
+start = (function () local _tmp = index; index = _tmp + 1; return _tmp; end)();
 while (_lt(index,length)) do
 ch = source:charCodeAt(index);
 if (ch == 92) then
@@ -451,7 +451,7 @@ index = start;
 end
 
 if _bool(isIdentifierPart(_ENV,ch)) then
-index = _inc(index);
+index = index + 1;
 else
 break;
 end
@@ -543,7 +543,7 @@ if _into or (code == 63) then
 _into = true;
 end
 if _into or (code == 126) then
-index = _inc(index);
+index = index + 1;
 if _bool(extra.tokenize) then
 if (code == 40) then
 extra.openParenToken = extra.tokens.length;
@@ -629,7 +629,7 @@ end
 if _into or (code == 61) then
 index = (_addNum(2,index));
 if (source:charCodeAt(index) == 61) then
-index = _inc(index);
+index = index + 1;
 end
 
  do return _obj({
@@ -689,7 +689,7 @@ index = (_addNum(2,index));
 end
 
 if (_ge(("<>=!+-*%&|^/"):indexOf(ch1),0)) then
-index = _inc(index);
+index = index + 1;
  do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = ch1,
@@ -776,7 +776,7 @@ number = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp
 ch = source[index];
 if (number == "0") then
 if ((ch == "x") and (ch == "x") or (ch == "X")) then
-index = _inc(index);
+index = index + 1;
  do return scanHexLiteral(_ENV,start); end
 end
 
@@ -855,7 +855,7 @@ startLineStart = lineStart;
 quote = source[index];
 assert(_ENV,((quote == "'") and (quote == "'") or (quote == "\"")),"String literal must starts with a quote");
 start = index;
-index = _inc(index);
+index = index + 1;
 while (_lt(index,length)) do
 ch = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
 if (ch == quote) then
@@ -945,9 +945,9 @@ _into = true;
 end
 until true
 else
-lineNumber = _inc(lineNumber);
+lineNumber = lineNumber + 1;
 if ((function() if (ch == "\013") then return (source[index] == "\010");  else return (ch == "\013");  end end)()) then
-index = _inc(index);
+index = index + 1;
 end
 
 lineStart = index;
@@ -1061,11 +1061,11 @@ if not _bool(isIdentifierPart(_ENV,ch:charCodeAt(0))) then
 break;
 end
 
-index = _inc(index);
+index = index + 1;
 if ((function() if (ch == "\\") then return (_lt(index,length));  else return (ch == "\\");  end end)()) then
 ch = source[index];
 if (ch == "u") then
-index = _inc(index);
+index = index + 1;
 restore = index;
 ch = scanHexEscape(_ENV,"u");
 if _bool(ch) then
@@ -3000,7 +3000,7 @@ filterTokenLocation = (function (this)
 local tokens,token,entry,i;
 tokens = _arr({},0);
 i = 0;
-while (_lt(i,extra.tokens.length)) do
+while (i<extra.tokens.length) do
 entry = extra.tokens[i];
 token = _obj({
 ["type"] = entry.type,
@@ -3015,7 +3015,7 @@ token.loc = entry.loc;
 end
 
 tokens:push(token);
-i = _inc(i);
+i = i + 1;
 end
 
 extra.tokens = tokens;
