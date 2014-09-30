@@ -90,8 +90,13 @@ function jssupport.add(x, y)
 end
 
 -- first param is known to be a string, second is unknown
-function jssupport.addString(str, other)
+function jssupport.addString1(str, other)
     return str .. tostring(ToPrimitiveNumber(other))
+end
+
+-- first param is unknown, second is known to be a string
+function jssupport.addString2(other, str)
+    return tostring(ToPrimitiveNumber(other)) .. str
 end
 
 -- first param is known to be a string, second is unknown

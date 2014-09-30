@@ -14,7 +14,7 @@ end)(_ENV,this,(function (this, exports)
 local parse,tokenize,filterTokenLocation,parseProgram,parseSourceElements,parseSourceElement,parseFunctionExpression,parseFunctionDeclaration,parseParams,parseFunctionSourceElements,parseStatement,parseDebuggerStatement,parseTryStatement,parseCatchClause,parseThrowStatement,parseSwitchStatement,parseSwitchCase,parseWithStatement,parseReturnStatement,parseBreakStatement,parseContinueStatement,parseForStatement,parseForVariableDeclaration,parseWhileStatement,parseDoWhileStatement,parseIfStatement,parseExpressionStatement,parseEmptyStatement,parseConstLetDeclaration,parseVariableStatement,parseVariableDeclarationList,parseVariableDeclaration,parseVariableIdentifier,parseBlock,parseStatementList,parseExpression,parseAssignmentExpression,parseConditionalExpression,parseBinaryExpression,binaryPrecedence,parseUnaryExpression,parsePostfixExpression,parseLeftHandSideExpression,parseLeftHandSideExpressionAllowCall,parseNewExpression,parseComputedMember,parseNonComputedMember,parseNonComputedProperty,parseArguments,parsePrimaryExpression,parseGroupExpression,parseObjectInitialiser,parseObjectProperty,parseObjectPropertyKey,parsePropertyFunction,parseArrayInitialiser,isLeftHandSide,consumeSemicolon,matchAssign,matchKeyword,match,expectKeyword,expect,throwUnexpected,throwErrorTolerant,throwError,peekLineTerminator,SourceLocation,Position,peek,lex,collectToken,advance,advanceSlash,isIdentifierName,collectRegex,scanRegExp,scanRegExpFlags,scanRegExpBody,testRegExp,scanStringLiteral,scanNumericLiteral,scanOctalLiteral,scanHexLiteral,scanPunctuator,scanIdentifier,getIdentifier,getEscapedIdentifier,scanHexEscape,skipComment,skipMultiLineComment,skipSingleLineComment,addComment,isKeyword,isRestrictedWord,isStrictModeReservedWord,isFutureReservedWord,isIdentifierPart,isIdentifierStart,isLineTerminator,isWhiteSpace,isOctalDigit,isHexDigit,isDecimalDigit,assert,extra,state,lookahead,delegate,length,lineStart,lineNumber,index,strict,source,SyntaxTreeDelegate,Regex,Messages,PropertyKind,Syntax,FnExprTokens,TokenName,Token;
 assert = (function (this, condition, message)
 if not _bool(condition) then
-_throw(_new(Error,(_addStr("ASSERT: ",message))),0)
+_throw(_new(Error,(_addStr1("ASSERT: ",message))),0)
 end
 
 end);
@@ -730,7 +730,7 @@ end
 
  do return _obj({
 ["type"] = Token.NumericLiteral,
-["value"] = parseInt(_ENV,(_addStr("0x",number)),16),
+["value"] = parseInt(_ENV,(_addStr1("0x",number)),16),
 ["lineNumber"] = lineNumber,
 ["lineStart"] = lineStart,
 ["start"] = start,
@@ -739,7 +739,7 @@ end
 end);
 scanOctalLiteral = (function (this, start)
 local number;
-number = (_addStr("0",source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()]));
+number = (_addStr1("0",source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()]));
 while (_lt(index,length)) do
 if not _bool(isOctalDigit(_ENV,source[index])) then
 break;
@@ -889,32 +889,32 @@ break;
 _into = true;
 end
 if _into or (ch == "n") then
-str = (_addStr("\010",str));
+str = (_addStr2(str,"\010"));
 break;
 _into = true;
 end
 if _into or (ch == "r") then
-str = (_addStr("\013",str));
+str = (_addStr2(str,"\013"));
 break;
 _into = true;
 end
 if _into or (ch == "t") then
-str = (_addStr("\009",str));
+str = (_addStr2(str,"\009"));
 break;
 _into = true;
 end
 if _into or (ch == "b") then
-str = (_addStr("\008",str));
+str = (_addStr2(str,"\008"));
 break;
 _into = true;
 end
 if _into or (ch == "f") then
-str = (_addStr("\012",str));
+str = (_addStr2(str,"\012"));
 break;
 _into = true;
 end
 if _into or (ch == "v") then
-str = (_addStr("\011",str));
+str = (_addStr2(str,"\011"));
 break;
 _into = true;
 end
@@ -1070,7 +1070,7 @@ restore = index;
 ch = scanHexEscape(_ENV,"u");
 if _bool(ch) then
 flags = (_add(flags,ch));
-str = (_addStr("\\u",str));
+str = (_addStr2(str,"\\u"));
 while (_lt(restore,index)) do
 str = (_add(str,source[restore]));
 restore = _inc(restore);
@@ -1078,15 +1078,15 @@ end
 
 else
 index = restore;
-flags = (_addStr("u",flags));
-str = (_addStr("\\u",str));
+flags = (_addStr2(flags,"u"));
+str = (_addStr2(str,"\\u"));
 end
 
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
 else
-str = (_addStr("\\",str));
+str = (_addStr2(str,"\\"));
 throwErrorTolerant(_ENV,_obj({
 
 }),Messages.UnexpectedToken,"ILLEGAL");
@@ -1347,12 +1347,12 @@ assert(_ENV,(_lt(index,args.length)),"Message reference must be in range");
  do return args[index]; end
 end));
 if (_type(token.lineNumber) == "number") then
-error = _new(SyntaxError,(_addStr(((_addStr("Line ",token.lineNumber)) .. ": "),msg)));
+error = _new(SyntaxError,(_addStr1(((_addStr1("Line ",token.lineNumber)) .. ": "),msg)));
 error.index = token.start;
 error.lineNumber = token.lineNumber;
 error.column = ((token.start - lineStart) + 1);
 else
-error = _new(SyntaxError,(_addStr(((_addStr("Line ",lineNumber)) .. ": "),msg)));
+error = _new(SyntaxError,(_addStr1(((_addStr1("Line ",lineNumber)) .. ": "),msg)));
 error.index = index;
 error.lineNumber = lineNumber;
 error.column = ((index - lineStart) + 1);
@@ -1577,7 +1577,7 @@ name = toString(_ENV,property.key.value);
 end
 
 kind = (function() if (property.kind == "init") then return PropertyKind.Data; else return (function() if (property.kind == "get") then return PropertyKind.Get; else return PropertyKind.Set; end end)(); end end)();
-key = (_addStr("$",name));
+key = (_addStr1("$",name));
 if _bool(Object.prototype.hasOwnProperty:call(map,key)) then
 if (map[key] == PropertyKind.Data) then
 if _bool(((function() if _bool(strict) then return (kind == PropertyKind.Data);  else return strict;  end end)())) then
@@ -2329,7 +2329,7 @@ end
 
 if (lookahead.type == Token.Identifier) then
 label = parseVariableIdentifier(_ENV);
-key = (_addStr("$",label.name));
+key = (_addStr1("$",label.name));
 if not _bool(Object.prototype.hasOwnProperty:call(state.labelSet,key)) then
 throwError(_ENV,_obj({
 
@@ -2374,7 +2374,7 @@ end
 
 if (lookahead.type == Token.Identifier) then
 label = parseVariableIdentifier(_ENV);
-key = (_addStr("$",label.name));
+key = (_addStr1("$",label.name));
 if not _bool(Object.prototype.hasOwnProperty:call(state.labelSet,key)) then
 throwError(_ENV,_obj({
 
@@ -2678,7 +2678,7 @@ end
 expr = parseExpression(_ENV);
 if _bool(((function() if (expr.type == Syntax.Identifier) then return match(_ENV,":");  else return (expr.type == Syntax.Identifier);  end end)())) then
 lex(_ENV);
-key = (_addStr("$",expr.name));
+key = (_addStr1("$",expr.name));
 if _bool(Object.prototype.hasOwnProperty:call(state.labelSet,key)) then
 throwError(_ENV,_obj({
 
@@ -2771,7 +2771,7 @@ paramSet = _obj({
 while (_lt(index,length)) do
 token = lookahead;
 param = parseVariableIdentifier(_ENV);
-key = (_addStr("$",token.value));
+key = (_addStr1("$",token.value));
 if _bool(strict) then
 if _bool(isRestrictedWord(_ENV,token.value)) then
 stricted = token;

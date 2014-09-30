@@ -1357,15 +1357,7 @@ end);
 compileAdditionOperator = (function (this, left, right, metaLeft, metaRight, meta)
 local compiledAdditionOperator;
 compiledAdditionOperator = _arr({},0);
-if ((function() if (metaLeft.type == "string") then return (metaRight.type == "string");  else return (metaLeft.type == "string");  end end)()) then
-compiledAdditionOperator:push(left);
-compiledAdditionOperator:push(" .. ");
-compiledAdditionOperator:push(right);
-if _bool(meta) then
-meta.type = "string";
-end
-
-elseif ((function() if (metaLeft.type == "number") then return (metaRight.type == "number");  else return (metaLeft.type == "number");  end end)()) then
+if ((function() if (metaLeft.type == "number") then return (metaRight.type == "number");  else return (metaLeft.type == "number");  end end)()) then
 compiledAdditionOperator:push(left);
 compiledAdditionOperator:push(" + ");
 compiledAdditionOperator:push(right);
@@ -1374,21 +1366,35 @@ meta.type = "number";
 end
 
 elseif (metaLeft.type == "string") then
-compiledAdditionOperator:push("_addStr(");
+if ((metaRight.type == "number") and (metaRight.type == "number") or (metaRight.type == "string")) then
+compiledAdditionOperator:push(left);
+compiledAdditionOperator:push(" .. ");
+compiledAdditionOperator:push(right);
+else
+compiledAdditionOperator:push("_addStr1(");
 compiledAdditionOperator:push(left);
 compiledAdditionOperator:push(",");
 compiledAdditionOperator:push(right);
 compiledAdditionOperator:push(")");
+end
+
 if _bool(meta) then
 meta.type = "string";
 end
 
 elseif (metaRight.type == "string") then
-compiledAdditionOperator:push("_addStr(");
-compiledAdditionOperator:push(right);
-compiledAdditionOperator:push(",");
+if ((metaLeft.type == "number") and (metaLeft.type == "number") or (metaLeft.type == "string")) then
 compiledAdditionOperator:push(left);
+compiledAdditionOperator:push(" .. ");
+compiledAdditionOperator:push(right);
+else
+compiledAdditionOperator:push("_addStr2(");
+compiledAdditionOperator:push(left);
+compiledAdditionOperator:push(",");
+compiledAdditionOperator:push(right);
 compiledAdditionOperator:push(")");
+end
+
 if _bool(meta) then
 meta.type = "string";
 end

@@ -1461,16 +1461,7 @@
     function compileAdditionOperator(left, right, metaLeft, metaRight, meta) {
         var compiledAdditionOperator = [];
 
-        // Both operands are strings, thus + surely means concat (..)
-        if (metaLeft.type === "string" && metaRight.type === "string") {
-            compiledAdditionOperator.push(left);
-            compiledAdditionOperator.push(" .. ");
-            compiledAdditionOperator.push(right);
-            if (meta) {
-                meta.type = "string";
-            }
-            // Both operands are numbers, thus + surely means regular addition
-        } else if (metaLeft.type === "number" && metaRight.type === "number") {
+        if (metaLeft.type === "number" && metaRight.type === "number") {
             compiledAdditionOperator.push(left);
             compiledAdditionOperator.push(" + ");
             compiledAdditionOperator.push(right);
@@ -1478,20 +1469,32 @@
                 meta.type = "number";
             }
         } else if (metaLeft.type === "string") {
-            compiledAdditionOperator.push("_addStr(");
-            compiledAdditionOperator.push(left);
-            compiledAdditionOperator.push(",");
-            compiledAdditionOperator.push(right);
-            compiledAdditionOperator.push(")");
+            if (metaRight.type === "number" || metaRight.type === "string") {
+                compiledAdditionOperator.push(left);
+                compiledAdditionOperator.push(" .. ");
+                compiledAdditionOperator.push(right);
+            } else {
+                compiledAdditionOperator.push("_addStr1(");
+                compiledAdditionOperator.push(left);
+                compiledAdditionOperator.push(",");
+                compiledAdditionOperator.push(right);
+                compiledAdditionOperator.push(")");
+            }
             if (meta) {
                 meta.type = "string";
             }
         } else if (metaRight.type === "string") {
-            compiledAdditionOperator.push("_addStr(");
-            compiledAdditionOperator.push(right);
-            compiledAdditionOperator.push(",");
-            compiledAdditionOperator.push(left);
-            compiledAdditionOperator.push(")");
+            if (metaLeft.type === "number" || metaLeft.type === "string") {
+                compiledAdditionOperator.push(left);
+                compiledAdditionOperator.push(" .. ");
+                compiledAdditionOperator.push(right);
+            } else {
+                compiledAdditionOperator.push("_addStr2(");
+                compiledAdditionOperator.push(left);
+                compiledAdditionOperator.push(",");
+                compiledAdditionOperator.push(right);
+                compiledAdditionOperator.push(")");
+            }
             if (meta) {
                 meta.type = "string";
             }
