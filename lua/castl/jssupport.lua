@@ -99,14 +99,25 @@ function jssupport.addString2(other, str)
     return tostring(ToPrimitiveNumber(other)) .. str
 end
 
--- first param is known to be a string, second is unknown
-function jssupport.addNumber(num, other)
+-- first param is known to be a number, second is unknown
+function jssupport.addNumber1(num, other)
     other = ToPrimitiveNumber(other)
     local tother = type(other)
     if tother == "string" then
         return num .. tostring(other)
     else
         return num + ToNumber(other, tother)
+    end
+end
+
+-- first param is unknown, second is known to be a number
+function jssupport.addNumber2(other, num)
+    other = ToPrimitiveNumber(other)
+    local tother = type(other)
+    if tother == "string" then
+        return tostring(other) .. num
+    else
+        return ToNumber(other, tother) + num
     end
 end
 

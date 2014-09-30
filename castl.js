@@ -1499,16 +1499,16 @@
                 meta.type = "string";
             }
         } else if (metaLeft.type === "number") {
-            compiledAdditionOperator.push("_addNum(");
+            compiledAdditionOperator.push("_addNum1(");
             compiledAdditionOperator.push(left);
             compiledAdditionOperator.push(",");
             compiledAdditionOperator.push(right);
             compiledAdditionOperator.push(")");
         } else if (metaRight.type === "number") {
-            compiledAdditionOperator.push("_addNum(");
-            compiledAdditionOperator.push(right);
-            compiledAdditionOperator.push(",");
+            compiledAdditionOperator.push("_addNum2(");
             compiledAdditionOperator.push(left);
+            compiledAdditionOperator.push(",");
+            compiledAdditionOperator.push(right);
             compiledAdditionOperator.push(")");
         } else {
             // Default case

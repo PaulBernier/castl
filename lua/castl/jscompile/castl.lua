@@ -1399,16 +1399,16 @@ meta.type = "string";
 end
 
 elseif (metaLeft.type == "number") then
-compiledAdditionOperator:push("_addNum(");
+compiledAdditionOperator:push("_addNum1(");
 compiledAdditionOperator:push(left);
 compiledAdditionOperator:push(",");
 compiledAdditionOperator:push(right);
 compiledAdditionOperator:push(")");
 elseif (metaRight.type == "number") then
-compiledAdditionOperator:push("_addNum(");
-compiledAdditionOperator:push(right);
-compiledAdditionOperator:push(",");
+compiledAdditionOperator:push("_addNum2(");
 compiledAdditionOperator:push(left);
+compiledAdditionOperator:push(",");
+compiledAdditionOperator:push(right);
 compiledAdditionOperator:push(")");
 else
 compiledAdditionOperator:push("_add(");

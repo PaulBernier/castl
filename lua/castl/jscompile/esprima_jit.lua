@@ -270,7 +270,7 @@ end
 while (_lt(index,length)) do
 ch = source:charCodeAt(index);
 if _bool(isLineTerminator(_ENV,ch)) then
-if ((function() if (ch == 13) then return (source:charCodeAt((_addNum(1,index))) == 10);  else return (ch == 13);  end end)()) then
+if ((function() if (ch == 13) then return (source:charCodeAt((_addNum2(index,1))) == 10);  else return (ch == 13);  end end)()) then
 index = index + 1;
 end
 
@@ -284,11 +284,11 @@ throwError(_ENV,_obj({
 end
 
 elseif (ch == 42) then
-if (source:charCodeAt((_addNum(1,index))) == 47) then
+if (source:charCodeAt((_addNum2(index,1))) == 47) then
 index = index + 1;
 index = index + 1;
 if _bool(extra.comments) then
-comment = source:slice((_addNum(2,start)),(index - 2));
+comment = source:slice((_addNum2(start,2)),(index - 2));
 loc["end"] = _obj({
 ["line"] = lineNumber,
 ["column"] = (index - lineStart)
@@ -328,7 +328,7 @@ lineNumber = lineNumber + 1;
 lineStart = index;
 start = true;
 elseif (ch == 47) then
-ch = source:charCodeAt((_addNum(1,index)));
+ch = source:charCodeAt((_addNum2(index,1)));
 if (ch == 47) then
 index = index + 1;
 index = index + 1;
@@ -343,15 +343,15 @@ do break end;
 end
 
 elseif _bool(((function() if _bool(start) then return (ch == 45);  else return start;  end end)())) then
-if ((function() if (source:charCodeAt((_addNum(1,index))) == 45) then return (source:charCodeAt((_addNum(2,index))) == 62);  else return (source:charCodeAt((_addNum(1,index))) == 45);  end end)()) then
-index = (_addNum(3,index));
+if ((function() if (source:charCodeAt((_addNum2(index,1))) == 45) then return (source:charCodeAt((_addNum2(index,2))) == 62);  else return (source:charCodeAt((_addNum2(index,1))) == 45);  end end)()) then
+index = (_addNum2(index,3));
 skipSingleLineComment(_ENV,3);
 else
 do break end;
 end
 
 elseif (ch == 60) then
-if (source:slice((_addNum(1,index)),(_addNum(4,index))) == "!--") then
+if (source:slice((_addNum2(index,1)),(_addNum2(index,4))) == "!--") then
 index = index + 1;
 index = index + 1;
 index = index + 1;
@@ -377,7 +377,7 @@ i = 0;
 while (i<len) do
 if _bool(((function() if (_lt(index,length)) then return isHexDigit(_ENV,source[index]);  else return (_lt(index,length));  end end)())) then
 ch = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
-code = (_addNum((code * 16),("0123456789abcdef"):indexOf(ch:toLowerCase())));
+code = (_addNum1((code * 16),("0123456789abcdef"):indexOf(ch:toLowerCase())));
 else
  do return ""; end
 end
@@ -566,7 +566,7 @@ _into = true;
 end
 ::_default::
 if _into then
-code2 = source:charCodeAt((_addNum(1,index)));
+code2 = source:charCodeAt((_addNum2(index,1)));
 if (code2 == 61) then
 repeat
 local _into = false;
@@ -612,7 +612,7 @@ if _into or (code == 38) then
 _into = true;
 end
 if _into or (code == 42) then
-index = (_addNum(2,index));
+index = (_addNum2(index,2));
  do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = (_add(String:fromCharCode(code),String:fromCharCode(code2))),
@@ -628,7 +628,7 @@ if _into or (code == 33) then
 _into = true;
 end
 if _into or (code == 61) then
-index = (_addNum(2,index));
+index = (_addNum2(index,2));
 if (source:charCodeAt(index) == 61) then
 index = index + 1;
 end
@@ -652,7 +652,7 @@ end
 until true
 ch4 = source:substr(index,4);
 if (ch4 == ">>>=") then
-index = (_addNum(4,index));
+index = (_addNum2(index,4));
  do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = ch4,
@@ -665,7 +665,7 @@ end
 
 ch3 = ch4:substr(0,3);
 if (((ch3 == ">>>") and (ch3 == ">>>") or (ch3 == "<<=")) and ((ch3 == ">>>") and (ch3 == ">>>") or (ch3 == "<<=")) or (ch3 == ">>=")) then
-index = (_addNum(3,index));
+index = (_addNum2(index,3));
  do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = ch3,
@@ -678,7 +678,7 @@ end
 
 ch2 = ch3:substr(0,2);
 if (((function() if (ch1 == ch2[1]) then return (_ge(("+-<>&|"):indexOf(ch1),0));  else return (ch1 == ch2[1]);  end end)()) and ((function() if (ch1 == ch2[1]) then return (_ge(("+-<>&|"):indexOf(ch1),0));  else return (ch1 == ch2[1]);  end end)()) or (ch2 == "=>")) then
-index = (_addNum(2,index));
+index = (_addNum2(index,2));
  do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = ch2,
@@ -929,9 +929,9 @@ end
 
 if _bool(((function() if (_lt(index,length)) then return isOctalDigit(_ENV,source[index]);  else return (_lt(index,length));  end end)())) then
 octal = true;
-code = (_addNum((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
+code = (_addNum1((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
 if _bool(((function() if ((function() if (_ge(("0123"):indexOf(ch),0)) then return (_lt(index,length));  else return (_ge(("0123"):indexOf(ch),0));  end end)()) then return isOctalDigit(_ENV,source[index]);  else return ((function() if (_ge(("0123"):indexOf(ch),0)) then return (_lt(index,length));  else return (_ge(("0123"):indexOf(ch),0));  end end)());  end end)())) then
-code = (_addNum((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
+code = (_addNum1((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
 end
 
 end
@@ -1253,7 +1253,7 @@ if ((ch == 39) and (ch == 39) or (ch == 34)) then
 end
 
 if (ch == 46) then
-if _bool(isDecimalDigit(_ENV,source:charCodeAt((_addNum(1,index))))) then
+if _bool(isDecimalDigit(_ENV,source:charCodeAt((_addNum2(index,1))))) then
  do return scanNumericLiteral(_ENV); end
 end
 
@@ -2404,7 +2404,7 @@ throwErrorTolerant(_ENV,_obj({
 end
 
 if (source:charCodeAt(index) == 32) then
-if _bool(isIdentifierStart(_ENV,source:charCodeAt((_addNum(1,index))))) then
+if _bool(isIdentifierStart(_ENV,source:charCodeAt((_addNum2(index,1))))) then
 argument = parseExpression(_ENV);
 consumeSemicolon(_ENV);
  do return delegate:createReturnStatement(argument); end
@@ -2713,7 +2713,7 @@ if (sourceElement.expression.type ~= Syntax.Literal) then
 do break end;
 end
 
-directive = source:slice((_addNum(1,token.start)),(token["end"] - 1));
+directive = source:slice((_addNum2(token.start,1)),(token["end"] - 1));
 if (directive == "use strict") then
 strict = true;
 if _bool(firstRestricted) then
@@ -2959,7 +2959,7 @@ if (sourceElement.expression.type ~= Syntax.Literal) then
 do break end;
 end
 
-directive = source:slice((_addNum(1,token.start)),(token["end"] - 1));
+directive = source:slice((_addNum2(token.start,1)),(token["end"] - 1));
 if (directive == "use strict") then
 strict = true;
 if _bool(firstRestricted) then
