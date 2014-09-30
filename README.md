@@ -64,6 +64,10 @@ Option  | Description
 --strict | make Esprima and Acorn not error-tolerant.
 --node | add a very basic support of NodeJS 'require' system.
 
+## Annotations
+
+Annotations are useful to optimize the generated code. Please refer to the file ```doc/annotations.md``` for more information.
+
 ## CASTL components
 
 CASTL is made of two parts:
