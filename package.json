@@ -1,6 +1,6 @@
 {
   "name": "castl",
-  "version": "1.1.8",
+  "version": "1.1.10",
   "description": "JavaScript to Lua compiler with runtime library",
   "keywords": [
     "castl",
