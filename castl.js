@@ -1024,9 +1024,10 @@
         var compiledAssignmentExpression = ["(function () "];
         var computedProperty = expression.left.type === "MemberExpression" && expression.left.computed;
         var left = compileExpression(expression.left);
+        var split;
 
         if (computedProperty) {
-            var split = getBaseMember(left);
+            split = getBaseMember(left);
             // store computed property
             compiledAssignmentExpression.push("local _cp = ");
             compiledAssignmentExpression.push(split.member);
@@ -1801,7 +1802,7 @@
     }
 
     function compileObjectExpression(expression, meta) {
-        var compiledObjectExpression = ["_obj({\n"];
+        var compiledObjectExpression = ["_obj({"];
 
         var i, length = expression.properties.length;
         var property;
@@ -1851,8 +1852,13 @@
             compiledProperties.push(compiledProperty.join(""));
         }
 
-        compiledObjectExpression.push(compiledProperties.join(",\n"));
-        compiledObjectExpression.push("\n})");
+        // @number
+        if (length > 0) {
+            compiledObjectExpression.push("\n");
+            compiledObjectExpression.push(compiledProperties.join(",\n"));
+            compiledObjectExpression.push("\n");
+        }
+        compiledObjectExpression.push("})");
 
         if (meta) {
             meta.type = "object";

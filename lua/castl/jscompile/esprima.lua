@@ -5,9 +5,7 @@ define(_ENV,_arr({[0]="exports"},1),factory);
 elseif (_type(exports) ~= "undefined") then
 factory(_ENV,exports);
 else
-factory(_ENV,(function () local _tmp = _obj({
-
-}); root.esprima = _tmp; return _tmp; end)());
+factory(_ENV,(function () local _tmp = _obj({}); root.esprima = _tmp; return _tmp; end)());
 end
 
 end)(_ENV,this,(function (this, exports)
@@ -277,9 +275,7 @@ lineNumber = lineNumber + 1;
 index = index + 1;
 lineStart = index;
 if (_ge(index,length)) then
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
 elseif (ch == 42) then
@@ -306,9 +302,7 @@ end
 ::_continue::
 end
 
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end);
 skipComment = (function (this)
 local start,ch;
@@ -392,17 +386,13 @@ ch = source:charCodeAt((function () local _tmp = index; index = _inc(_tmp); retu
 id = String:fromCharCode(ch);
 if (ch == 92) then
 if (source:charCodeAt(index) ~= 117) then
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
 index = index + 1;
 ch = scanHexEscape(_ENV,"u");
 if ((not _bool(ch) and not _bool(ch) or (ch == "\\")) and (not _bool(ch) and not _bool(ch) or (ch == "\\")) or not _bool(isIdentifierStart(_ENV,ch:charCodeAt(0)))) then
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
 id = ch;
@@ -419,17 +409,13 @@ id = (_add(id,String:fromCharCode(ch)));
 if (ch == 92) then
 id = id:substr(0,(id.length - 1));
 if (source:charCodeAt(index) ~= 117) then
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
 index = index + 1;
 ch = scanHexEscape(_ENV,"u");
 if ((not _bool(ch) and not _bool(ch) or (ch == "\\")) and (not _bool(ch) and not _bool(ch) or (ch == "\\")) or not _bool(isIdentifierPart(_ENV,ch:charCodeAt(0)))) then
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
 id = (_add(id,ch));
@@ -700,9 +686,7 @@ index = index + 1;
 }); end
 end
 
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end);
 scanHexLiteral = (function (this, start)
 local number;
@@ -717,15 +701,11 @@ number = (_add(number,source[(function () local _tmp = index; index = _inc(_tmp)
 end
 
 if (number.length == 0) then
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
 if _bool(isIdentifierStart(_ENV,source:charCodeAt(index))) then
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
  do return _obj({
@@ -750,9 +730,7 @@ number = (_add(number,source[(function () local _tmp = index; index = _inc(_tmp)
 end
 
 if _bool((_bool(isIdentifierStart(_ENV,source:charCodeAt(index))) and isIdentifierStart(_ENV,source:charCodeAt(index)) or isDecimalDigit(_ENV,source:charCodeAt(index)))) then
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
  do return _obj({
@@ -785,9 +763,7 @@ if _bool(isOctalDigit(_ENV,ch)) then
 end
 
 if _bool(((function() if _bool(ch) then return isDecimalDigit(_ENV,ch:charCodeAt(0));  else return ch;  end end)())) then
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
 end
@@ -824,17 +800,13 @@ number = (_add(number,source[(function () local _tmp = index; index = _inc(_tmp)
 end
 
 else
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
 end
 
 if _bool(isIdentifierStart(_ENV,source:charCodeAt(index))) then
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
  do return _obj({
@@ -963,9 +935,7 @@ end
 end
 
 if (quote ~= "") then
-throwError(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
  do return _obj({
@@ -988,9 +958,7 @@ end);
 if not _status then
 local _cstatus, _creturn = _pcall(function()
 local e = _return;
-throwError(_ENV,_obj({
-
-}),Messages.InvalidRegExp);
+throwError(_ENV,_obj({}),Messages.InvalidRegExp);
 end);
 if _cstatus then
 else _throw(_creturn,0); end
@@ -1011,16 +979,12 @@ str = (_add(str,ch));
 if (ch == "\\") then
 ch = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
 if _bool(isLineTerminator(_ENV,ch:charCodeAt(0))) then
-throwError(_ENV,_obj({
-
-}),Messages.UnterminatedRegExp);
+throwError(_ENV,_obj({}),Messages.UnterminatedRegExp);
 end
 
 str = (_add(str,ch));
 elseif _bool(isLineTerminator(_ENV,ch:charCodeAt(0))) then
-throwError(_ENV,_obj({
-
-}),Messages.UnterminatedRegExp);
+throwError(_ENV,_obj({}),Messages.UnterminatedRegExp);
 elseif _bool(classMarker) then
 if (ch == "]") then
 classMarker = false;
@@ -1040,9 +1004,7 @@ end
 end
 
 if not _bool(terminated) then
-throwError(_ENV,_obj({
-
-}),Messages.UnterminatedRegExp);
+throwError(_ENV,_obj({}),Messages.UnterminatedRegExp);
 end
 
 body = str:substr(1,(str.length - 2));
@@ -1082,14 +1044,10 @@ flags = (_addStr2(flags,"u"));
 str = (_addStr2(str,"\\u"));
 end
 
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwErrorTolerant(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 else
 str = (_addStr2(str,"\\"));
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.UnexpectedToken,"ILLEGAL");
+throwErrorTolerant(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
 else
@@ -1562,9 +1520,7 @@ end);
 parseObjectInitialiser = (function (this)
 local startToken,toString,map,kind,key,name,property,properties;
 properties = _arr({},0);
-map = _obj({
-
-});
+map = _obj({});
 toString = String;
 startToken = lookahead;
 expect(_ENV,"{");
@@ -1581,24 +1537,16 @@ key = (_addStr1("$",name));
 if _bool(Object.prototype.hasOwnProperty:call(map,key)) then
 if (map[key] == PropertyKind.Data) then
 if _bool(((function() if _bool(strict) then return (kind == PropertyKind.Data);  else return strict;  end end)())) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.StrictDuplicateProperty);
+throwErrorTolerant(_ENV,_obj({}),Messages.StrictDuplicateProperty);
 elseif (kind ~= PropertyKind.Data) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.AccessorDataProperty);
+throwErrorTolerant(_ENV,_obj({}),Messages.AccessorDataProperty);
 end
 
 else
 if (kind == PropertyKind.Data) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.AccessorDataProperty);
+throwErrorTolerant(_ENV,_obj({}),Messages.AccessorDataProperty);
 elseif _bool((_band(map[key],kind))) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.AccessorGetSet);
+throwErrorTolerant(_ENV,_obj({}),Messages.AccessorGetSet);
 end
 
 end
@@ -1787,15 +1735,11 @@ expr = parseLeftHandSideExpressionAllowCall(_ENV);
 if (lookahead.type == Token.Punctuator) then
 if _bool(((function() if _bool((_bool(match(_ENV,"++")) and match(_ENV,"++") or match(_ENV,"--"))) then return not _bool(peekLineTerminator(_ENV));  else return (_bool(match(_ENV,"++")) and match(_ENV,"++") or match(_ENV,"--"));  end end)())) then
 if _bool(((function() if _bool(((function() if _bool(strict) then return (expr.type == Syntax.Identifier);  else return strict;  end end)())) then return isRestrictedWord(_ENV,expr.name);  else return ((function() if _bool(strict) then return (expr.type == Syntax.Identifier);  else return strict;  end end)());  end end)())) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.StrictLHSPostfix);
+throwErrorTolerant(_ENV,_obj({}),Messages.StrictLHSPostfix);
 end
 
 if not _bool(isLeftHandSide(_ENV,expr)) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.InvalidLHSInAssignment);
+throwErrorTolerant(_ENV,_obj({}),Messages.InvalidLHSInAssignment);
 end
 
 token = lex(_ENV);
@@ -1815,15 +1759,11 @@ startToken = lookahead;
 token = lex(_ENV);
 expr = parseUnaryExpression(_ENV);
 if _bool(((function() if _bool(((function() if _bool(strict) then return (expr.type == Syntax.Identifier);  else return strict;  end end)())) then return isRestrictedWord(_ENV,expr.name);  else return ((function() if _bool(strict) then return (expr.type == Syntax.Identifier);  else return strict;  end end)());  end end)())) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.StrictLHSPrefix);
+throwErrorTolerant(_ENV,_obj({}),Messages.StrictLHSPrefix);
 end
 
 if not _bool(isLeftHandSide(_ENV,expr)) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.InvalidLHSInAssignment);
+throwErrorTolerant(_ENV,_obj({}),Messages.InvalidLHSInAssignment);
 end
 
 expr = delegate:createUnaryExpression(token.value,expr);
@@ -1841,9 +1781,7 @@ expr = parseUnaryExpression(_ENV);
 expr = delegate:createUnaryExpression(token.value,expr);
 expr = delegate:markEnd(expr,startToken);
 if _bool(((function() if _bool(((function() if _bool(strict) then return (expr.operator == "delete");  else return strict;  end end)())) then return (expr.argument.type == Syntax.Identifier);  else return ((function() if _bool(strict) then return (expr.operator == "delete");  else return strict;  end end)());  end end)())) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.StrictDelete);
+throwErrorTolerant(_ENV,_obj({}),Messages.StrictDelete);
 end
 
 else
@@ -2052,9 +1990,7 @@ startToken = lookahead;
 node = (function () local _tmp = parseConditionalExpression(_ENV); left = _tmp; return _tmp; end)();
 if _bool(matchAssign(_ENV)) then
 if not _bool(isLeftHandSide(_ENV,left)) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.InvalidLHSInAssignment);
+throwErrorTolerant(_ENV,_obj({}),Messages.InvalidLHSInAssignment);
 end
 
 if _bool(((function() if _bool(((function() if _bool(strict) then return (left.type == Syntax.Identifier);  else return strict;  end end)())) then return isRestrictedWord(_ENV,left.name);  else return ((function() if _bool(strict) then return (left.type == Syntax.Identifier);  else return strict;  end end)());  end end)())) then
@@ -2132,9 +2068,7 @@ init = null;
 startToken = lookahead;
 id = parseVariableIdentifier(_ENV);
 if _bool(((function() if _bool(strict) then return isRestrictedWord(_ENV,id.name);  else return strict;  end end)())) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.StrictVarName);
+throwErrorTolerant(_ENV,_obj({}),Messages.StrictVarName);
 end
 
 if (kind == "const") then
@@ -2264,9 +2198,7 @@ init = parseExpression(_ENV);
 state.allowIn = true;
 if _bool(matchKeyword(_ENV,"in")) then
 if not _bool(isLeftHandSide(_ENV,init)) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.InvalidLHSInForIn);
+throwErrorTolerant(_ENV,_obj({}),Messages.InvalidLHSInForIn);
 end
 
 lex(_ENV);
@@ -2309,9 +2241,7 @@ expectKeyword(_ENV,"continue");
 if (source:charCodeAt(index) == 59) then
 lex(_ENV);
 if not _bool(state.inIteration) then
-throwError(_ENV,_obj({
-
-}),Messages.IllegalContinue);
+throwError(_ENV,_obj({}),Messages.IllegalContinue);
 end
 
  do return delegate:createContinueStatement(null); end
@@ -2319,9 +2249,7 @@ end
 
 if _bool(peekLineTerminator(_ENV)) then
 if not _bool(state.inIteration) then
-throwError(_ENV,_obj({
-
-}),Messages.IllegalContinue);
+throwError(_ENV,_obj({}),Messages.IllegalContinue);
 end
 
  do return delegate:createContinueStatement(null); end
@@ -2331,18 +2259,14 @@ if (lookahead.type == Token.Identifier) then
 label = parseVariableIdentifier(_ENV);
 key = (_addStr1("$",label.name));
 if not _bool(Object.prototype.hasOwnProperty:call(state.labelSet,key)) then
-throwError(_ENV,_obj({
-
-}),Messages.UnknownLabel,label.name);
+throwError(_ENV,_obj({}),Messages.UnknownLabel,label.name);
 end
 
 end
 
 consumeSemicolon(_ENV);
 if ((function() if (label == null) then return not _bool(state.inIteration);  else return (label == null);  end end)()) then
-throwError(_ENV,_obj({
-
-}),Messages.IllegalContinue);
+throwError(_ENV,_obj({}),Messages.IllegalContinue);
 end
 
  do return delegate:createContinueStatement(label); end
@@ -2354,9 +2278,7 @@ expectKeyword(_ENV,"break");
 if (source:charCodeAt(index) == 59) then
 lex(_ENV);
 if not _bool((_bool(state.inIteration) and state.inIteration or state.inSwitch)) then
-throwError(_ENV,_obj({
-
-}),Messages.IllegalBreak);
+throwError(_ENV,_obj({}),Messages.IllegalBreak);
 end
 
  do return delegate:createBreakStatement(null); end
@@ -2364,9 +2286,7 @@ end
 
 if _bool(peekLineTerminator(_ENV)) then
 if not _bool((_bool(state.inIteration) and state.inIteration or state.inSwitch)) then
-throwError(_ENV,_obj({
-
-}),Messages.IllegalBreak);
+throwError(_ENV,_obj({}),Messages.IllegalBreak);
 end
 
  do return delegate:createBreakStatement(null); end
@@ -2376,18 +2296,14 @@ if (lookahead.type == Token.Identifier) then
 label = parseVariableIdentifier(_ENV);
 key = (_addStr1("$",label.name));
 if not _bool(Object.prototype.hasOwnProperty:call(state.labelSet,key)) then
-throwError(_ENV,_obj({
-
-}),Messages.UnknownLabel,label.name);
+throwError(_ENV,_obj({}),Messages.UnknownLabel,label.name);
 end
 
 end
 
 consumeSemicolon(_ENV);
 if ((function() if (label == null) then return not _bool((_bool(state.inIteration) and state.inIteration or state.inSwitch));  else return (label == null);  end end)()) then
-throwError(_ENV,_obj({
-
-}),Messages.IllegalBreak);
+throwError(_ENV,_obj({}),Messages.IllegalBreak);
 end
 
  do return delegate:createBreakStatement(label); end
@@ -2397,9 +2313,7 @@ local argument;
 argument = null;
 expectKeyword(_ENV,"return");
 if not _bool(state.inFunctionBody) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.IllegalReturn);
+throwErrorTolerant(_ENV,_obj({}),Messages.IllegalReturn);
 end
 
 if (source:charCodeAt(index) == 32) then
@@ -2429,9 +2343,7 @@ parseWithStatement = (function (this)
 local body,object;
 if _bool(strict) then
 skipComment(_ENV);
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.StrictModeWith);
+throwErrorTolerant(_ENV,_obj({}),Messages.StrictModeWith);
 end
 
 expectKeyword(_ENV,"with");
@@ -2490,9 +2402,7 @@ end
 clause = parseSwitchCase(_ENV);
 if (clause.test == null) then
 if _bool(defaultFound) then
-throwError(_ENV,_obj({
-
-}),Messages.MultipleDefaultsInSwitch);
+throwError(_ENV,_obj({}),Messages.MultipleDefaultsInSwitch);
 end
 
 defaultFound = true;
@@ -2510,9 +2420,7 @@ parseThrowStatement = (function (this)
 local argument;
 expectKeyword(_ENV,"throw");
 if _bool(peekLineTerminator(_ENV)) then
-throwError(_ENV,_obj({
-
-}),Messages.NewlineAfterThrow);
+throwError(_ENV,_obj({}),Messages.NewlineAfterThrow);
 end
 
 argument = parseExpression(_ENV);
@@ -2530,9 +2438,7 @@ end
 
 param = parseVariableIdentifier(_ENV);
 if _bool(((function() if _bool(strict) then return isRestrictedWord(_ENV,param.name);  else return strict;  end end)())) then
-throwErrorTolerant(_ENV,_obj({
-
-}),Messages.StrictCatchVariable);
+throwErrorTolerant(_ENV,_obj({}),Messages.StrictCatchVariable);
 end
 
 expect(_ENV,")");
@@ -2555,9 +2461,7 @@ finalizer = parseBlock(_ENV);
 end
 
 if ((function() if (handlers.length == 0) then return not _bool(finalizer);  else return (handlers.length == 0);  end end)()) then
-throwError(_ENV,_obj({
-
-}),Messages.NoCatchOrFinally);
+throwError(_ENV,_obj({}),Messages.NoCatchOrFinally);
 end
 
  do return delegate:createTryStatement(block,_arr({},0),handlers,finalizer); end
@@ -2680,9 +2584,7 @@ if _bool(((function() if (expr.type == Syntax.Identifier) then return match(_ENV
 lex(_ENV);
 key = (_addStr1("$",expr.name));
 if _bool(Object.prototype.hasOwnProperty:call(state.labelSet,key)) then
-throwError(_ENV,_obj({
-
-}),Messages.Redeclaration,"Label",expr.name);
+throwError(_ENV,_obj({}),Messages.Redeclaration,"Label",expr.name);
 end
 
 state.labelSet[key] = true;
@@ -2733,9 +2635,7 @@ oldLabelSet = state.labelSet;
 oldInIteration = state.inIteration;
 oldInSwitch = state.inSwitch;
 oldInFunctionBody = state.inFunctionBody;
-state.labelSet = _obj({
-
-});
+state.labelSet = _obj({});
 state.inIteration = false;
 state.inSwitch = false;
 state.inFunctionBody = true;
@@ -2765,9 +2665,7 @@ local message,key,paramSet,stricted,token,params,param;
 params = _arr({},0);
 expect(_ENV,"(");
 if not _bool(match(_ENV,")")) then
-paramSet = _obj({
-
-});
+paramSet = _obj({});
 while (_lt(index,length)) do
 token = lookahead;
 param = parseVariableIdentifier(_ENV);
@@ -3036,20 +2934,14 @@ length = source.length;
 lookahead = null;
 state = _obj({
 ["allowIn"] = true,
-["labelSet"] = _obj({
-
-}),
+["labelSet"] = _obj({}),
 ["inFunctionBody"] = false,
 ["inIteration"] = false,
 ["inSwitch"] = false,
 ["lastCommentStart"] = -_tonum(1)
 });
-extra = _obj({
-
-});
-options = (_bool(options) and options or _obj({
-
-}));
+extra = _obj({});
+options = (_bool(options) and options or _obj({}));
 options.tokens = true;
 extra.tokens = _arr({},0);
 extra.tokenize = true;
@@ -3108,18 +3000,14 @@ end
 
 end);
 if _status then
-extra = _obj({
-
-});
+extra = _obj({});
 if _return ~= nil then return _return; end
 else
 local _cstatus, _creturn = _pcall(function()
 local e = _return;
 _throw(e,0)
 end);
-extra = _obj({
-
-});
+extra = _obj({});
 if _cstatus then
 else _throw(_creturn,0); end
 end
@@ -3142,17 +3030,13 @@ length = source.length;
 lookahead = null;
 state = _obj({
 ["allowIn"] = true,
-["labelSet"] = _obj({
-
-}),
+["labelSet"] = _obj({}),
 ["inFunctionBody"] = false,
 ["inIteration"] = false,
 ["inSwitch"] = false,
 ["lastCommentStart"] = -_tonum(1)
 });
-extra = _obj({
-
-});
+extra = _obj({});
 if (_type(options) ~= "undefined") then
 extra.range = ((function() if (_type(options.range) == "boolean") then return options.range;  else return (_type(options.range) == "boolean");  end end)());
 extra.loc = ((function() if (_type(options.loc) == "boolean") then return options.loc;  else return (_type(options.loc) == "boolean");  end end)());
@@ -3200,17 +3084,13 @@ end
 
 end);
 if _status then
-extra = _obj({
-
-});
+extra = _obj({});
 else
 local _cstatus, _creturn = _pcall(function()
 local e = _return;
 _throw(e,0)
 end);
-extra = _obj({
-
-});
+extra = _obj({});
 if _cstatus then
 else _throw(_creturn,0); end
 end
@@ -3227,9 +3107,7 @@ end);Token = _obj({
 ["StringLiteral"] = 8,
 ["RegularExpression"] = 9
 });
-TokenName = _obj({
-
-});
+TokenName = _obj({});
 TokenName[Token.BooleanLiteral] = "Boolean";
 TokenName[Token.EOF] = "<end>";
 TokenName[Token.Identifier] = "Identifier";
@@ -3697,9 +3575,7 @@ exports.tokenize = tokenize;
 exports.parse = parse;
 exports.Syntax = (function (this)
 local types,name;
-types = _obj({
-
-});
+types = _obj({});
 if (_type(Object.create) == "function") then
 types = Object:create(null);
 end

@@ -6,9 +6,7 @@ define(_ENV,_arr({[0]="exports"},1),factory);
 elseif (exports ~= undefined) then
 factory(_ENV,exports);
 else
-root.castl = _obj({
-
-});
+root.castl = _obj({});
 factory(_ENV,root.castl);
 end
 
@@ -29,12 +27,8 @@ this.args = _arr({},0);
 end);
 compileAST = (function (this, ast, opts, anno)
 local i,compiledFunctionsDeclaration,functions,compiledLocalsDeclaration,locals,useArguments,context,topLevelStatements,compiledProgram;
-options = (_bool(opts) and opts or _obj({
-
-}));
-annotations = (_bool(anno) and anno or _obj({
-
-}));
+options = (_bool(opts) and opts or _obj({}));
+annotations = (_bool(anno) and anno or _obj({}));
 if (ast.type == "Program") then
 compiledProgram = _arr({},0);
 localVarManager:createLocalContext();
@@ -208,9 +202,7 @@ end);
 compileBooleanExpression = (function (this, expression)
 local compiledExpression,meta,compiledBooleanExpression;
 compiledBooleanExpression = _arr({},0);
-meta = _obj({
-
-});
+meta = _obj({});
 compiledExpression = compileExpression(_ENV,expression,meta);
 if (meta.type == "boolean") then
 compiledBooleanExpression:push(compiledExpression);
@@ -878,9 +870,7 @@ compiledAssignmentExpression:push("\010");
 end
 
 compiledAssignmentExpression:push("local _tmp = ");
-metaRight = _obj({
-
-});
+metaRight = _obj({});
 repeat
 local _into = false;
 local _cases = {["="] = true};
@@ -927,9 +917,7 @@ end);
 compileUpdateExpressionNoEval = (function (this, expression)
 local compiledArgument,metaArgument,compiledUpdateExpression;
 compiledUpdateExpression = _arr({},0);
-metaArgument = _obj({
-
-});
+metaArgument = _obj({});
 compiledArgument = compileExpression(_ENV,expression.argument,metaArgument);
 compiledUpdateExpression:push(compiledArgument);
 compiledUpdateExpression:push(" = ");
@@ -977,9 +965,7 @@ end);
 compileUpdateExpression = (function (this, expression, meta)
 local compiledArgument,metaArgument,compiledUpdateExpression;
 compiledUpdateExpression = _arr({[0]="(function () local _tmp = "},1);
-metaArgument = _obj({
-
-});
+metaArgument = _obj({});
 compiledArgument = compileExpression(_ENV,expression.argument,metaArgument);
 if _bool(expression.prefix) then
 repeat
@@ -1166,12 +1152,8 @@ compileLogicalExpression = (function (this, expression, meta)
 local right,left,metaRight,metaLeft,leftCondition,compiledLogicalExpression;
 compiledLogicalExpression = _arr({[0]="("},1);
 leftCondition = compileBooleanExpression(_ENV,expression.left);
-metaLeft = _obj({
-
-});
-metaRight = _obj({
-
-});
+metaLeft = _obj({});
+metaRight = _obj({});
 left = compileExpression(_ENV,expression.left,metaLeft);
 right = compileExpression(_ENV,expression.right,metaRight);
 repeat
@@ -1485,12 +1467,8 @@ end);
 compileBinaryExpression = (function (this, expression, meta)
 local right,left,metaRight,metaLeft,compiledBinaryExpression;
 compiledBinaryExpression = _arr({[0]="("},1);
-metaLeft = _obj({
-
-});
-metaRight = _obj({
-
-});
+metaLeft = _obj({});
+metaRight = _obj({});
 left = compileExpression(_ENV,expression.left,metaLeft);
 right = compileExpression(_ENV,expression.right,metaRight);
 repeat
@@ -1731,12 +1709,8 @@ end);
 compileConditionalExpression = (function (this, expression, meta)
 local metaAlternate,metaConsequent,compiledConditionalExpression;
 compiledConditionalExpression = _arr({[0]="(function() if "},1);
-metaConsequent = _obj({
-
-});
-metaAlternate = _obj({
-
-});
+metaConsequent = _obj({});
+metaAlternate = _obj({});
 compiledConditionalExpression:push(compileBooleanExpression(_ENV,expression.test));
 compiledConditionalExpression:push(" then return ");
 compiledConditionalExpression:push(compileExpression(_ENV,expression.consequent,metaConsequent));
@@ -1757,9 +1731,7 @@ local metaLast,sequence,expressions,i,compiledSequenceExpression;
 compiledSequenceExpression = _arr({[0]="_seq({"},1);
 expressions = expression.expressions;
 sequence = _arr({},0);
-metaLast = _obj({
-
-});
+metaLast = _obj({});
 i = 0;
 while (i<expressions.length) do
 sequence:push(compileExpression(_ENV,expressions[i],metaLast));
@@ -1776,7 +1748,7 @@ end
 end);
 compileObjectExpression = (function (this, expression, meta)
 local compiledKey,compiledProperties,compiledProperty,property,length,i,compiledObjectExpression;
-compiledObjectExpression = _arr({[0]="_obj({\010"},1);
+compiledObjectExpression = _arr({[0]="_obj({"},1);
 length = expression.properties.length;
 compiledProperty = _arr({},0);
 compiledProperties = _arr({},0);
@@ -1816,8 +1788,13 @@ compiledProperties:push(compiledProperty:join(""));
 i = i + 1;
 end
 
+if (length>0) then
+compiledObjectExpression:push("\010");
 compiledObjectExpression:push(compiledProperties:join(",\010"));
-compiledObjectExpression:push("\010})");
+compiledObjectExpression:push("\010");
+end
+
+compiledObjectExpression:push("})");
 if _bool(meta) then
 meta.type = "object";
 end
