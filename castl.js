@@ -993,28 +993,173 @@
         }
     }
 
+    function compileCompoundAssignmentBinaryExpression(left, right, operator, metaLeft, metaRight, meta) {
+        var compiledCompoundAssignmentBinaryExpression = ["("];
+
+        switch (operator) {
+            // Bits shift
+        case "<<=":
+            compiledCompoundAssignmentBinaryExpression.push("_lshift(");
+            compiledCompoundAssignmentBinaryExpression.push(left);
+            compiledCompoundAssignmentBinaryExpression.push(",");
+            compiledCompoundAssignmentBinaryExpression.push(right);
+            compiledCompoundAssignmentBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
+            break;
+        case ">>=":
+            compiledCompoundAssignmentBinaryExpression.push("_arshift(");
+            compiledCompoundAssignmentBinaryExpression.push(left);
+            compiledCompoundAssignmentBinaryExpression.push(",");
+            compiledCompoundAssignmentBinaryExpression.push(right);
+            compiledCompoundAssignmentBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
+            break;
+        case ">>>=":
+            compiledCompoundAssignmentBinaryExpression.push("_rshift(");
+            compiledCompoundAssignmentBinaryExpression.push(left);
+            compiledCompoundAssignmentBinaryExpression.push(",");
+            compiledCompoundAssignmentBinaryExpression.push(right);
+            compiledCompoundAssignmentBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
+            break;
+            // Arithmetic
+        case "+=":
+            compiledCompoundAssignmentBinaryExpression.push(compileAdditionOperator(left, right, metaLeft, metaRight, meta));
+            break;
+        case "-=":
+            pushSimpleBinaryExpression(compiledCompoundAssignmentBinaryExpression, " - ", left, right);
+            if (meta) {
+                meta.type = "number";
+            }
+            break;
+        case "*=":
+            pushSimpleBinaryExpression(compiledCompoundAssignmentBinaryExpression, " * ", left, right);
+            if (meta) {
+                meta.type = "number";
+            }
+            break;
+        case "/=":
+            pushSimpleBinaryExpression(compiledCompoundAssignmentBinaryExpression, " / ", left, right);
+            if (meta) {
+                meta.type = "number";
+            }
+            break;
+        case "%=":
+            compiledCompoundAssignmentBinaryExpression.push("_mod(");
+            compiledCompoundAssignmentBinaryExpression.push(left);
+            compiledCompoundAssignmentBinaryExpression.push(",");
+            compiledCompoundAssignmentBinaryExpression.push(right);
+            compiledCompoundAssignmentBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
+            break;
+            // Bitwise operators
+        case "|=":
+            compiledCompoundAssignmentBinaryExpression.push("_bor(");
+            compiledCompoundAssignmentBinaryExpression.push(left);
+            compiledCompoundAssignmentBinaryExpression.push(",");
+            compiledCompoundAssignmentBinaryExpression.push(right);
+            compiledCompoundAssignmentBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
+            break;
+        case "^=":
+            compiledCompoundAssignmentBinaryExpression.push("_bxor(");
+            compiledCompoundAssignmentBinaryExpression.push(left);
+            compiledCompoundAssignmentBinaryExpression.push(",");
+            compiledCompoundAssignmentBinaryExpression.push(right);
+            compiledCompoundAssignmentBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
+            break;
+        case "&=":
+            compiledCompoundAssignmentBinaryExpression.push("_band(");
+            compiledCompoundAssignmentBinaryExpression.push(left);
+            compiledCompoundAssignmentBinaryExpression.push(",");
+            compiledCompoundAssignmentBinaryExpression.push(right);
+            compiledCompoundAssignmentBinaryExpression.push(")");
+            if (meta) {
+                meta.type = "number";
+            }
+            break;
+        default:
+            // @string
+            throw new Error("Unknown BinaryOperator: " + operator);
+        }
+
+        compiledCompoundAssignmentBinaryExpression.push(")");
+
+        return compiledCompoundAssignmentBinaryExpression.join('');
+    }
+
+    function storeComputedProperty(expression) {
+        var hasComputedProperty = expression.type === "MemberExpression" && expression.computed;
+
+        if (hasComputedProperty) {
+            if (expression.property.type === "Literal") {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    function compileCompoundAssignmentNoEval(expression) {
+        var compiledAssignmentBinaryExpression = [];
+        var mustStore = storeComputedProperty(expression.left);
+        var metaLeft = {},
+            metaRight = {};
+
+        var left = compileExpression(expression.left, metaLeft);
+        var right = compileExpression(expression.right, metaRight);
+
+        if (mustStore) {
+            var split = getBaseMember(left);
+            // @string
+            left = split.base + "[_cp]";
+
+            // store computed property to evalute it only once
+            compiledAssignmentBinaryExpression.push("do local _cp = ");
+            compiledAssignmentBinaryExpression.push(split.member);
+            compiledAssignmentBinaryExpression.push("; ");
+        }
+
+        compiledAssignmentBinaryExpression.push(left);
+        compiledAssignmentBinaryExpression.push(" = ");
+        compiledAssignmentBinaryExpression.push(compileCompoundAssignmentBinaryExpression(left, right, expression.operator, metaLeft, metaRight));
+
+        if (mustStore) {
+            compiledAssignmentBinaryExpression.push(" end");
+        }
+
+        return compiledAssignmentBinaryExpression.join("");
+    }
+
     function compileAssignmentExpressionNoEval(expression) {
         var compiledAssignmentExpression = [];
 
-        var left = compileExpression(expression.left);
-
-        compiledAssignmentExpression.push(left);
-        compiledAssignmentExpression.push(" = ");
-
         switch (expression.operator) {
+            // Regular assignement
         case "=":
+            var left = compileExpression(expression.left);
             var right = compileExpression(expression.right);
+            compiledAssignmentExpression.push(left);
+            compiledAssignmentExpression.push(" = ");
             compiledAssignmentExpression.push(right);
             break;
         default:
-            // Build a binary expression node to compile
-            var binaryExpression = [];
-            binaryExpression.type = "BinaryExpression";
-            binaryExpression.operator = extractBinaryOperator(expression.operator);
-            binaryExpression.left = expression.left;
-            binaryExpression.right = expression.right;
-            var compiledBinaryExpression = compileBinaryExpression(binaryExpression);
-            compiledAssignmentExpression.push(compiledBinaryExpression);
+            // Compound assignments
+            return compileCompoundAssignmentNoEval(expression);
         }
 
         return compiledAssignmentExpression.join('');
@@ -1022,57 +1167,44 @@
 
     function compileAssignmentExpression(expression, meta) {
         var compiledAssignmentExpression = ["(function () "];
-        var computedProperty = expression.left.type === "MemberExpression" && expression.left.computed;
-        var left = compileExpression(expression.left);
-        var split;
+        var mustStore = storeComputedProperty(expression.left);
+        var metaLeft = {},
+            metaRight = {};
+        var left = compileExpression(expression.left, metaLeft);
+        var right = compileExpression(expression.right, metaRight);
 
-        if (computedProperty) {
-            split = getBaseMember(left);
-            // store computed property
+        if (mustStore) {
+            var split = getBaseMember(left);
+            // store computed property to evalute it only once
             compiledAssignmentExpression.push("local _cp = ");
             compiledAssignmentExpression.push(split.member);
-            compiledAssignmentExpression.push("\n");
+            compiledAssignmentExpression.push(";");
+
+            // @string
+            left = split.base + "[_cp]";
         }
 
-        compiledAssignmentExpression.push("local _tmp = ");
+        compiledAssignmentExpression.push(left);
+        compiledAssignmentExpression.push(" = ");
 
-        var metaRight = {};
         switch (expression.operator) {
+            // regular assignment
         case "=":
-            var right = compileExpression(expression.right, metaRight);
             compiledAssignmentExpression.push(right);
+            if (meta) {
+                meta.type = metaRight.type;
+            }
             break;
         default:
-            // Build a binary expression node to compile
-            var binaryExpression = [];
-            binaryExpression.type = "BinaryExpression";
-            binaryExpression.operator = extractBinaryOperator(expression.operator);
-            binaryExpression.left = expression.left;
-            binaryExpression.right = expression.right;
-
-            var compiledBinaryExpression = compileBinaryExpression(binaryExpression, metaRight);
-            compiledAssignmentExpression.push(compiledBinaryExpression);
+            // Compound assignments
+            compiledAssignmentExpression.push(compileCompoundAssignmentBinaryExpression(left, right, expression.operator, metaLeft, metaRight, meta));
         }
 
-        compiledAssignmentExpression.push("; ");
-        if (computedProperty) {
-            compiledAssignmentExpression.push(split.base);
-            compiledAssignmentExpression.push("[_cp]");
-        } else {
-            compiledAssignmentExpression.push(left);
-        }
-
-        compiledAssignmentExpression.push(" = _tmp; return _tmp; end)()");
-
-        if (meta) {
-            meta.type = metaRight.type;
-        }
+        compiledAssignmentExpression.push("; return ");
+        compiledAssignmentExpression.push(left);
+        compiledAssignmentExpression.push(" end)()");
 
         return compiledAssignmentExpression.join('');
-    }
-
-    function extractBinaryOperator(rawOperator) {
-        return rawOperator.substring(0, rawOperator.indexOf('='));
     }
 
     function compileUpdateExpressionNoEval(expression) {

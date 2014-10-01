@@ -5,7 +5,7 @@ define(_ENV,_arr({[0]="exports"},1),factory);
 elseif (_type(exports) ~= "undefined") then
 factory(_ENV,exports);
 else
-factory(_ENV,(function () local _tmp = _obj({}); root.esprima = _tmp; return _tmp; end)());
+factory(_ENV,(function () root.esprima = _obj({}); return root.esprima end)());
 end
 
 end)(_ENV,this,(function (this, exports)
@@ -1551,7 +1551,7 @@ end
 
 end
 
-map[key] = (_bor(map[key],kind));
+do local _cp = key; map[_cp] = (_bor(map[_cp],kind)) end;
 else
 map[key] = kind;
 end
@@ -1930,7 +1930,7 @@ lex(_ENV);
 markers = _arr({[0]=marker,lookahead},2);
 right = parseUnaryExpression(_ENV);
 stack = _arr({[0]=left,token,right},3);
-while (_gt((function () local _tmp = binaryPrecedence(_ENV,lookahead,state.allowIn); prec = _tmp; return _tmp; end)(),0)) do
+while (_gt((function () prec = binaryPrecedence(_ENV,lookahead,state.allowIn); return prec end)(),0)) do
 while ((function() if (_gt(stack.length,2)) then return (_le(prec,stack[(stack.length - 2)].prec));  else return (_gt(stack.length,2));  end end)()) do
 right = stack:pop();
 operator = stack:pop().value;
@@ -1987,7 +1987,7 @@ parseAssignmentExpression = (function (this)
 local startToken,node,right,left,token;
 token = lookahead;
 startToken = lookahead;
-node = (function () local _tmp = parseConditionalExpression(_ENV); left = _tmp; return _tmp; end)();
+node = (function () left = parseConditionalExpression(_ENV); return left end)();
 if _bool(matchAssign(_ENV)) then
 if not _bool(isLeftHandSide(_ENV,left)) then
 throwErrorTolerant(_ENV,_obj({}),Messages.InvalidLHSInAssignment);
@@ -2175,7 +2175,7 @@ declarations = parseVariableDeclarationList(_ENV);
 end);
 parseForStatement = (function (this)
 local oldInIteration,body,right,left,update,test,init;
-init = (function () local _tmp = (function () local _tmp = null; update = _tmp; return _tmp; end)(); test = _tmp; return _tmp; end)();
+init = (function () test = (function () update = null; return update end)(); return test end)();
 expectKeyword(_ENV,"for");
 expect(_ENV,"(");
 if _bool(match(_ENV,";")) then

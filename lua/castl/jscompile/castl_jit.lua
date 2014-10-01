@@ -11,7 +11,7 @@ factory(_ENV,root.castl);
 end
 
 end)(_ENV,this,(function (this, exports)
-local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileComparisonOperator,compileAdditionOperator,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,compileUpdateExpressionNoEval,extractBinaryOperator,compileAssignmentExpression,compileAssignmentExpressionNoEval,compileExpressionStatementNoEval,compileExpressionStatementEvalMode,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileBooleanExpression,compileListOfStatements,compileStatement,compileAST,annotations,options,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,withTracker,continueNoLabelTracker,labelTracker,luaKeywords;
+local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileComparisonOperator,compileAdditionOperator,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,compileUpdateExpressionNoEval,compileAssignmentExpression,compileAssignmentExpressionNoEval,compileCompoundAssignmentNoEval,storeComputedProperty,compileCompoundAssignmentBinaryExpression,compileExpressionStatementNoEval,compileExpressionStatementEvalMode,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileBooleanExpression,compileListOfStatements,compileStatement,compileAST,annotations,options,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,withTracker,continueNoLabelTracker,labelTracker,luaKeywords;
 ProtectedCallManager = (function (this)
 this.protectedCallContext = _arr({},0);
 this.mayReturnStack = _arr({},0);
@@ -824,10 +824,230 @@ _into = true;
 end
 until true
 end);
+compileCompoundAssignmentBinaryExpression = (function (this, left, right, operator, metaLeft, metaRight, meta)
+local compiledCompoundAssignmentBinaryExpression;
+compiledCompoundAssignmentBinaryExpression = _arr({[0]="("},1);
+repeat
+local _into = false;
+local _cases = {["<<="] = true,[">>="] = true,[">>>="] = true,["+="] = true,["-="] = true,["*="] = true,["/="] = true,["%="] = true,["|="] = true,["^="] = true,["&="] = true};
+if (not _cases[operator]) then
+_into = true;
+goto _default
+end
+if _into or (operator == "<<=") then
+compiledCompoundAssignmentBinaryExpression:push("_lshift(");
+compiledCompoundAssignmentBinaryExpression:push(left);
+compiledCompoundAssignmentBinaryExpression:push(",");
+compiledCompoundAssignmentBinaryExpression:push(right);
+compiledCompoundAssignmentBinaryExpression:push(")");
+if _bool(meta) then
+meta.type = "number";
+end
+
+do break end;
+_into = true;
+end
+if _into or (operator == ">>=") then
+compiledCompoundAssignmentBinaryExpression:push("_arshift(");
+compiledCompoundAssignmentBinaryExpression:push(left);
+compiledCompoundAssignmentBinaryExpression:push(",");
+compiledCompoundAssignmentBinaryExpression:push(right);
+compiledCompoundAssignmentBinaryExpression:push(")");
+if _bool(meta) then
+meta.type = "number";
+end
+
+do break end;
+_into = true;
+end
+if _into or (operator == ">>>=") then
+compiledCompoundAssignmentBinaryExpression:push("_rshift(");
+compiledCompoundAssignmentBinaryExpression:push(left);
+compiledCompoundAssignmentBinaryExpression:push(",");
+compiledCompoundAssignmentBinaryExpression:push(right);
+compiledCompoundAssignmentBinaryExpression:push(")");
+if _bool(meta) then
+meta.type = "number";
+end
+
+do break end;
+_into = true;
+end
+if _into or (operator == "+=") then
+compiledCompoundAssignmentBinaryExpression:push(compileAdditionOperator(_ENV,left,right,metaLeft,metaRight,meta));
+do break end;
+_into = true;
+end
+if _into or (operator == "-=") then
+pushSimpleBinaryExpression(_ENV,compiledCompoundAssignmentBinaryExpression," - ",left,right);
+if _bool(meta) then
+meta.type = "number";
+end
+
+do break end;
+_into = true;
+end
+if _into or (operator == "*=") then
+pushSimpleBinaryExpression(_ENV,compiledCompoundAssignmentBinaryExpression," * ",left,right);
+if _bool(meta) then
+meta.type = "number";
+end
+
+do break end;
+_into = true;
+end
+if _into or (operator == "/=") then
+pushSimpleBinaryExpression(_ENV,compiledCompoundAssignmentBinaryExpression," / ",left,right);
+if _bool(meta) then
+meta.type = "number";
+end
+
+do break end;
+_into = true;
+end
+if _into or (operator == "%=") then
+compiledCompoundAssignmentBinaryExpression:push("_mod(");
+compiledCompoundAssignmentBinaryExpression:push(left);
+compiledCompoundAssignmentBinaryExpression:push(",");
+compiledCompoundAssignmentBinaryExpression:push(right);
+compiledCompoundAssignmentBinaryExpression:push(")");
+if _bool(meta) then
+meta.type = "number";
+end
+
+do break end;
+_into = true;
+end
+if _into or (operator == "|=") then
+compiledCompoundAssignmentBinaryExpression:push("_bor(");
+compiledCompoundAssignmentBinaryExpression:push(left);
+compiledCompoundAssignmentBinaryExpression:push(",");
+compiledCompoundAssignmentBinaryExpression:push(right);
+compiledCompoundAssignmentBinaryExpression:push(")");
+if _bool(meta) then
+meta.type = "number";
+end
+
+do break end;
+_into = true;
+end
+if _into or (operator == "^=") then
+compiledCompoundAssignmentBinaryExpression:push("_bxor(");
+compiledCompoundAssignmentBinaryExpression:push(left);
+compiledCompoundAssignmentBinaryExpression:push(",");
+compiledCompoundAssignmentBinaryExpression:push(right);
+compiledCompoundAssignmentBinaryExpression:push(")");
+if _bool(meta) then
+meta.type = "number";
+end
+
+do break end;
+_into = true;
+end
+if _into or (operator == "&=") then
+compiledCompoundAssignmentBinaryExpression:push("_band(");
+compiledCompoundAssignmentBinaryExpression:push(left);
+compiledCompoundAssignmentBinaryExpression:push(",");
+compiledCompoundAssignmentBinaryExpression:push(right);
+compiledCompoundAssignmentBinaryExpression:push(")");
+if _bool(meta) then
+meta.type = "number";
+end
+
+do break end;
+_into = true;
+end
+::_default::
+if _into then
+_throw(_new(Error,("Unknown BinaryOperator: " .. operator)),0)
+_into = true;
+end
+until true
+compiledCompoundAssignmentBinaryExpression:push(")");
+ do return compiledCompoundAssignmentBinaryExpression:join(""); end
+end);
+storeComputedProperty = (function (this, expression)
+local hasComputedProperty;
+hasComputedProperty = ((function() if (expression.type == "MemberExpression") then return expression.computed;  else return (expression.type == "MemberExpression");  end end)());
+if _bool(hasComputedProperty) then
+if (expression.property.type == "Literal") then
+ do return false; end
+end
+
+else
+ do return false; end
+end
+
+ do return true; end
+end);
+compileCompoundAssignmentNoEval = (function (this, expression)
+local split,right,left,metaRight,metaLeft,mustStore,compiledAssignmentBinaryExpression;
+compiledAssignmentBinaryExpression = _arr({},0);
+mustStore = storeComputedProperty(_ENV,expression.left);
+metaLeft = _obj({});
+metaRight = _obj({});
+left = compileExpression(_ENV,expression.left,metaLeft);
+right = compileExpression(_ENV,expression.right,metaRight);
+if _bool(mustStore) then
+split = getBaseMember(_ENV,left);
+left = (split.base .. "[_cp]");
+compiledAssignmentBinaryExpression:push("do local _cp = ");
+compiledAssignmentBinaryExpression:push(split.member);
+compiledAssignmentBinaryExpression:push("; ");
+end
+
+compiledAssignmentBinaryExpression:push(left);
+compiledAssignmentBinaryExpression:push(" = ");
+compiledAssignmentBinaryExpression:push(compileCompoundAssignmentBinaryExpression(_ENV,left,right,expression.operator,metaLeft,metaRight));
+if _bool(mustStore) then
+compiledAssignmentBinaryExpression:push(" end");
+end
+
+ do return compiledAssignmentBinaryExpression:join(""); end
+end);
 compileAssignmentExpressionNoEval = (function (this, expression)
-local compiledBinaryExpression,binaryExpression,right,left,compiledAssignmentExpression;
+local right,left,compiledAssignmentExpression;
 compiledAssignmentExpression = _arr({},0);
+repeat
+local _into = false;
+local _cases = {["="] = true};
+if (not _cases[expression.operator]) then
+_into = true;
+goto _default
+end
+if _into or (expression.operator == "=") then
 left = compileExpression(_ENV,expression.left);
+right = compileExpression(_ENV,expression.right);
+compiledAssignmentExpression:push(left);
+compiledAssignmentExpression:push(" = ");
+compiledAssignmentExpression:push(right);
+do break end;
+_into = true;
+end
+::_default::
+if _into then
+ do return compileCompoundAssignmentNoEval(_ENV,expression); end
+_into = true;
+end
+until true
+ do return compiledAssignmentExpression:join(""); end
+end);
+compileAssignmentExpression = (function (this, expression, meta)
+local split,right,left,metaRight,metaLeft,mustStore,compiledAssignmentExpression;
+compiledAssignmentExpression = _arr({[0]="(function () "},1);
+mustStore = storeComputedProperty(_ENV,expression.left);
+metaLeft = _obj({});
+metaRight = _obj({});
+left = compileExpression(_ENV,expression.left,metaLeft);
+right = compileExpression(_ENV,expression.right,metaRight);
+if _bool(mustStore) then
+split = getBaseMember(_ENV,left);
+compiledAssignmentExpression:push("local _cp = ");
+compiledAssignmentExpression:push(split.member);
+compiledAssignmentExpression:push(";");
+left = (split.base .. "[_cp]");
+end
+
 compiledAssignmentExpression:push(left);
 compiledAssignmentExpression:push(" = ");
 repeat
@@ -838,81 +1058,24 @@ _into = true;
 goto _default
 end
 if _into or (expression.operator == "=") then
-right = compileExpression(_ENV,expression.right);
 compiledAssignmentExpression:push(right);
-do break end;
-_into = true;
-end
-::_default::
-if _into then
-binaryExpression = _arr({},0);
-binaryExpression.type = "BinaryExpression";
-binaryExpression.operator = extractBinaryOperator(_ENV,expression.operator);
-binaryExpression.left = expression.left;
-binaryExpression.right = expression.right;
-compiledBinaryExpression = compileBinaryExpression(_ENV,binaryExpression);
-compiledAssignmentExpression:push(compiledBinaryExpression);
-_into = true;
-end
-until true
- do return compiledAssignmentExpression:join(""); end
-end);
-compileAssignmentExpression = (function (this, expression, meta)
-local compiledBinaryExpression,binaryExpression,right,metaRight,split,left,computedProperty,compiledAssignmentExpression;
-compiledAssignmentExpression = _arr({[0]="(function () "},1);
-computedProperty = ((function() if (expression.left.type == "MemberExpression") then return expression.left.computed;  else return (expression.left.type == "MemberExpression");  end end)());
-left = compileExpression(_ENV,expression.left);
-if _bool(computedProperty) then
-split = getBaseMember(_ENV,left);
-compiledAssignmentExpression:push("local _cp = ");
-compiledAssignmentExpression:push(split.member);
-compiledAssignmentExpression:push("\010");
-end
-
-compiledAssignmentExpression:push("local _tmp = ");
-metaRight = _obj({});
-repeat
-local _into = false;
-local _cases = {["="] = true};
-if (not _cases[expression.operator]) then
-_into = true;
-goto _default
-end
-if _into or (expression.operator == "=") then
-right = compileExpression(_ENV,expression.right,metaRight);
-compiledAssignmentExpression:push(right);
-do break end;
-_into = true;
-end
-::_default::
-if _into then
-binaryExpression = _arr({},0);
-binaryExpression.type = "BinaryExpression";
-binaryExpression.operator = extractBinaryOperator(_ENV,expression.operator);
-binaryExpression.left = expression.left;
-binaryExpression.right = expression.right;
-compiledBinaryExpression = compileBinaryExpression(_ENV,binaryExpression,metaRight);
-compiledAssignmentExpression:push(compiledBinaryExpression);
-_into = true;
-end
-until true
-compiledAssignmentExpression:push("; ");
-if _bool(computedProperty) then
-compiledAssignmentExpression:push(split.base);
-compiledAssignmentExpression:push("[_cp]");
-else
-compiledAssignmentExpression:push(left);
-end
-
-compiledAssignmentExpression:push(" = _tmp; return _tmp; end)()");
 if _bool(meta) then
 meta.type = metaRight.type;
 end
 
+do break end;
+_into = true;
+end
+::_default::
+if _into then
+compiledAssignmentExpression:push(compileCompoundAssignmentBinaryExpression(_ENV,left,right,expression.operator,metaLeft,metaRight,meta));
+_into = true;
+end
+until true
+compiledAssignmentExpression:push("; return ");
+compiledAssignmentExpression:push(left);
+compiledAssignmentExpression:push(" end)()");
  do return compiledAssignmentExpression:join(""); end
-end);
-extractBinaryOperator = (function (this, rawOperator)
- do return rawOperator:substring(0,rawOperator:indexOf("=")); end
 end);
 compileUpdateExpressionNoEval = (function (this, expression)
 local compiledArgument,metaArgument,compiledUpdateExpression;
