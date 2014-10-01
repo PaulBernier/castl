@@ -1021,19 +1021,25 @@
     }
 
     function compileAssignmentExpression(expression, meta) {
-        var compiledAssignmentExpression = ["(function () local _tmp = "];
-
+        var compiledAssignmentExpression = ["(function () "];
+        var computedProperty = expression.left.type === "MemberExpression" && expression.left.computed;
         var left = compileExpression(expression.left);
-        var metaRight = {};
 
+        if (computedProperty) {
+            var split = getBaseMember(left);
+            // store computed property
+            compiledAssignmentExpression.push("local _cp = ");
+            compiledAssignmentExpression.push(split.member);
+            compiledAssignmentExpression.push("\n");
+        }
+
+        compiledAssignmentExpression.push("local _tmp = ");
+
+        var metaRight = {};
         switch (expression.operator) {
         case "=":
             var right = compileExpression(expression.right, metaRight);
-
             compiledAssignmentExpression.push(right);
-            compiledAssignmentExpression.push("; ");
-            compiledAssignmentExpression.push(left);
-            compiledAssignmentExpression.push(" = _tmp; return _tmp; end)()");
             break;
         default:
             // Build a binary expression node to compile
@@ -1042,13 +1048,20 @@
             binaryExpression.operator = extractBinaryOperator(expression.operator);
             binaryExpression.left = expression.left;
             binaryExpression.right = expression.right;
-            var compiledBinaryExpression = compileBinaryExpression(binaryExpression, metaRight);
 
+            var compiledBinaryExpression = compileBinaryExpression(binaryExpression, metaRight);
             compiledAssignmentExpression.push(compiledBinaryExpression);
-            compiledAssignmentExpression.push("; ");
-            compiledAssignmentExpression.push(left);
-            compiledAssignmentExpression.push(" = _tmp; return _tmp; end)()");
         }
+
+        compiledAssignmentExpression.push("; ");
+        if (computedProperty) {
+            compiledAssignmentExpression.push(split.base);
+            compiledAssignmentExpression.push("[_cp]");
+        } else {
+            compiledAssignmentExpression.push(left);
+        }
+
+        compiledAssignmentExpression.push(" = _tmp; return _tmp; end)()");
 
         if (meta) {
             meta.type = metaRight.type;
@@ -1318,21 +1331,21 @@
         return compiledLogicalExpression.join('');
     }
 
-    function getBaseMember(expession) {
+    function getBaseMember(compiledExpression) {
         var startIndex = 0;
-        if (expession.match(/\]$/)) {
-            startIndex = lastTopLevelBracketedGroupStartIndex(expession);
+        if (compiledExpression.match(/\]$/)) {
+            startIndex = lastTopLevelBracketedGroupStartIndex(compiledExpression);
             return {
-                base: expession.slice(0, startIndex),
+                base: compiledExpression.slice(0, startIndex),
                 // @number
-                member: expession.slice(startIndex + 1, -1)
+                member: compiledExpression.slice(startIndex + 1, -1)
             };
         } else {
-            startIndex = expession.lastIndexOf('.');
+            startIndex = compiledExpression.lastIndexOf('.');
             return {
-                base: expession.slice(0, startIndex),
+                base: compiledExpression.slice(0, startIndex),
                 // @string
-                member: '"' + expession.slice(
+                member: '"' + compiledExpression.slice(
                     // @number
                     startIndex + 1
                 ) + '"'
@@ -1340,8 +1353,8 @@
         }
     }
 
-    function getGetterSetterExpression(expression) {
-        var split = getBaseMember(expression);
+    function getGetterSetterExpression(compiledExpression) {
+        var split = getBaseMember(compiledExpression);
         return {
             // @string
             getter: split.base + '["_g" .. ' + split.member + ']',

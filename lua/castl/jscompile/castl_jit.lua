@@ -866,9 +866,18 @@ until true
  do return compiledAssignmentExpression:join(""); end
 end);
 compileAssignmentExpression = (function (this, expression, meta)
-local compiledBinaryExpression,binaryExpression,right,metaRight,left,compiledAssignmentExpression;
-compiledAssignmentExpression = _arr({[0]="(function () local _tmp = "},1);
+local compiledBinaryExpression,binaryExpression,right,metaRight,split,left,computedProperty,compiledAssignmentExpression;
+compiledAssignmentExpression = _arr({[0]="(function () "},1);
+computedProperty = ((function() if (expression.left.type == "MemberExpression") then return expression.left.computed;  else return (expression.left.type == "MemberExpression");  end end)());
 left = compileExpression(_ENV,expression.left);
+if _bool(computedProperty) then
+split = getBaseMember(_ENV,left);
+compiledAssignmentExpression:push("local _cp = ");
+compiledAssignmentExpression:push(split.member);
+compiledAssignmentExpression:push("\010");
+end
+
+compiledAssignmentExpression:push("local _tmp = ");
 metaRight = _obj({
 
 });
@@ -882,9 +891,6 @@ end
 if _into or (expression.operator == "=") then
 right = compileExpression(_ENV,expression.right,metaRight);
 compiledAssignmentExpression:push(right);
-compiledAssignmentExpression:push("; ");
-compiledAssignmentExpression:push(left);
-compiledAssignmentExpression:push(" = _tmp; return _tmp; end)()");
 do break end;
 _into = true;
 end
@@ -897,12 +903,18 @@ binaryExpression.left = expression.left;
 binaryExpression.right = expression.right;
 compiledBinaryExpression = compileBinaryExpression(_ENV,binaryExpression,metaRight);
 compiledAssignmentExpression:push(compiledBinaryExpression);
-compiledAssignmentExpression:push("; ");
-compiledAssignmentExpression:push(left);
-compiledAssignmentExpression:push(" = _tmp; return _tmp; end)()");
 _into = true;
 end
 until true
+compiledAssignmentExpression:push("; ");
+if _bool(computedProperty) then
+compiledAssignmentExpression:push(split.base);
+compiledAssignmentExpression:push("[_cp]");
+else
+compiledAssignmentExpression:push(left);
+end
+
+compiledAssignmentExpression:push(" = _tmp; return _tmp; end)()");
 if _bool(meta) then
 meta.type = metaRight.type;
 end
@@ -1205,27 +1217,27 @@ end
 
  do return compiledLogicalExpression:join(""); end
 end);
-getBaseMember = (function (this, expession)
+getBaseMember = (function (this, compiledExpression)
 local startIndex;
 startIndex = 0;
-if _bool(expession:match(_regexp("\\]$",""))) then
-startIndex = lastTopLevelBracketedGroupStartIndex(_ENV,expession);
+if _bool(compiledExpression:match(_regexp("\\]$",""))) then
+startIndex = lastTopLevelBracketedGroupStartIndex(_ENV,compiledExpression);
  do return _obj({
-["base"] = expession:slice(0,startIndex),
-["member"] = expession:slice((startIndex + 1),-_tonum(1))
+["base"] = compiledExpression:slice(0,startIndex),
+["member"] = compiledExpression:slice((startIndex + 1),-_tonum(1))
 }); end
 else
-startIndex = expession:lastIndexOf(".");
+startIndex = compiledExpression:lastIndexOf(".");
  do return _obj({
-["base"] = expession:slice(0,startIndex),
-["member"] = (("\"" .. expession:slice((startIndex + 1))) .. "\"")
+["base"] = compiledExpression:slice(0,startIndex),
+["member"] = (("\"" .. compiledExpression:slice((startIndex + 1))) .. "\"")
 }); end
 end
 
 end);
-getGetterSetterExpression = (function (this, expression)
+getGetterSetterExpression = (function (this, compiledExpression)
 local split;
-split = getBaseMember(_ENV,expression);
+split = getBaseMember(_ENV,compiledExpression);
  do return _obj({
 ["getter"] = (((split.base .. "[\"_g\" .. ") .. split.member) .. "]"),
 ["setter"] = (((split.base .. "[\"_s\" .. ") .. split.member) .. "]")
