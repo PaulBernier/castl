@@ -1322,8 +1322,20 @@
 
     function compileUpdateExpressionNoEval(expression) {
         var compiledUpdateExpression = [];
+        var mustStore = storeComputedProperty(expression.argument);
         var metaArgument = {};
         var compiledArgument = compileExpression(expression.argument, metaArgument);
+
+        if (mustStore) {
+            var split = getBaseMember(compiledArgument);
+            // @string
+            compiledArgument = split.base + "[_cp]";
+
+            // store computed property to evalute it only once
+            compiledUpdateExpression.push("do local _cp = ");
+            compiledUpdateExpression.push(split.member);
+            compiledUpdateExpression.push("; ");
+        }
 
         compiledUpdateExpression.push(compiledArgument);
         compiledUpdateExpression.push(" = ");
@@ -1354,14 +1366,31 @@
             throw new Error("Unknown UpdateOperator: " + expression.operator);
         }
 
+        if (mustStore) {
+            compiledUpdateExpression.push(";end");
+        }
+
         return compiledUpdateExpression.join('');
     }
 
     function compileUpdateExpression(expression, meta) {
-        var compiledUpdateExpression = ["(function () local _tmp = "];
+        var compiledUpdateExpression = ["(function () "];
+        var mustStore = storeComputedProperty(expression.argument);
         var metaArgument = {};
         var compiledArgument = compileExpression(expression.argument, metaArgument);
 
+        if (mustStore) {
+            var split = getBaseMember(compiledArgument);
+            // store computed property to evalute it only once
+            compiledUpdateExpression.push("local _cp = ");
+            compiledUpdateExpression.push(split.member);
+            compiledUpdateExpression.push(";");
+
+            // @string
+            compiledArgument = split.base + "[_cp]";
+        }
+
+        compiledUpdateExpression.push("local _tmp = ");
         if (expression.prefix) {
             // Prefix
             switch (expression.operator) {

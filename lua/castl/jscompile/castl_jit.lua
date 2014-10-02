@@ -1194,10 +1194,19 @@ compiledAssignmentExpression:push(" end)()");
 do return compiledAssignmentExpression:join(""); end
 end);
 compileUpdateExpressionNoEval = (function (this, expression)
-local compiledArgument,metaArgument,compiledUpdateExpression;
+local split,compiledArgument,metaArgument,mustStore,compiledUpdateExpression;
 compiledUpdateExpression = _arr({},0);
+mustStore = storeComputedProperty(_ENV,expression.argument);
 metaArgument = _obj({});
 compiledArgument = compileExpression(_ENV,expression.argument,metaArgument);
+if _bool(mustStore) then
+split = getBaseMember(_ENV,compiledArgument);
+compiledArgument = (split.base .. "[_cp]");
+compiledUpdateExpression:push("do local _cp = ");
+compiledUpdateExpression:push(split.member);
+compiledUpdateExpression:push("; ");
+end
+
 compiledUpdateExpression:push(compiledArgument);
 compiledUpdateExpression:push(" = ");
 repeat
@@ -1239,13 +1248,27 @@ _throw(_new(Error,("Unknown UpdateOperator: " .. expression.operator)),0)
 _into = true;
 end
 until true
+if _bool(mustStore) then
+compiledUpdateExpression:push(";end");
+end
+
 do return compiledUpdateExpression:join(""); end
 end);
 compileUpdateExpression = (function (this, expression, meta)
-local compiledArgument,metaArgument,compiledUpdateExpression;
-compiledUpdateExpression = _arr({[0]="(function () local _tmp = "},1);
+local split,compiledArgument,metaArgument,mustStore,compiledUpdateExpression;
+compiledUpdateExpression = _arr({[0]="(function () "},1);
+mustStore = storeComputedProperty(_ENV,expression.argument);
 metaArgument = _obj({});
 compiledArgument = compileExpression(_ENV,expression.argument,metaArgument);
+if _bool(mustStore) then
+split = getBaseMember(_ENV,compiledArgument);
+compiledUpdateExpression:push("local _cp = ");
+compiledUpdateExpression:push(split.member);
+compiledUpdateExpression:push(";");
+compiledArgument = (split.base .. "[_cp]");
+end
+
+compiledUpdateExpression:push("local _tmp = ");
 if _bool(expression.prefix) then
 repeat
 local _into = false;
