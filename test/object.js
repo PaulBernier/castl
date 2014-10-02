@@ -136,3 +136,20 @@ assert(Object.getPrototypeOf(fun) === Function.prototype);
 var MyClass = function () {};
 var instance = new MyClass();
 assert(Object.getPrototypeOf(instance) === MyClass.prototype);
+
+// function as argument of Object.methods
+var f = function(){};
+f.a = 21;
+var z = Object.create(f);
+assert(typeof(z) === "object");
+assert(z.a == 21);
+Object.keys(f);
+z = Object.getOwnPropertyDescriptor(f, "a");
+assert(z.value === 21);
+z = Object.getOwnPropertyDescriptor(f, "e");
+assert(z === undefined);
+Object.defineProperty(f, "b", {value: 99, writable: true, enumerable: true});
+assert(f.b === 99);
+Object.getOwnPropertyNames(f);
+assert(Object.getPrototypeOf(f) === Function.prototype);
+

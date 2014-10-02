@@ -38,6 +38,14 @@ Object = function (this, obj)
 end
 
 Object.create = function (this, prototype, props)
+    -- get function proxy
+    if type(prototype) == "function" then
+        prototype = coreObjects.getFunctionProxy(prototype)
+    end
+    if type(prototype) ~= 'table' then
+        error(errorHelper.newTypeError("Object prototype may only be an Object or null"))
+    end
+
     local o = {}
 
     if prototype ~= null then
@@ -61,13 +69,14 @@ Object.defineProperties = function (this, obj, props)
 end
 
 Object.defineProperty = function(this, obj, prop, descriptor)
-    local tobj = type(obj)
-
-    if tobj == 'function' then
+    local isFunction = type(obj) == 'function'
+    local originalObj = obj
+    -- get function proxy
+    if isFunction then
         obj = coreObjects.getFunctionProxy(obj)
     end
 
-    if tobj ~= 'table' then
+    if type(obj) ~= 'table' or obj == null then
         error(errorHelper.newTypeError("Object.defineProperty called on non-object"))
     end
     if type(descriptor) ~= 'table' then
@@ -84,6 +93,10 @@ Object.defineProperty = function(this, obj, prop, descriptor)
             prop = ToString(prop)
         end
         rawset(obj, prop, descriptor.value)
+
+        if isFunction then
+            return originalObj
+        end
         return obj
     end
 
@@ -99,6 +112,10 @@ Object.defineProperty = function(this, obj, prop, descriptor)
         rawset(obj, "_s" .. prop, descriptor.set)
     end
 
+    if isFunction then
+        return originalObj
+    end
+
     return obj
 end
 
@@ -109,15 +126,19 @@ Object.freeze = function (this, obj)
 end
 
 Object.getOwnPropertyDescriptor = function (this, obj, prop)
-    if type(obj) ~= "table" or obj == null then
+    -- get function proxy
+    if type(obj) == 'function' then
+        obj = coreObjects.getFunctionProxy(obj)
+    end
+    if type(obj) ~= 'table' or obj == null then
         error(errorHelper.newTypeError("Object.getOwnPropertyDescriptor called on non-object"))
     end
 
-    local mt = getmetatable(obj)
+    local value = rawget(obj, prop)
 
-    if mt then
+    if value ~= nil then
         return coreObjects.obj({
-            value = rawget(obj, prop),
+            value = value,
             writable = true,
             configurable = true,
             enumerable = true
@@ -128,6 +149,14 @@ Object.getOwnPropertyDescriptor = function (this, obj, prop)
 end
 
 Object.getOwnPropertyNames = function (this, obj)
+    -- get function proxy
+    if type(obj) == 'function' then
+        obj = coreObjects.getFunctionProxy(obj)
+    end
+    if type(obj) ~= 'table' or obj == null then
+        error(errorHelper.newTypeError("Object.getOwnPropertyNames called on non-object"))
+    end
+
     local ret, i = {}, 0
 
     local props = coreObjects.props(obj, false, true)
@@ -140,6 +169,14 @@ Object.getOwnPropertyNames = function (this, obj)
 end
 
 Object.getPrototypeOf = function (this, obj)
+    if type(obj) == 'function' then
+        -- return functionProto
+        return getmetatable(obj)._prototype
+    end
+    if type(obj) ~= 'table' or obj == null then
+        error(errorHelper.newTypeError("Object.getPrototypeOf called on non-object"))
+    end
+
     local mt = getmetatable(obj)
     if mt then
         return mt._prototype
@@ -164,8 +201,12 @@ Object.isSealed = function (this, obj)
 end
 
 Object.keys = function (this, obj)
-    local tobj = type(obj)
-    if tobj == "boolean" or obj == nil or tobj == "number" or tobj == "string" then
+    -- get function proxy
+    if type(obj) == 'function' then
+        obj = coreObjects.getFunctionProxy(obj)
+    end
+
+    if type(obj) ~= 'table' or obj == null then
         error(errorHelper.newTypeError("Object.keys called on non-object"))
     end
 
