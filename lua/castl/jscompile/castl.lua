@@ -10,7 +10,7 @@ factory(_ENV,root.castl);
 end
 
 end)(_ENV,this,(function (this, exports)
-local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileComparisonOperator,compileAdditionOperator,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,compileUpdateExpressionNoEval,compileAssignmentExpression,compileAssignmentExpressionNoEval,compileCompoundAssignmentNoEval,storeComputedProperty,compileCompoundAssignmentBinaryExpression,compileExpressionStatementNoEval,compileExpressionStatementEvalMode,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,compileIterationStatement,compileForUpdate,compileForInit,compileIfStatement,compileBooleanExpression,compileListOfStatements,compileStatement,compileAST,annotations,options,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,withTracker,continueNoLabelTracker,labelTracker,luaKeywords;
+local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileComparisonOperator,compileAdditionOperator,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,compileUpdateExpressionNoEval,compileAssignmentExpression,compileAssignmentExpressionNoEval,compileCompoundAssignmentNoEval,storeComputedProperty,compileCompoundAssignmentBinaryExpression,compileExpressionStatementNoEval,compileExpressionStatementEvalMode,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,mayBeNumericFor,isComparisonExpressionWith,isUpdateExpressionWith,compileNumericForUpdate,compileNumericForTest,compileForTest,compileForUpdate,compileForInit,compileIterationStatement,compileIfStatement,compileBooleanExpression,compileListOfStatements,compileStatement,compileAST,annotations,options,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,withTracker,continueNoLabelTracker,labelTracker,luaKeywords;
 ProtectedCallManager = (function (this)
 this.protectedCallContext = _arr({},0);
 this.mayReturnStack = _arr({},0);
@@ -57,13 +57,13 @@ compiledProgram:push(compiledFunctionsDeclaration:join("\010"));
 end
 
 compiledProgram:push(topLevelStatements);
- do return _obj({
+do return _obj({
 ["success"] = true,
 ["compiled"] = compiledProgram:join("\010")
 }); end
 end
 
- do return _obj({
+do return _obj({
 ["success"] = false,
 ["compiled"] = ""
 }); end
@@ -164,7 +164,7 @@ if _into or (statement.type == "EmptyStatement") then
 _into = true;
 end
 if _into or (statement.type == "DebuggerStatement") then
- do return ""; end
+do return ""; end
 _into = true;
 end
 ::_default::
@@ -176,10 +176,10 @@ until true
 if (compiledStatement ~= undefined) then
 if _bool(options.debug) then
 line = statement.loc.start.line;
- do return ((("--[[" .. line) .. "--]] ") .. compiledStatement); end
+do return ((("--[[" .. line) .. "--]] ") .. compiledStatement); end
 end
 
- do return compiledStatement; end
+do return compiledStatement; end
 end
 
 end);
@@ -196,7 +196,7 @@ end
 i = i + 1;
 end
 
- do return compiledStatements:join("\010"); end
+do return compiledStatements:join("\010"); end
 end);
 compileBooleanExpression = (function (this, expression)
 local compiledExpression,meta,compiledBooleanExpression;
@@ -211,7 +211,7 @@ compiledBooleanExpression:push(compiledExpression);
 compiledBooleanExpression:push(")");
 end
 
- do return compiledBooleanExpression:join(""); end
+do return compiledBooleanExpression:join(""); end
 end);
 compileIfStatement = (function (this, statement, elif)
 local compiledIfStatement;
@@ -241,32 +241,7 @@ compiledIfStatement:push("\010");
 compiledIfStatement:push("end\010");
 end
 
- do return compiledIfStatement:join(""); end
-end);
-compileForInit = (function (this, init)
-local compiledForInit;
-compiledForInit = _arr({},0);
-if (init ~= null) then
-if (init.type == "VariableDeclaration") then
-compiledForInit:push(compileVariableDeclaration(_ENV,init));
-else
-compiledForInit:push(compileExpressionStatement(_ENV,init));
-end
-
-compiledForInit:push("\010");
-end
-
- do return compiledForInit:join(""); end
-end);
-compileForUpdate = (function (this, update)
-local compiledForUpdate;
-compiledForUpdate = _arr({},0);
-if (update ~= null) then
-compiledForUpdate:push(compileExpressionStatement(_ENV,update));
-compiledForUpdate:push("\010");
-end
-
- do return compiledForUpdate:join(""); end
+do return compiledIfStatement:join(""); end
 end);
 compileIterationStatement = (function (this, statement, compiledLabel)
 local compiledIterationStatement;
@@ -308,17 +283,153 @@ end
 until true
 protectedCallManager:closeIterationStatement();
 continueNoLabelTracker:pop();
- do return compiledIterationStatement; end
+do return compiledIterationStatement; end
+end);
+compileForInit = (function (this, init)
+local compiledForInit;
+compiledForInit = _arr({},0);
+if (init ~= null) then
+if (init.type == "VariableDeclaration") then
+compiledForInit:push(compileVariableDeclaration(_ENV,init));
+else
+compiledForInit:push(compileExpressionStatement(_ENV,init));
+end
+
+compiledForInit:push("\010");
+end
+
+do return compiledForInit:join(""); end
+end);
+compileForUpdate = (function (this, update)
+local compiledForUpdate;
+compiledForUpdate = _arr({},0);
+if (update ~= null) then
+compiledForUpdate:push(compileExpressionStatement(_ENV,update));
+compiledForUpdate:push("\010");
+end
+
+do return compiledForUpdate:join(""); end
+end);
+compileForTest = (function (this, test)
+if (test ~= null) then
+do return compileBooleanExpression(_ENV,test); end
+end
+
+do return "true"; end
+end);
+compileNumericForTest = (function (this, test)
+local compiledNumericForTest;
+compiledNumericForTest = _arr({},0);
+compiledNumericForTest:push(compileExpression(_ENV,test.left));
+compiledNumericForTest:push(test.operator);
+compiledNumericForTest:push(compileExpression(_ENV,test.right));
+do return compiledNumericForTest:join(""); end
+end);
+compileNumericForUpdate = (function (this, update)
+local compiledIdentifier,compiledForUpdate;
+compiledForUpdate = _arr({},0);
+compiledIdentifier = compileIdentifier(_ENV,update.argument);
+compiledForUpdate:push(compiledIdentifier);
+compiledForUpdate:push(" = ");
+compiledForUpdate:push(compiledIdentifier);
+compiledForUpdate:push(update.operator[0]);
+compiledForUpdate:push("1\010");
+do return compiledForUpdate:join(""); end
+end);
+isUpdateExpressionWith = (function (this, expression, variables)
+if (expression ~= null) then
+if ((function() if (expression.type == "UpdateExpression") then return (expression.argument.type == "Identifier");  else return (expression.type == "UpdateExpression");  end end)()) then
+do return (_gt(variables:indexOf(expression.argument.name),-_tonum(1))); end
+end
+
+end
+
+do return false; end
+end);
+isComparisonExpressionWith = (function (this, expression, variables)
+local comparisonOperators;
+if (expression ~= null) then
+if (expression.type == "BinaryExpression") then
+comparisonOperators = _arr({[0]="<","<=",">",">="},4);
+if (_gt(comparisonOperators:indexOf(expression.operator),-_tonum(1))) then
+if (expression.left.type == "Identifier") then
+if (_gt(variables:indexOf(expression.left.name),-_tonum(1))) then
+do return true; end
+end
+
+elseif (expression.right.type == "Identifier") then
+if (_gt(variables:indexOf(expression.right.name),-_tonum(1))) then
+do return true; end
+end
+
+end
+
+end
+
+end
+
+end
+
+do return false; end
+end);
+mayBeNumericFor = (function (this, statement)
+local i,declarations,init,possibleNumericForVariable;
+possibleNumericForVariable = _arr({},0);
+init = statement.init;
+if (init == null) then
+do return false; end
+end
+
+if (init.type == "VariableDeclaration") then
+declarations = init.declarations;
+i = 0;
+while (i<declarations.length) do
+if (declarations[i].init ~= null) then
+if ((function() if (declarations[i].init.type == "Literal") then return (_type(declarations[i].init.value) == "number");  else return (declarations[i].init.type == "Literal");  end end)()) then
+possibleNumericForVariable:push(declarations[i].id.name);
+end
+
+end
+
+i = i + 1;
+end
+
+elseif (init.type == "AssignmentExpression") then
+if (init.left.type == "Identifier") then
+if ((function() if (init.right.type == "Literal") then return (_type(init.right.value) == "number");  else return (init.right.type == "Literal");  end end)()) then
+possibleNumericForVariable:push(init.left.name);
+end
+
+end
+
+end
+
+if (_gt(possibleNumericForVariable.length,0)) then
+if _bool(isComparisonExpressionWith(_ENV,statement.test,possibleNumericForVariable)) then
+if _bool(isUpdateExpressionWith(_ENV,statement.update,possibleNumericForVariable)) then
+do return true; end
+end
+
+end
+
+end
+
+do return false; end
 end);
 compileForStatement = (function (this, statement, compiledLabel)
-local compiledForStatement;
+local numericFor,compiledForStatement;
 compiledForStatement = _arr({},0);
+numericFor = false;
+if _bool(options.heuristic) then
+numericFor = mayBeNumericFor(_ENV,statement);
+end
+
 compiledForStatement:push(compileForInit(_ENV,statement.init));
 compiledForStatement:push("while ");
-if (statement.test ~= null) then
-compiledForStatement:push(compileBooleanExpression(_ENV,statement.test));
+if _bool(numericFor) then
+compiledForStatement:push(compileNumericForTest(_ENV,statement.test));
 else
-compiledForStatement:push("true");
+compiledForStatement:push(compileForTest(_ENV,statement.test));
 end
 
 compiledForStatement:push(" do\010");
@@ -332,9 +443,14 @@ if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledL
 compiledForStatement:push((("::" .. compiledLabel) .. "_c::\010"));
 end
 
+if _bool(numericFor) then
+compiledForStatement:push(compileNumericForUpdate(_ENV,statement.update));
+else
 compiledForStatement:push(compileForUpdate(_ENV,statement.update));
+end
+
 compiledForStatement:push("end\010");
- do return compiledForStatement:join(""); end
+do return compiledForStatement:join(""); end
 end);
 compileForInStatement = (function (this, statement, compiledLabel)
 local compiledLeft,compiledForInStatement;
@@ -363,7 +479,7 @@ compiledForInStatement:push((("::" .. compiledLabel) .. "_c::\010"));
 end
 
 compiledForInStatement:push("end\010");
- do return compiledForInStatement:join(""); end
+do return compiledForInStatement:join(""); end
 end);
 compileWhileStatement = (function (this, statement, compiledLabel)
 local compiledWhileStatement;
@@ -378,7 +494,7 @@ compiledWhileStatement:push((("::" .. compiledLabel) .. "_c::\010"));
 end
 
 compiledWhileStatement:push("end\010");
- do return compiledWhileStatement:join(""); end
+do return compiledWhileStatement:join(""); end
 end);
 compileDoWhileStatement = (function (this, statement, compiledLabel)
 local compiledDoWhileStatement;
@@ -393,10 +509,10 @@ end
 compiledDoWhileStatement:push("until not ");
 compiledDoWhileStatement:push(compileBooleanExpression(_ENV,statement.test));
 compiledDoWhileStatement:push("\010");
- do return compiledDoWhileStatement:join(""); end
+do return compiledDoWhileStatement:join(""); end
 end);
 isIterationStatement = (function (this, statement)
- do return ((((statement.type == "ForStatement") and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement")) and ((statement.type == "ForStatement") and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement")) or (statement.type == "WhileStatement")) and (((statement.type == "ForStatement") and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement")) and ((statement.type == "ForStatement") and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement")) or (statement.type == "WhileStatement")) or (statement.type == "ForInStatement")); end
+do return ((((statement.type == "ForStatement") and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement")) and ((statement.type == "ForStatement") and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement")) or (statement.type == "WhileStatement")) and (((statement.type == "ForStatement") and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement")) and ((statement.type == "ForStatement") and (statement.type == "ForStatement") or (statement.type == "DoWhileStatement")) or (statement.type == "WhileStatement")) or (statement.type == "ForInStatement")); end
 end);
 compileLabeledStatement = (function (this, statement)
 local compiledLabel,label,compiledLabeledStatement;
@@ -419,41 +535,41 @@ end
 
 (function () local _r = false; local _g, _s = labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel]; labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = labelTracker[compiledLabel]; labelTracker[compiledLabel] = nil; return _r or _v ~= nil; end)();
- do return compiledLabeledStatement:join(""); end
+do return compiledLabeledStatement:join(""); end
 end);
 compileBreakStatement = (function (this, statement)
 local compiledLabel;
 if (statement.label == null) then
 if _bool(protectedCallManager:breakOutside()) then
- do return "do return _break; end"; end
+do return "do return _break; end"; end
 end
 
 if _bool(options.jit) then
- do return "do break end;"; end
+do return "do break end;"; end
 else
- do return "break;"; end
+do return "break;"; end
 end
 
 end
 
 compiledLabel = compileIdentifier(_ENV,statement.label);
 labelTracker[compiledLabel].mayBreak = true;
- do return (("goto " .. compiledLabel) .. "_b;"); end
+do return (("goto " .. compiledLabel) .. "_b;"); end
 end);
 compileContinueStatement = (function (this, statement)
 local compiledLabel;
 if (statement.label == null) then
 continueNoLabelTracker[(continueNoLabelTracker.length - 1)] = true;
 if _bool(protectedCallManager:continueOutside()) then
- do return "do return _continue; end"; end
+do return "do return _continue; end"; end
 end
 
- do return "goto _continue"; end
+do return "goto _continue"; end
 end
 
 compiledLabel = compileIdentifier(_ENV,statement.label);
 labelTracker[compiledLabel].mayContinue = true;
- do return (("goto " .. compiledLabel) .. "_c;"); end
+do return (("goto " .. compiledLabel) .. "_c;"); end
 end);
 compileSwitchStatement = (function (this, statement)
 local hasDefault,compiledTests,caseTablementElement,casesTable,i,compiledDiscriminant,compiledSwitchStatement,cases;
@@ -515,18 +631,18 @@ end
 
 compiledSwitchStatement:push("until true");
 protectedCallManager:closeSwitchStatement();
- do return compiledSwitchStatement:join(""); end
+do return compiledSwitchStatement:join(""); end
 end
 
 protectedCallManager:closeSwitchStatement();
- do return ""; end
+do return ""; end
 end);
 compileTryStatement = (function (this, statement)
 if _bool(statement.handlers) then
- do return compileTryStatementFlavored(_ENV,statement,true); end
+do return compileTryStatementFlavored(_ENV,statement,true); end
 end
 
- do return compileTryStatementFlavored(_ENV,statement,false); end
+do return compileTryStatementFlavored(_ENV,statement,false); end
 end);
 compileTryStatementFlavored = (function (this, statement, esprima)
 local handler,compiledTryStatement,may,finallyStatements,hasFinalizer,hasHandler;
@@ -601,22 +717,22 @@ compiledTryStatement:push("else _throw(_creturn,0); end\010");
 end
 
 compiledTryStatement:push("end\010");
- do return compiledTryStatement:join(""); end
+do return compiledTryStatement:join(""); end
 end);
 compileThrowStatement = (function (this, statement)
 local compiledThrowStatement;
 compiledThrowStatement = _arr({[0]="_throw("},1);
 compiledThrowStatement:push(compileExpression(_ENV,statement.argument));
 compiledThrowStatement:push(",0)");
- do return compiledThrowStatement:join(""); end
+do return compiledThrowStatement:join(""); end
 end);
 compileReturnStatement = (function (this, statement)
 protectedCallManager:returnStatement();
 if (statement.argument ~= null) then
- do return ((" do return " .. compileExpression(_ENV,statement.argument)) .. "; end"); end
+do return (("do return " .. compileExpression(_ENV,statement.argument)) .. "; end"); end
 end
 
- do return "do return end"; end
+do return "do return end"; end
 end);
 compileWithStatement = (function (this, statement)
 local compiledWithStatement;
@@ -637,7 +753,7 @@ end
 
 compiledWithStatement:push("\010end");
 withTracker:pop();
- do return compiledWithStatement:join(""); end
+do return compiledWithStatement:join(""); end
 end);
 compileExpression = (function (this, expression, meta)
 repeat
@@ -648,67 +764,67 @@ _into = true;
 goto _default
 end
 if _into or (expression.type == "AssignmentExpression") then
- do return compileAssignmentExpression(_ENV,expression,meta); end
+do return compileAssignmentExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "FunctionExpression") then
- do return compileFunction(_ENV,expression,meta); end
+do return compileFunction(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "Identifier") then
- do return compileIdentifier(_ENV,expression,meta); end
+do return compileIdentifier(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "Literal") then
- do return compileLiteral(_ENV,expression,meta); end
+do return compileLiteral(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "UnaryExpression") then
- do return compileUnaryExpression(_ENV,expression,meta); end
+do return compileUnaryExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "BinaryExpression") then
- do return compileBinaryExpression(_ENV,expression,meta); end
+do return compileBinaryExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "LogicalExpression") then
- do return compileLogicalExpression(_ENV,expression,meta); end
+do return compileLogicalExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "MemberExpression") then
- do return compileMemberExpression(_ENV,expression,meta); end
+do return compileMemberExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "CallExpression") then
- do return compileCallExpression(_ENV,expression,meta); end
+do return compileCallExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "NewExpression") then
- do return compileNewExpression(_ENV,expression,meta); end
+do return compileNewExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "ThisExpression") then
- do return compileThisExpression(_ENV,expression,meta); end
+do return compileThisExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "ObjectExpression") then
- do return compileObjectExpression(_ENV,expression,meta); end
+do return compileObjectExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "UpdateExpression") then
- do return compileUpdateExpression(_ENV,expression,meta); end
+do return compileUpdateExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "ArrayExpression") then
- do return compileArrayExpression(_ENV,expression,meta); end
+do return compileArrayExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "ConditionalExpression") then
- do return compileConditionalExpression(_ENV,expression,meta); end
+do return compileConditionalExpression(_ENV,expression,meta); end
 _into = true;
 end
 if _into or (expression.type == "SequenceExpression") then
- do return compileSequenceExpression(_ENV,expression,meta); end
+do return compileSequenceExpression(_ENV,expression,meta); end
 _into = true;
 end
 ::_default::
@@ -720,9 +836,9 @@ until true
 end);
 compileExpressionStatement = (function (this, expression, meta)
 if _bool(options.evalMode) then
- do return compileExpressionStatementEvalMode(_ENV,expression,meta); end
+do return compileExpressionStatementEvalMode(_ENV,expression,meta); end
 else
- do return compileExpressionStatementNoEval(_ENV,expression,meta); end
+do return compileExpressionStatementNoEval(_ENV,expression,meta); end
 end
 
 end);
@@ -731,7 +847,7 @@ local compiledExpressionStatement;
 compiledExpressionStatement = _arr({[0]="_e("},1);
 compiledExpressionStatement:push(compileExpression(_ENV,expression,meta));
 compiledExpressionStatement:push(");");
- do return compiledExpressionStatement:join(""); end
+do return compiledExpressionStatement:join(""); end
 end);
 compileExpressionStatementNoEval = (function (this, expression, meta)
 local compiledUnaryExpressionStatement,compiledExpressionStatement;
@@ -755,11 +871,11 @@ do return end
 _into = true;
 end
 if _into or (expression.type == "UpdateExpression") then
- do return (compileUpdateExpressionNoEval(_ENV,expression,meta) .. ";"); end
+do return (compileUpdateExpressionNoEval(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
 if _into or (expression.type == "AssignmentExpression") then
- do return (compileAssignmentExpressionNoEval(_ENV,expression,meta) .. ";"); end
+do return (compileAssignmentExpressionNoEval(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
 if _into or (expression.type == "BinaryExpression") then
@@ -782,7 +898,7 @@ if _into or (expression.type == "FunctionExpression") then
 compiledExpressionStatement = _arr({[0]="_e("},1);
 compiledExpressionStatement:push(compileExpression(_ENV,expression,meta));
 compiledExpressionStatement:push(");");
- do return compiledExpressionStatement:join(""); end
+do return compiledExpressionStatement:join(""); end
 _into = true;
 end
 if _into or (expression.type == "UnaryExpression") then
@@ -790,10 +906,10 @@ if (expression.operator == "!") then
 compiledUnaryExpressionStatement = _arr({[0]="_e("},1);
 compiledUnaryExpressionStatement:push(compileUnaryExpression(_ENV,expression,meta));
 compiledUnaryExpressionStatement:push(");");
- do return compiledUnaryExpressionStatement:join(""); end
+do return compiledUnaryExpressionStatement:join(""); end
 end
 
- do return (compileUnaryExpression(_ENV,expression,meta) .. ";"); end
+do return (compileUnaryExpression(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
 if _into or (expression.type == "CallExpression") then
@@ -813,7 +929,7 @@ if _into or (expression.type == "ObjectExpression") then
 _into = true;
 end
 if _into or (expression.type == "SequenceExpression") then
- do return (compileExpression(_ENV,expression,meta) .. ";"); end
+do return (compileExpression(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
 ::_default::
@@ -963,21 +1079,21 @@ _into = true;
 end
 until true
 compiledCompoundAssignmentBinaryExpression:push(")");
- do return compiledCompoundAssignmentBinaryExpression:join(""); end
+do return compiledCompoundAssignmentBinaryExpression:join(""); end
 end);
 storeComputedProperty = (function (this, expression)
 local hasComputedProperty;
 hasComputedProperty = ((function() if (expression.type == "MemberExpression") then return expression.computed;  else return (expression.type == "MemberExpression");  end end)());
 if _bool(hasComputedProperty) then
 if (expression.property.type == "Literal") then
- do return false; end
+do return false; end
 end
 
 else
- do return false; end
+do return false; end
 end
 
- do return true; end
+do return true; end
 end);
 compileCompoundAssignmentNoEval = (function (this, expression)
 local split,right,left,metaRight,metaLeft,mustStore,compiledAssignmentBinaryExpression;
@@ -1002,7 +1118,7 @@ if _bool(mustStore) then
 compiledAssignmentBinaryExpression:push(" end");
 end
 
- do return compiledAssignmentBinaryExpression:join(""); end
+do return compiledAssignmentBinaryExpression:join(""); end
 end);
 compileAssignmentExpressionNoEval = (function (this, expression)
 local right,left,compiledAssignmentExpression;
@@ -1025,11 +1141,11 @@ _into = true;
 end
 ::_default::
 if _into then
- do return compileCompoundAssignmentNoEval(_ENV,expression); end
+do return compileCompoundAssignmentNoEval(_ENV,expression); end
 _into = true;
 end
 until true
- do return compiledAssignmentExpression:join(""); end
+do return compiledAssignmentExpression:join(""); end
 end);
 compileAssignmentExpression = (function (this, expression, meta)
 local split,right,left,metaRight,metaLeft,mustStore,compiledAssignmentExpression;
@@ -1074,7 +1190,7 @@ until true
 compiledAssignmentExpression:push("; return ");
 compiledAssignmentExpression:push(left);
 compiledAssignmentExpression:push(" end)()");
- do return compiledAssignmentExpression:join(""); end
+do return compiledAssignmentExpression:join(""); end
 end);
 compileUpdateExpressionNoEval = (function (this, expression)
 local compiledArgument,metaArgument,compiledUpdateExpression;
@@ -1122,7 +1238,7 @@ _throw(_new(Error,("Unknown UpdateOperator: " .. expression.operator)),0)
 _into = true;
 end
 until true
- do return compiledUpdateExpression:join(""); end
+do return compiledUpdateExpression:join(""); end
 end);
 compileUpdateExpression = (function (this, expression, meta)
 local compiledArgument,metaArgument,compiledUpdateExpression;
@@ -1216,10 +1332,10 @@ if _bool(meta) then
 meta.type = "number";
 end
 
- do return compiledUpdateExpression:join(""); end
+do return compiledUpdateExpression:join(""); end
 end);
 replaceAt = (function (this, str, index, char)
- do return ((str:substr(0,index) .. char) .. str:substr((index + 1))); end
+do return ((str:substr(0,index) .. char) .. str:substr((index + 1))); end
 end);
 lastTopLevelBracketedGroupStartIndex = (function (this, str)
 local i,count,startIndex;
@@ -1240,7 +1356,7 @@ end
 i = i + 1;
 end
 
- do return startIndex; end
+do return startIndex; end
 end);
 compileCallArguments = (function (this, args)
 local i,compiledArguments;
@@ -1251,7 +1367,7 @@ compiledArguments:push(compileExpression(_ENV,args[i]));
 i = i + 1;
 end
 
- do return compiledArguments:join(","); end
+do return compiledArguments:join(","); end
 end);
 compileCallExpression = (function (...)
 local this, expression, meta = ...;
@@ -1308,7 +1424,7 @@ end
 
 end
 
- do return compiledCallExpression:join(""); end
+do return compiledCallExpression:join(""); end
 end);
 compileLogicalExpression = (function (this, expression, meta)
 local right,left,metaRight,metaLeft,leftCondition,compiledLogicalExpression;
@@ -1359,20 +1475,20 @@ end
 
 end
 
- do return compiledLogicalExpression:join(""); end
+do return compiledLogicalExpression:join(""); end
 end);
 getBaseMember = (function (this, compiledExpression)
 local startIndex;
 startIndex = 0;
 if _bool(compiledExpression:match(_regexp("\\]$",""))) then
 startIndex = lastTopLevelBracketedGroupStartIndex(_ENV,compiledExpression);
- do return _obj({
+do return _obj({
 ["base"] = compiledExpression:slice(0,startIndex),
 ["member"] = compiledExpression:slice((startIndex + 1),-_tonum(1))
 }); end
 else
 startIndex = compiledExpression:lastIndexOf(".");
- do return _obj({
+do return _obj({
 ["base"] = compiledExpression:slice(0,startIndex),
 ["member"] = (("\"" .. compiledExpression:slice((startIndex + 1))) .. "\"")
 }); end
@@ -1382,7 +1498,7 @@ end);
 getGetterSetterExpression = (function (this, compiledExpression)
 local split;
 split = getBaseMember(_ENV,compiledExpression);
- do return _obj({
+do return _obj({
 ["getter"] = (((split.base .. "[\"_g\" .. ") .. split.member) .. "]"),
 ["setter"] = (((split.base .. "[\"_s\" .. ") .. split.member) .. "]")
 }); end
@@ -1508,7 +1624,7 @@ else
 _throw(_new(Error,"UnaryExpression: postfix ?!"),0)
 end
 
- do return compiledUnaryExpression:join(""); end
+do return compiledUnaryExpression:join(""); end
 end);
 compileAdditionOperator = (function (this, left, right, metaLeft, metaRight, meta)
 local compiledAdditionOperator;
@@ -1575,7 +1691,7 @@ compiledAdditionOperator:push(right);
 compiledAdditionOperator:push(")");
 end
 
- do return compiledAdditionOperator:join(""); end
+do return compiledAdditionOperator:join(""); end
 end);
 compileComparisonOperator = (function (this, left, right, operator, metaLeft, metaRight, meta)
 local compiledComparisonOperator;
@@ -1624,7 +1740,7 @@ if _bool(meta) then
 meta.type = "boolean";
 end
 
- do return compiledComparisonOperator:join(""); end
+do return compiledComparisonOperator:join(""); end
 end);
 compileBinaryExpression = (function (this, expression, meta)
 local right,left,metaRight,metaLeft,compiledBinaryExpression;
@@ -1861,7 +1977,7 @@ _into = true;
 end
 until true
 compiledBinaryExpression:push(")");
- do return compiledBinaryExpression:join(""); end
+do return compiledBinaryExpression:join(""); end
 end);
 pushSimpleBinaryExpression = (function (this, compiledBinaryExpression, operator, left, right)
 compiledBinaryExpression:push(left);
@@ -1886,7 +2002,7 @@ end
 
 end
 
- do return compiledConditionalExpression:join(""); end
+do return compiledConditionalExpression:join(""); end
 end);
 compileSequenceExpression = (function (this, expression, meta)
 local metaLast,sequence,expressions,i,compiledSequenceExpression;
@@ -1906,7 +2022,7 @@ if _bool(meta) then
 meta.type = metaLast.type;
 end
 
- do return compiledSequenceExpression:join(""); end
+do return compiledSequenceExpression:join(""); end
 end);
 compileObjectExpression = (function (this, expression, meta)
 local compiledKey,compiledProperties,compiledProperty,property,length,i,compiledObjectExpression;
@@ -1961,7 +2077,7 @@ if _bool(meta) then
 meta.type = "object";
 end
 
- do return compiledObjectExpression:join(""); end
+do return compiledObjectExpression:join(""); end
 end);
 compileMemberExpression = (function (this, expression, meta)
 local compiledProperty,compiledObject,compiledMemberExpression;
@@ -1996,7 +2112,7 @@ end
 
 end
 
- do return compiledMemberExpression:join(""); end
+do return compiledMemberExpression:join(""); end
 end);
 compileNewExpression = (function (...)
 local this, expression = ...;
@@ -2013,10 +2129,10 @@ end
 
 compiledNewExpression:push(newArguments:join(","));
 compiledNewExpression:push(")");
- do return compiledNewExpression:join(""); end
+do return compiledNewExpression:join(""); end
 end);
 compileThisExpression = (function (this)
- do return "this"; end
+do return "this"; end
 end);
 compileArrayExpression = (function (this, expression, meta)
 local length,i,compiledElements,compiledArrayExpression;
@@ -2046,7 +2162,7 @@ if _bool(meta) then
 meta.type = "object";
 end
 
- do return compiledArrayExpression:join(""); end
+do return compiledArrayExpression:join(""); end
 end);
 compileFunctionDeclaration = (function (this, declaration)
 local compiledId,compiledFunctionDeclaration;
@@ -2102,7 +2218,7 @@ _into = true;
 end
 ::_default::
 until true
- do return compiledDeclarations:join("\010"); end
+do return compiledDeclarations:join("\010"); end
 end);
 compilePattern = (function (this, pattern, meta)
 repeat
@@ -2113,7 +2229,7 @@ _into = true;
 goto _default
 end
 if _into or (pattern.type == "Identifier") then
- do return compileIdentifier(_ENV,pattern,meta); end
+do return compileIdentifier(_ENV,pattern,meta); end
 _into = true;
 end
 ::_default::
@@ -2175,7 +2291,7 @@ end
 compiledFunction:push(compiledBody);
 compiledFunction:push("\010");
 compiledFunction:push("end)");
- do return compiledFunction:join(""); end
+do return compiledFunction:join(""); end
 end);
 buildLocalsDeclarationString = (function (this, locals, ignore)
 local compiledLocalsDeclaration,length,_g_local,i,namesSequence;
@@ -2196,18 +2312,18 @@ if (namesSequence.length>0) then
 compiledLocalsDeclaration = _arr({[0]="local "},1);
 compiledLocalsDeclaration:push(namesSequence:join(","));
 compiledLocalsDeclaration:push(";\010");
- do return compiledLocalsDeclaration:join(""); end
+do return compiledLocalsDeclaration:join(""); end
 end
 
- do return ""; end
+do return ""; end
 end);
 sanitizeIdentifier = (function (this, id)
 if (luaKeywords:indexOf(id)>-_tonum(1)) then
- do return ("_g_" .. id); end
+do return ("_g_" .. id); end
 end
 
- do return id:replace(_regexp("_","g"),"__"):replace(_regexp("\\$","g"),"S"):replace(_regexp("[\194\128-\239\191\191]","g"),(function (this, c)
- do return ("_" .. c:charCodeAt(0)); end
+do return id:replace(_regexp("_","g"),"__"):replace(_regexp("\\$","g"),"S"):replace(_regexp("[\194\128-\239\191\191]","g"),(function (this, c)
+do return ("_" .. c:charCodeAt(0)); end
 end)); end
 end);
 compileIdentifier = (function (this, identifier, meta)
@@ -2222,7 +2338,7 @@ end
 
 end
 
- do return sanitizeIdentifier(_ENV,identifier.name); end
+do return sanitizeIdentifier(_ENV,identifier.name); end
 end);
 toUTF8Array = (function (this, str)
 local charcode,i,utf8;
@@ -2245,23 +2361,23 @@ end
 i = i + 1;
 end
 
- do return utf8; end
+do return utf8; end
 end);
 sanitizeLiteralString = (function (this, str)
- do return str:replace(_regexp("\\\\","g"),"\\\\"):replace(_regexp("\"","g"),"\\\""):replace(_regexp("\194\160","g")," "):replace(_regexp("[\\0-\31\127-\237\159\191\240\144\128\128-\239\191\191]|[\240\144\128\128-\244\143\176\128][\240\144\128\128-\244\143\176\128]|[\240\144\128\128-\244\143\176\128]","g"),(function (this, str)
+do return str:replace(_regexp("\\\\","g"),"\\\\"):replace(_regexp("\"","g"),"\\\""):replace(_regexp("\194\160","g")," "):replace(_regexp("[\\0-\31\127-\237\159\191\240\144\128\128-\239\191\191]|[\240\144\128\128-\244\143\176\128][\240\144\128\128-\244\143\176\128]|[\240\144\128\128-\244\143\176\128]","g"),(function (this, str)
 local ut8bytes;
 ut8bytes = toUTF8Array(_ENV,str);
 ut8bytes = ut8bytes:map((function (this, e)
- do return ("\\" .. ("00" .. e):slice(-_tonum(3))); end
+do return ("\\" .. ("00" .. e):slice(-_tonum(3))); end
 end));
- do return ut8bytes:join(""); end
+do return ut8bytes:join(""); end
 end)); end
 end);
 sanitizeRegExpSource = (function (this, str)
- do return str:replace(_regexp("\\\\","g"),"\\\\"):replace(_regexp("\"","g"),"\\\""):replace(_regexp("\\\\\\\\u([0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])","g"),(function (this, str, hexaCode)
+do return str:replace(_regexp("\\\\","g"),"\\\\"):replace(_regexp("\"","g"),"\\\""):replace(_regexp("\\\\\\\\u([0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])","g"),(function (this, str, hexaCode)
 local chars;
 chars = String:fromCharCode(parseInt(_ENV,hexaCode,16));
- do return ("\\" .. toUTF8Array(_ENV,chars):join("\\")); end
+do return ("\\" .. toUTF8Array(_ENV,chars):join("\\")); end
 end)); end
 end);
 compileLiteral = (function (this, literal, meta)
@@ -2284,7 +2400,7 @@ if _bool(meta) then
 meta.type = "object";
 end
 
- do return ret; end
+do return ret; end
 end
 
 repeat
@@ -2322,7 +2438,7 @@ _into = true;
 end
 ::_default::
 until true
- do return ret; end
+do return ret; end
 end);luaKeywords = _arr({[0]="and","break","do","else","elseif","end","false","for","function","goto","if","in","local","nil","not","or","repeat","return","then","true","until","while"},22);
 labelTracker = _arr({},0);
 continueNoLabelTracker = _arr({},0);
@@ -2330,19 +2446,19 @@ withTracker = _arr({},0);
 ProtectedCallManager.prototype = _obj({
 ["isInProtectedCallContext"] = (function (this)
 if (this.protectedCallContext.length>0) then
- do return true; end
+do return true; end
 end
 
- do return false; end
+do return false; end
 end),
 ["noInsideIteration"] = (function (this)
- do return (this.iterationStatement[(this.iterationStatement.length - 1)].length == 0); end
+do return (this.iterationStatement[(this.iterationStatement.length - 1)].length == 0); end
 end),
 ["noInsideSwitch"] = (function (this)
- do return (this.switchStatement[(this.switchStatement.length - 1)].length == 0); end
+do return (this.switchStatement[(this.switchStatement.length - 1)].length == 0); end
 end),
 ["may"] = (function (this)
- do return _obj({
+do return _obj({
 ["mayReturn"] = this.mayReturnStack[(this.mayReturnStack.length - 1)],
 ["mayBreak"] = this.mayBreakStack[(this.mayBreakStack.length - 1)],
 ["mayContinue"] = this.mayContinueStack[(this.mayContinueStack.length - 1)]
@@ -2397,25 +2513,25 @@ end),
 ["breakOutside"] = (function (this)
 if _bool(((function() if _bool(((function() if _bool(this:isInProtectedCallContext()) then return this:noInsideIteration();  else return this:isInProtectedCallContext();  end end)())) then return this:noInsideSwitch();  else return ((function() if _bool(this:isInProtectedCallContext()) then return this:noInsideIteration();  else return this:isInProtectedCallContext();  end end)());  end end)())) then
 this.mayBreakStack[(this.mayBreakStack.length - 1)] = true;
- do return true; end
+do return true; end
 end
 
- do return false; end
+do return false; end
 end),
 ["continueOutside"] = (function (this)
 if _bool(((function() if _bool(this:isInProtectedCallContext()) then return this:noInsideIteration();  else return this:isInProtectedCallContext();  end end)())) then
 this.mayContinueStack[(this.mayContinueStack.length - 1)] = true;
- do return true; end
+do return true; end
 end
 
- do return false; end
+do return false; end
 end)
 });
 protectedCallManager = _new(ProtectedCallManager);
 LocalVarManager.prototype = _obj({
 ["popLocalContext"] = (function (this)
 if (this.locals.length>0) then
- do return _arr({[0]=this.locals:pop(),this.args:pop(),this.functions:pop()},3); end
+do return _arr({[0]=this.locals:pop(),this.args:pop(),this.functions:pop()},3); end
 end
 
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)

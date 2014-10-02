@@ -11,13 +11,15 @@ var debug = process.argv[7] === "true";
 var evalMode = process.argv[8] === "true";
 var mini = process.argv[9] === "true";
 var annotation = process.argv[10] === "true";
+var heuristic = process.argv[11] === "true";
 
 var parser = require(parserName);
 
 var parserOptions = {}
 var castlOptions = {
     jit: luajit,
-    evalMode: evalMode
+    evalMode: evalMode,
+    heuristic: heuristic
 };
 
 if (tolerant) {

@@ -23,6 +23,7 @@ output=false
 compiled=false
 tolerant=true
 node=false
+heuristic=false
 eval=false
 debug=false
 annotation=false
@@ -43,6 +44,7 @@ function help {
     printf "\t%-15s %s\n" "-h, --help" "display this help"
     printf "\t%-15s %s\n" "--cat" "don't execute, just print code that would be run"
     printf "\t%-15s %s\n" "--jit" "compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active)"
+    printf "\t%-15s %s\n" "--heuristic" "enable heuristic compilation"
     printf "\t%-15s %s\n" "--annotation" "use annotations to optimize generated code"
     printf "\t%-15s %s\n" "--mini" "minify AST using Esprima before compiling. Size of outputted file is shrunk"
     printf "\t%-15s %s\n" "--debug" "add comments in the Lua code referring to the line number of the original statement in the JS file"
@@ -71,6 +73,8 @@ for arg in "$@"; do
             eval=true
         elif [ $arg = "--mini" ]; then
             mini=true
+        elif [ $arg = "--heuristic" ]; then
+            heuristic=true
         elif [ $arg = "--annotation" ]; then
             annotation=true
         elif [ $arg = "--cat" ]; then
@@ -113,7 +117,7 @@ for arg in "$@"; do
     fi
 done
 
-castl-compiler $filename $parser $node $luajit $tolerant $debug $eval $mini $annotation > ".tmp.lua"
+castl-compiler $filename $parser $node $luajit $tolerant $debug $eval $mini $annotation $heuristic > ".tmp.lua"
 compileStatus=$?
 
 # compilation failed

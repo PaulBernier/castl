@@ -396,30 +396,6 @@
         return compiledIfStatement.join('');
     }
 
-    function compileForInit(init) {
-        var compiledForInit = [];
-        if (init !== null) {
-            if (init.type === "VariableDeclaration") {
-                compiledForInit.push(compileVariableDeclaration(init));
-            } else {
-                compiledForInit.push(compileExpressionStatement(init));
-            }
-            compiledForInit.push("\n");
-        }
-
-        return compiledForInit.join("");
-    }
-
-    function compileForUpdate(update) {
-        var compiledForUpdate = [];
-        if (update !== null) {
-            compiledForUpdate.push(compileExpressionStatement(update));
-            compiledForUpdate.push("\n");
-        }
-
-        return compiledForUpdate.join("");
-    }
-
     function compileIterationStatement(statement, compiledLabel) {
         var compiledIterationStatement = "";
         continueNoLabelTracker.push(false);
@@ -448,21 +424,149 @@
         return compiledIterationStatement;
     }
 
+    function compileForInit(init) {
+        var compiledForInit = [];
+        if (init !== null) {
+            if (init.type === "VariableDeclaration") {
+                compiledForInit.push(compileVariableDeclaration(init));
+            } else {
+                compiledForInit.push(compileExpressionStatement(init));
+            }
+            compiledForInit.push("\n");
+        }
+
+        return compiledForInit.join("");
+    }
+
+    function compileForUpdate(update) {
+        var compiledForUpdate = [];
+        if (update !== null) {
+            compiledForUpdate.push(compileExpressionStatement(update));
+            compiledForUpdate.push("\n");
+        }
+
+        return compiledForUpdate.join("");
+    }
+
+    function compileForTest(test) {
+        if (test !== null) {
+            return compileBooleanExpression(test);
+        }
+        return "true";
+    }
+
+    function compileNumericForTest(test) {
+        var compiledNumericForTest = [];
+
+        compiledNumericForTest.push(compileExpression(test.left));
+        compiledNumericForTest.push(test.operator);
+        compiledNumericForTest.push(compileExpression(test.right));
+
+        return compiledNumericForTest.join("");
+    }
+
+    function compileNumericForUpdate(update) {
+        var compiledForUpdate = [];
+
+        var compiledIdentifier = compileIdentifier(update.argument);
+        compiledForUpdate.push(compiledIdentifier);
+        compiledForUpdate.push(" = ");
+        compiledForUpdate.push(compiledIdentifier);
+        compiledForUpdate.push(update.operator[0]);
+        compiledForUpdate.push("1\n");
+
+        return compiledForUpdate.join("");
+    }
+
+    function isUpdateExpressionWith(expression, variables) {
+        if (expression !== null) {
+            if (expression.type === "UpdateExpression" && expression.argument.type === "Identifier") {
+                return variables.indexOf(expression.argument.name) > -1;
+            }
+        }
+
+        return false;
+    }
+
+    function isComparisonExpressionWith(expression, variables) {
+        if (expression !== null) {
+            if (expression.type === "BinaryExpression") {
+                var comparisonOperators = ["<", "<=", ">", ">="];
+                if (comparisonOperators.indexOf(expression.operator) > -1) {
+                    if (expression.left.type === "Identifier") {
+                        if (variables.indexOf(expression.left.name) > -1) {
+                            return true;
+                        }
+                    } else if (expression.right.type === "Identifier") {
+                        if (variables.indexOf(expression.right.name) > -1) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    function mayBeNumericFor(statement) {
+        var possibleNumericForVariable = [];
+
+        var init = statement.init;
+        if (init === null) {
+            return false;
+        }
+        if (init.type === "VariableDeclaration") {
+            var declarations = init.declarations;
+            var i;
+            // @number
+            for (i = 0; i < declarations.length; ++i) {
+                // Variable is initialized with a literal number
+                if (declarations[i].init !== null) {
+                    if (declarations[i].init.type === "Literal" && typeof (declarations[i].init.value) === "number") {
+                        possibleNumericForVariable.push(declarations[i].id.name);
+                    }
+                }
+            }
+        } else if (init.type === "AssignmentExpression") {
+            // Variable is initialized with a literal number
+            if (init.left.type === "Identifier") {
+                if (init.right.type === "Literal" && typeof (init.right.value) === "number") {
+                    possibleNumericForVariable.push(init.left.name);
+                }
+            }
+        }
+
+        if (possibleNumericForVariable.length > 0) {
+            // Test is a comparison involving the numeric for variable
+            if (isComparisonExpressionWith(statement.test, possibleNumericForVariable)) {
+                // Update is an UpdateExpression of the numeric for variable
+                if (isUpdateExpressionWith(statement.update, possibleNumericForVariable)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     function compileForStatement(statement, compiledLabel) {
         var compiledForStatement = [];
+        var numericFor = false;
+
+        if (options.heuristic) {
+            numericFor = mayBeNumericFor(statement);
+        }
 
         // Init
         compiledForStatement.push(compileForInit(statement.init));
 
-        compiledForStatement.push("while ");
-
         // Test
-        if (statement.test !== null) {
-            compiledForStatement.push(compileBooleanExpression(statement.test));
+        compiledForStatement.push("while ");
+        if (numericFor) {
+            compiledForStatement.push(compileNumericForTest(statement.test));
         } else {
-            compiledForStatement.push("true");
+            compiledForStatement.push(compileForTest(statement.test));
         }
-
         compiledForStatement.push(" do\n");
 
         // Body
@@ -481,7 +585,11 @@
         }
 
         // Update
-        compiledForStatement.push(compileForUpdate(statement.update));
+        if (numericFor) {
+            compiledForStatement.push(compileNumericForUpdate(statement.update));
+        } else {
+            compiledForStatement.push(compileForUpdate(statement.update));
+        }
 
         compiledForStatement.push("end\n");
 
@@ -850,7 +958,7 @@
 
         if (statement.argument !== null) {
             // @string
-            return " do return " + compileExpression(statement.argument) + "; end";
+            return "do return " + compileExpression(statement.argument) + "; end";
         }
 
         return "do return end";

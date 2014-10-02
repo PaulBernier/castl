@@ -17,25 +17,25 @@ end
 
 end);
 isDecimalDigit = (function (this, ch)
- do return ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)()); end
+do return ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)()); end
 end);
 isHexDigit = (function (this, ch)
- do return (_ge(("0123456789abcdefABCDEF"):indexOf(ch),0)); end
+do return (_ge(("0123456789abcdefABCDEF"):indexOf(ch),0)); end
 end);
 isOctalDigit = (function (this, ch)
- do return (_ge(("01234567"):indexOf(ch),0)); end
+do return (_ge(("01234567"):indexOf(ch),0)); end
 end);
 isWhiteSpace = (function (this, ch)
- do return ((((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) and ((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) and (((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) and ((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) or ((function() if (_ge(ch,5760)) then return (_ge(_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch),0));  else return (_ge(ch,5760));  end end)())); end
+do return ((((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) and ((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) and (((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) and ((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) or ((function() if (_ge(ch,5760)) then return (_ge(_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch),0));  else return (_ge(ch,5760));  end end)())); end
 end);
 isLineTerminator = (function (this, ch)
- do return ((((ch == 10) and (ch == 10) or (ch == 13)) and ((ch == 10) and (ch == 10) or (ch == 13)) or (ch == 8232)) and (((ch == 10) and (ch == 10) or (ch == 13)) and ((ch == 10) and (ch == 10) or (ch == 13)) or (ch == 8232)) or (ch == 8233)); end
+do return ((((ch == 10) and (ch == 10) or (ch == 13)) and ((ch == 10) and (ch == 10) or (ch == 13)) or (ch == 8232)) and (((ch == 10) and (ch == 10) or (ch == 13)) and ((ch == 10) and (ch == 10) or (ch == 13)) or (ch == 8232)) or (ch == 8233)); end
 end);
 isIdentifierStart = (function (this, ch)
- do return ((((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or (ch == 92)) and (((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or (ch == 92)) or ((function() if (_ge(ch,128)) then return Regex.NonAsciiIdentifierStart:test(String:fromCharCode(ch));  else return (_ge(ch,128));  end end)())); end
+do return ((((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or (ch == 92)) and (((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or (ch == 92)) or ((function() if (_ge(ch,128)) then return Regex.NonAsciiIdentifierStart:test(String:fromCharCode(ch));  else return (_ge(ch,128));  end end)())); end
 end);
 isIdentifierPart = (function (this, ch)
- do return (((((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)())) and (((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)())) or (ch == 92)) and ((((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)())) and (((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)())) or (ch == 92)) or ((function() if (_ge(ch,128)) then return Regex.NonAsciiIdentifierPart:test(String:fromCharCode(ch));  else return (_ge(ch,128));  end end)())); end
+do return (((((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)())) and (((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)())) or (ch == 92)) and ((((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)())) and (((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) and ((((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) and (((ch == 36) and (ch == 36) or (ch == 95)) and ((ch == 36) and (ch == 36) or (ch == 95)) or ((function() if (_ge(ch,65)) then return (_le(ch,90));  else return (_ge(ch,65));  end end)())) or ((function() if (_ge(ch,97)) then return (_le(ch,122));  else return (_ge(ch,97));  end end)())) or ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)())) or (ch == 92)) or ((function() if (_ge(ch,128)) then return Regex.NonAsciiIdentifierPart:test(String:fromCharCode(ch));  else return (_ge(ch,128));  end end)())); end
 end);
 isFutureReservedWord = (function (this, id)
 repeat
@@ -66,12 +66,12 @@ if _into or (id == "import") then
 _into = true;
 end
 if _into or (id == "super") then
- do return true; end
+do return true; end
 _into = true;
 end
 ::_default::
 if _into then
- do return false; end
+do return false; end
 _into = true;
 end
 until true
@@ -117,22 +117,22 @@ if _into or (id == "yield") then
 _into = true;
 end
 if _into or (id == "let") then
- do return true; end
+do return true; end
 _into = true;
 end
 ::_default::
 if _into then
- do return false; end
+do return false; end
 _into = true;
 end
 until true
 end);
 isRestrictedWord = (function (this, id)
- do return ((id == "eval") and (id == "eval") or (id == "arguments")); end
+do return ((id == "eval") and (id == "eval") or (id == "arguments")); end
 end);
 isKeyword = (function (this, id)
 if _bool(((function() if _bool(strict) then return isStrictModeReservedWord(_ENV,id);  else return strict;  end end)())) then
- do return true; end
+do return true; end
 end
 
 repeat
@@ -143,40 +143,40 @@ _into = true;
 goto _default
 end
 if _into or (id.length == 2) then
- do return (((id == "if") and (id == "if") or (id == "in")) and ((id == "if") and (id == "if") or (id == "in")) or (id == "do")); end
+do return (((id == "if") and (id == "if") or (id == "in")) and ((id == "if") and (id == "if") or (id == "in")) or (id == "do")); end
 _into = true;
 end
 if _into or (id.length == 3) then
- do return (((((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) and (((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) or (id == "try")) and ((((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) and (((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) or (id == "try")) or (id == "let")); end
+do return (((((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) and (((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) or (id == "try")) and ((((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) and (((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) or (id == "try")) or (id == "let")); end
 _into = true;
 end
 if _into or (id.length == 4) then
- do return ((((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) and ((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) or (id == "with")) and (((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) and ((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) or (id == "with")) or (id == "enum")); end
+do return ((((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) and ((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) or (id == "with")) and (((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) and ((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) or (id == "with")) or (id == "enum")); end
 _into = true;
 end
 if _into or (id.length == 5) then
- do return ((((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) and ((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) or (id == "class")) and (((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) and ((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) or (id == "class")) or (id == "super")); end
+do return ((((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) and ((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) or (id == "class")) and (((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) and ((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) or (id == "class")) or (id == "super")); end
 _into = true;
 end
 if _into or (id.length == 6) then
- do return ((((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) and ((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) or (id == "export")) and (((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) and ((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) or (id == "export")) or (id == "import")); end
+do return ((((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) and ((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) or (id == "export")) and (((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) and ((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) or (id == "export")) or (id == "import")); end
 _into = true;
 end
 if _into or (id.length == 7) then
- do return (((id == "default") and (id == "default") or (id == "finally")) and ((id == "default") and (id == "default") or (id == "finally")) or (id == "extends")); end
+do return (((id == "default") and (id == "default") or (id == "finally")) and ((id == "default") and (id == "default") or (id == "finally")) or (id == "extends")); end
 _into = true;
 end
 if _into or (id.length == 8) then
- do return (((id == "function") and (id == "function") or (id == "continue")) and ((id == "function") and (id == "function") or (id == "continue")) or (id == "debugger")); end
+do return (((id == "function") and (id == "function") or (id == "continue")) and ((id == "function") and (id == "function") or (id == "continue")) or (id == "debugger")); end
 _into = true;
 end
 if _into or (id.length == 10) then
- do return (id == "instanceof"); end
+do return (id == "instanceof"); end
 _into = true;
 end
 ::_default::
 if _into then
- do return false; end
+do return false; end
 _into = true;
 end
 until true
@@ -372,13 +372,13 @@ if _bool(((function() if (_lt(index,length)) then return isHexDigit(_ENV,source[
 ch = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
 code = (_addNum1((code * 16),("0123456789abcdef"):indexOf(ch:toLowerCase())));
 else
- do return ""; end
+do return ""; end
 end
 
 i = i + 1;
 end
 
- do return String:fromCharCode(code); end
+do return String:fromCharCode(code); end
 end);
 getEscapedIdentifier = (function (this)
 local id,ch;
@@ -424,7 +424,7 @@ end
 ::_continue::
 end
 
- do return id; end
+do return id; end
 end);
 getIdentifier = (function (this)
 local ch,start;
@@ -433,7 +433,7 @@ while (_lt(index,length)) do
 ch = source:charCodeAt(index);
 if (ch == 92) then
 index = start;
- do return getEscapedIdentifier(_ENV); end
+do return getEscapedIdentifier(_ENV); end
 end
 
 if _bool(isIdentifierPart(_ENV,ch)) then
@@ -445,7 +445,7 @@ end
 ::_continue::
 end
 
- do return source:slice(start,index); end
+do return source:slice(start,index); end
 end);
 scanIdentifier = (function (this)
 local type,id,start;
@@ -463,7 +463,7 @@ else
 type = Token.Identifier;
 end
 
- do return _obj({
+do return _obj({
 ["type"] = type,
 ["value"] = id,
 ["lineNumber"] = lineNumber,
@@ -539,7 +539,7 @@ end
 
 end
 
- do return _obj({
+do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = String:fromCharCode(code),
 ["lineNumber"] = lineNumber,
@@ -598,7 +598,7 @@ _into = true;
 end
 if _into or (code == 42) then
 index = (_addNum2(index,2));
- do return _obj({
+do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = (_add(String:fromCharCode(code),String:fromCharCode(code2))),
 ["lineNumber"] = lineNumber,
@@ -618,7 +618,7 @@ if (source:charCodeAt(index) == 61) then
 index = index + 1;
 end
 
- do return _obj({
+do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = source:slice(start,index),
 ["lineNumber"] = lineNumber,
@@ -638,7 +638,7 @@ until true
 ch4 = source:substr(index,4);
 if (ch4 == ">>>=") then
 index = (_addNum2(index,4));
- do return _obj({
+do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = ch4,
 ["lineNumber"] = lineNumber,
@@ -651,7 +651,7 @@ end
 ch3 = ch4:substr(0,3);
 if (((ch3 == ">>>") and (ch3 == ">>>") or (ch3 == "<<=")) and ((ch3 == ">>>") and (ch3 == ">>>") or (ch3 == "<<=")) or (ch3 == ">>=")) then
 index = (_addNum2(index,3));
- do return _obj({
+do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = ch3,
 ["lineNumber"] = lineNumber,
@@ -664,7 +664,7 @@ end
 ch2 = ch3:substr(0,2);
 if (((function() if (ch1 == ch2[1]) then return (_ge(("+-<>&|"):indexOf(ch1),0));  else return (ch1 == ch2[1]);  end end)()) and ((function() if (ch1 == ch2[1]) then return (_ge(("+-<>&|"):indexOf(ch1),0));  else return (ch1 == ch2[1]);  end end)()) or (ch2 == "=>")) then
 index = (_addNum2(index,2));
- do return _obj({
+do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = ch2,
 ["lineNumber"] = lineNumber,
@@ -676,7 +676,7 @@ end
 
 if (_ge(("<>=!+-*%&|^/"):indexOf(ch1),0)) then
 index = index + 1;
- do return _obj({
+do return _obj({
 ["type"] = Token.Punctuator,
 ["value"] = ch1,
 ["lineNumber"] = lineNumber,
@@ -708,7 +708,7 @@ if _bool(isIdentifierStart(_ENV,source:charCodeAt(index))) then
 throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
- do return _obj({
+do return _obj({
 ["type"] = Token.NumericLiteral,
 ["value"] = parseInt(_ENV,(_addStr1("0x",number)),16),
 ["lineNumber"] = lineNumber,
@@ -733,7 +733,7 @@ if _bool((_bool(isIdentifierStart(_ENV,source:charCodeAt(index))) and isIdentifi
 throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
- do return _obj({
+do return _obj({
 ["type"] = Token.NumericLiteral,
 ["value"] = parseInt(_ENV,number,8),
 ["octal"] = true,
@@ -755,11 +755,11 @@ ch = source[index];
 if (number == "0") then
 if ((ch == "x") and (ch == "x") or (ch == "X")) then
 index = index + 1;
- do return scanHexLiteral(_ENV,start); end
+do return scanHexLiteral(_ENV,start); end
 end
 
 if _bool(isOctalDigit(_ENV,ch)) then
- do return scanOctalLiteral(_ENV,start); end
+do return scanOctalLiteral(_ENV,start); end
 end
 
 if _bool(((function() if _bool(ch) then return isDecimalDigit(_ENV,ch:charCodeAt(0));  else return ch;  end end)())) then
@@ -809,7 +809,7 @@ if _bool(isIdentifierStart(_ENV,source:charCodeAt(index))) then
 throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
- do return _obj({
+do return _obj({
 ["type"] = Token.NumericLiteral,
 ["value"] = parseFloat(_ENV,number),
 ["lineNumber"] = lineNumber,
@@ -938,7 +938,7 @@ if (quote ~= "") then
 throwError(_ENV,_obj({}),Messages.UnexpectedToken,"ILLEGAL");
 end
 
- do return _obj({
+do return _obj({
 ["type"] = Token.StringLiteral,
 ["value"] = str,
 ["octal"] = octal,
@@ -964,7 +964,7 @@ if _cstatus then
 else _throw(_creturn,0); end
 end
 
- do return value; end
+do return value; end
 end);
 scanRegExpBody = (function (this)
 local body,terminated,classMarker,str,ch;
@@ -1008,7 +1008,7 @@ throwError(_ENV,_obj({}),Messages.UnterminatedRegExp);
 end
 
 body = str:substr(1,(str.length - 2));
- do return _obj({
+do return _obj({
 ["value"] = body,
 ["literal"] = str
 }); end
@@ -1058,7 +1058,7 @@ end
 ::_continue::
 end
 
- do return _obj({
+do return _obj({
 ["value"] = flags,
 ["literal"] = str
 }); end
@@ -1072,7 +1072,7 @@ body = scanRegExpBody(_ENV);
 flags = scanRegExpFlags(_ENV);
 value = testRegExp(_ENV,body.value,flags.value);
 if _bool(extra.tokenize) then
- do return _obj({
+do return _obj({
 ["type"] = Token.RegularExpression,
 ["value"] = value,
 ["lineNumber"] = lineNumber,
@@ -1082,7 +1082,7 @@ if _bool(extra.tokenize) then
 }); end
 end
 
- do return _obj({
+do return _obj({
 ["literal"] = (_add(body.literal,flags.literal)),
 ["value"] = value,
 ["start"] = start,
@@ -1124,70 +1124,70 @@ extra.tokens:push(_obj({
 }));
 end
 
- do return regex; end
+do return regex; end
 end);
 isIdentifierName = (function (this, token)
- do return ((((token.type == Token.Identifier) and (token.type == Token.Identifier) or (token.type == Token.Keyword)) and ((token.type == Token.Identifier) and (token.type == Token.Identifier) or (token.type == Token.Keyword)) or (token.type == Token.BooleanLiteral)) and (((token.type == Token.Identifier) and (token.type == Token.Identifier) or (token.type == Token.Keyword)) and ((token.type == Token.Identifier) and (token.type == Token.Identifier) or (token.type == Token.Keyword)) or (token.type == Token.BooleanLiteral)) or (token.type == Token.NullLiteral)); end
+do return ((((token.type == Token.Identifier) and (token.type == Token.Identifier) or (token.type == Token.Keyword)) and ((token.type == Token.Identifier) and (token.type == Token.Identifier) or (token.type == Token.Keyword)) or (token.type == Token.BooleanLiteral)) and (((token.type == Token.Identifier) and (token.type == Token.Identifier) or (token.type == Token.Keyword)) and ((token.type == Token.Identifier) and (token.type == Token.Identifier) or (token.type == Token.Keyword)) or (token.type == Token.BooleanLiteral)) or (token.type == Token.NullLiteral)); end
 end);
 advanceSlash = (function (this)
 local checkToken,prevToken;
 prevToken = extra.tokens[(extra.tokens.length - 1)];
 if not _bool(prevToken) then
- do return collectRegex(_ENV); end
+do return collectRegex(_ENV); end
 end
 
 if (prevToken.type == "Punctuator") then
 if (prevToken.value == "]") then
- do return scanPunctuator(_ENV); end
+do return scanPunctuator(_ENV); end
 end
 
 if (prevToken.value == ")") then
 checkToken = extra.tokens[(extra.openParenToken - 1)];
 if _bool(((function() if _bool(((function() if _bool(checkToken) then return (checkToken.type == "Keyword");  else return checkToken;  end end)())) then return ((((checkToken.value == "if") and (checkToken.value == "if") or (checkToken.value == "while")) and ((checkToken.value == "if") and (checkToken.value == "if") or (checkToken.value == "while")) or (checkToken.value == "for")) and (((checkToken.value == "if") and (checkToken.value == "if") or (checkToken.value == "while")) and ((checkToken.value == "if") and (checkToken.value == "if") or (checkToken.value == "while")) or (checkToken.value == "for")) or (checkToken.value == "with"));  else return ((function() if _bool(checkToken) then return (checkToken.type == "Keyword");  else return checkToken;  end end)());  end end)())) then
- do return collectRegex(_ENV); end
+do return collectRegex(_ENV); end
 end
 
- do return scanPunctuator(_ENV); end
+do return scanPunctuator(_ENV); end
 end
 
 if (prevToken.value == "}") then
 if _bool(((function() if _bool(extra.tokens[(extra.openCurlyToken - 3)]) then return (extra.tokens[(extra.openCurlyToken - 3)].type == "Keyword");  else return extra.tokens[(extra.openCurlyToken - 3)];  end end)())) then
 checkToken = extra.tokens[(extra.openCurlyToken - 4)];
 if not _bool(checkToken) then
- do return scanPunctuator(_ENV); end
+do return scanPunctuator(_ENV); end
 end
 
 elseif _bool(((function() if _bool(extra.tokens[(extra.openCurlyToken - 4)]) then return (extra.tokens[(extra.openCurlyToken - 4)].type == "Keyword");  else return extra.tokens[(extra.openCurlyToken - 4)];  end end)())) then
 checkToken = extra.tokens[(extra.openCurlyToken - 5)];
 if not _bool(checkToken) then
- do return collectRegex(_ENV); end
+do return collectRegex(_ENV); end
 end
 
 else
- do return scanPunctuator(_ENV); end
+do return scanPunctuator(_ENV); end
 end
 
 if (_ge(FnExprTokens:indexOf(checkToken.value),0)) then
- do return scanPunctuator(_ENV); end
+do return scanPunctuator(_ENV); end
 end
 
- do return collectRegex(_ENV); end
+do return collectRegex(_ENV); end
 end
 
- do return collectRegex(_ENV); end
+do return collectRegex(_ENV); end
 end
 
 if (prevToken.type == "Keyword") then
- do return collectRegex(_ENV); end
+do return collectRegex(_ENV); end
 end
 
- do return scanPunctuator(_ENV); end
+do return scanPunctuator(_ENV); end
 end);
 advance = (function (this)
 local ch;
 skipComment(_ENV);
 if (_ge(index,length)) then
- do return _obj({
+do return _obj({
 ["type"] = Token.EOF,
 ["lineNumber"] = lineNumber,
 ["lineStart"] = lineStart,
@@ -1198,34 +1198,34 @@ end
 
 ch = source:charCodeAt(index);
 if _bool(isIdentifierStart(_ENV,ch)) then
- do return scanIdentifier(_ENV); end
+do return scanIdentifier(_ENV); end
 end
 
 if (((ch == 40) and (ch == 40) or (ch == 41)) and ((ch == 40) and (ch == 40) or (ch == 41)) or (ch == 59)) then
- do return scanPunctuator(_ENV); end
+do return scanPunctuator(_ENV); end
 end
 
 if ((ch == 39) and (ch == 39) or (ch == 34)) then
- do return scanStringLiteral(_ENV); end
+do return scanStringLiteral(_ENV); end
 end
 
 if (ch == 46) then
 if _bool(isDecimalDigit(_ENV,source:charCodeAt((_addNum2(index,1))))) then
- do return scanNumericLiteral(_ENV); end
+do return scanNumericLiteral(_ENV); end
 end
 
- do return scanPunctuator(_ENV); end
+do return scanPunctuator(_ENV); end
 end
 
 if _bool(isDecimalDigit(_ENV,ch)) then
- do return scanNumericLiteral(_ENV); end
+do return scanNumericLiteral(_ENV); end
 end
 
 if _bool(((function() if _bool(extra.tokenize) then return (ch == 47);  else return extra.tokenize;  end end)())) then
- do return advanceSlash(_ENV); end
+do return advanceSlash(_ENV); end
 end
 
- do return scanPunctuator(_ENV); end
+do return scanPunctuator(_ENV); end
 end);
 collectToken = (function (this)
 local value,range,token,loc;
@@ -1251,7 +1251,7 @@ extra.tokens:push(_obj({
 }));
 end
 
- do return token; end
+do return token; end
 end);
 lex = (function (this)
 local token;
@@ -1263,7 +1263,7 @@ lookahead = (function() if (_type(extra.tokens) ~= "undefined") then return coll
 index = token["end"];
 lineNumber = token.lineNumber;
 lineStart = token.lineStart;
- do return token; end
+do return token; end
 end);
 peek = (function (this)
 local start,line,pos;
@@ -1293,7 +1293,7 @@ found = (lineNumber ~= line);
 index = pos;
 lineNumber = line;
 lineStart = start;
- do return found; end
+do return found; end
 end);
 throwError = (function (...)
 local this, token, messageFormat = ...;
@@ -1302,7 +1302,7 @@ local msg,args,error;
 args = Array.prototype.slice:call(arguments,2);
 msg = messageFormat:replace(_regexp("%(\\d)","g"),(function (this, whole, index)
 assert(_ENV,(_lt(index,args.length)),"Message reference must be in range");
- do return args[index]; end
+do return args[index]; end
 end));
 if (_type(token.lineNumber) == "number") then
 error = _new(SyntaxError,(_addStr1(((_addStr1("Line ",token.lineNumber)) .. ": "),msg)));
@@ -1387,19 +1387,19 @@ end
 
 end);
 match = (function (this, value)
- do return ((function() if (lookahead.type == Token.Punctuator) then return (lookahead.value == value);  else return (lookahead.type == Token.Punctuator);  end end)()); end
+do return ((function() if (lookahead.type == Token.Punctuator) then return (lookahead.value == value);  else return (lookahead.type == Token.Punctuator);  end end)()); end
 end);
 matchKeyword = (function (this, keyword)
- do return ((function() if (lookahead.type == Token.Keyword) then return (lookahead.value == keyword);  else return (lookahead.type == Token.Keyword);  end end)()); end
+do return ((function() if (lookahead.type == Token.Keyword) then return (lookahead.value == keyword);  else return (lookahead.type == Token.Keyword);  end end)()); end
 end);
 matchAssign = (function (this)
 local op;
 if (lookahead.type ~= Token.Punctuator) then
- do return false; end
+do return false; end
 end
 
 op = lookahead.value;
- do return ((((((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) and (((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&=")) and ((((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) and (((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&=")) or (op == "^=")) and (((((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) and (((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&=")) and ((((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) and (((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&=")) or (op == "^=")) or (op == "|=")); end
+do return ((((((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) and (((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&=")) and ((((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) and (((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&=")) or (op == "^=")) and (((((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) and (((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&=")) and ((((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) and (((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) and ((((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) and (((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) and ((((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) and (((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) and ((((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) and (((op == "=") and (op == "=") or (op == "*=")) and ((op == "=") and (op == "=") or (op == "*=")) or (op == "/=")) or (op == "%=")) or (op == "+=")) or (op == "-=")) or (op == "<<=")) or (op == ">>=")) or (op == ">>>=")) or (op == "&=")) or (op == "^=")) or (op == "|=")); end
 end);
 consumeSemicolon = (function (this)
 local line;
@@ -1420,7 +1420,7 @@ end
 
 end);
 isLeftHandSide = (function (this, expr)
- do return ((expr.type == Syntax.Identifier) and (expr.type == Syntax.Identifier) or (expr.type == Syntax.MemberExpression)); end
+do return ((expr.type == Syntax.Identifier) and (expr.type == Syntax.Identifier) or (expr.type == Syntax.MemberExpression)); end
 end);
 parseArrayInitialiser = (function (this)
 local startToken,elements;
@@ -1443,7 +1443,7 @@ end
 end
 
 lex(_ENV);
- do return delegate:markEnd(delegate:createArrayExpression(elements),startToken); end
+do return delegate:markEnd(delegate:createArrayExpression(elements),startToken); end
 end);
 parsePropertyFunction = (function (this, param, first)
 local startToken,body,previousStrict;
@@ -1455,7 +1455,7 @@ throwErrorTolerant(_ENV,first,Messages.StrictParamName);
 end
 
 strict = previousStrict;
- do return delegate:markEnd(delegate:createFunctionExpression(null,param,_arr({},0),body),startToken); end
+do return delegate:markEnd(delegate:createFunctionExpression(null,param,_arr({},0),body),startToken); end
 end);
 parseObjectPropertyKey = (function (this)
 local startToken,token;
@@ -1466,10 +1466,10 @@ if _bool(((function() if _bool(strict) then return token.octal;  else return str
 throwErrorTolerant(_ENV,token,Messages.StrictOctalLiteral);
 end
 
- do return delegate:markEnd(delegate:createLiteral(token),startToken); end
+do return delegate:markEnd(delegate:createLiteral(token),startToken); end
 end
 
- do return delegate:markEnd(delegate:createIdentifier(token.value),startToken); end
+do return delegate:markEnd(delegate:createIdentifier(token.value),startToken); end
 end);
 parseObjectProperty = (function (this)
 local startToken,param,value,id,key,token;
@@ -1482,7 +1482,7 @@ key = parseObjectPropertyKey(_ENV);
 expect(_ENV,"(");
 expect(_ENV,")");
 value = parsePropertyFunction(_ENV,_arr({},0));
- do return delegate:markEnd(delegate:createProperty("get",key,value),startToken); end
+do return delegate:markEnd(delegate:createProperty("get",key,value),startToken); end
 end
 
 if ((function() if (token.value == "set") then return not _bool(match(_ENV,":"));  else return (token.value == "set");  end end)()) then
@@ -1499,12 +1499,12 @@ expect(_ENV,")");
 value = parsePropertyFunction(_ENV,param,token);
 end
 
- do return delegate:markEnd(delegate:createProperty("set",key,value),startToken); end
+do return delegate:markEnd(delegate:createProperty("set",key,value),startToken); end
 end
 
 expect(_ENV,":");
 value = parseAssignmentExpression(_ENV);
- do return delegate:markEnd(delegate:createProperty("init",id,value),startToken); end
+do return delegate:markEnd(delegate:createProperty("init",id,value),startToken); end
 end
 
 if ((token.type == Token.EOF) and (token.type == Token.EOF) or (token.type == Token.Punctuator)) then
@@ -1513,7 +1513,7 @@ else
 key = parseObjectPropertyKey(_ENV);
 expect(_ENV,":");
 value = parseAssignmentExpression(_ENV);
- do return delegate:markEnd(delegate:createProperty("init",key,value),startToken); end
+do return delegate:markEnd(delegate:createProperty("init",key,value),startToken); end
 end
 
 end);
@@ -1565,27 +1565,27 @@ end
 end
 
 expect(_ENV,"}");
- do return delegate:markEnd(delegate:createObjectExpression(properties),startToken); end
+do return delegate:markEnd(delegate:createObjectExpression(properties),startToken); end
 end);
 parseGroupExpression = (function (this)
 local expr;
 expect(_ENV,"(");
 expr = parseExpression(_ENV);
 expect(_ENV,")");
- do return expr; end
+do return expr; end
 end);
 parsePrimaryExpression = (function (this)
 local startToken,expr,token,type;
 if _bool(match(_ENV,"(")) then
- do return parseGroupExpression(_ENV); end
+do return parseGroupExpression(_ENV); end
 end
 
 if _bool(match(_ENV,"[")) then
- do return parseArrayInitialiser(_ENV); end
+do return parseArrayInitialiser(_ENV); end
 end
 
 if _bool(match(_ENV,"{")) then
- do return parseObjectInitialiser(_ENV); end
+do return parseObjectInitialiser(_ENV); end
 end
 
 type = lookahead.type;
@@ -1600,7 +1600,7 @@ end
 expr = delegate:createLiteral(lex(_ENV));
 elseif (type == Token.Keyword) then
 if _bool(matchKeyword(_ENV,"function")) then
- do return parseFunctionExpression(_ENV); end
+do return parseFunctionExpression(_ENV); end
 end
 
 if _bool(matchKeyword(_ENV,"this")) then
@@ -1630,7 +1630,7 @@ else
 throwUnexpected(_ENV,lex(_ENV));
 end
 
- do return delegate:markEnd(expr,startToken); end
+do return delegate:markEnd(expr,startToken); end
 end);
 parseArguments = (function (this)
 local args;
@@ -1650,7 +1650,7 @@ end
 end
 
 expect(_ENV,")");
- do return args; end
+do return args; end
 end);
 parseNonComputedProperty = (function (this)
 local startToken,token;
@@ -1660,18 +1660,18 @@ if not _bool(isIdentifierName(_ENV,token)) then
 throwUnexpected(_ENV,token);
 end
 
- do return delegate:markEnd(delegate:createIdentifier(token.value),startToken); end
+do return delegate:markEnd(delegate:createIdentifier(token.value),startToken); end
 end);
 parseNonComputedMember = (function (this)
 expect(_ENV,".");
- do return parseNonComputedProperty(_ENV); end
+do return parseNonComputedProperty(_ENV); end
 end);
 parseComputedMember = (function (this)
 local expr;
 expect(_ENV,"[");
 expr = parseExpression(_ENV);
 expect(_ENV,"]");
- do return expr; end
+do return expr; end
 end);
 parseNewExpression = (function (this)
 local startToken,args,callee;
@@ -1679,7 +1679,7 @@ startToken = lookahead;
 expectKeyword(_ENV,"new");
 callee = parseLeftHandSideExpression(_ENV);
 args = (function() if _bool(match(_ENV,"(")) then return parseArguments(_ENV); else return _arr({},0); end end)();
- do return delegate:markEnd(delegate:createNewExpression(callee,args),startToken); end
+do return delegate:markEnd(delegate:createNewExpression(callee,args),startToken); end
 end);
 parseLeftHandSideExpressionAllowCall = (function (this)
 local startToken,property,args,expr,previousAllowIn;
@@ -1705,7 +1705,7 @@ end
 delegate:markEnd(expr,startToken);
 end
 
- do return expr; end
+do return expr; end
 end);
 parseLeftHandSideExpression = (function (this)
 local startToken,property,expr,previousAllowIn;
@@ -1726,7 +1726,7 @@ delegate:markEnd(expr,startToken);
 ::_continue::
 end
 
- do return expr; end
+do return expr; end
 end);
 parsePostfixExpression = (function (this)
 local startToken,token,expr;
@@ -1748,7 +1748,7 @@ end
 
 end
 
- do return expr; end
+do return expr; end
 end);
 parseUnaryExpression = (function (this)
 local startToken,expr,token;
@@ -1788,13 +1788,13 @@ else
 expr = parsePostfixExpression(_ENV);
 end
 
- do return expr; end
+do return expr; end
 end);
 binaryPrecedence = (function (this, token, allowIn)
 local prec;
 prec = 0;
 if ((function() if (token.type ~= Token.Punctuator) then return (token.type ~= Token.Keyword);  else return (token.type ~= Token.Punctuator);  end end)()) then
- do return 0; end
+do return 0; end
 end
 
 repeat
@@ -1913,7 +1913,7 @@ break;
 _into = true;
 end
 until true
- do return prec; end
+do return prec; end
 end);
 parseBinaryExpression = (function (this)
 local i,left,operator,right,stack,prec,token,expr,markers,marker;
@@ -1922,7 +1922,7 @@ left = parseUnaryExpression(_ENV);
 token = lookahead;
 prec = binaryPrecedence(_ENV,token,state.allowIn);
 if (prec == 0) then
- do return left; end
+do return left; end
 end
 
 token.prec = prec;
@@ -1963,7 +1963,7 @@ delegate:markEnd(expr,marker);
 ::_continue::
 end
 
- do return expr; end
+do return expr; end
 end);
 parseConditionalExpression = (function (this)
 local startToken,alternate,consequent,previousAllowIn,expr;
@@ -1981,7 +1981,7 @@ expr = delegate:createConditionalExpression(expr,consequent,alternate);
 delegate:markEnd(expr,startToken);
 end
 
- do return expr; end
+do return expr; end
 end);
 parseAssignmentExpression = (function (this)
 local startToken,node,right,left,token;
@@ -2002,7 +2002,7 @@ right = parseAssignmentExpression(_ENV);
 node = delegate:markEnd(delegate:createAssignmentExpression(token.value,left,right),startToken);
 end
 
- do return node; end
+do return node; end
 end);
 parseExpression = (function (this)
 local startToken,expr;
@@ -2023,7 +2023,7 @@ end
 delegate:markEnd(expr,startToken);
 end
 
- do return expr; end
+do return expr; end
 end);
 parseStatementList = (function (this)
 local statement,list;
@@ -2042,7 +2042,7 @@ list:push(statement);
 ::_continue::
 end
 
- do return list; end
+do return list; end
 end);
 parseBlock = (function (this)
 local startToken,block;
@@ -2050,7 +2050,7 @@ startToken = lookahead;
 expect(_ENV,"{");
 block = parseStatementList(_ENV);
 expect(_ENV,"}");
- do return delegate:markEnd(delegate:createBlockStatement(block),startToken); end
+do return delegate:markEnd(delegate:createBlockStatement(block),startToken); end
 end);
 parseVariableIdentifier = (function (this)
 local startToken,token;
@@ -2060,7 +2060,7 @@ if (token.type ~= Token.Identifier) then
 throwUnexpected(_ENV,token);
 end
 
- do return delegate:markEnd(delegate:createIdentifier(token.value),startToken); end
+do return delegate:markEnd(delegate:createIdentifier(token.value),startToken); end
 end);
 parseVariableDeclaration = (function (this, kind)
 local startToken,id,init;
@@ -2079,7 +2079,7 @@ lex(_ENV);
 init = parseAssignmentExpression(_ENV);
 end
 
- do return delegate:markEnd(delegate:createVariableDeclarator(id,init),startToken); end
+do return delegate:markEnd(delegate:createVariableDeclarator(id,init),startToken); end
 end);
 parseVariableDeclarationList = (function (this, kind)
 local list;
@@ -2094,14 +2094,14 @@ lex(_ENV);
 ::_continue::
 until not (_lt(index,length))
 
- do return list; end
+do return list; end
 end);
 parseVariableStatement = (function (this)
 local declarations;
 expectKeyword(_ENV,"var");
 declarations = parseVariableDeclarationList(_ENV);
 consumeSemicolon(_ENV);
- do return delegate:createVariableDeclaration(declarations,"var"); end
+do return delegate:createVariableDeclaration(declarations,"var"); end
 end);
 parseConstLetDeclaration = (function (this, kind)
 local startToken,declarations;
@@ -2109,17 +2109,17 @@ startToken = lookahead;
 expectKeyword(_ENV,kind);
 declarations = parseVariableDeclarationList(_ENV,kind);
 consumeSemicolon(_ENV);
- do return delegate:markEnd(delegate:createVariableDeclaration(declarations,kind),startToken); end
+do return delegate:markEnd(delegate:createVariableDeclaration(declarations,kind),startToken); end
 end);
 parseEmptyStatement = (function (this)
 expect(_ENV,";");
- do return delegate:createEmptyStatement(); end
+do return delegate:createEmptyStatement(); end
 end);
 parseExpressionStatement = (function (this)
 local expr;
 expr = parseExpression(_ENV);
 consumeSemicolon(_ENV);
- do return delegate:createExpressionStatement(expr); end
+do return delegate:createExpressionStatement(expr); end
 end);
 parseIfStatement = (function (this)
 local alternate,consequent,test;
@@ -2135,7 +2135,7 @@ else
 alternate = null;
 end
 
- do return delegate:createIfStatement(test,consequent,alternate); end
+do return delegate:createIfStatement(test,consequent,alternate); end
 end);
 parseDoWhileStatement = (function (this)
 local oldInIteration,test,body;
@@ -2152,7 +2152,7 @@ if _bool(match(_ENV,";")) then
 lex(_ENV);
 end
 
- do return delegate:createDoWhileStatement(body,test); end
+do return delegate:createDoWhileStatement(body,test); end
 end);
 parseWhileStatement = (function (this)
 local oldInIteration,body,test;
@@ -2164,14 +2164,14 @@ oldInIteration = state.inIteration;
 state.inIteration = true;
 body = parseStatement(_ENV);
 state.inIteration = oldInIteration;
- do return delegate:createWhileStatement(test,body); end
+do return delegate:createWhileStatement(test,body); end
 end);
 parseForVariableDeclaration = (function (this)
 local startToken,declarations,token;
 startToken = lookahead;
 token = lex(_ENV);
 declarations = parseVariableDeclarationList(_ENV);
- do return delegate:markEnd(delegate:createVariableDeclaration(declarations,token.value),startToken); end
+do return delegate:markEnd(delegate:createVariableDeclaration(declarations,token.value),startToken); end
 end);
 parseForStatement = (function (this)
 local oldInIteration,body,right,left,update,test,init;
@@ -2232,7 +2232,7 @@ oldInIteration = state.inIteration;
 state.inIteration = true;
 body = parseStatement(_ENV);
 state.inIteration = oldInIteration;
- do return (function() if (_type(left) == "undefined") then return delegate:createForStatement(init,test,update,body); else return delegate:createForInStatement(left,right,body); end end)(); end
+do return (function() if (_type(left) == "undefined") then return delegate:createForStatement(init,test,update,body); else return delegate:createForInStatement(left,right,body); end end)(); end
 end);
 parseContinueStatement = (function (this)
 local key,label;
@@ -2244,7 +2244,7 @@ if not _bool(state.inIteration) then
 throwError(_ENV,_obj({}),Messages.IllegalContinue);
 end
 
- do return delegate:createContinueStatement(null); end
+do return delegate:createContinueStatement(null); end
 end
 
 if _bool(peekLineTerminator(_ENV)) then
@@ -2252,7 +2252,7 @@ if not _bool(state.inIteration) then
 throwError(_ENV,_obj({}),Messages.IllegalContinue);
 end
 
- do return delegate:createContinueStatement(null); end
+do return delegate:createContinueStatement(null); end
 end
 
 if (lookahead.type == Token.Identifier) then
@@ -2269,7 +2269,7 @@ if ((function() if (label == null) then return not _bool(state.inIteration);  el
 throwError(_ENV,_obj({}),Messages.IllegalContinue);
 end
 
- do return delegate:createContinueStatement(label); end
+do return delegate:createContinueStatement(label); end
 end);
 parseBreakStatement = (function (this)
 local key,label;
@@ -2281,7 +2281,7 @@ if not _bool((_bool(state.inIteration) and state.inIteration or state.inSwitch))
 throwError(_ENV,_obj({}),Messages.IllegalBreak);
 end
 
- do return delegate:createBreakStatement(null); end
+do return delegate:createBreakStatement(null); end
 end
 
 if _bool(peekLineTerminator(_ENV)) then
@@ -2289,7 +2289,7 @@ if not _bool((_bool(state.inIteration) and state.inIteration or state.inSwitch))
 throwError(_ENV,_obj({}),Messages.IllegalBreak);
 end
 
- do return delegate:createBreakStatement(null); end
+do return delegate:createBreakStatement(null); end
 end
 
 if (lookahead.type == Token.Identifier) then
@@ -2306,7 +2306,7 @@ if ((function() if (label == null) then return not _bool((_bool(state.inIteratio
 throwError(_ENV,_obj({}),Messages.IllegalBreak);
 end
 
- do return delegate:createBreakStatement(label); end
+do return delegate:createBreakStatement(label); end
 end);
 parseReturnStatement = (function (this)
 local argument;
@@ -2320,13 +2320,13 @@ if (source:charCodeAt(index) == 32) then
 if _bool(isIdentifierStart(_ENV,source:charCodeAt((_addNum2(index,1))))) then
 argument = parseExpression(_ENV);
 consumeSemicolon(_ENV);
- do return delegate:createReturnStatement(argument); end
+do return delegate:createReturnStatement(argument); end
 end
 
 end
 
 if _bool(peekLineTerminator(_ENV)) then
- do return delegate:createReturnStatement(null); end
+do return delegate:createReturnStatement(null); end
 end
 
 if not _bool(match(_ENV,";")) then
@@ -2337,7 +2337,7 @@ end
 end
 
 consumeSemicolon(_ENV);
- do return delegate:createReturnStatement(argument); end
+do return delegate:createReturnStatement(argument); end
 end);
 parseWithStatement = (function (this)
 local body,object;
@@ -2351,7 +2351,7 @@ expect(_ENV,"(");
 object = parseExpression(_ENV);
 expect(_ENV,")");
 body = parseStatement(_ENV);
- do return delegate:createWithStatement(object,body); end
+do return delegate:createWithStatement(object,body); end
 end);
 parseSwitchCase = (function (this)
 local startToken,statement,consequent,test;
@@ -2376,7 +2376,7 @@ consequent:push(statement);
 ::_continue::
 end
 
- do return delegate:markEnd(delegate:createSwitchCase(test,consequent),startToken); end
+do return delegate:markEnd(delegate:createSwitchCase(test,consequent),startToken); end
 end);
 parseSwitchStatement = (function (this)
 local defaultFound,oldInSwitch,clause,cases,discriminant;
@@ -2388,7 +2388,7 @@ expect(_ENV,"{");
 cases = _arr({},0);
 if _bool(match(_ENV,"}")) then
 lex(_ENV);
- do return delegate:createSwitchStatement(discriminant,cases); end
+do return delegate:createSwitchStatement(discriminant,cases); end
 end
 
 oldInSwitch = state.inSwitch;
@@ -2414,7 +2414,7 @@ end
 
 state.inSwitch = oldInSwitch;
 expect(_ENV,"}");
- do return delegate:createSwitchStatement(discriminant,cases); end
+do return delegate:createSwitchStatement(discriminant,cases); end
 end);
 parseThrowStatement = (function (this)
 local argument;
@@ -2425,7 +2425,7 @@ end
 
 argument = parseExpression(_ENV);
 consumeSemicolon(_ENV);
- do return delegate:createThrowStatement(argument); end
+do return delegate:createThrowStatement(argument); end
 end);
 parseCatchClause = (function (this)
 local startToken,body,param;
@@ -2443,7 +2443,7 @@ end
 
 expect(_ENV,")");
 body = parseBlock(_ENV);
- do return delegate:markEnd(delegate:createCatchClause(param,body),startToken); end
+do return delegate:markEnd(delegate:createCatchClause(param,body),startToken); end
 end);
 parseTryStatement = (function (this)
 local finalizer,handlers,block;
@@ -2464,12 +2464,12 @@ if ((function() if (handlers.length == 0) then return not _bool(finalizer);  els
 throwError(_ENV,_obj({}),Messages.NoCatchOrFinally);
 end
 
- do return delegate:createTryStatement(block,_arr({},0),handlers,finalizer); end
+do return delegate:createTryStatement(block,_arr({},0),handlers,finalizer); end
 end);
 parseDebuggerStatement = (function (this)
 expectKeyword(_ENV,"debugger");
 consumeSemicolon(_ENV);
- do return delegate:createDebuggerStatement(); end
+do return delegate:createDebuggerStatement(); end
 end);
 parseStatement = (function (this)
 local startToken,key,labeledBody,expr,type;
@@ -2479,7 +2479,7 @@ throwUnexpected(_ENV,lookahead);
 end
 
 if ((function() if (type == Token.Punctuator) then return (lookahead.value == "{");  else return (type == Token.Punctuator);  end end)()) then
- do return parseBlock(_ENV); end
+do return parseBlock(_ENV); end
 end
 
 startToken = lookahead;
@@ -2492,11 +2492,11 @@ _into = true;
 goto _default
 end
 if _into or (lookahead.value == ";") then
- do return delegate:markEnd(parseEmptyStatement(_ENV),startToken); end
+do return delegate:markEnd(parseEmptyStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "(") then
- do return delegate:markEnd(parseExpressionStatement(_ENV),startToken); end
+do return delegate:markEnd(parseExpressionStatement(_ENV),startToken); end
 _into = true;
 end
 ::_default::
@@ -2516,59 +2516,59 @@ _into = true;
 goto _default
 end
 if _into or (lookahead.value == "break") then
- do return delegate:markEnd(parseBreakStatement(_ENV),startToken); end
+do return delegate:markEnd(parseBreakStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "continue") then
- do return delegate:markEnd(parseContinueStatement(_ENV),startToken); end
+do return delegate:markEnd(parseContinueStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "debugger") then
- do return delegate:markEnd(parseDebuggerStatement(_ENV),startToken); end
+do return delegate:markEnd(parseDebuggerStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "do") then
- do return delegate:markEnd(parseDoWhileStatement(_ENV),startToken); end
+do return delegate:markEnd(parseDoWhileStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "for") then
- do return delegate:markEnd(parseForStatement(_ENV),startToken); end
+do return delegate:markEnd(parseForStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "function") then
- do return delegate:markEnd(parseFunctionDeclaration(_ENV),startToken); end
+do return delegate:markEnd(parseFunctionDeclaration(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "if") then
- do return delegate:markEnd(parseIfStatement(_ENV),startToken); end
+do return delegate:markEnd(parseIfStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "return") then
- do return delegate:markEnd(parseReturnStatement(_ENV),startToken); end
+do return delegate:markEnd(parseReturnStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "switch") then
- do return delegate:markEnd(parseSwitchStatement(_ENV),startToken); end
+do return delegate:markEnd(parseSwitchStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "throw") then
- do return delegate:markEnd(parseThrowStatement(_ENV),startToken); end
+do return delegate:markEnd(parseThrowStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "try") then
- do return delegate:markEnd(parseTryStatement(_ENV),startToken); end
+do return delegate:markEnd(parseTryStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "var") then
- do return delegate:markEnd(parseVariableStatement(_ENV),startToken); end
+do return delegate:markEnd(parseVariableStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "while") then
- do return delegate:markEnd(parseWhileStatement(_ENV),startToken); end
+do return delegate:markEnd(parseWhileStatement(_ENV),startToken); end
 _into = true;
 end
 if _into or (lookahead.value == "with") then
- do return delegate:markEnd(parseWithStatement(_ENV),startToken); end
+do return delegate:markEnd(parseWithStatement(_ENV),startToken); end
 _into = true;
 end
 ::_default::
@@ -2591,11 +2591,11 @@ state.labelSet[key] = true;
 labeledBody = parseStatement(_ENV);
 (function () local _r = false; local _g, _s = state.labelSet["_g" .. key], state.labelSet["_s" .. key]; state.labelSet["_g" .. key], state.labelSet["_s" .. key] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = state.labelSet[key]; state.labelSet[key] = nil; return _r or _v ~= nil; end)();
- do return delegate:markEnd(delegate:createLabeledStatement(expr,labeledBody),startToken); end
+do return delegate:markEnd(delegate:createLabeledStatement(expr,labeledBody),startToken); end
 end
 
 consumeSemicolon(_ENV);
- do return delegate:markEnd(delegate:createExpressionStatement(expr),startToken); end
+do return delegate:markEnd(delegate:createExpressionStatement(expr),startToken); end
 end);
 parseFunctionSourceElements = (function (this)
 local startToken,oldInFunctionBody,oldInSwitch,oldInIteration,oldLabelSet,firstRestricted,directive,token,sourceElements,sourceElement;
@@ -2658,7 +2658,7 @@ state.labelSet = oldLabelSet;
 state.inIteration = oldInIteration;
 state.inSwitch = oldInSwitch;
 state.inFunctionBody = oldInFunctionBody;
- do return delegate:markEnd(delegate:createBlockStatement(sourceElements),startToken); end
+do return delegate:markEnd(delegate:createBlockStatement(sourceElements),startToken); end
 end);
 parseParams = (function (this, firstRestricted)
 local message,key,paramSet,stricted,token,params,param;
@@ -2708,7 +2708,7 @@ end
 end
 
 expect(_ENV,")");
- do return _obj({
+do return _obj({
 ["params"] = params,
 ["stricted"] = stricted,
 ["firstRestricted"] = firstRestricted,
@@ -2757,7 +2757,7 @@ throwErrorTolerant(_ENV,stricted,message);
 end
 
 strict = previousStrict;
- do return delegate:markEnd(delegate:createFunctionDeclaration(id,params,_arr({},0),body),startToken); end
+do return delegate:markEnd(delegate:createFunctionDeclaration(id,params,_arr({},0),body),startToken); end
 end);
 parseFunctionExpression = (function (this)
 local startToken,previousStrict,body,params,tmp,message,firstRestricted,stricted,id,token;
@@ -2805,7 +2805,7 @@ throwErrorTolerant(_ENV,stricted,message);
 end
 
 strict = previousStrict;
- do return delegate:markEnd(delegate:createFunctionExpression(id,params,_arr({},0),body),startToken); end
+do return delegate:markEnd(delegate:createFunctionExpression(id,params,_arr({},0),body),startToken); end
 end);
 parseSourceElement = (function (this)
 if (lookahead.type == Token.Keyword) then
@@ -2821,23 +2821,23 @@ if _into or (lookahead.value == "const") then
 _into = true;
 end
 if _into or (lookahead.value == "let") then
- do return parseConstLetDeclaration(_ENV,lookahead.value); end
+do return parseConstLetDeclaration(_ENV,lookahead.value); end
 _into = true;
 end
 if _into or (lookahead.value == "function") then
- do return parseFunctionDeclaration(_ENV); end
+do return parseFunctionDeclaration(_ENV); end
 _into = true;
 end
 ::_default::
 if _into then
- do return parseStatement(_ENV); end
+do return parseStatement(_ENV); end
 _into = true;
 end
 until true
 end
 
 if (lookahead.type ~= Token.EOF) then
- do return parseStatement(_ENV); end
+do return parseStatement(_ENV); end
 end
 
 end);
@@ -2883,7 +2883,7 @@ sourceElements:push(sourceElement);
 ::_continue::
 end
 
- do return sourceElements; end
+do return sourceElements; end
 end);
 parseProgram = (function (this)
 local startToken,body;
@@ -2892,7 +2892,7 @@ peek(_ENV);
 startToken = lookahead;
 strict = false;
 body = parseSourceElements(_ENV);
- do return delegate:markEnd(delegate:createProgram(body),startToken); end
+do return delegate:markEnd(delegate:createProgram(body),startToken); end
 end);
 filterTokenLocation = (function (this)
 local tokens,token,entry,i;
@@ -2960,7 +2960,7 @@ end
 local _status, _return = _pcall(function()
 peek(_ENV);
 if (lookahead.type == Token.EOF) then
- do return extra.tokens; end
+do return extra.tokens; end
 end
 
 token = lex(_ENV);
@@ -3012,7 +3012,7 @@ if _cstatus then
 else _throw(_creturn,0); end
 end
 
- do return tokens; end
+do return tokens; end
 end);
 parse = (function (this, code, options)
 local toString,program;
@@ -3095,7 +3095,7 @@ if _cstatus then
 else _throw(_creturn,0); end
 end
 
- do return program; end
+do return program; end
 end);Token = _obj({
 ["BooleanLiteral"] = 1,
 ["EOF"] = 2,
@@ -3269,23 +3269,23 @@ if _bool(extra.attachComment) then
 this:processComment(node);
 end
 
- do return node; end
+do return node; end
 end),
 ["postProcess"] = (function (this, node)
 if _bool(extra.source) then
 node.loc.source = extra.source;
 end
 
- do return node; end
+do return node; end
 end),
 ["createArrayExpression"] = (function (this, elements)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.ArrayExpression,
 ["elements"] = elements
 }); end
 end),
 ["createAssignmentExpression"] = (function (this, operator, left, right)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.AssignmentExpression,
 ["operator"] = operator,
 ["left"] = left,
@@ -3295,7 +3295,7 @@ end),
 ["createBinaryExpression"] = (function (this, operator, left, right)
 local type;
 type = (function() if ((operator == "||") and (operator == "||") or (operator == "&&")) then return Syntax.LogicalExpression; else return Syntax.BinaryExpression; end end)();
- do return _obj({
+do return _obj({
 ["type"] = type,
 ["operator"] = operator,
 ["left"] = left,
@@ -3303,33 +3303,33 @@ type = (function() if ((operator == "||") and (operator == "||") or (operator ==
 }); end
 end),
 ["createBlockStatement"] = (function (this, body)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.BlockStatement,
 ["body"] = body
 }); end
 end),
 ["createBreakStatement"] = (function (this, label)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.BreakStatement,
 ["label"] = label
 }); end
 end),
 ["createCallExpression"] = (function (this, callee, args)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.CallExpression,
 ["callee"] = callee,
 ["arguments"] = args
 }); end
 end),
 ["createCatchClause"] = (function (this, param, body)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.CatchClause,
 ["param"] = param,
 ["body"] = body
 }); end
 end),
 ["createConditionalExpression"] = (function (this, test, consequent, alternate)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.ConditionalExpression,
 ["test"] = test,
 ["consequent"] = consequent,
@@ -3337,36 +3337,36 @@ end),
 }); end
 end),
 ["createContinueStatement"] = (function (this, label)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.ContinueStatement,
 ["label"] = label
 }); end
 end),
 ["createDebuggerStatement"] = (function (this)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.DebuggerStatement
 }); end
 end),
 ["createDoWhileStatement"] = (function (this, body, test)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.DoWhileStatement,
 ["body"] = body,
 ["test"] = test
 }); end
 end),
 ["createEmptyStatement"] = (function (this)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.EmptyStatement
 }); end
 end),
 ["createExpressionStatement"] = (function (this, expression)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.ExpressionStatement,
 ["expression"] = expression
 }); end
 end),
 ["createForStatement"] = (function (this, init, test, update, body)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.ForStatement,
 ["init"] = init,
 ["test"] = test,
@@ -3375,7 +3375,7 @@ end),
 }); end
 end),
 ["createForInStatement"] = (function (this, left, right, body)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.ForInStatement,
 ["left"] = left,
 ["right"] = right,
@@ -3384,7 +3384,7 @@ end),
 }); end
 end),
 ["createFunctionDeclaration"] = (function (this, id, params, defaults, body)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.FunctionDeclaration,
 ["id"] = id,
 ["params"] = params,
@@ -3396,7 +3396,7 @@ end),
 }); end
 end),
 ["createFunctionExpression"] = (function (this, id, params, defaults, body)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.FunctionExpression,
 ["id"] = id,
 ["params"] = params,
@@ -3408,13 +3408,13 @@ end),
 }); end
 end),
 ["createIdentifier"] = (function (this, name)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.Identifier,
 ["name"] = name
 }); end
 end),
 ["createIfStatement"] = (function (this, test, consequent, alternate)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.IfStatement,
 ["test"] = test,
 ["consequent"] = consequent,
@@ -3422,21 +3422,21 @@ end),
 }); end
 end),
 ["createLabeledStatement"] = (function (this, label, body)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.LabeledStatement,
 ["label"] = label,
 ["body"] = body
 }); end
 end),
 ["createLiteral"] = (function (this, token)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.Literal,
 ["value"] = token.value,
 ["raw"] = source:slice(token.start,token["end"])
 }); end
 end),
 ["createMemberExpression"] = (function (this, accessor, object, property)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.MemberExpression,
 ["computed"] = (accessor == "["),
 ["object"] = object,
@@ -3444,20 +3444,20 @@ end),
 }); end
 end),
 ["createNewExpression"] = (function (this, callee, args)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.NewExpression,
 ["callee"] = callee,
 ["arguments"] = args
 }); end
 end),
 ["createObjectExpression"] = (function (this, properties)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.ObjectExpression,
 ["properties"] = properties
 }); end
 end),
 ["createPostfixExpression"] = (function (this, operator, argument)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.UpdateExpression,
 ["operator"] = operator,
 ["argument"] = argument,
@@ -3465,13 +3465,13 @@ end),
 }); end
 end),
 ["createProgram"] = (function (this, body)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.Program,
 ["body"] = body
 }); end
 end),
 ["createProperty"] = (function (this, kind, key, value)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.Property,
 ["key"] = key,
 ["value"] = value,
@@ -3479,44 +3479,44 @@ end),
 }); end
 end),
 ["createReturnStatement"] = (function (this, argument)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.ReturnStatement,
 ["argument"] = argument
 }); end
 end),
 ["createSequenceExpression"] = (function (this, expressions)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.SequenceExpression,
 ["expressions"] = expressions
 }); end
 end),
 ["createSwitchCase"] = (function (this, test, consequent)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.SwitchCase,
 ["test"] = test,
 ["consequent"] = consequent
 }); end
 end),
 ["createSwitchStatement"] = (function (this, discriminant, cases)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.SwitchStatement,
 ["discriminant"] = discriminant,
 ["cases"] = cases
 }); end
 end),
 ["createThisExpression"] = (function (this)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.ThisExpression
 }); end
 end),
 ["createThrowStatement"] = (function (this, argument)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.ThrowStatement,
 ["argument"] = argument
 }); end
 end),
 ["createTryStatement"] = (function (this, block, guardedHandlers, handlers, finalizer)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.TryStatement,
 ["block"] = block,
 ["guardedHandlers"] = guardedHandlers,
@@ -3526,7 +3526,7 @@ end),
 end),
 ["createUnaryExpression"] = (function (this, operator, argument)
 if ((operator == "++") and (operator == "++") or (operator == "--")) then
- do return _obj({
+do return _obj({
 ["type"] = Syntax.UpdateExpression,
 ["operator"] = operator,
 ["argument"] = argument,
@@ -3534,7 +3534,7 @@ if ((operator == "++") and (operator == "++") or (operator == "--")) then
 }); end
 end
 
- do return _obj({
+do return _obj({
 ["type"] = Syntax.UnaryExpression,
 ["operator"] = operator,
 ["argument"] = argument,
@@ -3542,28 +3542,28 @@ end
 }); end
 end),
 ["createVariableDeclaration"] = (function (this, declarations, kind)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.VariableDeclaration,
 ["declarations"] = declarations,
 ["kind"] = kind
 }); end
 end),
 ["createVariableDeclarator"] = (function (this, id, init)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.VariableDeclarator,
 ["id"] = id,
 ["init"] = init
 }); end
 end),
 ["createWhileStatement"] = (function (this, test, body)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.WhileStatement,
 ["test"] = test,
 ["body"] = body
 }); end
 end),
 ["createWithStatement"] = (function (this, object, body)
- do return _obj({
+do return _obj({
 ["type"] = Syntax.WithStatement,
 ["object"] = object,
 ["body"] = body
@@ -3593,7 +3593,7 @@ if (_type(Object.freeze) == "function") then
 Object:freeze(types);
 end
 
- do return types; end
+do return types; end
 end)(_ENV);
 end));
 return this.esprima

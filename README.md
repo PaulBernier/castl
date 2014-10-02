@@ -57,6 +57,7 @@ Option  | Description
 -h, --help | display help.
 --cat | don't execute, just print code that would be run.
 --jit | compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active).
+--heuristic | enable heuristic compilation.
 --annotation | use annotations to optimize generated code.
 --mini | minify AST using Esmangle before compiling. Size of outputted file is shrunk.
 --debug | add comments in the Lua code referring to the line number of the original statement in the JS file.
@@ -67,6 +68,18 @@ Option  | Description
 ## Annotations
 
 Annotations are useful to optimize the generated code. Please refer to the file ```doc/annotations.md``` for more information.
+
+## Heuristic
+
+Heuristic compilation is an attempt to optimize the generated code by guessing program behavior at execution time. 
+Thus this option may increase the speed of execution of your program ; but as it is based on guessing it may also be wrong sometimes and break you program in some weird cases.
+
+For now heuristic only applies to numeric for loops. It tries to identify and optimize the following pattern:
+```JavaScript
+for(i = 0; i<length ; ++i) {
+}
+```
+You should try to enable heuristic if you have a lot of numeric for loops. If it breaks you code you may want to consider annotations instead.
 
 ## CASTL components
 
