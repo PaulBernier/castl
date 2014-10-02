@@ -2939,15 +2939,15 @@ state = _obj({
 ["inFunctionBody"] = false,
 ["inIteration"] = false,
 ["inSwitch"] = false,
-["lastCommentStart"] = -_tonum(1)
+["lastCommentStart"] = -1
 });
 extra = _obj({});
 options = (_bool(options) and options or _obj({}));
 options.tokens = true;
 extra.tokens = _arr({},0);
 extra.tokenize = true;
-extra.openParenToken = -_tonum(1);
-extra.openCurlyToken = -_tonum(1);
+extra.openParenToken = -1;
+extra.openCurlyToken = -1;
 extra.range = ((function() if (_type(options.range) == "boolean") then return options.range;  else return (_type(options.range) == "boolean");  end end)());
 extra.loc = ((function() if (_type(options.loc) == "boolean") then return options.loc;  else return (_type(options.loc) == "boolean");  end end)());
 if _bool(((function() if (_type(options.comment) == "boolean") then return options.comment;  else return (_type(options.comment) == "boolean");  end end)())) then
@@ -3035,7 +3035,7 @@ state = _obj({
 ["inFunctionBody"] = false,
 ["inIteration"] = false,
 ["inSwitch"] = false,
-["lastCommentStart"] = -_tonum(1)
+["lastCommentStart"] = -1
 });
 extra = _obj({});
 if (_type(options) ~= "undefined") then

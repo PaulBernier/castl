@@ -481,6 +481,7 @@
     function isUpdateExpressionWith(expression, variables) {
         if (expression !== null) {
             if (expression.type === "UpdateExpression" && expression.argument.type === "Identifier") {
+                // @number
                 return variables.indexOf(expression.argument.name) > -1;
             }
         }
@@ -492,12 +493,15 @@
         if (expression !== null) {
             if (expression.type === "BinaryExpression") {
                 var comparisonOperators = ["<", "<=", ">", ">="];
+                // @number
                 if (comparisonOperators.indexOf(expression.operator) > -1) {
                     if (expression.left.type === "Identifier") {
+                        // @number
                         if (variables.indexOf(expression.left.name) > -1) {
                             return true;
                         }
                     } else if (expression.right.type === "Identifier") {
+                        // @number
                         if (variables.indexOf(expression.right.name) > -1) {
                             return true;
                         }
@@ -536,6 +540,7 @@
             }
         }
 
+        // @number
         if (possibleNumericForVariable.length > 0) {
             // Test is a comparison involving the numeric for variable
             if (isComparisonExpressionWith(statement.test, possibleNumericForVariable)) {
@@ -1606,7 +1611,8 @@
 
     function compileUnaryExpression(expression, meta) {
         var compiledUnaryExpression = [];
-        var compiledExpression = compileExpression(expression.argument);
+        var metaArgument = {};
+        var compiledExpression = compileExpression(expression.argument, metaArgument);
 
         if (expression.prefix) {
             // "-" | "+" | "!" | "~" | "typeof" | "void" | "delete"
@@ -1614,18 +1620,27 @@
             switch (expression.operator) {
                 // convert to number and negate it
             case "-":
-                compiledUnaryExpression.push("-_tonum(");
-                compiledUnaryExpression.push(compiledExpression);
-                compiledUnaryExpression.push(")");
+                if (metaArgument.type === "number") {
+                    compiledUnaryExpression.push("-");
+                    compiledUnaryExpression.push(compiledExpression);
+                } else {
+                    compiledUnaryExpression.push("-_tonum(");
+                    compiledUnaryExpression.push(compiledExpression);
+                    compiledUnaryExpression.push(")");
+                }
                 if (meta) {
                     meta.type = "number";
                 }
                 break;
                 // convert to number
             case "+":
-                compiledUnaryExpression.push("_tonum(");
-                compiledUnaryExpression.push(compiledExpression);
-                compiledUnaryExpression.push(")");
+                if (metaArgument.type === "number") {
+                    compiledUnaryExpression.push(compiledExpression);
+                } else {
+                    compiledUnaryExpression.push("_tonum(");
+                    compiledUnaryExpression.push(compiledExpression);
+                    compiledUnaryExpression.push(")");
+                }
                 if (meta) {
                     meta.type = "number";
                 }

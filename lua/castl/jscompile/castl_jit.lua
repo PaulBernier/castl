@@ -340,7 +340,7 @@ end);
 isUpdateExpressionWith = (function (this, expression, variables)
 if (expression ~= null) then
 if ((function() if (expression.type == "UpdateExpression") then return (expression.argument.type == "Identifier");  else return (expression.type == "UpdateExpression");  end end)()) then
-do return (_gt(variables:indexOf(expression.argument.name),-_tonum(1))); end
+do return (variables:indexOf(expression.argument.name)>-1); end
 end
 
 end
@@ -352,14 +352,14 @@ local comparisonOperators;
 if (expression ~= null) then
 if (expression.type == "BinaryExpression") then
 comparisonOperators = _arr({[0]="<","<=",">",">="},4);
-if (_gt(comparisonOperators:indexOf(expression.operator),-_tonum(1))) then
+if (comparisonOperators:indexOf(expression.operator)>-1) then
 if (expression.left.type == "Identifier") then
-if (_gt(variables:indexOf(expression.left.name),-_tonum(1))) then
+if (variables:indexOf(expression.left.name)>-1) then
 do return true; end
 end
 
 elseif (expression.right.type == "Identifier") then
-if (_gt(variables:indexOf(expression.right.name),-_tonum(1))) then
+if (variables:indexOf(expression.right.name)>-1) then
 do return true; end
 end
 
@@ -405,7 +405,7 @@ end
 
 end
 
-if (_gt(possibleNumericForVariable.length,0)) then
+if (possibleNumericForVariable.length>0) then
 if _bool(isComparisonExpressionWith(_ENV,statement.test,possibleNumericForVariable)) then
 if _bool(isUpdateExpressionWith(_ENV,statement.update,possibleNumericForVariable)) then
 do return true; end
@@ -1485,7 +1485,7 @@ if _bool(compiledExpression:match(_regexp("\\]$",""))) then
 startIndex = lastTopLevelBracketedGroupStartIndex(_ENV,compiledExpression);
 do return _obj({
 ["base"] = compiledExpression:slice(0,startIndex),
-["member"] = compiledExpression:slice((startIndex + 1),-_tonum(1))
+["member"] = compiledExpression:slice((startIndex + 1),-1)
 }); end
 else
 startIndex = compiledExpression:lastIndexOf(".");
@@ -1505,9 +1505,10 @@ do return _obj({
 }); end
 end);
 compileUnaryExpression = (function (this, expression, meta)
-local gs,scope,compiledExpression,compiledUnaryExpression;
+local gs,scope,compiledExpression,metaArgument,compiledUnaryExpression;
 compiledUnaryExpression = _arr({},0);
-compiledExpression = compileExpression(_ENV,expression.argument);
+metaArgument = _obj({});
+compiledExpression = compileExpression(_ENV,expression.argument,metaArgument);
 if _bool(expression.prefix) then
 repeat
 local _into = false;
@@ -1517,9 +1518,15 @@ _into = true;
 goto _default
 end
 if _into or (expression.operator == "-") then
+if (metaArgument.type == "number") then
+compiledUnaryExpression:push("-");
+compiledUnaryExpression:push(compiledExpression);
+else
 compiledUnaryExpression:push("-_tonum(");
 compiledUnaryExpression:push(compiledExpression);
 compiledUnaryExpression:push(")");
+end
+
 if _bool(meta) then
 meta.type = "number";
 end
@@ -1528,9 +1535,14 @@ do break end;
 _into = true;
 end
 if _into or (expression.operator == "+") then
+if (metaArgument.type == "number") then
+compiledUnaryExpression:push(compiledExpression);
+else
 compiledUnaryExpression:push("_tonum(");
 compiledUnaryExpression:push(compiledExpression);
 compiledUnaryExpression:push(")");
+end
+
 if _bool(meta) then
 meta.type = "number";
 end
@@ -2261,7 +2273,7 @@ end
 
 context = localVarManager:popLocalContext();
 locals = context[0];
-useArguments = ((function() if _bool(context[1]) then return (compiledParams:indexOf("arguments") == -_tonum(1));  else return context[1];  end end)());
+useArguments = ((function() if _bool(context[1]) then return (compiledParams:indexOf("arguments") == -1);  else return context[1];  end end)());
 if _bool(useArguments) then
 compiledFunction:push("...)\010");
 compiledFunction:push((("local " .. compiledParams:join(", ")) .. " = ...;\010"));
@@ -2302,7 +2314,7 @@ length = locals.length;
 i = 0;
 while (i<length) do
 _g_local = locals:pop();
-if ((function() if (ignore:indexOf(_g_local) == -_tonum(1)) then return (namesSequence:indexOf(_g_local) == -_tonum(1));  else return (ignore:indexOf(_g_local) == -_tonum(1));  end end)()) then
+if ((function() if (ignore:indexOf(_g_local) == -1) then return (namesSequence:indexOf(_g_local) == -1);  else return (ignore:indexOf(_g_local) == -1);  end end)()) then
 namesSequence:push(_g_local);
 end
 
@@ -2319,7 +2331,7 @@ end
 do return ""; end
 end);
 sanitizeIdentifier = (function (this, id)
-if (luaKeywords:indexOf(id)>-_tonum(1)) then
+if (luaKeywords:indexOf(id)>-1) then
 do return ("_g_" .. id); end
 end
 
@@ -2369,7 +2381,7 @@ do return str:replace(_regexp("\\\\","g"),"\\\\"):replace(_regexp("\"","g"),"\\\
 local ut8bytes;
 ut8bytes = toUTF8Array(_ENV,str);
 ut8bytes = ut8bytes:map((function (this, e)
-do return ("\\" .. ("00" .. e):slice(-_tonum(3))); end
+do return ("\\" .. ("00" .. e):slice(-3)); end
 end));
 do return ut8bytes:join(""); end
 end)); end
