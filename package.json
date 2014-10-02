@@ -1,6 +1,6 @@
 {
   "name": "castl",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "JavaScript to Lua compiler with runtime library",
   "keywords": [
     "castl",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "esprima": "~1.2.2",
-    "acorn": "~0.7.0",
+    "acorn": "~0.8.0",
     "esmangle": "~1.0.1"
   },
   "engines": {
