@@ -2357,7 +2357,7 @@
         // @number
         for (i = 0; i < length; ++i) {
             local = locals.pop();
-            if (ignore.indexOf(local) === -1) {
+            if (ignore.indexOf(local) === -1 && namesSequence.indexOf(local) === -1) {
                 namesSequence.push(local);
             }
         }

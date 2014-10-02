@@ -2301,7 +2301,7 @@ length = locals.length;
 i = 0;
 while (i<length) do
 _g_local = locals:pop();
-if (ignore:indexOf(_g_local) == -_tonum(1)) then
+if ((function() if (ignore:indexOf(_g_local) == -_tonum(1)) then return (namesSequence:indexOf(_g_local) == -_tonum(1));  else return (ignore:indexOf(_g_local) == -_tonum(1));  end end)()) then
 namesSequence:push(_g_local);
 end
 
