@@ -170,6 +170,5 @@ if [ "$execute" = true ]; then
     execStatus=$?
 fi
 rm ".tmp.lua"
-echo ""
 
 exit $execStatus;

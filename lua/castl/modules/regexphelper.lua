@@ -13,7 +13,7 @@
     along with CASTL. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
-local regexpHerlper = {}
+local regexHelper = {}
 
 local rex
 local require, type = require, type
@@ -21,11 +21,11 @@ local regexEngineName = "rex_pcre"
 
 _ENV = nil
 
-regexpHerlper.getRex = function()
+regexHelper.getRex = function()
     return rex or require(regexEngineName)
 end
 
-regexpHerlper.getPCRECompilationFlag = function(regexp)
+regexHelper.getPCRECompilationFlag = function(regexp)
     if regexp.ignoreCase and regexp.multiline then
         return "im"
     elseif regexp.ignoreCase then
@@ -37,11 +37,11 @@ regexpHerlper.getPCRECompilationFlag = function(regexp)
     return nil
 end
 
-regexpHerlper.split = function(subject, regexp)
+regexHelper.split = function(subject, regexp)
     rex = rex or require(regexEngineName)
 
     -- compilation flags
-    local cf = regexpHerlper.getPCRECompilationFlag(regexp)
+    local cf = regexHelper.getPCRECompilationFlag(regexp)
 
     return rex.split(subject, regexp.source, cf)
 end
@@ -49,17 +49,17 @@ end
 -- TODO: it's a hack. maybe I missed something but it's the only way
 -- I found to know if second returned argument of rex.split is a capture or only the separator pattern itself
 -- http://rrthomas.github.io/lrexlib/manual.html#split
-regexpHerlper.regExpHasCaptured = function(subject, regexp)
+regexHelper.regExpHasCaptured = function(subject, regexp)
     rex = rex or require(regexEngineName)
     local _,_,capture = rex.find(subject, regexp.source)
     return capture
 end
 
-regexpHerlper.gsub = function(subject, regexp, replacer)
+regexHelper.gsub = function(subject, regexp, replacer)
     rex = rex or require(regexEngineName)
 
     -- compilation flags
-    local cf = regexpHerlper.getPCRECompilationFlag(regexp)
+    local cf = regexHelper.getPCRECompilationFlag(regexp)
     local n = not regexp.global and 1 or nil
 
     local match = regexp.source
@@ -73,4 +73,4 @@ regexpHerlper.gsub = function(subject, regexp, replacer)
     return rex.gsub(subject, match, replacer, n, cf)
 end
 
-return regexpHerlper
+return regexHelper

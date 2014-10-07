@@ -37,7 +37,6 @@ Array = function (this, ...)
         for i = 0, args.n do
             newArray[i] = args[i + 1]
         end
-
     end
 
     return coreObjects.array(newArray, newArray.length)
