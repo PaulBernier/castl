@@ -31,9 +31,28 @@
 
     var luaKeywords = ['and', 'break', 'do', 'else', 'elseif', 'end', 'false', 'for', 'function', 'goto', 'if', 'in', 'local', 'nil', 'not', 'or', 'repeat', 'return', 'then', 'true', 'until', 'while'];
 
+    var options, annotations;
     var labelTracker = [];
     var continueNoLabelTracker = [];
     var withTracker = [];
+    var deductions = []; // Heuristic deductions
+
+    function setMeta(node, meta) {
+        // Annotations have priority over heuristic
+        if (options.annotation) {
+            // if there is an annotation the line before
+            if (annotations[node.loc.start.line - 1] && meta) {
+                meta.type = annotations[node.loc.start.line - 1];
+                return;
+            }
+        }
+        if (options.heuristic) {
+            // if there is some heuristic deduction for this line
+            if (deductions[node.loc.start.line] && meta) {
+                meta.type = deductions[node.loc.start.line];
+            }
+        }
+    }
 
     /********************************
      *
@@ -195,8 +214,6 @@
      * Compile
      *
      * ***************/
-
-    var options, annotations;
 
     function compileAST(ast, opts, anno) {
         options = opts || {};
@@ -455,34 +472,37 @@
         return "true";
     }
 
-    function compileNumericForTest(test) {
-        var compiledNumericForTest = [];
-
-        compiledNumericForTest.push(compileExpression(test.left));
-        compiledNumericForTest.push(test.operator);
-        compiledNumericForTest.push(compileExpression(test.right));
-
-        return compiledNumericForTest.join("");
-    }
-
-    function compileNumericForUpdate(update) {
-        var compiledForUpdate = [];
-
-        var compiledIdentifier = compileIdentifier(update.argument);
-        compiledForUpdate.push(compiledIdentifier);
-        compiledForUpdate.push(" = ");
-        compiledForUpdate.push(compiledIdentifier);
-        compiledForUpdate.push(update.operator[0]);
-        compiledForUpdate.push("1\n");
-
-        return compiledForUpdate.join("");
+    function isCompoundAssignment(expression) {
+        if (expression.type === "AssignmentExpression") {
+            return ["*=", "/=", "%=", "+=", "-=", "<<=", ">>=", ">>>=", "&=", "^=", "|="].indexOf(expression.operator) > -1;
+        }
+        return false;
     }
 
     function isUpdateExpressionWith(expression, variables) {
-        if (expression !== null) {
-            if (expression.type === "UpdateExpression" && expression.argument.type === "Identifier") {
+        if (expression !== null && expression.type === "UpdateExpression") {
+            if (expression.argument.type === "Identifier") {
                 // @number
                 return variables.indexOf(expression.argument.name) > -1;
+            }
+        }
+
+        return false;
+    }
+
+    function isNumericCompoundAssignmentExpressionWith(expression, variables) {
+        if (expression !== null && isCompoundAssignment(expression)) {
+            // Left operand is the numeric for variable    
+            // @number          
+            if (expression.left.type === "Identifier" && variables.indexOf(expression.left.name) > -1) {
+                // If operator is += we have to check that right operand is a number (for other operators result is necessary a number)
+                if (expression.operator === "+=") {
+                    var metaRight = {};
+                    // compile expression to get type of right
+                    compileExpression(expression.right, metaRight);
+                    return metaRight.type === "number";
+                }
+                return true;
             }
         }
 
@@ -492,14 +512,15 @@
     function isComparisonExpressionWith(expression, variables) {
         if (expression !== null) {
             if (expression.type === "BinaryExpression") {
-                var comparisonOperators = ["<", "<=", ">", ">="];
                 // @number
-                if (comparisonOperators.indexOf(expression.operator) > -1) {
+                if (["<", "<=", ">", ">="].indexOf(expression.operator) > -1) {
+                    // left
                     if (expression.left.type === "Identifier") {
                         // @number
                         if (variables.indexOf(expression.left.name) > -1) {
                             return true;
                         }
+                        // right
                     } else if (expression.right.type === "Identifier") {
                         // @number
                         if (variables.indexOf(expression.right.name) > -1) {
@@ -519,22 +540,29 @@
         if (init === null) {
             return false;
         }
+        var metaRight;
         if (init.type === "VariableDeclaration") {
             var declarations = init.declarations;
             var i;
             // @number
             for (i = 0; i < declarations.length; ++i) {
-                // Variable is initialized with a literal number
+                // Variable is initialized with a number
                 if (declarations[i].init !== null) {
-                    if (declarations[i].init.type === "Literal" && typeof (declarations[i].init.value) === "number") {
+                    metaRight = {};
+                    // compile expression to get type of right
+                    compileExpression(declarations[i].init, metaRight);
+                    if (metaRight.type === "number") {
                         possibleNumericForVariable.push(declarations[i].id.name);
                     }
                 }
             }
         } else if (init.type === "AssignmentExpression") {
-            // Variable is initialized with a literal number
+            // Variable is initialized with a number
             if (init.left.type === "Identifier") {
-                if (init.right.type === "Literal" && typeof (init.right.value) === "number") {
+                metaRight = {};
+                // compile expression to get type of right
+                compileExpression(init.right, metaRight);
+                if (metaRight.type === "number") {
                     possibleNumericForVariable.push(init.left.name);
                 }
             }
@@ -548,6 +576,9 @@
                 if (isUpdateExpressionWith(statement.update, possibleNumericForVariable)) {
                     return true;
                 }
+                if (isNumericCompoundAssignmentExpressionWith(statement.update, possibleNumericForVariable)) {
+                    return true;
+                }
             }
         }
 
@@ -556,10 +587,11 @@
 
     function compileForStatement(statement, compiledLabel) {
         var compiledForStatement = [];
-        var numericFor = false;
 
         if (options.heuristic) {
-            numericFor = mayBeNumericFor(statement);
+            if (mayBeNumericFor(statement)) {
+                deductions[statement.loc.start.line] = "number";
+            }
         }
 
         // Init
@@ -567,11 +599,8 @@
 
         // Test
         compiledForStatement.push("while ");
-        if (numericFor) {
-            compiledForStatement.push(compileNumericForTest(statement.test));
-        } else {
-            compiledForStatement.push(compileForTest(statement.test));
-        }
+        compiledForStatement.push(compileForTest(statement.test));
+
         compiledForStatement.push(" do\n");
 
         // Body
@@ -590,11 +619,7 @@
         }
 
         // Update
-        if (numericFor) {
-            compiledForStatement.push(compileNumericForUpdate(statement.update));
-        } else {
-            compiledForStatement.push(compileForUpdate(statement.update));
-        }
+        compiledForStatement.push(compileForUpdate(statement.update));
 
         compiledForStatement.push("end\n");
 
@@ -1550,12 +1575,7 @@
             compiledCallExpression.push(")");
         }
 
-        if (options.annotation) {
-            // if there is an annotation the line before
-            if (annotations[expression.loc.start.line - 1] && meta) {
-                meta.type = annotations[expression.loc.start.line - 1];
-            }
-        }
+        setMeta(expression, meta);
 
         return compiledCallExpression.join('');
     }
@@ -2178,12 +2198,7 @@
             }
         }
 
-        if (options.annotation) {
-            // if there is an annotation the line before
-            if (annotations[expression.loc.start.line - 1] && meta) {
-                meta.type = annotations[expression.loc.start.line - 1];
-            }
-        }
+        setMeta(expression, meta);
 
         return compiledMemberExpression.join("");
     }
@@ -2445,12 +2460,7 @@
             localVarManager.useArguments();
         }
 
-        if (options.annotation) {
-            // if there is an annotation the line before
-            if (annotations[identifier.loc.start.line - 1] && meta) {
-                meta.type = annotations[identifier.loc.start.line - 1];
-            }
-        }
+        setMeta(identifier, meta);
 
         return sanitizeIdentifier(identifier.name);
     }

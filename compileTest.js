@@ -39,7 +39,8 @@ fs.readFile(filename, 'utf8', function (err, data) {
             var castlOptions = {
                 jit: luajit,
                 evalMode: false,
-                debug: true
+                debug: true,
+                heuristic: false
             };
             var compiledCode = castl.compileAST(syntax, castlOptions).compiled;
             compiledCode = compiledCode.replace(/assert\(_ENV,/g, "assert(");

@@ -15,24 +15,26 @@ var heuristic = process.argv[11] === "true";
 
 var parser = require(parserName);
 
-var parserOptions = {}
+var parserOptions = {};
 var castlOptions = {
     jit: luajit,
     evalMode: evalMode,
-    heuristic: heuristic
+    heuristic: heuristic,
+    debug: debug,
+    annotation: annotation
 };
 
 if (tolerant) {
     if (parserName === "esprima") {
-        parserOptions.tolerant = true
+        parserOptions.tolerant = true;
     } else if (parserName === "acorn") {
-        parserOptions.allowReturnOutsideFunction = true
-        parserOptions.allowTrailingCommas = true
+        parserOptions.allowReturnOutsideFunction = true;
+        parserOptions.allowTrailingCommas = true;
     }
 }
 
-if (debug) {
-    castlOptions.debug = true;
+if (debug || heuristic || annotation) {
+    // Enable location
     if (parserName === "esprima") {
         parserOptions.loc = true;
     } else if (parserName === "acorn") {
@@ -42,15 +44,12 @@ if (debug) {
 
 var annotations = {};
 if (annotation) {
-    castlOptions.annotation = true;
-
     if (parserName === "esprima") {
         parserOptions.comment = true;
-        parserOptions.loc = true;
 
         function processEsprimaComments(comments) {
-            const regexp = /@(\S*)/;
-            var i, comment, castlComment;
+            var regexp = /@(\S*)/;
+            var i, comment;
             for (i = 0; i < comments.length; ++i) {
                 comment = regexp.exec(comments[i].value);
                 if (comment !== null) {
@@ -60,13 +59,12 @@ if (annotation) {
         }
     } else if (parserName === "acorn") {
         parserOptions.onComment = function (block, text, start, end, loc) {
-            const regexp = /@(\S*)/;
+            var regexp = /@(\S*)/;
             var comment = regexp.exec(text);
             if (comment !== null) {
                 annotations[loc.line] = comment[1];
             }
         };
-        parserOptions.locations = true;
     }
 }
 

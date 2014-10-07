@@ -11,7 +11,24 @@ factory(_ENV,root.castl);
 end
 
 end)(_ENV,this,(function (this, exports)
-local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileComparisonOperator,compileAdditionOperator,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,compileUpdateExpressionNoEval,compileAssignmentExpression,compileAssignmentExpressionNoEval,compileCompoundAssignmentNoEval,storeComputedProperty,compileCompoundAssignmentBinaryExpression,compileExpressionStatementNoEval,compileExpressionStatementEvalMode,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,mayBeNumericFor,isComparisonExpressionWith,isUpdateExpressionWith,compileNumericForUpdate,compileNumericForTest,compileForTest,compileForUpdate,compileForInit,compileIterationStatement,compileIfStatement,compileBooleanExpression,compileListOfStatements,compileStatement,compileAST,annotations,options,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,withTracker,continueNoLabelTracker,labelTracker,luaKeywords;
+local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileComparisonOperator,compileAdditionOperator,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,compileUpdateExpressionNoEval,compileAssignmentExpression,compileAssignmentExpressionNoEval,compileCompoundAssignmentNoEval,storeComputedProperty,compileCompoundAssignmentBinaryExpression,compileExpressionStatementNoEval,compileExpressionStatementEvalMode,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,mayBeNumericFor,isComparisonExpressionWith,isNumericCompoundAssignmentExpressionWith,isUpdateExpressionWith,isCompoundAssignment,compileForTest,compileForUpdate,compileForInit,compileIterationStatement,compileIfStatement,compileBooleanExpression,compileListOfStatements,compileStatement,compileAST,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,setMeta,deductions,withTracker,continueNoLabelTracker,labelTracker,annotations,options,luaKeywords;
+setMeta = (function (this, node, meta)
+if _bool(options.annotation) then
+if _bool(((function() if _bool(annotations[(node.loc.start.line - 1)]) then return meta;  else return annotations[(node.loc.start.line - 1)];  end end)())) then
+meta.type = annotations[(node.loc.start.line - 1)];
+do return end
+end
+
+end
+
+if _bool(options.heuristic) then
+if _bool(((function() if _bool(deductions[node.loc.start.line]) then return meta;  else return deductions[node.loc.start.line];  end end)())) then
+meta.type = deductions[node.loc.start.line];
+end
+
+end
+
+end);
 ProtectedCallManager = (function (this)
 this.protectedCallContext = _arr({},0);
 this.mayReturnStack = _arr({},0);
@@ -318,28 +335,16 @@ end
 
 do return "true"; end
 end);
-compileNumericForTest = (function (this, test)
-local compiledNumericForTest;
-compiledNumericForTest = _arr({},0);
-compiledNumericForTest:push(compileExpression(_ENV,test.left));
-compiledNumericForTest:push(test.operator);
-compiledNumericForTest:push(compileExpression(_ENV,test.right));
-do return compiledNumericForTest:join(""); end
-end);
-compileNumericForUpdate = (function (this, update)
-local compiledIdentifier,compiledForUpdate;
-compiledForUpdate = _arr({},0);
-compiledIdentifier = compileIdentifier(_ENV,update.argument);
-compiledForUpdate:push(compiledIdentifier);
-compiledForUpdate:push(" = ");
-compiledForUpdate:push(compiledIdentifier);
-compiledForUpdate:push(update.operator[0]);
-compiledForUpdate:push("1\010");
-do return compiledForUpdate:join(""); end
+isCompoundAssignment = (function (this, expression)
+if (expression.type == "AssignmentExpression") then
+do return (_gt(_arr({[0]="*=","/=","%=","+=","-=","<<=",">>=",">>>=","&=","^=","|="},11):indexOf(expression.operator),-1)); end
+end
+
+do return false; end
 end);
 isUpdateExpressionWith = (function (this, expression, variables)
-if (expression ~= null) then
-if ((function() if (expression.type == "UpdateExpression") then return (expression.argument.type == "Identifier");  else return (expression.type == "UpdateExpression");  end end)()) then
+if ((function() if (expression ~= null) then return (expression.type == "UpdateExpression");  else return (expression ~= null);  end end)()) then
+if (expression.argument.type == "Identifier") then
 do return (variables:indexOf(expression.argument.name)>-1); end
 end
 
@@ -347,12 +352,27 @@ end
 
 do return false; end
 end);
+isNumericCompoundAssignmentExpressionWith = (function (this, expression, variables)
+local metaRight;
+if _bool(((function() if (expression ~= null) then return isCompoundAssignment(_ENV,expression);  else return (expression ~= null);  end end)())) then
+if ((function() if (expression.left.type == "Identifier") then return (variables:indexOf(expression.left.name)>-1);  else return (expression.left.type == "Identifier");  end end)()) then
+if (expression.operator == "+=") then
+metaRight = _obj({});
+compileExpression(_ENV,expression.right,metaRight);
+do return (metaRight.type == "number"); end
+end
+
+do return true; end
+end
+
+end
+
+do return false; end
+end);
 isComparisonExpressionWith = (function (this, expression, variables)
-local comparisonOperators;
 if (expression ~= null) then
 if (expression.type == "BinaryExpression") then
-comparisonOperators = _arr({[0]="<","<=",">",">="},4);
-if (comparisonOperators:indexOf(expression.operator)>-1) then
+if (_arr({[0]="<","<=",">",">="},4):indexOf(expression.operator)>-1) then
 if (expression.left.type == "Identifier") then
 if (variables:indexOf(expression.left.name)>-1) then
 do return true; end
@@ -374,7 +394,7 @@ end
 do return false; end
 end);
 mayBeNumericFor = (function (this, statement)
-local i,declarations,init,possibleNumericForVariable;
+local i,declarations,metaRight,init,possibleNumericForVariable;
 possibleNumericForVariable = _arr({},0);
 init = statement.init;
 if (init == null) then
@@ -386,7 +406,9 @@ declarations = init.declarations;
 i = 0;
 while (i<declarations.length) do
 if (declarations[i].init ~= null) then
-if ((function() if (declarations[i].init.type == "Literal") then return (_type(declarations[i].init.value) == "number");  else return (declarations[i].init.type == "Literal");  end end)()) then
+metaRight = _obj({});
+compileExpression(_ENV,declarations[i].init,metaRight);
+if (metaRight.type == "number") then
 possibleNumericForVariable:push(declarations[i].id.name);
 end
 
@@ -397,7 +419,9 @@ end
 
 elseif (init.type == "AssignmentExpression") then
 if (init.left.type == "Identifier") then
-if ((function() if (init.right.type == "Literal") then return (_type(init.right.value) == "number");  else return (init.right.type == "Literal");  end end)()) then
+metaRight = _obj({});
+compileExpression(_ENV,init.right,metaRight);
+if (metaRight.type == "number") then
 possibleNumericForVariable:push(init.left.name);
 end
 
@@ -411,6 +435,10 @@ if _bool(isUpdateExpressionWith(_ENV,statement.update,possibleNumericForVariable
 do return true; end
 end
 
+if _bool(isNumericCompoundAssignmentExpressionWith(_ENV,statement.update,possibleNumericForVariable)) then
+do return true; end
+end
+
 end
 
 end
@@ -418,21 +446,18 @@ end
 do return false; end
 end);
 compileForStatement = (function (this, statement, compiledLabel)
-local numericFor,compiledForStatement;
+local compiledForStatement;
 compiledForStatement = _arr({},0);
-numericFor = false;
 if _bool(options.heuristic) then
-numericFor = mayBeNumericFor(_ENV,statement);
+if _bool(mayBeNumericFor(_ENV,statement)) then
+deductions[statement.loc.start.line] = "number";
+end
+
 end
 
 compiledForStatement:push(compileForInit(_ENV,statement.init));
 compiledForStatement:push("while ");
-if _bool(numericFor) then
-compiledForStatement:push(compileNumericForTest(_ENV,statement.test));
-else
 compiledForStatement:push(compileForTest(_ENV,statement.test));
-end
-
 compiledForStatement:push(" do\010");
 compiledForStatement:push(compileStatement(_ENV,statement.body));
 compiledForStatement:push("\010");
@@ -444,12 +469,7 @@ if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledL
 compiledForStatement:push((("::" .. compiledLabel) .. "_c::\010"));
 end
 
-if _bool(numericFor) then
-compiledForStatement:push(compileNumericForUpdate(_ENV,statement.update));
-else
 compiledForStatement:push(compileForUpdate(_ENV,statement.update));
-end
-
 compiledForStatement:push("end\010");
 do return compiledForStatement:join(""); end
 end);
@@ -1441,13 +1461,7 @@ end
 compiledCallExpression:push(")");
 end
 
-if _bool(options.annotation) then
-if _bool(((function() if _bool(annotations[(expression.loc.start.line - 1)]) then return meta;  else return annotations[(expression.loc.start.line - 1)];  end end)())) then
-meta.type = annotations[(expression.loc.start.line - 1)];
-end
-
-end
-
+setMeta(_ENV,expression,meta);
 do return compiledCallExpression:join(""); end
 end);
 compileLogicalExpression = (function (this, expression, meta)
@@ -2141,13 +2155,7 @@ end
 
 end
 
-if _bool(options.annotation) then
-if _bool(((function() if _bool(annotations[(expression.loc.start.line - 1)]) then return meta;  else return annotations[(expression.loc.start.line - 1)];  end end)())) then
-meta.type = annotations[(expression.loc.start.line - 1)];
-end
-
-end
-
+setMeta(_ENV,expression,meta);
 do return compiledMemberExpression:join(""); end
 end);
 compileNewExpression = (function (...)
@@ -2367,13 +2375,7 @@ if (identifier.name == "arguments") then
 localVarManager:useArguments();
 end
 
-if _bool(options.annotation) then
-if _bool(((function() if _bool(annotations[(identifier.loc.start.line - 1)]) then return meta;  else return annotations[(identifier.loc.start.line - 1)];  end end)())) then
-meta.type = annotations[(identifier.loc.start.line - 1)];
-end
-
-end
-
+setMeta(_ENV,identifier,meta);
 do return sanitizeIdentifier(_ENV,identifier.name); end
 end);
 toUTF8Array = (function (this, str)
@@ -2479,6 +2481,7 @@ end);luaKeywords = _arr({[0]="and","break","do","else","elseif","end","false","f
 labelTracker = _arr({},0);
 continueNoLabelTracker = _arr({},0);
 withTracker = _arr({},0);
+deductions = _arr({},0);
 ProtectedCallManager.prototype = _obj({
 ["isInProtectedCallContext"] = (function (this)
 if (this.protectedCallContext.length>0) then

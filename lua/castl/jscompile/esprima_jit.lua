@@ -21,10 +21,10 @@ isDecimalDigit = (function (this, ch)
 do return ((function() if (_ge(ch,48)) then return (_le(ch,57));  else return (_ge(ch,48));  end end)()); end
 end);
 isHexDigit = (function (this, ch)
-do return (_ge(("0123456789abcdefABCDEF"):indexOf(ch),0)); end
+do return (("0123456789abcdefABCDEF"):indexOf(ch)>=0); end
 end);
 isOctalDigit = (function (this, ch)
-do return (_ge(("01234567"):indexOf(ch),0)); end
+do return (("01234567"):indexOf(ch)>=0); end
 end);
 isWhiteSpace = (function (this, ch)
 do return ((((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) and ((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) and (((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) and ((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) or ((function() if (_ge(ch,5760)) then return (_ge(_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch),0));  else return (_ge(ch,5760));  end end)())); end
@@ -371,7 +371,7 @@ i = 0;
 while (i<len) do
 if _bool(((function() if (_lt(index,length)) then return isHexDigit(_ENV,source[index]);  else return (_lt(index,length));  end end)())) then
 ch = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
-code = (_addNum1((code * 16),("0123456789abcdef"):indexOf(ch:toLowerCase())));
+code = ((code * 16) + ("0123456789abcdef"):indexOf(ch:toLowerCase()));
 else
 do return ""; end
 end
@@ -663,7 +663,7 @@ do return _obj({
 end
 
 ch2 = ch3:substr(0,2);
-if (((function() if (ch1 == ch2[1]) then return (_ge(("+-<>&|"):indexOf(ch1),0));  else return (ch1 == ch2[1]);  end end)()) and ((function() if (ch1 == ch2[1]) then return (_ge(("+-<>&|"):indexOf(ch1),0));  else return (ch1 == ch2[1]);  end end)()) or (ch2 == "=>")) then
+if (((function() if (ch1 == ch2[1]) then return (("+-<>&|"):indexOf(ch1)>=0);  else return (ch1 == ch2[1]);  end end)()) and ((function() if (ch1 == ch2[1]) then return (("+-<>&|"):indexOf(ch1)>=0);  else return (ch1 == ch2[1]);  end end)()) or (ch2 == "=>")) then
 index = (_addNum2(index,2));
 do return _obj({
 ["type"] = Token.Punctuator,
@@ -675,7 +675,7 @@ do return _obj({
 }); end
 end
 
-if (_ge(("<>=!+-*%&|^/"):indexOf(ch1),0)) then
+if (("<>=!+-*%&|^/"):indexOf(ch1)>=0) then
 index = index + 1;
 do return _obj({
 ["type"] = Token.Punctuator,
@@ -901,9 +901,9 @@ end
 
 if _bool(((function() if (_lt(index,length)) then return isOctalDigit(_ENV,source[index]);  else return (_lt(index,length));  end end)())) then
 octal = true;
-code = (_addNum1((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
-if _bool(((function() if ((function() if (_ge(("0123"):indexOf(ch),0)) then return (_lt(index,length));  else return (_ge(("0123"):indexOf(ch),0));  end end)()) then return isOctalDigit(_ENV,source[index]);  else return ((function() if (_ge(("0123"):indexOf(ch),0)) then return (_lt(index,length));  else return (_ge(("0123"):indexOf(ch),0));  end end)());  end end)())) then
-code = (_addNum1((code * 8),("01234567"):indexOf(source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()])));
+code = ((code * 8) + ("01234567"):indexOf(source[(function () local _tmp = index; index = _tmp + 1; return _tmp; end)()]));
+if _bool(((function() if ((function() if (("0123"):indexOf(ch)>=0) then return (index<length);  else return (("0123"):indexOf(ch)>=0);  end end)()) then return isOctalDigit(_ENV,source[index]);  else return ((function() if (("0123"):indexOf(ch)>=0) then return (index<length);  else return (("0123"):indexOf(ch)>=0);  end end)());  end end)())) then
+code = ((code * 8) + ("01234567"):indexOf(source[(function () local _tmp = index; index = _tmp + 1; return _tmp; end)()]));
 end
 
 end
@@ -1168,7 +1168,7 @@ else
 do return scanPunctuator(_ENV); end
 end
 
-if (_ge(FnExprTokens:indexOf(checkToken.value),0)) then
+if (FnExprTokens:indexOf(checkToken.value)>=0) then
 do return scanPunctuator(_ENV); end
 end
 
