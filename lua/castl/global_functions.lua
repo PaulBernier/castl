@@ -85,7 +85,16 @@ local radixDigit = {
 
 function globalFunctions.parseInt(this, str, radix)
     radix = radix or 10
-    local sign = 1
+    local tstr = type(str)
+
+    -- shortcut: parseInt used as a cast to int
+    if tstr == "number" and radix == 10 then
+        if (str % 1) ~= 0 then
+            return str > 0 and floor(str) or floor(str + 1)
+        else
+            return str
+        end
+    end
 
     -- radix check
     radix = tonumber(radix)
@@ -99,7 +108,8 @@ function globalFunctions.parseInt(this, str, radix)
         radix = 10
     end
 
-    if type(str) ~= "number" then
+    local sign = 1
+    if tstr ~= "number" then
         str = ToString(str)
 
         -- trim
@@ -123,7 +133,6 @@ function globalFunctions.parseInt(this, str, radix)
         if firstUnallowedCharOffset then
             str = sub(str, 1, firstUnallowedCharOffset - 1)
         end
-
     else
         -- str is a number
         sign = (str > 0) and 1 or -1
