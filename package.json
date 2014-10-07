@@ -1,13 +1,14 @@
 {
   "name": "castl",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "description": "JavaScript to Lua compiler with runtime library",
   "keywords": [
     "castl",
     "castlua",
     "lua",
     "compiler",
-    "ast"
+    "ast",
+    "transpiler"
   ],
   "license":"LGPLv3",
   "author": "Paul Bernier",
