@@ -109,8 +109,15 @@ end
 local ToNumber = internal.ToNumber
 
 function internal.ToString(value)
-    if isPrimitiveValue(value) then
+    local tv = type(value)
+    if tv == "string" then
+        return value
+    elseif tv == "number" or tv == "boolean" then
         return tostring(value)
+    elseif value == null then
+        return "null"
+    elseif  value == nil then
+        return "undefined"
     end
 
     return tostring(defaultValueString(value))
