@@ -42,10 +42,10 @@ function help {
     printf "\t%-15s %s\n" "-c" "if -o option is active the outputted code is Lua/LuaJIT bytecode"
     printf "\t%-15s %s\n" "-n" "print line numbers if -v or --cat options are active"
     printf "\t%-15s %s\n" "-h, --help" "display this help"
+    printf "\t%-15s %s\n" "-a, --annotation" "use annotations to optimize generated code"
+    printf "\t%-15s %s\n" "-g, --heuristic" "enable heuristic compilation"
     printf "\t%-15s %s\n" "--cat" "don't execute, just print code that would be run"
     printf "\t%-15s %s\n" "--jit" "compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active)"
-    printf "\t%-15s %s\n" "--heuristic" "enable heuristic compilation"
-    printf "\t%-15s %s\n" "--annotation" "use annotations to optimize generated code"
     printf "\t%-15s %s\n" "--mini" "minify AST using Esprima before compiling. Size of outputted file is shrunk"
     printf "\t%-15s %s\n" "--debug" "add comments in the Lua code referring to the line number of the original statement in the JS file"
     printf "\t%-15s %s\n" "--acorn" "use Acorn parser. If not specified Esprima is used"
@@ -99,6 +99,10 @@ for arg in "$@"; do
                 continue;
             elif [ "$c" = "v" ]; then
                 verbose=true
+            elif [ "$c" = "g" ]; then
+                heuristic=true
+            elif [ "$c" = "a" ]; then
+                annotation=true
             elif [ "$c" = "n" ]; then
                 linenumers=true
             elif [ "$c" = "c" ]; then
