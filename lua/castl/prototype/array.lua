@@ -27,7 +27,7 @@ return function(arrayPrototype)
     local tonumber, min, floor, type = tonumber, math.min, math.floor, type
     local pack = table.pack or function(...) return {n = select('#',...),...} end
     local remove, insert, sort = table.remove, table.insert, table.sort
-    local null, ToString = internal.null, internal.ToString
+    local null, ToString, ToInteger = internal.null, internal.ToString, internal.ToInteger
 
     _ENV = nil
 
@@ -274,6 +274,25 @@ return function(arrayPrototype)
         end
 
         return str
+    end
+
+    arrayPrototype.lastIndexOf = function(this, searchElement, fromIndex)
+        local length = this.length
+        local n = fromIndex ~= nil and ToInteger(fromIndex) or length - 1
+
+        if n < 0 then
+            n = length + n
+        elseif n > length then
+            n = length - 1
+        end
+
+        for i = n, 0, -1 do
+            if this[i] == searchElement then
+                return i
+            end
+        end
+
+        return -1
     end
 
     arrayPrototype.indexOf = function (this, searchElement, fromIndex)

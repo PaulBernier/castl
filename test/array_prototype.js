@@ -228,6 +228,15 @@ assert(arr11.indexOf(1, -1) === -1);
 assert(arr11.indexOf(1, -4) === 0);
 assert(arr11.indexOf(1, -6) === 0);
 
+// lastIndexOf
+var arr11bis = [2, 5, 9, 2];
+assert(arr11bis.lastIndexOf(2) === 3);
+assert(arr11bis.lastIndexOf(2, 1) === 0);
+assert(arr11bis.lastIndexOf(2, 10) === 3);
+assert(arr11bis.lastIndexOf(2, -1) === 3);
+assert(arr11bis.lastIndexOf(2, -4) === 0);
+assert(arr11bis.lastIndexOf(2, -6) === -1);
+
 // sort
 var arr12 = [8, -6, 11, 1];
 ret = arr12.sort();
