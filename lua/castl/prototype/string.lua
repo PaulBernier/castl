@@ -28,13 +28,13 @@ return function(stringPrototype)
     local regexpHelper = require("castl.modules.regexphelper")
     local common = require("castl.modules.common")
 
-    local type, tonumber, min, rawget, rawset = type, tonumber, math.min, rawget, rawset
+    local type, tonumber, min, max, rawget, rawset, huge = type, tonumber, math.min, math.max, rawget, rawset, math.huge
     local pack = table.pack or function(...) return {n = select('#',...),...} end
     local tinsert, tremove, concat = table.insert, table.remove, table.concat
     local error, require, getmetatable = error, require, getmetatable
     local sub, byte, gmatch, find, reverse = string.sub, string.byte, string.gmatch, string.find, string.reverse
     local lower, upper, match, gsub, len = string.lower, string.upper, string.match, string.gsub, string.len
-    local null, ToString = internal.null, internal.ToString
+    local null, ToString, ToInteger = internal.null, internal.ToString, internal.ToInteger
 
     _ENV = nil
 
@@ -50,11 +50,11 @@ return function(stringPrototype)
     local valueof = stringPrototype.valueOf
 
     local negativeIndex = function (index, length)
-        if index < -length then
+        local k = length + index
+        if k < 0 then
             return 0
-        else
-            return (index % length)
         end
+        return k
     end
 
     stringPrototype.anchor = function(this, name)
@@ -96,28 +96,21 @@ return function(stringPrototype)
     stringPrototype.indexOf = function (this, searchValue, fromIndex)
         searchValue = ToString(searchValue)
         local value = valueof(this)
-        fromIndex = fromIndex or 0
-        if fromIndex < 0 then
-            fromIndex = 0
-        end
+        local length = value.length
+        fromIndex = fromIndex ~= nil and ToInteger(fromIndex) or 0
+        fromIndex = min(max(fromIndex, 0), length)
 
         -- special case of empty string
         if searchValue == "" then
-            if fromIndex < value.length then
+            if fromIndex < length then
                 return fromIndex
             else
-                return value.length
+                return length
             end
         end
 
-        if fromIndex <= 0 then
-            fromIndex = 1
-        elseif fromIndex > value.length then
-            return -1
-        end
-
         -- find
-        local ret = find(value, searchValue, fromIndex, true)
+        local ret = find(value, searchValue, fromIndex + 1, true)
 
         -- not found
         if ret == nil then
@@ -130,25 +123,30 @@ return function(stringPrototype)
     stringPrototype.lastIndexOf = function (this, searchValue, fromIndex)
         searchValue = ToString(searchValue)
         local value = valueof(this)
-        fromIndex = fromIndex or value.length
-        if fromIndex < 0 then
-            fromIndex = 0
-        elseif fromIndex > value.length then
-            fromIndex = value.length
+        local length = value.length
+        fromIndex = fromIndex ~= nil and ToInteger(fromIndex) or huge
+        fromIndex = max(fromIndex, 0)
+
+        -- special case of empty string
+        if searchValue == "" then
+            if fromIndex < length then
+                return fromIndex
+            else
+                return length
+            end
         end
 
+        fromIndex = min(fromIndex, length - 1)
         -- find in reversed string
-        local ret = find(reverse(value), searchValue, value.length - fromIndex + 1, true)
-        if searchValue == "" then
-            ret = ret - 1
-        end
+        local start = length - fromIndex - #searchValue + 1
+        local locBegin, locEnd = find(reverse(value), reverse(searchValue), start, true)
 
         -- not found
-        if ret == nil then
+        if locEnd == nil then
             return -1
         end
 
-        return value.length - ret
+        return length - locEnd
     end
 
     stringPrototype.link = function(this, url)

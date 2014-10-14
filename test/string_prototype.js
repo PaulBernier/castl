@@ -78,6 +78,8 @@ assert(str.indexOf("is", -21) === 12);
 assert(str.indexOf(4, -21) === 25);
 assert(str.indexOf(44, -21) === 25);
 assert("The morning is upon us. T44".indexOf("T") === 0);
+str = "abcd";
+assert(str.indexOf('b', 2) === -1);
 
 // lastIndexOf
 str = "canal"
@@ -96,6 +98,94 @@ assert("canal".lastIndexOf("a") === 3);
 
 str = "Blue Whale, Killer Whale";
 assert(str.lastIndexOf("blue") === -1);
+
+str = "abcde";
+
+assert(str.lastIndexOf('bc') === 1);
+assert(str.lastIndexOf('bc', -3) === -1);
+assert(str.lastIndexOf('bc', -2) === -1);
+assert(str.lastIndexOf('bc', -1) === -1);
+assert(str.lastIndexOf('bc', 0) === -1);
+assert(str.lastIndexOf('bc', 1) === 1);
+assert(str.lastIndexOf('bc', 2) === 1);
+assert(str.lastIndexOf('bc', 3) === 1);
+assert(str.lastIndexOf('bc', 4) === 1);
+assert(str.lastIndexOf('bc', 5) === 1);
+assert(str.lastIndexOf('bc', 6) === 1);
+assert(str.lastIndexOf('b') === 1);
+assert(str.lastIndexOf('b', -3) === -1);
+assert(str.lastIndexOf('b', -2) === -1);
+assert(str.lastIndexOf('b', -1) === -1);
+assert(str.lastIndexOf('b', 0) === -1);
+assert(str.lastIndexOf('b', 1) === 1);
+assert(str.lastIndexOf('b', 2) === 1);
+assert(str.lastIndexOf('b', 3) === 1);
+assert(str.lastIndexOf('b', 4) === 1);
+assert(str.lastIndexOf('b', 5) === 1);
+assert(str.lastIndexOf('b', 6) === 1);
+
+assert(str.lastIndexOf('bc') === 1);
+assert(str.lastIndexOf('bc', -3) === -1);
+assert(str.lastIndexOf('bc', -2) === -1);
+assert(str.lastIndexOf('bc', -1) === -1);
+assert(str.lastIndexOf('bc', 0) === -1);
+assert(str.lastIndexOf('bc', 1) === 1);
+assert(str.lastIndexOf('bc', 2) === 1);
+assert(str.lastIndexOf('bc', 3) === 1);
+assert(str.lastIndexOf('bc', 4) === 1);
+assert(str.lastIndexOf('bc', 5) === 1);
+assert(str.lastIndexOf('bc', 6) === 1);
+
+assert(str.lastIndexOf('ab') === 0);
+assert(str.lastIndexOf('ab', -3) === 0);
+assert(str.lastIndexOf('ab', -2) === 0);
+assert(str.lastIndexOf('ab', -1) === 0);
+assert(str.lastIndexOf('ab', 0) === 0);
+assert(str.lastIndexOf('ab', 1) === 0);
+assert(str.lastIndexOf('ab', 2) === 0);
+assert(str.lastIndexOf('ab', 3) === 0);
+assert(str.lastIndexOf('ab', 4) === 0);
+assert(str.lastIndexOf('ab', 5) === 0);
+assert(str.lastIndexOf('ab', 6) === 0);
+
+assert(str.lastIndexOf('a') === 0);
+assert(str.lastIndexOf('a', -3) === 0);
+assert(str.lastIndexOf('a', -2) === 0);
+assert(str.lastIndexOf('a', -1) === 0);
+assert(str.lastIndexOf('a', 0) === 0);
+assert(str.lastIndexOf('a', 1) === 0);
+assert(str.lastIndexOf('a', 2) === 0);
+assert(str.lastIndexOf('a', 3) === 0);
+assert(str.lastIndexOf('a', 4) === 0);
+assert(str.lastIndexOf('a', 5) === 0);
+assert(str.lastIndexOf('a', 6) === 0);
+
+assert(str.lastIndexOf('de') === 3);
+assert(str.lastIndexOf('de', -3) === -1);
+assert(str.lastIndexOf('de', -2) === -1);
+assert(str.lastIndexOf('de', -1) === -1);
+assert(str.lastIndexOf('de', 0) === -1);
+assert(str.lastIndexOf('de', 1) === -1);
+assert(str.lastIndexOf('de', 2) === -1);
+assert(str.lastIndexOf('de', 3) === 3);
+assert(str.lastIndexOf('de', 4) === 3);
+assert(str.lastIndexOf('de', 5) === 3);
+assert(str.lastIndexOf('de', 6) === 3);
+assert(str.lastIndexOf('e') === 4);
+assert(str.lastIndexOf('e', -3) === -1);
+assert(str.lastIndexOf('e', -2) === -1);
+assert(str.lastIndexOf('e', -1) === -1);
+assert(str.lastIndexOf('e', 0) === -1);
+assert(str.lastIndexOf('e', 1) === -1);
+assert(str.lastIndexOf('e', 2) === -1);
+assert(str.lastIndexOf('e', 3) === -1);
+assert(str.lastIndexOf('e', 4) === 4);
+assert(str.lastIndexOf('e', 5) === 4);
+assert(str.lastIndexOf('e', 6) === 4);
+
+assert(str.lastIndexOf('', 4) === 4);
+assert(str.lastIndexOf('', 5) === 5);
+assert(str.lastIndexOf('', 6) === 5);
 
 // Concat
 str = "Hello";

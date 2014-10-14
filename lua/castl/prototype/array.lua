@@ -27,18 +27,18 @@ return function(arrayPrototype)
     local tonumber, min, floor, type = tonumber, math.min, math.floor, type
     local pack = table.pack or function(...) return {n = select('#',...),...} end
     local remove, insert, sort = table.remove, table.insert, table.sort
-    local null, ToString, ToInteger = internal.null, internal.ToString, internal.ToInteger
+    local null, ToString, ToInteger, ToNumber = internal.null, internal.ToString, internal.ToInteger, internal.ToNumber
 
     _ENV = nil
 
     arrayPrototype.length = 0
 
     local negativeIndex = function (index, length)
-        if index < -length then
+        local k = length + index
+        if k < 0 then
             return 0
-        else
-            return (index % length)
         end
+        return k
     end
 
     arrayPrototype.toString = function (this)
@@ -297,21 +297,16 @@ return function(arrayPrototype)
 
     arrayPrototype.indexOf = function (this, searchElement, fromIndex)
         local length = this.length
+        local n = fromIndex ~= nil and ToNumber(fromIndex) or 0
 
-        if fromIndex ~= nil then
-            fromIndex = tonumber(fromIndex)
-        else
-            fromIndex = 0
-        end
-
-        if fromIndex >= length then
+        if n >= length then
             return -1
         end
-        if fromIndex < 0 then
-            fromIndex = negativeIndex(fromIndex, length)
+        if n < 0 then
+            n = negativeIndex(n, length)
         end
 
-        for i = fromIndex, length - 1 do
+        for i = n, length - 1 do
             if this[i] == searchElement then
                 return i
             end
