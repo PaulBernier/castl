@@ -2608,5 +2608,11 @@ end)
 localVarManager = _new(LocalVarManager);
 exports.compileAST = compileAST;
 end));
-return this.castl
+if exports ~= nil then
+    return exports
+elseif this.castl ~= nil then
+    return this.castl
+else
+    _throw("Error while loading lua version of CASTL")
+end
 end, _ENV)();

@@ -3597,5 +3597,11 @@ end
 do return types; end
 end)(_ENV);
 end));
-return this.esprima
+if exports ~= nil then
+    return exports
+elseif this.esprima ~= nil then
+    return this.esprima
+else
+    _throw("Error while loading lua version of Esprima")
+end
 end, _ENV)();
