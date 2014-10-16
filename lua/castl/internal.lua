@@ -198,6 +198,7 @@ function internal.get(self, prototype, key)
 end
 
 function internal.put(self, key, value)
+    if key == nil then return end
     -- try to find a setter in
     local setterName, current, setter = "_s" .. tostring(key), self
     while current do
