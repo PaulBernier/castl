@@ -17,7 +17,7 @@ local internal = {}
 
 local errorHelper = require("castl.modules.error_helper")
 
-local Boolean, Number, String, new, objectToString
+local Boolean, Number, String, new, objectToString, obj
 
 local getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset
 local gsub = string.gsub
@@ -28,6 +28,22 @@ _ENV = nil
 -- forward declaration of null
 internal.null = {}
 local null = internal.null
+
+-- Functions proxy
+local functionsProxyObjects = {}
+setmetatable(functionsProxyObjects, {__mode = 'k'})
+
+function internal.getFunctionProxy(fun)
+    local proxy = rawget(functionsProxyObjects, fun)
+    if proxy == nil then
+        obj = obj or require("castl.core_objects").obj
+        proxy = {prototype = obj({constructor = fun})}
+        rawset(functionsProxyObjects, fun, proxy)
+    end
+    return proxy
+end
+
+local getFunctionProxy = internal.getFunctionProxy
 
 function internal.isPrimitiveValue(v)
     local tv = type(v)
@@ -154,6 +170,7 @@ function internal.get(self, prototype, key)
     -- self == nil => case of built-in types: boolean, string and number
     -- they are immutable, so we don't have to look for a getter
     if self ~= nil then
+        if type(self) == "function" then self = getFunctionProxy(self) end
         getter = rawget(self, getterName)
         if getter then
             return getter(self)
@@ -162,6 +179,7 @@ function internal.get(self, prototype, key)
 
     local current, att = prototype
     while current do
+        if type(current) == "function" then current = getFunctionProxy(current) end
         -- try to get attribute
         att = rawget(current, key)
         if att ~= nil then
@@ -183,6 +201,7 @@ function internal.put(self, key, value)
     -- try to find a setter in
     local setterName, current, setter = "_s" .. tostring(key), self
     while current do
+        if type(current) == "function" then current = getFunctionProxy(current) end
         setter = rawget(current, setterName)
         if setter ~= nil then
             -- call setter with the good this (self, and not current)

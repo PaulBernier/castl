@@ -49,7 +49,7 @@ local tinsert, concat, sort = table.insert, table.concat, table.sort
 local pairs, ipairs, tostring = pairs, ipairs, tostring
 local require, error = require, error
 local getPrototype, get, put  = internal.prototype, internal.get, internal.put
-local setNewMetatable, ToNumber = internal.setNewMetatable, internal.ToNumber
+local setNewMetatable, ToNumber, getFunctionProxy = internal.setNewMetatable, internal.ToNumber, internal.getFunctionProxy
 
 _ENV = nil
 
@@ -119,21 +119,6 @@ end
 --[[
     Function metatable
 --]]
-
-local functionsProxyObjects = {}
-
-setmetatable(functionsProxyObjects, {__mode = 'k'})
-
-function coreObjects.getFunctionProxy(fun)
-    local proxy = rawget(functionsProxyObjects, fun)
-    if proxy == nil then
-        proxy = {prototype = coreObjects.obj({constructor = fun})}
-        rawset(functionsProxyObjects, fun, proxy)
-    end
-    return proxy
-end
-
-local getFunctionProxy = coreObjects.getFunctionProxy
 
 functionMt.__index = function(self, key)
     local proxy = getFunctionProxy(self)

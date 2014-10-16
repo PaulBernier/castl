@@ -26,6 +26,7 @@ local errorHelper = require("castl.modules.error_helper")
 local type, error, pairs, ipairs, tostring = type, error, pairs, ipairs, tostring
 local getmetatable, rawset, rawget = getmetatable, rawset, rawget
 local null, setNewMetatable, ToObject, ToString = internal.null, internal.setNewMetatable, internal.ToObject, internal.ToString
+local getFunctionProxy = internal.getFunctionProxy
 
 _ENV = nil
 
@@ -40,7 +41,7 @@ end
 Object.create = function (this, prototype, props)
     -- get function proxy
     if type(prototype) == "function" then
-        prototype = coreObjects.getFunctionProxy(prototype)
+        prototype = getFunctionProxy(prototype)
     end
     if type(prototype) ~= 'table' then
         error(errorHelper.newTypeError("Object prototype may only be an Object or null"))
@@ -73,7 +74,7 @@ Object.defineProperty = function(this, obj, prop, descriptor)
     local originalObj = obj
     -- get function proxy
     if isFunction then
-        obj = coreObjects.getFunctionProxy(obj)
+        obj = getFunctionProxy(obj)
     end
 
     if type(obj) ~= 'table' or obj == null then
@@ -128,7 +129,7 @@ end
 Object.getOwnPropertyDescriptor = function (this, obj, prop)
     -- get function proxy
     if type(obj) == 'function' then
-        obj = coreObjects.getFunctionProxy(obj)
+        obj = getFunctionProxy(obj)
     end
     if type(obj) ~= 'table' or obj == null then
         error(errorHelper.newTypeError("Object.getOwnPropertyDescriptor called on non-object"))
@@ -151,7 +152,7 @@ end
 Object.getOwnPropertyNames = function (this, obj)
     -- get function proxy
     if type(obj) == 'function' then
-        obj = coreObjects.getFunctionProxy(obj)
+        obj = getFunctionProxy(obj)
     end
     if type(obj) ~= 'table' or obj == null then
         error(errorHelper.newTypeError("Object.getOwnPropertyNames called on non-object"))
@@ -203,7 +204,7 @@ end
 Object.keys = function (this, obj)
     -- get function proxy
     if type(obj) == 'function' then
-        obj = coreObjects.getFunctionProxy(obj)
+        obj = getFunctionProxy(obj)
     end
 
     if type(obj) ~= 'table' or obj == null then
