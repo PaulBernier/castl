@@ -30,6 +30,10 @@ assert(!foo.hasOwnProperty('bar'));
 assert(({}).hasOwnProperty.call(foo, 'bar'));
 assert(Object.prototype.hasOwnProperty.call(foo, 'bar'));
 
+function f(){};
+f.a = 21;
+assert(f.hasOwnProperty("a"));
+
 // toString
 
 var toString = Object.prototype.toString;

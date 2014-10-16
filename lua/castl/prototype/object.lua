@@ -17,7 +17,6 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype
 
 return function(objectPrototype)
-    local functionProxyOf = require("castl.core_objects").getFunctionProxy
     local internal = require("castl.internal")
     local protos = require("castl.protos")
     local arrayProto = protos.arrayProto
@@ -26,7 +25,7 @@ return function(objectPrototype)
 
     local type, rawget = type, rawget
     local getmetatable = getmetatable
-    local null, getPrototype = internal.null, internal.prototype
+    local null, getPrototype, getFunctionProxy = internal.null, internal.prototype, internal.getFunctionProxy
 
     _ENV = nil
 
@@ -76,7 +75,7 @@ return function(objectPrototype)
             return false
         end
         if tthis == "function" then
-            this = functionProxyOf(this)
+            this = getFunctionProxy(this)
         end
 
         return rawget(this, p) ~= nil
