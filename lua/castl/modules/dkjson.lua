@@ -47,15 +47,16 @@ SOFTWARE.
 --]==]
 
 -- global dependencies:
-local pairs, type, tostring, tonumber, getmetatable, setmetatable, rawset, rawget =
-    pairs, type, tostring, tonumber, getmetatable, setmetatable, rawset, rawget
+local pairs, type, tostring, tonumber, getmetatable, setmetatable, rawset  =
+    pairs, type, tostring, tonumber, getmetatable, setmetatable, rawset 
 local error, require, pcall, select = error, require, pcall, select
 local floor, huge = math.floor, math.huge
 local strrep, gsub, strsub, strbyte, strchar, strfind, strlen, strformat =
     string.rep, string.gsub, string.sub, string.byte, string.char,
     string.find, string.len, string.format
 local strmatch = string.match
-local concat, tremove = table.concat, table.remove
+local concat = table.concat
+local rawget, tremove = rawget, table.remove
 
 local json = { version = "dkjson 2.5" }
 
@@ -63,7 +64,7 @@ if register_global_module_table then
     _G[global_module_name] = json
 end
 
-_ENV = nil -- blocking globals in Lua 5.2
+local _ENV = nil -- blocking globals in Lua 5.2
 
 pcall (function()
     -- Enable access to blocked metatables.

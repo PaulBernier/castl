@@ -39,7 +39,7 @@ JSON.parse = function(this, text)
 end
 
 JSON.stringify = function(this, value)
-    if not value then return nil end
+    if value == nil then return nil end
     return json.encode(value)
 end
 

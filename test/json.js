@@ -1,8 +1,13 @@
 var assert = require("assert");
 
 // stringify
+assert(JSON.stringify(undefined) === undefined);
+assert(JSON.stringify(null) === "null");
 assert(JSON.stringify({}) === "{}");
+assert(JSON.stringify(0) === "0");
+assert(JSON.stringify(21) === "21");
 assert(JSON.stringify(true) === "true");
+assert(JSON.stringify(false) === "false");
 assert(JSON.stringify("foo") === '"foo"');
 assert(JSON.stringify([1, "false", false]) === '[1,"false",false]');
 assert(JSON.stringify({
