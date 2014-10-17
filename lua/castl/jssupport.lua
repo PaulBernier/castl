@@ -31,6 +31,18 @@ local pcall = pcall
 -- Prevent modification of global environment
 _ENV = nil
 
+jssupport.throw = function(e)
+    -- Error.captureStackTrace was called on e
+    -- will display captured stack if uncaught
+    if (getmetatable(e) or {}).__stack then
+        getmetatable(e).__tostring = function() return e:_gstack() end
+    end
+
+    error(e, 0)
+end
+
+local throw = jssupport.throw
+
 jssupport.void = function() end
 jssupport.e = function(...) return ... end
 jssupport.Infinity = huge
@@ -262,9 +274,9 @@ function jssupport.with(obj, env)
     local copy = {}
 
     if obj == nil then
-        error(errorHelper.newTypeError("undefined has no properties"))
+        throw(errorHelper.newTypeError("undefined has no properties"))
     elseif obj == null then
-        error(errorHelper.newTypeError("null has no properties"))
+        throw(errorHelper.newTypeError("null has no properties"))
     end
 
     obj = ToObject(obj)
@@ -292,16 +304,6 @@ function jssupport.with(obj, env)
                 env[key] = value
             end
         end})
-end
-
-jssupport.throw = function(e)
-    -- Error.captureStackTrace was called on e
-    -- will display captured stack if uncaught
-    if (getmetatable(e) or {}).__stack then
-        getmetatable(e).__tostring = function() return e:_gstack() end
-    end
-
-    error(e, 0)
 end
 
 return jssupport

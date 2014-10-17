@@ -18,10 +18,10 @@
 
 return function(numberPrototype)
     local errorHelper = require("castl.modules.error_helper")
+    local throw = require("castl.jssupport").throw
 
     local tonumber, tostring, floor, concat, insert = tonumber, tostring, math.floor, table.concat, table.insert
     local strsub, strlen, gsub, format, getmetatable, type = string.sub, string.len, string.gsub, string.format, getmetatable, type
-    local error = error
 
     _ENV = nil
 
@@ -78,7 +78,7 @@ return function(numberPrototype)
             end
         end
         if fractionDigits < 0 or fractionDigits > 20 then
-            error(errorHelper.newRangeError("toExponential() argument must be between 0 and 20"))
+            throw(errorHelper.newRangeError("toExponential() argument must be between 0 and 20"))
         end
         local formatted = format("%." .. fractionDigits .. "e", value)
         return (gsub(formatted, "%+0", "+"))
@@ -88,7 +88,7 @@ return function(numberPrototype)
         local value = valueof(this)
         if precision == nil then return tostring(value) end
         if precision < 1 or precision > 21 then
-            error(errorHelper.newRangeError("toPrecision() argument must be between 1 and 21"))
+            throw(errorHelper.newRangeError("toPrecision() argument must be between 1 and 21"))
         end
         local formatted = format("%." .. precision .. "g", value)
         return (gsub(formatted, "%+0", "+"))

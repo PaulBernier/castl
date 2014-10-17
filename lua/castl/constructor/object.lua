@@ -22,8 +22,9 @@ local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")
 local objectProto = require("castl.protos").objectProto
 local errorHelper = require("castl.modules.error_helper")
+local throw = require("castl.jssupport").throw
 
-local type, error, pairs, ipairs, tostring = type, error, pairs, ipairs, tostring
+local type, pairs, ipairs, tostring = type, pairs, ipairs, tostring
 local getmetatable, rawset, rawget = getmetatable, rawset, rawget
 local null, setNewMetatable, ToObject, ToString = internal.null, internal.setNewMetatable, internal.ToObject, internal.ToString
 local getFunctionProxy = internal.getFunctionProxy
@@ -44,7 +45,7 @@ Object.create = function (this, prototype, props)
         prototype = getFunctionProxy(prototype)
     end
     if type(prototype) ~= 'table' then
-        error(errorHelper.newTypeError("Object prototype may only be an Object or null"))
+        throw(errorHelper.newTypeError("Object prototype may only be an Object or null"))
     end
 
     local o = {}
@@ -78,13 +79,13 @@ Object.defineProperty = function(this, obj, prop, descriptor)
     end
 
     if type(obj) ~= 'table' or obj == null then
-        error(errorHelper.newTypeError("Object.defineProperty called on non-object"))
+        throw(errorHelper.newTypeError("Object.defineProperty called on non-object"))
     end
     if type(descriptor) ~= 'table' then
-        error(errorHelper.newTypeError("Property description must be an object: " .. tostring(descriptor)))
+        throw(errorHelper.newTypeError("Property description must be an object: " .. tostring(descriptor)))
     end
     if descriptor.value ~= nil and (descriptor.get ~= nil or descriptor.set ~= nil) then
-        error(errorHelper.newTypeError("Invalid property.  A property cannot both have accessors and be writable or have a value"))
+        throw(errorHelper.newTypeError("Invalid property.  A property cannot both have accessors and be writable or have a value"))
     end
 
     -- value
@@ -132,7 +133,7 @@ Object.getOwnPropertyDescriptor = function (this, obj, prop)
         obj = getFunctionProxy(obj)
     end
     if type(obj) ~= 'table' or obj == null then
-        error(errorHelper.newTypeError("Object.getOwnPropertyDescriptor called on non-object"))
+        throw(errorHelper.newTypeError("Object.getOwnPropertyDescriptor called on non-object"))
     end
 
     local value = rawget(obj, prop)
@@ -155,7 +156,7 @@ Object.getOwnPropertyNames = function (this, obj)
         obj = getFunctionProxy(obj)
     end
     if type(obj) ~= 'table' or obj == null then
-        error(errorHelper.newTypeError("Object.getOwnPropertyNames called on non-object"))
+        throw(errorHelper.newTypeError("Object.getOwnPropertyNames called on non-object"))
     end
 
     local ret, i = {}, 0
@@ -175,7 +176,7 @@ Object.getPrototypeOf = function (this, obj)
         return getmetatable(obj)._prototype
     end
     if type(obj) ~= 'table' or obj == null then
-        error(errorHelper.newTypeError("Object.getPrototypeOf called on non-object"))
+        throw(errorHelper.newTypeError("Object.getPrototypeOf called on non-object"))
     end
 
     local mt = getmetatable(obj)
@@ -208,7 +209,7 @@ Object.keys = function (this, obj)
     end
 
     if type(obj) ~= 'table' or obj == null then
-        error(errorHelper.newTypeError("Object.keys called on non-object"))
+        throw(errorHelper.newTypeError("Object.keys called on non-object"))
     end
 
     local ret, i = {}, 0

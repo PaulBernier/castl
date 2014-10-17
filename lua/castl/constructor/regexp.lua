@@ -21,8 +21,9 @@ local RegExp
 local regexpProto = require("castl.protos").regexpProto
 local internal = require("castl.internal")
 local errorHelper = require("castl.modules.error_helper")
+local throw = require("castl.jssupport").throw
 
-local find, error = string.find, error
+local find = string.find
 local setmetatable, getmetatable = setmetatable, getmetatable
 local ToString, get, put, withinNew, ToNumber = internal.ToString, internal.get, internal.put, internal.withinNew, internal.ToNumber
 
@@ -32,7 +33,7 @@ RegExp = function(this, pattern, flags)
     local patternIsRegexp = (getmetatable(pattern) or {})._prototype == regexpProto
 
     if patternIsRegexp and flags ~= nil then
-        error(errorHelper.newTypeError("Cannot supply flags when constructing one RegExp from another"))
+        throw(errorHelper.newTypeError("Cannot supply flags when constructing one RegExp from another"))
     end
 
     if not withinNew(this, regexpProto) and patternIsRegexp then

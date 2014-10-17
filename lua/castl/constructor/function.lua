@@ -19,12 +19,14 @@
 local esprima, castl, runtime
 local luajit = jit ~= nil
 
+local errorHelper = require("castl.modules.error_helper")
+local throw = require("castl.jssupport").throw
 local functionProto = require("castl.protos").functionProto
 
 local Function
 
 local pack = table.pack or function(...) return {n = select('#',...),...} end
-local error, require, assert, load, tinsert, concat = error, require, assert, load, table.insert, table.concat
+local require, assert, load, tinsert, concat = require, assert, load, table.insert, table.concat
 
 _ENV = nil
 
@@ -65,7 +67,7 @@ Function = function(this, ...)
             runtime = runtime or require("castl.runtime")
             compiledFunction = assert(load(luaCode, nil, "t", runtime))
         else
-            error("Function(): Failed to compile AST to Lua code")
+            throw(errorHelper.newEvalError("Function(): Failed to compile AST to Lua code"))
         end
 
         return compiledFunction

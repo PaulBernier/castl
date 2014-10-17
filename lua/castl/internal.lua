@@ -17,9 +17,9 @@ local internal = {}
 
 local errorHelper = require("castl.modules.error_helper")
 
-local Boolean, Number, String, new, objectToString, obj
+local Boolean, Number, String, new, objectToString, obj, throw
 
-local getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, error, require, rawget, rawset
+local getmetatable, setmetatable, type, tostring, tonumber, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, require, rawget, rawset
 local gsub = string.gsub
 local floor = math.floor
 
@@ -66,8 +66,9 @@ function internal.defaultValueString(o)
             return value
         end
     end
-
-    error(errorHelper.newTypeError("Cannot convert object to primitive value"))
+    
+    throw = throw or require("castl.jssupport").throw
+    throw(errorHelper.newTypeError("Cannot convert object to primitive value"))
 end
 
 function internal.defaultValueNumber(o)
@@ -84,7 +85,8 @@ function internal.defaultValueNumber(o)
         end
     end
 
-    error(errorHelper.newTypeError("Cannot convert object to primitive value"))
+    throw = throw or require("castl.jssupport").throw
+    throw(errorHelper.newTypeError("Cannot convert object to primitive value"))
 end
 
 local defaultValueNumber = internal.defaultValueNumber
@@ -141,10 +143,12 @@ end
 
 setmetatable(internal.null,{
     __index = function(self, key)
-        error(errorHelper.newTypeError("Cannot read property '" .. key .. "' of null"))
+        throw = throw or require("castl.jssupport").throw
+        throw(errorHelper.newTypeError("Cannot read property '" .. key .. "' of null"))
     end,
     __newindex = function(self, key)
-        error(errorHelper.newTypeError("Cannot set property '" .. key .. "' of null"))
+        throw = throw or require("castl.jssupport").throw
+        throw(errorHelper.newTypeError("Cannot set property '" .. key .. "' of null"))
     end,
     __tostring = function ()
         return 'null'
@@ -235,7 +239,8 @@ end
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-9.9
 function internal.ToObject(v)
     if v == nil or v == null then
-        error(errorHelper.newTypeError("Cannot convert undefined or null to object"))
+        throw = throw or require("castl.jssupport").throw
+        throw(errorHelper.newTypeError("Cannot convert undefined or null to object"))
     end
 
     local tv = type(v)

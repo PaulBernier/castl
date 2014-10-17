@@ -22,8 +22,9 @@ return function(arrayPrototype)
     local boolean = require("castl.jssupport").boolean
     local internal = require("castl.internal")
     local errorHelper = require("castl.modules.error_helper")
+    local throw = require("castl.jssupport").throw
 
-    local rawget, rawset, require, getmetatable, error = rawget, rawset, require, getmetatable, error
+    local rawget, rawset, require, getmetatable = rawget, rawset, require, getmetatable
     local tonumber, min, floor, type = tonumber, math.min, math.floor, type
     local pack = table.pack or function(...) return {n = select('#',...),...} end
     local remove, insert, sort = table.remove, table.insert, table.sort
@@ -374,7 +375,7 @@ return function(arrayPrototype)
 
     arrayPrototype.reduce = function (this, callback, initialValue)
         if empty(this) and initialValue == nil then
-            error(errorHelper.newTypeError("Reduce of empty array with no initial value"))
+            throw(errorHelper.newTypeError("Reduce of empty array with no initial value"))
         end
 
         local value = initialValue or this[0]
@@ -393,7 +394,7 @@ return function(arrayPrototype)
 
     arrayPrototype.reduceRight = function (this, callback, initialValue)
         if empty(this) and initialValue == nil then
-            error(errorHelper.newTypeError("Reduce of empty array with no initial value"))
+            throw(errorHelper.newTypeError("Reduce of empty array with no initial value"))
         end
 
         local value = initialValue or this[this.length - 1]

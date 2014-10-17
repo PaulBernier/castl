@@ -17,8 +17,10 @@ local castl, esprima, runtime
 local luajit = jit ~= nil
 
 local eval = {}
+local errorHelper = require("castl.modules.error_helper")
+local throw = require("castl.jssupport").throw
 
-local debug, setmetatable, assert, load, error, require, type = debug, setmetatable, assert, load, error, require, type
+local debug, setmetatable, assert, load, require, type = debug, setmetatable, assert, load, require, type
 
 _ENV = nil
 
@@ -165,7 +167,7 @@ function eval.eval(this, str)
         runtime = runtime or require("castl.runtime")
         ret = evalLuaString(luaCode, runtime)
     else
-        error("Eval(): Failed to compile AST to Lua code")
+        throw(errorHelper.newEvalError("Eval(): Failed to compile AST to Lua code"))
     end
 
     return ret

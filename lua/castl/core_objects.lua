@@ -17,6 +17,7 @@
 
 local internal = require("castl.internal")
 local errorHelper = require("castl.modules.error_helper")
+local throw = require("castl.jssupport").throw
 local typeof = require("castl.jssupport").typeof
 local RegExp
 
@@ -47,7 +48,7 @@ local type, max, strlen, strsub, tonumber = type, math.max, string.len, string.s
 local pack = table.pack or function(...) return {n = select('#',...),...} end
 local tinsert, concat, sort = table.insert, table.concat, table.sort
 local pairs, ipairs, tostring = pairs, ipairs, tostring
-local require, error = require, error
+local require = require
 local getPrototype, get, put  = internal.prototype, internal.get, internal.put
 local setNewMetatable, ToNumber, getFunctionProxy = internal.setNewMetatable, internal.ToNumber, internal.getFunctionProxy
 
@@ -292,11 +293,11 @@ debug.setmetatable("", stringMt)
 --]]
 
 undefinedMt.__index = function(self, key)
-    error(errorHelper.newTypeError("Cannot read property '" .. key .. "' of undefined"))
+    throw(errorHelper.newTypeError("Cannot read property '" .. key .. "' of undefined"))
 end
 
 undefinedMt.__newindex = function(self, key)
-    error(errorHelper.newTypeError("Cannot set property '" .. key .. "' of undefined"))
+    throw(errorHelper.newTypeError("Cannot set property '" .. key .. "' of undefined"))
 end
 
 undefinedMt.__tostring = function ()
@@ -339,7 +340,7 @@ end
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
 function coreObjects.new(f, ...)
     if type(f) ~= "function" then
-        error(errorHelper.newTypeError(typeof(f) .. " is not a function"))
+        throw(errorHelper.newTypeError(typeof(f) .. " is not a function"))
     end
 
     local o = {}
@@ -385,7 +386,7 @@ end
 
 function coreObjects.instanceof(object, class)
     if type(class) ~= "function" then
-        error(errorHelper.newTypeError("Expecting a function in instanceof check, but got " .. tostring(class)))
+        throw(errorHelper.newTypeError("Expecting a function in instanceof check, but got " .. tostring(class)))
     end
 
     if class.prototype then
