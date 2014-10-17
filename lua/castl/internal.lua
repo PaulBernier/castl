@@ -66,7 +66,7 @@ function internal.defaultValueString(o)
             return value
         end
     end
-    
+
     throw = throw or require("castl.jssupport").throw
     throw(errorHelper.newTypeError("Cannot convert object to primitive value"))
 end
@@ -106,7 +106,7 @@ function internal.ToPrimitiveNumber(o)
     return defaultValueNumber(o)
 end
 
-function internal.ToNumber(value, typeV)
+local function ToNumber(value, typeV)
     local tvalue = typeV or type(value)
     if tvalue == "number" then
         return value
@@ -121,10 +121,10 @@ function internal.ToNumber(value, typeV)
         return 0/0
     end
 
-    return internal.ToNumber(defaultValueNumber(value))
+    return ToNumber(defaultValueNumber(value))
 end
 
-local ToNumber = internal.ToNumber
+internal.ToNumber = ToNumber
 
 function internal.ToString(value)
     local tv = type(value)
