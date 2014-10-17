@@ -22,7 +22,7 @@ local internal = require("castl.internal")
 local luajit = jit ~= nil
 
 -- Dependencies
-local null, ToPrimitiveNumber, ToNumber, ToObject = internal.null, internal.ToPrimitiveNumber, internal.ToNumber, internal.ToObject
+local null, ToPrimitiveNumber, ToNumber, ToObject, ToString = internal.null, internal.ToPrimitiveNumber, internal.ToNumber, internal.ToObject, internal.ToString
 local type, tonumber, tostring, pairs, setmetatable, getmetatable, error, select = type, tonumber, tostring, pairs, setmetatable, getmetatable, error, select
 local tinsert = table.insert
 local huge, abs = math.huge, math.abs
@@ -292,6 +292,16 @@ function jssupport.with(obj, env)
                 env[key] = value
             end
         end})
+end
+
+jssupport.throw = function(e)
+    -- Error.captureStackTrace was called on e
+    -- will display captured stack if uncaught
+    if (getmetatable(e) or {}).__stack then
+        getmetatable(e).__tostring = function() return e:_gstack() end
+    end
+
+    error(e, 0)
 end
 
 return jssupport

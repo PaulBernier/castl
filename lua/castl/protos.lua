@@ -32,6 +32,7 @@ protos.syntaxErrorProto = {}
 protos.typeErrorProto = {}
 protos.evalErrorProto = {}
 protos.uriErrorProto = {}
+protos.callSiteProto = {}
 
 -- load definition
 protos.loadPrototypesDefinition = function()
@@ -51,6 +52,7 @@ protos.loadPrototypesDefinition = function()
     require("castl.prototype.error.type_error")(protos.typeErrorProto)
     require("castl.prototype.error.eval_error")(protos.evalErrorProto)
     require("castl.prototype.error.uri_error")(protos.uriErrorProto)
+    require("castl.prototype.error.call_site")(protos.callSiteProto)
 end
 
 return protos

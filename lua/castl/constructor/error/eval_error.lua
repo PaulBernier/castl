@@ -18,12 +18,12 @@
 
 local EvalError
 
+local Error = require("castl.constructor.error.error")
 local evalErrorProto = require("castl.protos").evalErrorProto
 local internal = require("castl.internal")
 
 local setmetatable = setmetatable
 local get, put, ToNumber = internal.get, internal.put, internal.ToNumber
-local traceback = debug.traceback
 
 _ENV = nil
 
@@ -31,13 +31,13 @@ EvalError = function(this, message)
     local o = {}
     o.message = message
 
-    return setmetatable(o, {
+    setmetatable(o, {
         __index = function (self, key)
             return get(self, evalErrorProto, key)
         end,
         __newindex = put,
         __tostring = function(self)
-            return traceback(self:toString(), 4)
+            return self:toString()
         end,
         __sub = function(a, b)
             return ToNumber(a) - ToNumber(b)
@@ -49,6 +49,10 @@ EvalError = function(this, message)
             return ToNumber(a) / ToNumber(b)
         end,
         _prototype = evalErrorProto})
+
+    Error:captureStackTrace(o, EvalError)
+
+    return o
 end
 
 EvalError.prototype = evalErrorProto

@@ -45,6 +45,7 @@ protos.loadPrototypesDefinition()
 -- Exported environment
 local export = {
     -- jssupport
+    _throw = jssupport.throw,
     _eq = jssupport.equal,
     _add = jssupport.add,
     _addStr1 = jssupport.addString1,
@@ -126,7 +127,6 @@ local export = {
     -- standard library export
     _tostr = tostring,
     _pcall = pcall,
-    _throw = error,
     _ipairs = ipairs,
     _seq = table.remove
 }

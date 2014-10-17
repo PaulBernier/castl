@@ -520,7 +520,7 @@ local err = function(o)
         end,
         __newindex = put,
         __tostring = function(self)
-            return debug.traceback(self:toString(), 4)
+            return self:toString()
         end,
         __sub = function(a, b)
             return ToNumber(a) - ToNumber(b)

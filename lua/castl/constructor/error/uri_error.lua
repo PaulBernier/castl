@@ -18,12 +18,12 @@
 
 local URIError
 
+local Error = require("castl.constructor.error.error")
 local uriErrorProto = require("castl.protos").uriErrorProto
 local internal = require("castl.internal")
 
 local setmetatable = setmetatable
 local get, put, ToNumber = internal.get, internal.put, internal.ToNumber
-local traceback = debug.traceback
 
 _ENV = nil
 
@@ -31,13 +31,13 @@ URIError = function(this, message)
     local o = {}
     o.message = message
 
-    return setmetatable(o, {
+    setmetatable(o, {
         __index = function (self, key)
             return get(self, uriErrorProto, key)
         end,
         __newindex = put,
         __tostring = function(self)
-            return traceback(self:toString(), 4)
+            return self:toString()
         end,
         __sub = function(a, b)
             return ToNumber(a) - ToNumber(b)
@@ -49,6 +49,10 @@ URIError = function(this, message)
             return ToNumber(a) / ToNumber(b)
         end,
         _prototype = uriErrorProto})
+
+    Error:captureStackTrace(o, URIError)
+
+    return o
 end
 
 URIError.prototype = uriErrorProto
