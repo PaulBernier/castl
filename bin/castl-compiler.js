@@ -102,6 +102,10 @@ fs.readFile(filename, 'utf8', function (err, data) {
     if (luajit) {
         finalCode.push("local _ENV = require(\"castl.runtime\");");
         finalCode.push("return setfenv(function(...)");
+        if (nodejs) {
+            finalCode.push("local module = _obj({exports = _obj({})})");
+            finalCode.push("local exports = module.exports");
+        }
         finalCode.push(compiledCode);
         if (nodejs) {
             finalCode.push("return module.exports;");
@@ -109,6 +113,10 @@ fs.readFile(filename, 'utf8', function (err, data) {
         finalCode.push("end, _ENV)();");
     } else {
         finalCode.push("local _ENV = require(\"castl.runtime\");");
+        if (nodejs) {
+            finalCode.push("local module = _obj({exports = _obj({})})");
+            finalCode.push("local exports = module.exports");
+        }
         finalCode.push(compiledCode);
         if (nodejs) {
             finalCode.push("return module.exports;");

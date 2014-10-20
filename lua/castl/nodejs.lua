@@ -25,9 +25,6 @@ local find, sub, len = string.find, string.sub, string.len
 
 _ENV = nil
 
-nodejs.module = coreObject.obj({exports = coreObject.obj({})})
-nodejs.exports = nodejs.module.exports
-
 nodejs.require = function(this, packagename)
     local index = find(packagename, "/[^/]*$")
     if index then

@@ -137,8 +137,6 @@ end
 
 if _nodejs ~= nil then
     local nodejs = require("castl.nodejs")
-    export.module = nodejs.module
-    export.exports = nodejs.exports
     export.require = nodejs.require
 end
 
