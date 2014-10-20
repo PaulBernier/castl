@@ -115,5 +115,5 @@ fs.readFile(filename, 'utf8', function (err, data) {
         }
     }
 
-    console.log(finalCode.join("\n"));
+    fs.writeFileSync(".tmp.lua", finalCode.join("\n"), "utf8");
 });

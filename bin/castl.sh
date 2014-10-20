@@ -121,7 +121,7 @@ for arg in "$@"; do
     fi
 done
 
-castl-compiler $filename $parser $node $luajit $tolerant $debug $eval $mini $annotation $heuristic > ".tmp.lua"
+castl-compiler $filename $parser $node $luajit $tolerant $debug $eval $mini $annotation $heuristic
 compileStatus=$?
 
 # compilation failed
