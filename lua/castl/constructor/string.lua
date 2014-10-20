@@ -31,12 +31,8 @@ local ToString, withinNew, get, put, ToNumber, ToUint16 = internal.ToString, int
 
 _ENV = nil
 
-String = function(this, arg)
-    if arg == nil then
-        arg = ""
-    else
-        arg = ToString(arg)
-    end
+String = function(this, ...)
+    local arg = pack(...).n > 0 and ToString(...) or "";
 
     -- String constructor not called within a new
     if not withinNew(this, stringProto) then
