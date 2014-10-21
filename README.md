@@ -40,9 +40,9 @@ npm test
 $ castl -v <file.js>
 ```
 
-* Compile code in `<file.js>`, does not print anything but save the compiled code to "mycode.lua":
+* Compile code in `file.js`, does not print anything but save the compiled code to `file.js.lua`:
 ```
-$ castl <file.js> -o "mycode.lua"
+$ castl file.js -o 
 ```
 
 **The options of the command line are:**
@@ -51,7 +51,7 @@ Option  | Description
 ------------- | -------------
 `<filename.js>`  | name of the file to compile.
 -v  | verbose, print code to be run.
--o | output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named _<filename>.lua_.
+-o | output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named _filename.lua_.
 -c | if -o option is active the outputted code is Lua/LuaJIT bytecode.
 -n | print line numbers if -v or --cat options are active.
 -h, --help | display help.
