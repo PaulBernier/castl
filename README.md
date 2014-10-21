@@ -51,7 +51,7 @@ Option  | Description
 ------------- | -------------
 `<filename.js>`  | name of the file to compile.
 -v  | verbose, print code to be run.
--o | output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named _output.lua_.
+-o | output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named _<filename>.lua_.
 -c | if -o option is active the outputted code is Lua/LuaJIT bytecode.
 -n | print line numbers if -v or --cat options are active.
 -h, --help | display help.

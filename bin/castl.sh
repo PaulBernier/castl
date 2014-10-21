@@ -30,7 +30,6 @@ annotation=false
 mini=false
 linenumers=false
 luajit=false
-outputname="output.lua"
 parser="esprima"
 filename="code.js"
 
@@ -38,7 +37,7 @@ function help {
     echo "Usage: ./castl.sh [options] filename.js";
     echo "Options:"
     printf "\t%-15s %s\n" "-v" "verbose, print code to be run"
-    printf "\t%-15s %s\n" "-o" "output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named output.lua"
+    printf "\t%-15s %s\n" "-o" "output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named <filename>.lua"
     printf "\t%-15s %s\n" "-c" "if -o option is active the outputted code is Lua/LuaJIT bytecode"
     printf "\t%-15s %s\n" "-n" "print line numbers if -v or --cat options are active"
     printf "\t%-15s %s\n" "-h, --help" "display this help"
@@ -148,6 +147,10 @@ if [ "$verbose" = true ]; then
 fi
 
 if [ "$output" = true ]; then    
+    if [[ -z "$outputname" ]]; then
+        outputname="$filename.lua"
+    fi
+    
     if [ "$compiled" = true ]; then
         if [ "$luajit" = true ]; then
             luajit -b ".tmp.lua" $outputname
