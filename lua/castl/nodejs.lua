@@ -34,6 +34,7 @@ nodejs.require = function(this, packagename)
             file = sub(file, 1, len(file) - 3)
         end
         package.path = package.path .. ";" .. path .. "?.lua"
+        package.path = package.path .. ";" .. path .. "?.js.lua"
         return require(file)
     end
 
