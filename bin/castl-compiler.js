@@ -12,6 +12,7 @@ var evalMode = process.argv[8] === "true";
 var mini = process.argv[9] === "true";
 var annotation = process.argv[10] === "true";
 var heuristic = process.argv[11] === "true";
+var outputName = process.argv[12];
 
 var parser = require(parserName);
 
@@ -123,5 +124,5 @@ fs.readFile(filename, 'utf8', function (err, data) {
         }
     }
 
-    fs.writeFileSync(".tmp.lua", finalCode.join("\n"), "utf8");
+    fs.writeFileSync(outputName, finalCode.join("\n"), "utf8");
 });

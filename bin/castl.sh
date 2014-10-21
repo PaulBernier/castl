@@ -55,7 +55,6 @@ function help {
 
 waitname=false
 for arg in "$@"; do
-
     if [[ $arg == --* ]] ; then
         waitname=false
         if [ $arg = "--acorn" ]; then
@@ -120,12 +119,14 @@ for arg in "$@"; do
     fi
 done
 
-castl-compiler $filename $parser $node $luajit $tolerant $debug $eval $mini $annotation $heuristic
+tmp_filename="$(dirname ${filename})/.$(basename ${filename}).lua"
+
+castl-compiler $filename $parser $node $luajit $tolerant $debug $eval $mini $annotation $heuristic $tmp_filename
 compileStatus=$?
 
 # compilation failed
 if (($compileStatus > 0)); then
-    rm ".tmp.lua"
+    rm "$tmp_filename"
     exit $compileStatus;
 fi
 
@@ -138,9 +139,9 @@ if [ "$verbose" = true ]; then
     
     echo "--------------------------------------------------------------------"
     if [ "$linenumers" = true ]; then   
-        cat -n ".tmp.lua"
+        cat -n "$tmp_filename"
     else
-        cat ".tmp.lua"
+        cat "$tmp_filename"
     fi
     echo ""
     echo "--------------------------------------------------------------------"
@@ -153,12 +154,12 @@ if [ "$output" = true ]; then
     
     if [ "$compiled" = true ]; then
         if [ "$luajit" = true ]; then
-            luajit -b ".tmp.lua" $outputname
+            luajit -b "$tmp_filename" $outputname
         else
-            luac -o $outputname ".tmp.lua"
+            luac -o $outputname "$tmp_filename"
         fi
     else
-        cp ".tmp.lua" $outputname
+        cp "$tmp_filename" $outputname
     fi
 fi
 
@@ -167,15 +168,15 @@ if [ "$execute" = true ]; then
         if [ "$verbose" = true ]; then
             echo "-- Execution output (LuaJIT):"
         fi
-        luajit ".tmp.lua";
+        luajit "$tmp_filename";
     else
         if [ "$verbose" = true ]; then
             echo "-- Execution output (Lua 5.2):"
         fi
-        lua5.2 ".tmp.lua";
+        lua5.2 "$tmp_filename";
     fi
     execStatus=$?
 fi
-rm ".tmp.lua"
+rm "$tmp_filename"
 
 exit $execStatus;
