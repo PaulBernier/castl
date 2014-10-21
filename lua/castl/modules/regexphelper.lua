@@ -49,7 +49,7 @@ end
 -- TODO: it's a hack. maybe I missed something but it's the only way
 -- I found to know if second returned argument of rex.split is a capture or only the separator pattern itself
 -- http://rrthomas.github.io/lrexlib/manual.html#split
-regexHelper.regExpHasCaptured = function(subject, regexp)
+regexHelper.regExpHasCaptures = function(subject, regexp)
     rex = rex or require(regexEngineName)
     local _,_,capture = rex.find(subject, regexp.source)
     return capture

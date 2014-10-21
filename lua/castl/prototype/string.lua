@@ -292,7 +292,7 @@ return function(stringPrototype)
         local ret = {}
 
         if isRegExp then
-            local captures = regexpHelper.regExpHasCaptured(value, separator)
+            local captures = regexpHelper.regExpHasCaptures(value, separator)
             local iter = regexpHelper.split(value, separator)
 
             while true do
