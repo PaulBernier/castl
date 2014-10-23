@@ -226,32 +226,23 @@ if (program.output || execute) {
     fs.writeFileSync(tmpFilename, transpiledCode, "utf8");
 }
 
+var execCallback = function (error, stdout, stderr) {
+    if (stdout) console.log(stdout);
+    if (stderr) console.log(stderr);
+    if (error !== null) {
+        if (fs.existsSync(tmpFilename)) fs.unlinkSync(tmpFilename);
+        process.exit(8);
+    }
+}
+
 if (program.output) {
     // Output to bytecode
     if (program.bytecode) {
         // LuaJIT bytecode
         if (program.jit) {
-            exec("luajit -b " + tmpFilename + " " + outputname,
-                function (error, stdout, stderr) {
-                    if (stdout) console.log(stdout);
-                    if (stderr) console.log(stderr);
-                    if (error !== null) {
-                        if (fs.existsSync(tmpFilename)) fs.unlinkSync(tmpFilename);
-                        process.exit(8);
-                    }
-                }
-            );
+            exec("luajit -b " + tmpFilename + " " + outputname, execCallback);
         } else { // Lua 5.2 bytecode
-            exec("luac5.2 -o " + outputname + " " + tmpFilename,
-                function (error, stdout, stderr) {
-                    if (stdout) console.log(stdout);
-                    if (stderr) console.log(stderr);
-                    if (error !== null) {
-                        if (fs.existsSync(tmpFilename)) fs.unlinkSync(tmpFilename);
-                        process.exit(8);
-                    }
-                }
-            );
+            exec("luac5.2 -o " + outputname + " " + tmpFilename, execCallback);
         }
     } else { // Output to text
         fs.writeFileSync(outputname, transpiledCode, "utf8");
@@ -262,29 +253,11 @@ if (execute) {
     if (program.jit) {
         if (program.verbose)
             console.log("-- Execution output (LuaJIT):");
-        exec("luajit " + tmpFilename,
-            function (error, stdout, stderr) {
-                if (stdout) console.log(stdout);
-                if (stderr) console.log(stderr);
-                if (error !== null) {
-                    if (fs.existsSync(tmpFilename)) fs.unlinkSync(tmpFilename);
-                    process.exit(8);
-                }
-            }
-        );
+        exec("luajit " + tmpFilename, execCallback);
     } else {
         if (program.verbose)
             console.log("-- Execution output (Lua 5.2):");
-        exec("lua5.2 " + tmpFilename,
-            function (error, stdout, stderr) {
-                if (stdout) console.log(stdout);
-                if (stderr) console.log(stderr);
-                if (error !== null) {
-                    if (fs.existsSync(tmpFilename)) fs.unlinkSync(tmpFilename);
-                    process.exit(8);
-                }
-            }
-        );
+        exec("lua5.2 " + tmpFilename, execCallback);
     }
 }
 
