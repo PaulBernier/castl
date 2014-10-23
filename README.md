@@ -49,21 +49,21 @@ $ castl file.js -o
 
 Option  | Description
 ------------- | -------------
-`<filename.js>`  | name of the file to compile.
--v  | verbose, print code to be run.
--o | output the plain text Lua code in a file. Specify the name of the file after this option, otherwise the file will be named _filename.lua_.
--c | if -o option is active the outputted code is Lua/LuaJIT bytecode.
--n | print line numbers if -v or --cat options are active.
--h, --help | display help.
--a, --annotation | use annotations to optimize generated code.
--g, --heuristic | enable heuristic compilation.
---cat | don't execute, just print code that would be run.
---jit | compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter if -e option is active).
---mini | minify AST using Esmangle before compiling. Size of outputted file is shrunk.
---debug | add comments in the Lua code referring to the line number of the original statement in the JS file.
---acorn | use Acorn parser. If not specified Esprima is used.
---strict | make Esprima and Acorn not error-tolerant.
---node | add a very basic support of NodeJS 'require' system.
+-h, --help           |output usage information
+-v, --verbose        |Verbose, print the compiled code to be run
+-o, --output [name]  |Output the generated Lua code in a file. The default output name is _filename_.lua
+-b, --bytecode       |If -o option is active the outputted code is in Lua/LuaJIT bytecode
+-v, --verbose        |Verbose, print the compiled code to be run
+-n, --linenumber     |Print line numbers if -v or --cat options are active
+-a, --annotation     |Use annotations to optimize generated code
+-g, --heuristic      |Enable heuristic compilation
+--cat                |Don't execute, just print the code that would be run
+--jit                |Compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter)
+--mini               |Minify AST using Esmangle before compiling. Size of outputted file is shrunk
+--debug              |Add comments in the Lua code referring to the line number of the original statement in the JS file
+--acorn              |use Acorn parser. If not specified Esprima is used
+--strict             |Make Esprima and Acorn not error-tolerant
+--node               |Add a very basic support of NodeJS 'require' system
 
 ## Annotations
 
@@ -88,7 +88,7 @@ CASTL is made of two parts:
 * a JavaScript script (`castl.js`) which converts a SpiderMonkey AST to Lua code
 * a Lua runtime library (located in `lua/castl/`) which allows the execution of the code compiled by `castl.js`
 
-There is also a useful bash script `bin/castl.sh` to easily both compile and execute JS files.
+There is also a useful command line tool `bin/castl.js` to easily both compile and execute JS files.
 
 CASTL has one dependency, [Lrexlib](http://rrthomas.github.io/lrexlib/), which provides a binding of PCRE regular expression library API.
 
