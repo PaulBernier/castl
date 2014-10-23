@@ -44,7 +44,7 @@ local coreObjects = {}
 -- Dependencies
 local getmetatable, setmetatable, rawget, rawset = getmetatable, setmetatable, rawget, rawset
 local debug = debug
-local type, max, strlen, strsub, sub, tonumber = type, math.max, string.len, string.sub, string.sub, tonumber
+local type, max, strlen, strsub, tonumber = type, math.max, string.len, string.sub, tonumber
 local pack = table.pack or function(...) return {n = select('#',...),...} end
 local tinsert, concat, sort = table.insert, table.concat, table.sort
 local pairs, ipairs, tostring = pairs, ipairs, tostring
@@ -428,22 +428,9 @@ end
 
 function coreObjects.propsObj(arg, inherited)
     local ret = {}
-    local getterSetter = {}
-
     repeat
         for i in pairs(arg) do
-            local beginStr = sub(i, 1, 2)
-            if beginStr[0] == "_" then
-                if beginStr == "_g" or beginStr == "_s" then
-                    local name = sub(i, 3)
-                    if getterSetter[name] == nil then
-                        tinsert(ret, name)
-                        getterSetter[name] = true
-                    end
-                end
-            else
-                tinsert(ret, i)
-            end
+            tinsert(ret, i)
         end
         arg = (getmetatable(arg) or {})._prototype
     until not inherited or arg == nil
@@ -472,22 +459,10 @@ end
 
 function coreObjects.propsArr(arg, enumAll)
     local ret = {}
-    local getterSetter = {}
 
     for i in pairs(arg) do
         if enumAll or not (i == "length") then
-            local beginStr = sub(i, 1, 2)
-            if beginStr[0] == "_" then
-                if beginStr == "_g" or beginStr == "_s" then
-                    local name = sub(i, 3)
-                    if getterSetter[name] == nil then
-                        tinsert(ret, name)
-                        getterSetter[name] = true
-                    end
-                end
-            else
-                tinsert(ret, i)
-            end
+            tinsert(ret, i)
         end
     end
 
