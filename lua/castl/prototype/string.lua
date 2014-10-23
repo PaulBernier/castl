@@ -26,7 +26,6 @@ return function(stringPrototype)
     local RegExp = require("castl.constructor.regexp")
     local internal = require("castl.internal")
     local regexpHelper = require("castl.modules.regexphelper")
-    local common = require("castl.modules.common")
 
     local type, tonumber, min, max, rawget, rawset, huge = type, tonumber, math.min, math.max, rawget, rawset, math.huge
     local pack = table.pack or function(...) return {n = select('#',...),...} end
@@ -34,7 +33,7 @@ return function(stringPrototype)
     local error, require, getmetatable = error, require, getmetatable
     local sub, byte, gmatch, find, reverse = string.sub, string.byte, string.gmatch, string.find, string.reverse
     local lower, upper, match, gsub, len = string.lower, string.upper, string.match, string.gsub, string.len
-    local null, ToString, ToInteger = internal.null, internal.ToString, internal.ToInteger
+    local null, ToString, ToInteger, ToNumber, ToUint32 = internal.null, internal.ToString, internal.ToInteger, internal.ToNumber, internal.ToUint32
 
     _ENV = nil
 
@@ -270,6 +269,7 @@ return function(stringPrototype)
 
     stringPrototype.split = function (this, separator, limit)
         local value = valueof(this)
+        limit = limit == nil and huge or ToUint32(limit)
 
         if separator == nil or value == "" then
             return array({[0] = value}, 1)
@@ -293,6 +293,7 @@ return function(stringPrototype)
 
         if isRegExp then
             local captures = regexpHelper.regExpHasCaptures(value, separator)
+            --get iterator
             local iter = regexpHelper.split(value, separator)
 
             while true do
@@ -308,33 +309,35 @@ return function(stringPrototype)
                     end
                 end
             end
+
+            local length = #ret
+            -- Limit number of results
+            for i = length, limit + 1, -1 do
+                tremove(ret, i)
+            end
         else
-            -- escape magic chars as seperator is a string not a RegExp
-            separator = '[^' .. common.escapeMagicChars(separator) .. ']+'
-            for k in gmatch(value, separator) do
-                tinsert(ret, k)
+            -- separator is a string
+            local i = 1
+            local start = 1
+            local first, last = find(value, separator, start, true)
+            while first and i <= limit do
+                ret[i] = sub(value, start, first - 1)
+                start = last + 1
+                first, last = find(value, separator, start, true)
+                i = i + 1
+            end
+            if #ret < limit then
+                ret[i] = sub(value, start)
             end
         end
 
-        -- Limit number of results
         local length = #ret
-        limit = tonumber(limit)
-        if limit and limit >= 0 then
-            limit = min(limit, length)
-        else
-            limit = length
-        end
-
-        for i = length, limit + 1, -1 do
-            tremove(ret, i)
-        end
-
         -- shift to 0-based index
         local tmp = rawget(ret, 1)
         tremove(ret, 1)
         rawset(ret, 0, tmp)
 
-        return array(ret, limit)
+        return array(ret, length)
     end
 
     local getReplacerRegExp = function(newSubStr)

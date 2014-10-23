@@ -162,6 +162,14 @@ assert(ret[1] === "der;f");
 assert(ret[2] === "df!kl;m?rr");
 assert(ret.length === 3);
 
+str = "abcdadha";
+ret = str.split("a");
+assert(ret.length === 4);
+assert(ret[0] === "");
+assert(ret[1] === "bcd");
+assert(ret[2] === "dh");
+assert(ret[3] === "");
+
 // Test with magic chars of Lua
 str = new String("abc.def.ghi");
 ret = str.split(".");
