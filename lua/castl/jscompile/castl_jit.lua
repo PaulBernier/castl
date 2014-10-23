@@ -91,97 +91,98 @@ local line,compiledStatement;
 repeat
 local _into = false;
 local _cases = {["ExpressionStatement"] = true,["BlockStatement"] = true,["FunctionDeclaration"] = true,["VariableDeclaration"] = true,["IfStatement"] = true,["ForStatement"] = true,["WhileStatement"] = true,["DoWhileStatement"] = true,["ForInStatement"] = true,["ReturnStatement"] = true,["BreakStatement"] = true,["TryStatement"] = true,["ThrowStatement"] = true,["SwitchStatement"] = true,["ContinueStatement"] = true,["LabeledStatement"] = true,["WithStatement"] = true,["EmptyStatement"] = true,["DebuggerStatement"] = true};
-if (not _cases[statement.type]) then
+local _v = statement.type;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (statement.type == "ExpressionStatement") then
+if _into or (_v == "ExpressionStatement") then
 compiledStatement = compileExpressionStatement(_ENV,statement.expression);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "BlockStatement") then
+if _into or (_v == "BlockStatement") then
 compiledStatement = compileListOfStatements(_ENV,statement.body);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "FunctionDeclaration") then
+if _into or (_v == "FunctionDeclaration") then
 compiledStatement = compileFunctionDeclaration(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "VariableDeclaration") then
+if _into or (_v == "VariableDeclaration") then
 compiledStatement = compileVariableDeclaration(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "IfStatement") then
+if _into or (_v == "IfStatement") then
 compiledStatement = compileIfStatement(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "ForStatement") then
+if _into or (_v == "ForStatement") then
 
 _into = true;
 end
-if _into or (statement.type == "WhileStatement") then
+if _into or (_v == "WhileStatement") then
 
 _into = true;
 end
-if _into or (statement.type == "DoWhileStatement") then
+if _into or (_v == "DoWhileStatement") then
 
 _into = true;
 end
-if _into or (statement.type == "ForInStatement") then
+if _into or (_v == "ForInStatement") then
 compiledStatement = compileIterationStatement(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "ReturnStatement") then
+if _into or (_v == "ReturnStatement") then
 compiledStatement = compileReturnStatement(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "BreakStatement") then
+if _into or (_v == "BreakStatement") then
 compiledStatement = compileBreakStatement(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "TryStatement") then
+if _into or (_v == "TryStatement") then
 compiledStatement = compileTryStatement(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "ThrowStatement") then
+if _into or (_v == "ThrowStatement") then
 compiledStatement = compileThrowStatement(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "SwitchStatement") then
+if _into or (_v == "SwitchStatement") then
 compiledStatement = compileSwitchStatement(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "ContinueStatement") then
+if _into or (_v == "ContinueStatement") then
 compiledStatement = compileContinueStatement(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "LabeledStatement") then
+if _into or (_v == "LabeledStatement") then
 compiledStatement = compileLabeledStatement(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "WithStatement") then
+if _into or (_v == "WithStatement") then
 compiledStatement = compileWithStatement(_ENV,statement);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "EmptyStatement") then
+if _into or (_v == "EmptyStatement") then
 
 _into = true;
 end
-if _into or (statement.type == "DebuggerStatement") then
+if _into or (_v == "DebuggerStatement") then
 do return ""; end
 _into = true;
 end
@@ -269,26 +270,27 @@ protectedCallManager:openIterationStatement();
 repeat
 local _into = false;
 local _cases = {["ForStatement"] = true,["WhileStatement"] = true,["DoWhileStatement"] = true,["ForInStatement"] = true};
-if (not _cases[statement.type]) then
+local _v = statement.type;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (statement.type == "ForStatement") then
+if _into or (_v == "ForStatement") then
 compiledIterationStatement = compileForStatement(_ENV,statement,compiledLabel);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "WhileStatement") then
+if _into or (_v == "WhileStatement") then
 compiledIterationStatement = compileWhileStatement(_ENV,statement,compiledLabel);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "DoWhileStatement") then
+if _into or (_v == "DoWhileStatement") then
 compiledIterationStatement = compileDoWhileStatement(_ENV,statement,compiledLabel);
 do break end;
 _into = true;
 end
-if _into or (statement.type == "ForInStatement") then
+if _into or (_v == "ForInStatement") then
 compiledIterationStatement = compileForInStatement(_ENV,statement,compiledLabel);
 do break end;
 _into = true;
@@ -593,12 +595,11 @@ labelTracker[compiledLabel].mayContinue = true;
 do return (("goto " .. compiledLabel) .. "_c;"); end
 end);
 compileSwitchStatement = (function (this, statement)
-local hasDefault,compiledTests,caseTablementElement,casesTable,i,compiledDiscriminant,compiledSwitchStatement,cases;
+local hasDefault,compiledTests,caseTablementElement,casesTable,i,compiledSwitchStatement,cases;
 protectedCallManager:openSwitchStatement();
 cases = statement.cases;
 if (cases.length>0) then
 compiledSwitchStatement = _arr({[0]="repeat\010local _into = false;\010"},1);
-compiledDiscriminant = compileExpression(_ENV,statement.discriminant);
 casesTable = _arr({},0);
 compiledTests = _arr({},0);
 i = 0;
@@ -618,9 +619,10 @@ end
 compiledSwitchStatement:push("local _cases = {");
 compiledSwitchStatement:push(casesTable:join(","));
 compiledSwitchStatement:push("};\010");
-compiledSwitchStatement:push("if (not _cases[");
-compiledSwitchStatement:push(compiledDiscriminant);
-compiledSwitchStatement:push("]) then\010");
+compiledSwitchStatement:push("local _v = ");
+compiledSwitchStatement:push(compileExpression(_ENV,statement.discriminant));
+compiledSwitchStatement:push(";\010");
+compiledSwitchStatement:push("if not _cases[_v] then\010");
 compiledSwitchStatement:push("_into = true;\010");
 compiledSwitchStatement:push("goto _default\010");
 compiledSwitchStatement:push("end\010");
@@ -628,9 +630,7 @@ hasDefault = false;
 i = 0;
 while (i<cases.length) do
 if (cases[i].test ~= null) then
-compiledSwitchStatement:push("if _into or (");
-compiledSwitchStatement:push(compiledDiscriminant);
-compiledSwitchStatement:push(" == ");
+compiledSwitchStatement:push("if _into or (_v == ");
 compiledSwitchStatement:push(compiledTests[i]);
 compiledSwitchStatement:push(") then\010");
 else
@@ -780,71 +780,72 @@ compileExpression = (function (this, expression, meta)
 repeat
 local _into = false;
 local _cases = {["AssignmentExpression"] = true,["FunctionExpression"] = true,["Identifier"] = true,["Literal"] = true,["UnaryExpression"] = true,["BinaryExpression"] = true,["LogicalExpression"] = true,["MemberExpression"] = true,["CallExpression"] = true,["NewExpression"] = true,["ThisExpression"] = true,["ObjectExpression"] = true,["UpdateExpression"] = true,["ArrayExpression"] = true,["ConditionalExpression"] = true,["SequenceExpression"] = true};
-if (not _cases[expression.type]) then
+local _v = expression.type;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (expression.type == "AssignmentExpression") then
+if _into or (_v == "AssignmentExpression") then
 do return compileAssignmentExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "FunctionExpression") then
+if _into or (_v == "FunctionExpression") then
 do return compileFunction(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "Identifier") then
+if _into or (_v == "Identifier") then
 do return compileIdentifier(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "Literal") then
+if _into or (_v == "Literal") then
 do return compileLiteral(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "UnaryExpression") then
+if _into or (_v == "UnaryExpression") then
 do return compileUnaryExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "BinaryExpression") then
+if _into or (_v == "BinaryExpression") then
 do return compileBinaryExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "LogicalExpression") then
+if _into or (_v == "LogicalExpression") then
 do return compileLogicalExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "MemberExpression") then
+if _into or (_v == "MemberExpression") then
 do return compileMemberExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "CallExpression") then
+if _into or (_v == "CallExpression") then
 do return compileCallExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "NewExpression") then
+if _into or (_v == "NewExpression") then
 do return compileNewExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "ThisExpression") then
+if _into or (_v == "ThisExpression") then
 do return compileThisExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "ObjectExpression") then
+if _into or (_v == "ObjectExpression") then
 do return compileObjectExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "UpdateExpression") then
+if _into or (_v == "UpdateExpression") then
 do return compileUpdateExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "ArrayExpression") then
+if _into or (_v == "ArrayExpression") then
 do return compileArrayExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "ConditionalExpression") then
+if _into or (_v == "ConditionalExpression") then
 do return compileConditionalExpression(_ENV,expression,meta); end
 _into = true;
 end
-if _into or (expression.type == "SequenceExpression") then
+if _into or (_v == "SequenceExpression") then
 do return compileSequenceExpression(_ENV,expression,meta); end
 _into = true;
 end
@@ -875,54 +876,55 @@ local compiledUnaryExpressionStatement,compiledExpressionStatement;
 repeat
 local _into = false;
 local _cases = {["Literal"] = true,["Identifier"] = true,["ThisExpression"] = true,["UpdateExpression"] = true,["AssignmentExpression"] = true,["BinaryExpression"] = true,["LogicalExpression"] = true,["ConditionalExpression"] = true,["MemberExpression"] = true,["FunctionExpression"] = true,["UnaryExpression"] = true,["CallExpression"] = true,["NewExpression"] = true,["ArrayExpression"] = true,["ObjectExpression"] = true,["SequenceExpression"] = true};
-if (not _cases[expression.type]) then
+local _v = expression.type;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (expression.type == "Literal") then
+if _into or (_v == "Literal") then
 
 _into = true;
 end
-if _into or (expression.type == "Identifier") then
+if _into or (_v == "Identifier") then
 
 _into = true;
 end
-if _into or (expression.type == "ThisExpression") then
+if _into or (_v == "ThisExpression") then
 do return end
 _into = true;
 end
-if _into or (expression.type == "UpdateExpression") then
+if _into or (_v == "UpdateExpression") then
 do return (compileUpdateExpressionNoEval(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
-if _into or (expression.type == "AssignmentExpression") then
+if _into or (_v == "AssignmentExpression") then
 do return (compileAssignmentExpressionNoEval(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
-if _into or (expression.type == "BinaryExpression") then
+if _into or (_v == "BinaryExpression") then
 
 _into = true;
 end
-if _into or (expression.type == "LogicalExpression") then
+if _into or (_v == "LogicalExpression") then
 
 _into = true;
 end
-if _into or (expression.type == "ConditionalExpression") then
+if _into or (_v == "ConditionalExpression") then
 
 _into = true;
 end
-if _into or (expression.type == "MemberExpression") then
+if _into or (_v == "MemberExpression") then
 
 _into = true;
 end
-if _into or (expression.type == "FunctionExpression") then
+if _into or (_v == "FunctionExpression") then
 compiledExpressionStatement = _arr({[0]="_e("},1);
 compiledExpressionStatement:push(compileExpression(_ENV,expression,meta));
 compiledExpressionStatement:push(");");
 do return compiledExpressionStatement:join(""); end
 _into = true;
 end
-if _into or (expression.type == "UnaryExpression") then
+if _into or (_v == "UnaryExpression") then
 if (expression.operator == "!") then
 compiledUnaryExpressionStatement = _arr({[0]="_e("},1);
 compiledUnaryExpressionStatement:push(compileUnaryExpression(_ENV,expression,meta));
@@ -933,23 +935,23 @@ end
 do return (compileUnaryExpression(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
-if _into or (expression.type == "CallExpression") then
+if _into or (_v == "CallExpression") then
 
 _into = true;
 end
-if _into or (expression.type == "NewExpression") then
+if _into or (_v == "NewExpression") then
 
 _into = true;
 end
-if _into or (expression.type == "ArrayExpression") then
+if _into or (_v == "ArrayExpression") then
 
 _into = true;
 end
-if _into or (expression.type == "ObjectExpression") then
+if _into or (_v == "ObjectExpression") then
 
 _into = true;
 end
-if _into or (expression.type == "SequenceExpression") then
+if _into or (_v == "SequenceExpression") then
 do return (compileExpression(_ENV,expression,meta) .. ";"); end
 _into = true;
 end
@@ -966,11 +968,12 @@ compiledCompoundAssignmentBinaryExpression = _arr({[0]="("},1);
 repeat
 local _into = false;
 local _cases = {["<<="] = true,[">>="] = true,[">>>="] = true,["+="] = true,["-="] = true,["*="] = true,["/="] = true,["%="] = true,["|="] = true,["^="] = true,["&="] = true};
-if (not _cases[operator]) then
+local _v = operator;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (operator == "<<=") then
+if _into or (_v == "<<=") then
 compiledCompoundAssignmentBinaryExpression:push("_lshift(");
 compiledCompoundAssignmentBinaryExpression:push(left);
 compiledCompoundAssignmentBinaryExpression:push(",");
@@ -983,7 +986,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (operator == ">>=") then
+if _into or (_v == ">>=") then
 compiledCompoundAssignmentBinaryExpression:push("_arshift(");
 compiledCompoundAssignmentBinaryExpression:push(left);
 compiledCompoundAssignmentBinaryExpression:push(",");
@@ -996,7 +999,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (operator == ">>>=") then
+if _into or (_v == ">>>=") then
 compiledCompoundAssignmentBinaryExpression:push("_rshift(");
 compiledCompoundAssignmentBinaryExpression:push(left);
 compiledCompoundAssignmentBinaryExpression:push(",");
@@ -1009,12 +1012,12 @@ end
 do break end;
 _into = true;
 end
-if _into or (operator == "+=") then
+if _into or (_v == "+=") then
 compiledCompoundAssignmentBinaryExpression:push(compileAdditionOperator(_ENV,left,right,metaLeft,metaRight,meta));
 do break end;
 _into = true;
 end
-if _into or (operator == "-=") then
+if _into or (_v == "-=") then
 pushSimpleBinaryExpression(_ENV,compiledCompoundAssignmentBinaryExpression," - ",left,right);
 if _bool(meta) then
 meta.type = "number";
@@ -1023,7 +1026,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (operator == "*=") then
+if _into or (_v == "*=") then
 pushSimpleBinaryExpression(_ENV,compiledCompoundAssignmentBinaryExpression," * ",left,right);
 if _bool(meta) then
 meta.type = "number";
@@ -1032,7 +1035,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (operator == "/=") then
+if _into or (_v == "/=") then
 pushSimpleBinaryExpression(_ENV,compiledCompoundAssignmentBinaryExpression," / ",left,right);
 if _bool(meta) then
 meta.type = "number";
@@ -1041,7 +1044,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (operator == "%=") then
+if _into or (_v == "%=") then
 compiledCompoundAssignmentBinaryExpression:push("_mod(");
 compiledCompoundAssignmentBinaryExpression:push(left);
 compiledCompoundAssignmentBinaryExpression:push(",");
@@ -1054,7 +1057,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (operator == "|=") then
+if _into or (_v == "|=") then
 compiledCompoundAssignmentBinaryExpression:push("_bor(");
 compiledCompoundAssignmentBinaryExpression:push(left);
 compiledCompoundAssignmentBinaryExpression:push(",");
@@ -1067,7 +1070,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (operator == "^=") then
+if _into or (_v == "^=") then
 compiledCompoundAssignmentBinaryExpression:push("_bxor(");
 compiledCompoundAssignmentBinaryExpression:push(left);
 compiledCompoundAssignmentBinaryExpression:push(",");
@@ -1080,7 +1083,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (operator == "&=") then
+if _into or (_v == "&=") then
 compiledCompoundAssignmentBinaryExpression:push("_band(");
 compiledCompoundAssignmentBinaryExpression:push(left);
 compiledCompoundAssignmentBinaryExpression:push(",");
@@ -1147,11 +1150,12 @@ compiledAssignmentExpression = _arr({},0);
 repeat
 local _into = false;
 local _cases = {["="] = true};
-if (not _cases[expression.operator]) then
+local _v = expression.operator;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (expression.operator == "=") then
+if _into or (_v == "=") then
 left = compileExpression(_ENV,expression.left);
 right = compileExpression(_ENV,expression.right);
 compiledAssignmentExpression:push(left);
@@ -1189,11 +1193,12 @@ compiledAssignmentExpression:push(" = ");
 repeat
 local _into = false;
 local _cases = {["="] = true};
-if (not _cases[expression.operator]) then
+local _v = expression.operator;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (expression.operator == "=") then
+if _into or (_v == "=") then
 compiledAssignmentExpression:push(right);
 if _bool(meta) then
 meta.type = metaRight.type;
@@ -1232,11 +1237,12 @@ compiledUpdateExpression:push(" = ");
 repeat
 local _into = false;
 local _cases = {["++"] = true,["--"] = true};
-if (not _cases[expression.operator]) then
+local _v = expression.operator;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (expression.operator == "++") then
+if _into or (_v == "++") then
 if (metaArgument.type == "number") then
 compiledUpdateExpression:push(compiledArgument);
 compiledUpdateExpression:push(" + 1");
@@ -1249,7 +1255,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "--") then
+if _into or (_v == "--") then
 if (metaArgument.type == "number") then
 compiledUpdateExpression:push(compiledArgument);
 compiledUpdateExpression:push(" - 1");
@@ -1293,11 +1299,12 @@ if _bool(expression.prefix) then
 repeat
 local _into = false;
 local _cases = {["++"] = true,["--"] = true};
-if (not _cases[expression.operator]) then
+local _v = expression.operator;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (expression.operator == "++") then
+if _into or (_v == "++") then
 if (metaArgument.type == "number") then
 compiledUpdateExpression:push(compiledArgument);
 compiledUpdateExpression:push(" + 1; ");
@@ -1310,7 +1317,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "--") then
+if _into or (_v == "--") then
 if (metaArgument.type == "number") then
 compiledUpdateExpression:push(compiledArgument);
 compiledUpdateExpression:push(" - 1; ");
@@ -1339,11 +1346,12 @@ compiledUpdateExpression:push(" = ");
 repeat
 local _into = false;
 local _cases = {["++"] = true,["--"] = true};
-if (not _cases[expression.operator]) then
+local _v = expression.operator;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (expression.operator == "++") then
+if _into or (_v == "++") then
 if (metaArgument.type == "number") then
 compiledUpdateExpression:push("_tmp + 1");
 else
@@ -1353,7 +1361,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "--") then
+if _into or (_v == "--") then
 if (metaArgument.type == "number") then
 compiledUpdateExpression:push("_tmp - 1");
 else
@@ -1475,11 +1483,12 @@ right = compileExpression(_ENV,expression.right,metaRight);
 repeat
 local _into = false;
 local _cases = {["&&"] = true,["||"] = true};
-if (not _cases[expression.operator]) then
+local _v = expression.operator;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (expression.operator == "&&") then
+if _into or (_v == "&&") then
 compiledLogicalExpression:push("(function() if ");
 compiledLogicalExpression:push(leftCondition);
 compiledLogicalExpression:push(" then return ");
@@ -1490,7 +1499,7 @@ compiledLogicalExpression:push(";  end end)()");
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "||") then
+if _into or (_v == "||") then
 compiledLogicalExpression:push(leftCondition);
 compiledLogicalExpression:push(" and ");
 compiledLogicalExpression:push(left);
@@ -1550,11 +1559,12 @@ if _bool(expression.prefix) then
 repeat
 local _into = false;
 local _cases = {["-"] = true,["+"] = true,["!"] = true,["~"] = true,["typeof"] = true,["delete"] = true,["void"] = true};
-if (not _cases[expression.operator]) then
+local _v = expression.operator;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (expression.operator == "-") then
+if _into or (_v == "-") then
 if (metaArgument.type == "number") then
 compiledUnaryExpression:push("-");
 compiledUnaryExpression:push(compiledExpression);
@@ -1571,7 +1581,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "+") then
+if _into or (_v == "+") then
 if (metaArgument.type == "number") then
 compiledUnaryExpression:push(compiledExpression);
 else
@@ -1587,7 +1597,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "!") then
+if _into or (_v == "!") then
 compiledUnaryExpression:push("not ");
 compiledUnaryExpression:push(compileBooleanExpression(_ENV,expression.argument));
 if _bool(meta) then
@@ -1597,7 +1607,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "~") then
+if _into or (_v == "~") then
 compiledUnaryExpression:push("_bnot(");
 compiledUnaryExpression:push(compiledExpression);
 compiledUnaryExpression:push(")");
@@ -1608,7 +1618,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "typeof") then
+if _into or (_v == "typeof") then
 compiledUnaryExpression:push("_type(");
 compiledUnaryExpression:push(compiledExpression);
 compiledUnaryExpression:push(")");
@@ -1619,7 +1629,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "delete") then
+if _into or (_v == "delete") then
 if (withTracker.length == 0) then
 scope = "_ENV.";
 else
@@ -1653,7 +1663,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "void") then
+if _into or (_v == "void") then
 compiledUnaryExpression:push("_void(");
 compiledUnaryExpression:push(compiledExpression);
 compiledUnaryExpression:push(")");
@@ -1754,26 +1764,27 @@ else
 repeat
 local _into = false;
 local _cases = {["<"] = true,["<="] = true,[">"] = true,[">="] = true};
-if (not _cases[operator]) then
+local _v = operator;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (operator == "<") then
+if _into or (_v == "<") then
 compiledComparisonOperator:push("_lt(");
 do break end;
 _into = true;
 end
-if _into or (operator == "<=") then
+if _into or (_v == "<=") then
 compiledComparisonOperator:push("_le(");
 do break end;
 _into = true;
 end
-if _into or (operator == ">") then
+if _into or (_v == ">") then
 compiledComparisonOperator:push("_gt(");
 do break end;
 _into = true;
 end
-if _into or (operator == ">=") then
+if _into or (_v == ">=") then
 compiledComparisonOperator:push("_ge(");
 do break end;
 _into = true;
@@ -1802,11 +1813,12 @@ right = compileExpression(_ENV,expression.right,metaRight);
 repeat
 local _into = false;
 local _cases = {["=="] = true,["!="] = true,["==="] = true,["!=="] = true,["<"] = true,["<="] = true,[">"] = true,[">="] = true,["<<"] = true,[">>"] = true,[">>>"] = true,["+"] = true,["-"] = true,["*"] = true,["/"] = true,["%"] = true,["|"] = true,["^"] = true,["&"] = true,["in"] = true,["instanceof"] = true,[".."] = true};
-if (not _cases[expression.operator]) then
+local _v = expression.operator;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (expression.operator == "==") then
+if _into or (_v == "==") then
 compiledBinaryExpression:push("_eq(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
@@ -1819,7 +1831,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "!=") then
+if _into or (_v == "!=") then
 compiledBinaryExpression:push("not _eq(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
@@ -1832,7 +1844,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "===") then
+if _into or (_v == "===") then
 pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," == ",left,right);
 if _bool(meta) then
 meta.type = "boolean";
@@ -1841,7 +1853,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "!==") then
+if _into or (_v == "!==") then
 pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," ~= ",left,right);
 if _bool(meta) then
 meta.type = "boolean";
@@ -1850,24 +1862,24 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "<") then
+if _into or (_v == "<") then
 
 _into = true;
 end
-if _into or (expression.operator == "<=") then
+if _into or (_v == "<=") then
 
 _into = true;
 end
-if _into or (expression.operator == ">") then
+if _into or (_v == ">") then
 
 _into = true;
 end
-if _into or (expression.operator == ">=") then
+if _into or (_v == ">=") then
 compiledBinaryExpression:push(compileComparisonOperator(_ENV,left,right,expression.operator,metaLeft,metaRight,meta));
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "<<") then
+if _into or (_v == "<<") then
 compiledBinaryExpression:push("_lshift(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
@@ -1880,7 +1892,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == ">>") then
+if _into or (_v == ">>") then
 compiledBinaryExpression:push("_arshift(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
@@ -1893,7 +1905,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == ">>>") then
+if _into or (_v == ">>>") then
 compiledBinaryExpression:push("_rshift(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
@@ -1906,12 +1918,12 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "+") then
+if _into or (_v == "+") then
 compiledBinaryExpression:push(compileAdditionOperator(_ENV,left,right,metaLeft,metaRight,meta));
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "-") then
+if _into or (_v == "-") then
 pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," - ",left,right);
 if _bool(meta) then
 meta.type = "number";
@@ -1920,7 +1932,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "*") then
+if _into or (_v == "*") then
 pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," * ",left,right);
 if _bool(meta) then
 meta.type = "number";
@@ -1929,7 +1941,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "/") then
+if _into or (_v == "/") then
 pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," / ",left,right);
 if _bool(meta) then
 meta.type = "number";
@@ -1938,7 +1950,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "%") then
+if _into or (_v == "%") then
 compiledBinaryExpression:push("_mod(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
@@ -1951,7 +1963,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "|") then
+if _into or (_v == "|") then
 compiledBinaryExpression:push("_bor(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
@@ -1964,7 +1976,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "^") then
+if _into or (_v == "^") then
 compiledBinaryExpression:push("_bxor(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
@@ -1977,7 +1989,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "&") then
+if _into or (_v == "&") then
 compiledBinaryExpression:push("_band(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
@@ -1990,7 +2002,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "in") then
+if _into or (_v == "in") then
 compiledBinaryExpression:push("_in(");
 compiledBinaryExpression:push(right);
 compiledBinaryExpression:push(",");
@@ -2003,7 +2015,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "instanceof") then
+if _into or (_v == "instanceof") then
 compiledBinaryExpression:push("_instanceof(");
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(",");
@@ -2016,7 +2028,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (expression.operator == "..") then
+if _into or (_v == "..") then
 do break end;
 _into = true;
 end
@@ -2225,15 +2237,16 @@ compiledDeclarations = _arr({},0);
 repeat
 local _into = false;
 local _cases = {["const"] = true,["var"] = true,["let"] = true};
-if (not _cases[variableDeclaration.kind]) then
+local _v = variableDeclaration.kind;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (variableDeclaration.kind == "const") then
+if _into or (_v == "const") then
 
 _into = true;
 end
-if _into or (variableDeclaration.kind == "var") then
+if _into or (_v == "var") then
 declarations = variableDeclaration.declarations;
 i = 0;
 while (i<declarations.length) do
@@ -2256,7 +2269,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (variableDeclaration.kind == "let") then
+if _into or (_v == "let") then
 _throw(_new(Error,"let instruction is not supported yet"),0)
 _into = true;
 end
@@ -2268,11 +2281,12 @@ compilePattern = (function (this, pattern, meta)
 repeat
 local _into = false;
 local _cases = {["Identifier"] = true};
-if (not _cases[pattern.type]) then
+local _v = pattern.type;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (pattern.type == "Identifier") then
+if _into or (_v == "Identifier") then
 do return compileIdentifier(_ENV,pattern,meta); end
 _into = true;
 end
@@ -2444,11 +2458,12 @@ end
 repeat
 local _into = false;
 local _cases = {["string"] = true,["number"] = true,["boolean"] = true};
-if (not _cases[_type(literal.value)]) then
+local _v = _type(literal.value);
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (_type(literal.value) == "string") then
+if _into or (_v == "string") then
 ret = (("\"" .. sanitizeLiteralString(_ENV,literal.value)) .. "\"");
 if _bool(meta) then
 meta.type = "string";
@@ -2457,7 +2472,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (_type(literal.value) == "number") then
+if _into or (_v == "number") then
 ret = JSON:stringify(literal.value);
 if _bool(meta) then
 meta.type = "number";
@@ -2466,7 +2481,7 @@ end
 do break end;
 _into = true;
 end
-if _into or (_type(literal.value) == "boolean") then
+if _into or (_v == "boolean") then
 if _bool(meta) then
 meta.type = "boolean";
 end

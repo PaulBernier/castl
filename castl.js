@@ -801,7 +801,6 @@
         if (cases.length > 0) {
             // Use a useless repeat loop to be able to use break
             var compiledSwitchStatement = ["repeat\nlocal _into = false;\n"];
-            var compiledDiscriminant = compileExpression(statement.discriminant);
 
             // Construct lookup table
             var i;
@@ -825,11 +824,13 @@
             compiledSwitchStatement.push("local _cases = {");
             compiledSwitchStatement.push(casesTable.join(","));
             compiledSwitchStatement.push("};\n");
+            // Save discriminant
+            compiledSwitchStatement.push("local _v = ");
+            compiledSwitchStatement.push(compileExpression(statement.discriminant));
+            compiledSwitchStatement.push(";\n");
 
             // Default jump
-            compiledSwitchStatement.push("if (not _cases[");
-            compiledSwitchStatement.push(compiledDiscriminant);
-            compiledSwitchStatement.push("]) then\n");
+            compiledSwitchStatement.push("if not _cases[_v] then\n");
             compiledSwitchStatement.push("_into = true;\n");
             compiledSwitchStatement.push("goto _default\n");
             compiledSwitchStatement.push("end\n");
@@ -839,9 +840,7 @@
             // @number
             for (i = 0; i < cases.length; ++i) {
                 if (cases[i].test !== null) {
-                    compiledSwitchStatement.push("if _into or (");
-                    compiledSwitchStatement.push(compiledDiscriminant);
-                    compiledSwitchStatement.push(" == ");
+                    compiledSwitchStatement.push("if _into or (_v == ");
                     compiledSwitchStatement.push(compiledTests[i]);
                     compiledSwitchStatement.push(") then\n");
                 } else {

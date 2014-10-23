@@ -165,3 +165,23 @@ case "B":
     break;
 }
 assert(path);
+
+var i = 3;
+var a = [];
+while(i){
+    switch(i--){
+        case 3:
+            a.push(3);
+            break;
+        case 2:
+            a.push(2);
+            break;
+        case 1:
+            a.push(1);
+            break;
+    }
+}
+assert(a.length === 3);
+assert(a[0] === 3);
+assert(a[1] === 2);
+assert(a[2] === 1);

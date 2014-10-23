@@ -27,7 +27,7 @@ isOctalDigit = (function (this, ch)
 do return (("01234567"):indexOf(ch)>=0); end
 end);
 isWhiteSpace = (function (this, ch)
-do return ((((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) and ((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) and (((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) and ((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) or ((function() if (_ge(ch,5760)) then return (_ge(_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch),0));  else return (_ge(ch,5760));  end end)())); end
+do return ((((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) and ((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) and (((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) and ((((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) and (((ch == 32) and (ch == 32) or (ch == 9)) and ((ch == 32) and (ch == 32) or (ch == 9)) or (ch == 11)) or (ch == 12)) or (ch == 160)) or ((function() if (_ge(ch,5760)) then return (_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch)>=0);  else return (_ge(ch,5760));  end end)())); end
 end);
 isLineTerminator = (function (this, ch)
 do return ((((ch == 10) and (ch == 10) or (ch == 13)) and ((ch == 10) and (ch == 10) or (ch == 13)) or (ch == 8232)) and (((ch == 10) and (ch == 10) or (ch == 13)) and ((ch == 10) and (ch == 10) or (ch == 13)) or (ch == 8232)) or (ch == 8233)); end
@@ -42,31 +42,32 @@ isFutureReservedWord = (function (this, id)
 repeat
 local _into = false;
 local _cases = {["class"] = true,["enum"] = true,["export"] = true,["extends"] = true,["import"] = true,["super"] = true};
-if (not _cases[id]) then
+local _v = id;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (id == "class") then
+if _into or (_v == "class") then
 
 _into = true;
 end
-if _into or (id == "enum") then
+if _into or (_v == "enum") then
 
 _into = true;
 end
-if _into or (id == "export") then
+if _into or (_v == "export") then
 
 _into = true;
 end
-if _into or (id == "extends") then
+if _into or (_v == "extends") then
 
 _into = true;
 end
-if _into or (id == "import") then
+if _into or (_v == "import") then
 
 _into = true;
 end
-if _into or (id == "super") then
+if _into or (_v == "super") then
 do return true; end
 _into = true;
 end
@@ -81,43 +82,44 @@ isStrictModeReservedWord = (function (this, id)
 repeat
 local _into = false;
 local _cases = {["implements"] = true,["interface"] = true,["package"] = true,["private"] = true,["protected"] = true,["public"] = true,["static"] = true,["yield"] = true,["let"] = true};
-if (not _cases[id]) then
+local _v = id;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (id == "implements") then
+if _into or (_v == "implements") then
 
 _into = true;
 end
-if _into or (id == "interface") then
+if _into or (_v == "interface") then
 
 _into = true;
 end
-if _into or (id == "package") then
+if _into or (_v == "package") then
 
 _into = true;
 end
-if _into or (id == "private") then
+if _into or (_v == "private") then
 
 _into = true;
 end
-if _into or (id == "protected") then
+if _into or (_v == "protected") then
 
 _into = true;
 end
-if _into or (id == "public") then
+if _into or (_v == "public") then
 
 _into = true;
 end
-if _into or (id == "static") then
+if _into or (_v == "static") then
 
 _into = true;
 end
-if _into or (id == "yield") then
+if _into or (_v == "yield") then
 
 _into = true;
 end
-if _into or (id == "let") then
+if _into or (_v == "let") then
 do return true; end
 _into = true;
 end
@@ -139,39 +141,40 @@ end
 repeat
 local _into = false;
 local _cases = {[2] = true,[3] = true,[4] = true,[5] = true,[6] = true,[7] = true,[8] = true,[10] = true};
-if (not _cases[id.length]) then
+local _v = id.length;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (id.length == 2) then
+if _into or (_v == 2) then
 do return (((id == "if") and (id == "if") or (id == "in")) and ((id == "if") and (id == "if") or (id == "in")) or (id == "do")); end
 _into = true;
 end
-if _into or (id.length == 3) then
+if _into or (_v == 3) then
 do return (((((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) and (((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) or (id == "try")) and ((((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) and (((id == "var") and (id == "var") or (id == "for")) and ((id == "var") and (id == "var") or (id == "for")) or (id == "new")) or (id == "try")) or (id == "let")); end
 _into = true;
 end
-if _into or (id.length == 4) then
+if _into or (_v == 4) then
 do return ((((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) and ((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) or (id == "with")) and (((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) and ((((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) and (((id == "this") and (id == "this") or (id == "else")) and ((id == "this") and (id == "this") or (id == "else")) or (id == "case")) or (id == "void")) or (id == "with")) or (id == "enum")); end
 _into = true;
 end
-if _into or (id.length == 5) then
+if _into or (_v == 5) then
 do return ((((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) and ((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) or (id == "class")) and (((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) and ((((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) and (((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) and ((((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) and (((id == "while") and (id == "while") or (id == "break")) and ((id == "while") and (id == "while") or (id == "break")) or (id == "catch")) or (id == "throw")) or (id == "const")) or (id == "yield")) or (id == "class")) or (id == "super")); end
 _into = true;
 end
-if _into or (id.length == 6) then
+if _into or (_v == 6) then
 do return ((((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) and ((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) or (id == "export")) and (((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) and ((((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) and (((id == "return") and (id == "return") or (id == "typeof")) and ((id == "return") and (id == "return") or (id == "typeof")) or (id == "delete")) or (id == "switch")) or (id == "export")) or (id == "import")); end
 _into = true;
 end
-if _into or (id.length == 7) then
+if _into or (_v == 7) then
 do return (((id == "default") and (id == "default") or (id == "finally")) and ((id == "default") and (id == "default") or (id == "finally")) or (id == "extends")); end
 _into = true;
 end
-if _into or (id.length == 8) then
+if _into or (_v == 8) then
 do return (((id == "function") and (id == "function") or (id == "continue")) and ((id == "function") and (id == "function") or (id == "continue")) or (id == "debugger")); end
 _into = true;
 end
-if _into or (id.length == 10) then
+if _into or (_v == 10) then
 do return (id == "instanceof"); end
 _into = true;
 end
@@ -481,55 +484,56 @@ ch1 = source[index];
 repeat
 local _into = false;
 local _cases = {[46] = true,[40] = true,[41] = true,[59] = true,[44] = true,[123] = true,[125] = true,[91] = true,[93] = true,[58] = true,[63] = true,[126] = true};
-if (not _cases[code]) then
+local _v = code;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (code == 46) then
+if _into or (_v == 46) then
 
 _into = true;
 end
-if _into or (code == 40) then
+if _into or (_v == 40) then
 
 _into = true;
 end
-if _into or (code == 41) then
+if _into or (_v == 41) then
 
 _into = true;
 end
-if _into or (code == 59) then
+if _into or (_v == 59) then
 
 _into = true;
 end
-if _into or (code == 44) then
+if _into or (_v == 44) then
 
 _into = true;
 end
-if _into or (code == 123) then
+if _into or (_v == 123) then
 
 _into = true;
 end
-if _into or (code == 125) then
+if _into or (_v == 125) then
 
 _into = true;
 end
-if _into or (code == 91) then
+if _into or (_v == 91) then
 
 _into = true;
 end
-if _into or (code == 93) then
+if _into or (_v == 93) then
 
 _into = true;
 end
-if _into or (code == 58) then
+if _into or (_v == 58) then
 
 _into = true;
 end
-if _into or (code == 63) then
+if _into or (_v == 63) then
 
 _into = true;
 end
-if _into or (code == 126) then
+if _into or (_v == 126) then
 index = index + 1;
 if _bool(extra.tokenize) then
 if (code == 40) then
@@ -557,47 +561,48 @@ if (code2 == 61) then
 repeat
 local _into = false;
 local _cases = {[43] = true,[45] = true,[47] = true,[60] = true,[62] = true,[94] = true,[124] = true,[37] = true,[38] = true,[42] = true,[33] = true,[61] = true};
-if (not _cases[code]) then
+local _v = code;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (code == 43) then
+if _into or (_v == 43) then
 
 _into = true;
 end
-if _into or (code == 45) then
+if _into or (_v == 45) then
 
 _into = true;
 end
-if _into or (code == 47) then
+if _into or (_v == 47) then
 
 _into = true;
 end
-if _into or (code == 60) then
+if _into or (_v == 60) then
 
 _into = true;
 end
-if _into or (code == 62) then
+if _into or (_v == 62) then
 
 _into = true;
 end
-if _into or (code == 94) then
+if _into or (_v == 94) then
 
 _into = true;
 end
-if _into or (code == 124) then
+if _into or (_v == 124) then
 
 _into = true;
 end
-if _into or (code == 37) then
+if _into or (_v == 37) then
 
 _into = true;
 end
-if _into or (code == 38) then
+if _into or (_v == 38) then
 
 _into = true;
 end
-if _into or (code == 42) then
+if _into or (_v == 42) then
 index = (_addNum2(index,2));
 do return _obj({
 ["type"] = Token.Punctuator,
@@ -609,11 +614,11 @@ do return _obj({
 }); end
 _into = true;
 end
-if _into or (code == 33) then
+if _into or (_v == 33) then
 
 _into = true;
 end
-if _into or (code == 61) then
+if _into or (_v == 61) then
 index = (_addNum2(index,2));
 if (source:charCodeAt(index) == 61) then
 index = index + 1;
@@ -840,15 +845,16 @@ if (not _bool(ch) and not _bool(ch) or not _bool(isLineTerminator(_ENV,ch:charCo
 repeat
 local _into = false;
 local _cases = {["u"] = true,["x"] = true,["n"] = true,["r"] = true,["t"] = true,["b"] = true,["f"] = true,["v"] = true};
-if (not _cases[ch]) then
+local _v = ch;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (ch == "u") then
+if _into or (_v == "u") then
 
 _into = true;
 end
-if _into or (ch == "x") then
+if _into or (_v == "x") then
 restore = index;
 unescaped = scanHexEscape(_ENV,ch);
 if _bool(unescaped) then
@@ -861,32 +867,32 @@ end
 do break end;
 _into = true;
 end
-if _into or (ch == "n") then
+if _into or (_v == "n") then
 str = (_addStr2(str,"\010"));
 do break end;
 _into = true;
 end
-if _into or (ch == "r") then
+if _into or (_v == "r") then
 str = (_addStr2(str,"\013"));
 do break end;
 _into = true;
 end
-if _into or (ch == "t") then
+if _into or (_v == "t") then
 str = (_addStr2(str,"\009"));
 do break end;
 _into = true;
 end
-if _into or (ch == "b") then
+if _into or (_v == "b") then
 str = (_addStr2(str,"\008"));
 do break end;
 _into = true;
 end
-if _into or (ch == "f") then
+if _into or (_v == "f") then
 str = (_addStr2(str,"\012"));
 do break end;
 _into = true;
 end
-if _into or (ch == "v") then
+if _into or (_v == "v") then
 str = (_addStr2(str,"\011"));
 do break end;
 _into = true;
@@ -1801,109 +1807,110 @@ end
 repeat
 local _into = false;
 local _cases = {["||"] = true,["&&"] = true,["|"] = true,["^"] = true,["&"] = true,["=="] = true,["!="] = true,["==="] = true,["!=="] = true,["<"] = true,[">"] = true,["<="] = true,[">="] = true,["instanceof"] = true,["in"] = true,["<<"] = true,[">>"] = true,[">>>"] = true,["+"] = true,["-"] = true,["*"] = true,["/"] = true,["%"] = true};
-if (not _cases[token.value]) then
+local _v = token.value;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (token.value == "||") then
+if _into or (_v == "||") then
 prec = 1;
 do break end;
 _into = true;
 end
-if _into or (token.value == "&&") then
+if _into or (_v == "&&") then
 prec = 2;
 do break end;
 _into = true;
 end
-if _into or (token.value == "|") then
+if _into or (_v == "|") then
 prec = 3;
 do break end;
 _into = true;
 end
-if _into or (token.value == "^") then
+if _into or (_v == "^") then
 prec = 4;
 do break end;
 _into = true;
 end
-if _into or (token.value == "&") then
+if _into or (_v == "&") then
 prec = 5;
 do break end;
 _into = true;
 end
-if _into or (token.value == "==") then
+if _into or (_v == "==") then
 
 _into = true;
 end
-if _into or (token.value == "!=") then
+if _into or (_v == "!=") then
 
 _into = true;
 end
-if _into or (token.value == "===") then
+if _into or (_v == "===") then
 
 _into = true;
 end
-if _into or (token.value == "!==") then
+if _into or (_v == "!==") then
 prec = 6;
 do break end;
 _into = true;
 end
-if _into or (token.value == "<") then
+if _into or (_v == "<") then
 
 _into = true;
 end
-if _into or (token.value == ">") then
+if _into or (_v == ">") then
 
 _into = true;
 end
-if _into or (token.value == "<=") then
+if _into or (_v == "<=") then
 
 _into = true;
 end
-if _into or (token.value == ">=") then
+if _into or (_v == ">=") then
 
 _into = true;
 end
-if _into or (token.value == "instanceof") then
+if _into or (_v == "instanceof") then
 prec = 7;
 do break end;
 _into = true;
 end
-if _into or (token.value == "in") then
+if _into or (_v == "in") then
 prec = (function() if _bool(allowIn) then return 7; else return 0; end end)();
 do break end;
 _into = true;
 end
-if _into or (token.value == "<<") then
+if _into or (_v == "<<") then
 
 _into = true;
 end
-if _into or (token.value == ">>") then
+if _into or (_v == ">>") then
 
 _into = true;
 end
-if _into or (token.value == ">>>") then
+if _into or (_v == ">>>") then
 prec = 8;
 do break end;
 _into = true;
 end
-if _into or (token.value == "+") then
+if _into or (_v == "+") then
 
 _into = true;
 end
-if _into or (token.value == "-") then
+if _into or (_v == "-") then
 prec = 9;
 do break end;
 _into = true;
 end
-if _into or (token.value == "*") then
+if _into or (_v == "*") then
 
 _into = true;
 end
-if _into or (token.value == "/") then
+if _into or (_v == "/") then
 
 _into = true;
 end
-if _into or (token.value == "%") then
+if _into or (_v == "%") then
 prec = 11;
 do break end;
 _into = true;
@@ -2488,15 +2495,16 @@ if (type == Token.Punctuator) then
 repeat
 local _into = false;
 local _cases = {[";"] = true,["("] = true};
-if (not _cases[lookahead.value]) then
+local _v = lookahead.value;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (lookahead.value == ";") then
+if _into or (_v == ";") then
 do return delegate:markEnd(parseEmptyStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "(") then
+if _into or (_v == "(") then
 do return delegate:markEnd(parseExpressionStatement(_ENV),startToken); end
 _into = true;
 end
@@ -2512,63 +2520,64 @@ if (type == Token.Keyword) then
 repeat
 local _into = false;
 local _cases = {["break"] = true,["continue"] = true,["debugger"] = true,["do"] = true,["for"] = true,["function"] = true,["if"] = true,["return"] = true,["switch"] = true,["throw"] = true,["try"] = true,["var"] = true,["while"] = true,["with"] = true};
-if (not _cases[lookahead.value]) then
+local _v = lookahead.value;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (lookahead.value == "break") then
+if _into or (_v == "break") then
 do return delegate:markEnd(parseBreakStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "continue") then
+if _into or (_v == "continue") then
 do return delegate:markEnd(parseContinueStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "debugger") then
+if _into or (_v == "debugger") then
 do return delegate:markEnd(parseDebuggerStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "do") then
+if _into or (_v == "do") then
 do return delegate:markEnd(parseDoWhileStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "for") then
+if _into or (_v == "for") then
 do return delegate:markEnd(parseForStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "function") then
+if _into or (_v == "function") then
 do return delegate:markEnd(parseFunctionDeclaration(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "if") then
+if _into or (_v == "if") then
 do return delegate:markEnd(parseIfStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "return") then
+if _into or (_v == "return") then
 do return delegate:markEnd(parseReturnStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "switch") then
+if _into or (_v == "switch") then
 do return delegate:markEnd(parseSwitchStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "throw") then
+if _into or (_v == "throw") then
 do return delegate:markEnd(parseThrowStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "try") then
+if _into or (_v == "try") then
 do return delegate:markEnd(parseTryStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "var") then
+if _into or (_v == "var") then
 do return delegate:markEnd(parseVariableStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "while") then
+if _into or (_v == "while") then
 do return delegate:markEnd(parseWhileStatement(_ENV),startToken); end
 _into = true;
 end
-if _into or (lookahead.value == "with") then
+if _into or (_v == "with") then
 do return delegate:markEnd(parseWithStatement(_ENV),startToken); end
 _into = true;
 end
@@ -2813,19 +2822,20 @@ if (lookahead.type == Token.Keyword) then
 repeat
 local _into = false;
 local _cases = {["const"] = true,["let"] = true,["function"] = true};
-if (not _cases[lookahead.value]) then
+local _v = lookahead.value;
+if not _cases[_v] then
 _into = true;
 goto _default
 end
-if _into or (lookahead.value == "const") then
+if _into or (_v == "const") then
 
 _into = true;
 end
-if _into or (lookahead.value == "let") then
+if _into or (_v == "let") then
 do return parseConstLetDeclaration(_ENV,lookahead.value); end
 _into = true;
 end
-if _into or (lookahead.value == "function") then
+if _into or (_v == "function") then
 do return parseFunctionDeclaration(_ENV); end
 _into = true;
 end
