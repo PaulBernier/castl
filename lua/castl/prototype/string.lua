@@ -350,6 +350,8 @@ return function(stringPrototype)
             end
         else
             replacer = ToString(newSubStr)
+            -- escape %
+            replacer = gsub(replacer, "%%", "%%%%")
 
             -- handle $ parameters
             replacer = gsub(replacer, "%$&", "$0")
