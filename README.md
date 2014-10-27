@@ -36,6 +36,7 @@ npm test
 Note that you can also directly install CASTL globally via npm repository:
 ```
 sudo npm install castl -g
+```
 
 ## Usage:
 
