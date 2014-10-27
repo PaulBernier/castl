@@ -14,6 +14,7 @@
     You should have received a copy of the GNU Lesser General Public License
     along with CASTL. If not, see <http://www.gnu.org/licenses/>.
 */
+
 (function () {
     "use strict";
     process.env['LUA_PATH'] = process.env['LUA_PATH'] + ";/usr/local/lib/node_modules/castl/lua/?.lua;";
