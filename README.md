@@ -25,13 +25,17 @@ sudo luarocks-5.2 install lrexlib-pcre
 sudo luarocks-5.1 install lrexlib-pcre
 ```
 
-Note that you'll need to have *libpcre* installed on your system (*lrexlib-pcre* is only a binding to the *libpcre* API).
+You'll need to have *libpcre* installed on your system (*lrexlib-pcre* is only a binding to the *libpcre* API).
 
 And then you may want to test:
 ```
 castl code.js
 npm test
 ```
+
+Note that you can also directly install CASTL globally via npm repository:
+```
+sudo npm install castl -g
 
 ## Usage:
 
