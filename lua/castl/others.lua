@@ -18,8 +18,9 @@
 local coreObjects = require("castl.core_objects")
 
 local others = {}
+local gsub = string.gsub
+local print, type = print, type
 
-local print = print
 _ENV = nil
 
 others.console = coreObjects.obj({
@@ -34,8 +35,19 @@ others.console = coreObjects.obj({
     end,
     error = function (self, ...)
         print(...)
+    end,
+    dir = function(self, o)
+        if type(o) == "string" then
+            o = gsub(o, "\\", "\\\\")
+            o = gsub(o, "\n", "\\n")
+            o = gsub(o, "\r", "\\r")
+            o = gsub(o, "\t", "\\t")
+            o = gsub(o, "\b", "\\b")
+            o = gsub(o, "\f", "\\f")
+            o = "'" .. o .. "'";
+        end
+        print(o)
     end
 })
-
 
 return others
