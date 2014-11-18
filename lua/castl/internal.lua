@@ -21,7 +21,7 @@ local Boolean, Number, String, new, objectToString, obj, throw
 
 local getmetatable, setmetatable, type, tostring, tonumber, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, require, rawget, rawset
 local gsub = string.gsub
-local floor = math.floor
+local floor, ceil = math.floor, math.ceil
 
 _ENV = nil
 
@@ -291,29 +291,17 @@ end
 
 function internal.ToInteger(v)
     local number = ToNumber(v)
-    if (number % 1) ~= 0 then
-        return number > 0 and floor(number) or floor(number + 1)
-    else
-        return number
-    end
+    return number < 0 and ceil(number) or floor(number)
 end
 
 function internal.ToUint32(v)
     local number = ToNumber(v)
-    if (number % 1) ~= 0 then
-        return number > 0 and floor(number) % 0x100000000 or floor(number + 1) % 0x100000000
-    else
-        return number % 0x100000000
-    end
+    return number < 0 and ceil(number) % 0x100000000 or floor(number) % 0x100000000
 end
 
 function internal.ToUint16(v)
     local number = ToNumber(v)
-    if (number % 1) ~= 0 then
-        return number > 0 and floor(number) % 0x10000 or floor(number + 1) % 0x10000
-    else
-        return number % 0x10000
-    end
+    return number < 0 and ceil(number) % 0x10000 or floor(number) % 0x10000
 end
 
 return internal

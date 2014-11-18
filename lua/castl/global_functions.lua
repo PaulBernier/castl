@@ -20,7 +20,7 @@ local internal = require("castl.internal")
 -- Dependencies
 local null, ToNumber, ToString = internal.null, internal.ToNumber, internal.ToString
 local type, tonumber = type, tonumber
-local huge, floor, abs = math.huge, math.floor, math.abs
+local huge, floor, abs, ceil = math.huge, math.floor, math.abs, math.ceil
 local gsub, sub, match, format, sbyte, find, char = string.gsub, string.sub, string.match, string.format, string.byte, string.find, string.char
 
 _ENV = nil
@@ -89,11 +89,7 @@ function globalFunctions.parseInt(this, str, radix)
 
     -- shortcut: parseInt used as a cast to int
     if tstr == "number" and radix == 10 then
-        if (str % 1) ~= 0 then
-            return str > 0 and floor(str) or floor(str + 1)
-        else
-            return str
-        end
+        return str < 0 and ceil(str) or floor(str)
     end
 
     -- radix check
