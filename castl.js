@@ -2466,7 +2466,7 @@
         }
 
         return id
-            .replace(/_/g, '__') // (one consequence: CASTL can internally safely use identifiers begining by exactly one undescore)
+            .replace(/_/g, '__') // (one consequence: CASTL can internally safely use identifiers begining by exactly one underscore)
             .replace(/\$/g, 'S') // variable name can contain a $ in JS, not in Lua
             .replace(/[\u0080-\uFFFF]/g, function (c) { // Latin-1 Supplement is allowed in JS var names, not yet in Lua
                 // @string
