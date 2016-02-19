@@ -17,7 +17,7 @@
 
 (function () {
     "use strict";
-    process.env['LUA_PATH'] = process.env['LUA_PATH'] + ";/usr/local/lib/node_modules/castl/lua/?.lua;";
+    process.env['LUA_PATH'] = process.env['LUA_PATH'] + ";/usr/local/lib/node_modules/castl/lua/?.lua;/usr/lib/node_modules/castl/lua/?.lua;";
 
     var exec = require('child_process').exec;
     var path = require("path");
