@@ -11,11 +11,11 @@ assert(date.getMinutes() === 15);
 assert(date.getMonth() === 2);
 
 var theBigDay = new Date(1980, 6, 7);
-theBigDay.setDate(24);
-assert(theBigDay.getUTCDate() === 23);
+theBigDay.setUTCDate(24);
+assert(theBigDay.getUTCDate() === 24);
 assert(theBigDay.getUTCMonth() === 6);
-theBigDay.setDate(36);
-assert(theBigDay.getUTCDate() === 4);
+theBigDay.setUTCDate(36);
+assert(theBigDay.getUTCDate() === 5);
 assert(theBigDay.getUTCMonth() === 7);
 
 theBigDay = new Date(1980, 6, 7);
