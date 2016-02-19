@@ -21,7 +21,7 @@
 
     var fs = require("fs");
     var path = require("path");
-    var sh = require('execSync');
+    var execSync = require('child_process').execSync;
     var castl = require("./castl.js");
 
     /*********************************
@@ -101,7 +101,7 @@
         process.stdout.write(testHeader);
 
         // 1. Execute js file
-        code = sh.run("nodejs " + file);
+        code = execSync("nodejs " + file);
         if (code > 0) {
             console.log("--> Compilation of js code failed!");
             failed.push({
@@ -126,9 +126,9 @@
 
         // 3. Execute lua code compiled
         if (program.jit) {
-            code = sh.run("luajit " + file + ".lua");
+            code = execSync("luajit " + file + ".lua");
         } else {
-            code = sh.run("lua5.2 " + file + ".lua");
+            code = execSync("lua5.2 " + file + ".lua");
         }
 
         if (code > 0) {
