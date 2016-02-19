@@ -330,6 +330,10 @@
         case "EmptyStatement":
         case "DebuggerStatement":
             return "";
+        case "ForOfStatement":
+            throw new Error("For...of statement (ES6) not supported yet.");
+        case "ClassDeclaration":
+            throw new Error("Class declaration (ES6) not supported yet.");
         default:
             // @string
             throw new Error("Unknown Statement type: " + statement.type);
@@ -492,8 +496,8 @@
 
     function isNumericCompoundAssignmentExpressionWith(expression, variables) {
         if (expression !== null && isCompoundAssignment(expression)) {
-            // Left operand is the numeric for variable    
-            // @number          
+            // Left operand is the numeric for variable
+            // @number
             if (expression.left.type === "Identifier" && variables.indexOf(expression.left.name) > -1) {
                 // If operator is += we have to check that right operand is a number (for other operators result is necessary a number)
                 if (expression.operator === "+=") {
@@ -1060,6 +1064,14 @@
             return compileConditionalExpression(expression, meta);
         case "SequenceExpression":
             return compileSequenceExpression(expression, meta);
+        case "ArrowFunctionExpression":
+            throw new Error("Arrow functions (ES6) not supported yet.");
+        case "TemplateLiteral":
+            throw new Error("String templating (ES6) not supported yet.");
+        case "SpreadElement":
+            throw new Error("Spread operator (ES6) not supported yet.");
+        case "MetaProperty":
+            throw new Error("Meta property (ES6) not supported yet.");
         default:
             // @string
             throw new Error("Unknown Expression type: " + expression.type);
@@ -1124,9 +1136,11 @@
         case "SequenceExpression":
             // @string
             return compileExpression(expression, meta) + ";";
+        case "YieldExpression":
+            throw new Error("Yield expression not supported yet.");
         default:
             // @string
-            throw new Error("Impossible expression type:" + expression.type);
+            throw new Error("Unknown expression type: " + expression.type);
         }
     }
 
@@ -2323,9 +2337,11 @@
         switch (pattern.type) {
         case "Identifier":
             return compileIdentifier(pattern, meta);
+        case "RestElement":
+            throw new Error("Rest parameters (ES6) not supported yet.");
         default:
             // @string
-            throw new Error("Unknwown Pattern type" + pattern.type);
+            throw new Error("Unknwown Pattern type: " + pattern.type);
         }
     }
 
@@ -2351,6 +2367,10 @@
         }
 
         // Params
+        // TODO: fun.defaults are ignored for now
+        if (fun.defaults && fun.defaults.length > 0)  {
+            console.log('Warning: default parameters of functions are ignored');
+        }
         var i;
         var params = fun.params;
         var compiledParams = ["this"];
@@ -2446,7 +2466,7 @@
         }
 
         return id
-            .replace(/_/g, '__') // (one consequence: CASTL can internally safely use identifiers begining by exactly one undescore) 
+            .replace(/_/g, '__') // (one consequence: CASTL can internally safely use identifiers begining by exactly one undescore)
             .replace(/\$/g, 'S') // variable name can contain a $ in JS, not in Lua
             .replace(/[\u0080-\uFFFF]/g, function (c) { // Latin-1 Supplement is allowed in JS var names, not yet in Lua
                 // @string
