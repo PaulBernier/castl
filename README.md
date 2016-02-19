@@ -1,6 +1,6 @@
 CAST(L): compile JavaScript to Lua
 ==========
-CASTL (Compile Abstract Syntax Tree to Lua) is a free and open source project that allows you to "compile" some JavaScript code to Lua 5.2 or LuaJIT 2 code and run it.
+CASTL (Compile Abstract Syntax Tree to Lua) is a free and open source project that allows you to "compile" some JavaScript (ES5) code to Lua 5.2 or LuaJIT 2 code and run it. (I never tested on Lua 5.3 VM)
 
 ## Installation
 
@@ -14,7 +14,7 @@ sudo npm link
 ```
 
 CASTL has one dependency called [Lrexlib](http://rrthomas.github.io/lrexlib/) to handle regular expressions: you'll most likely need it, but if your JS code doesn't contain any regexp this dependency is not required.
-The easy way to install this dependency is to use Luarocks package manager:
+The easy way to install this dependency is to use [Luarocks](https://luarocks.org/) package manager:
 
 * if you want to execute on Lua 5.2:
 ```
@@ -26,6 +26,7 @@ sudo luarocks-5.1 install lrexlib-pcre
 ```
 
 You'll need to have *libpcre* installed on your system (*lrexlib-pcre* is only a binding to the *libpcre* API).
+On an Ubuntu system for instance you could do: sudo apt-get install libpcre3 libpcre3-dev
 
 And then you may want to test:
 ```
@@ -47,7 +48,7 @@ $ castl -v <file.js>
 
 * Compile code in `file.js`, does not print anything but save the compiled code to `file.js.lua`:
 ```
-$ castl file.js -o 
+$ castl file.js -o
 ```
 
 **The options of the command line are:**
@@ -76,7 +77,7 @@ Annotations are useful to optimize the generated code. Please refer to the file 
 
 ## Heuristic
 
-Heuristic compilation is an attempt to optimize the generated code by guessing program behavior at execution time. 
+Heuristic compilation is an attempt to optimize the generated code by guessing program behavior at execution time.
 Thus this option may increase the speed of execution of your program ; but as it is based on guessing it may also be wrong sometimes and break you program in some weird cases.
 
 For now heuristic only applies to numeric for loops. It tries to identify and optimize the following pattern:
@@ -103,7 +104,7 @@ CASTL also needs a JavaScript parser able to produce an AST (Abstract Syntax Tre
 
 * Weak typing of JS when accessing attribute of an object (o[1] is different from o["1"])
 * Property descriptor (enumerable/writable/configurable)
-* Other little things...
+* Many new ES6 features. And if you use new objects like Map/Set your script will fail only at runtime as those objects are not defined in the runtime library.
 
 ## Q&A
 
@@ -117,7 +118,7 @@ Note that CASTL will always be slower than a native Lua script, so take time to 
 
 ### So what's the differences between CASTL and Tessel Colony?
 
-I have definitively been inspired on many points by Colony. Nonetheless there is some important points of divergence: 
+I have definitively been inspired on many points by Colony. Nonetheless there is some important points of divergence:
 
 * CASTL is aimed to run on a native Lua 5.2 (unmodified VM) whereas Colony rely on a fork of Lua 5.1.
 * CASTL can run on LuaJIT.
