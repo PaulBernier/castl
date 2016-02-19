@@ -24,12 +24,11 @@
     "castl": "./bin/castl.js"
   },
   "dependencies": {
-    "esprima": "~1.2.2",
-    "acorn": "~0.8.0",
-    "esmangle": "~1.0.1",
-    "commander": "~2.4.0",
-    "execSync": "~1.0.2"
-  },
+    "esprima": "^2.7.2",
+    "acorn": "^3.0.2",
+    "esmangle": "^1.0.1",
+    "commander": "^2.9.0"
+   },
   "engines": {
     "node": ">=0.12.0"
   },
