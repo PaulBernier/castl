@@ -10,7 +10,7 @@
     "ast",
     "transpiler"
   ],
-  "license":"LGPLv3",
+  "license":"LGPL-3.0",
   "author": "Paul Bernier",
   "repository": {
     "type": "git",
