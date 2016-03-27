@@ -21,6 +21,7 @@
 
     var exec = require('child_process').exec;
     var path = require("path");
+    var babel = require("babel-core");
     var parsername = "esprima";
     var execute = true;
     var outputname;
@@ -41,6 +42,7 @@
         .option('-n, --linenumber', 'Print line numbers if -v or --cat options are active')
         .option('-a, --annotation', 'Use annotations to optimize generated code')
         .option('-g, --heuristic', 'Enable heuristic compilation')
+        .option('--babel', 'Run Babel on the code to transform ES6 code to ES5 code compatible with castl transpiler')
         .option('--cat', 'Don\'t execute, just print the code that would be run')
         .option('--jit', 'Compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter)')
         .option('--mini', 'Minify AST using Esmangle before compiling. Size of outputted file is shrunk')
@@ -138,9 +140,16 @@
 
     // Read, parse and transpile JS code
 
-    var data = fs.readFileSync(filename, 'utf8');
-    var ast, compiledCode;
+    var data, ast, compiledCode;
     try {
+        if (program.babel) {
+            data = babel.transformFileSync(filename, {
+                "presets": ["es2015"]
+            }).code;
+        } else {
+            data = fs.readFileSync(filename, 'utf8');
+        }
+
         ast = parser.parse(data, parserOptions);
 
         if (program.annotation && parsername === "esprima") {

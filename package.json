@@ -10,7 +10,7 @@
     "ast",
     "transpiler"
   ],
-  "license":"LGPL-3.0",
+  "license": "LGPL-3.0",
   "author": "Paul Bernier",
   "repository": {
     "type": "git",
@@ -24,11 +24,13 @@
     "castl": "./bin/castl.js"
   },
   "dependencies": {
-    "esprima": "^2.7.2",
-    "acorn": "^3.0.2",
-    "esmangle": "^1.0.1",
-    "commander": "^2.9.0"
-   },
+    "acorn": "3.0.2",
+    "babel-core": "6.7.4",
+    "babel-preset-es2015": "0.6.0",
+    "commander": "2.9.0",
+    "esmangle": "1.0.1",
+    "esprima": "2.7.2"
+  },
   "engines": {
     "node": ">=0.12.0"
   },

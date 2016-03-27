@@ -1,6 +1,6 @@
 CAST(L): compile JavaScript to Lua
 ==========
-CASTL (Compile Abstract Syntax Tree to Lua) is a free and open source project that allows you to "compile" some JavaScript (ES5) code to Lua 5.2 or LuaJIT 2 code and run it. (I never tested on Lua 5.3 VM)
+CASTL (Compile Abstract Syntax Tree to Lua) is a free and open source project that allows you to "compile" some JavaScript (ES5 and ES6 through Babel transformation) code to Lua 5.2 or LuaJIT 2 code and run it. (I never tested on Lua 5.3 VM)
 
 ## Installation
 
@@ -51,6 +51,11 @@ $ castl -v <file.js>
 $ castl file.js -o
 ```
 
+* If your JS code contains some ES6 flavor you should use --babel option:
+```
+$ castl file.js --babel
+```
+
 **The options of the command line are:**
 
 Option  | Description
@@ -63,6 +68,7 @@ Option  | Description
 -n, --linenumber     |Print line numbers if -v or --cat options are active
 -a, --annotation     |Use annotations to optimize generated code
 -g, --heuristic      |Enable heuristic compilation
+--babel              |Run Babel on the code to transform ES6 code to ES5 code compatible with castl transpiler
 --cat                |Don't execute, just print the code that would be run
 --jit                |Compile for LuaJIT (and execute with LuaJIT instead of Lua 5.2 interpreter)
 --mini               |Minify AST using Esmangle before compiling. Size of outputted file is shrunk
@@ -100,11 +106,15 @@ CASTL has one dependency, [Lrexlib](http://rrthomas.github.io/lrexlib/), which p
 
 CASTL also needs a JavaScript parser able to produce an AST (Abstract Syntax Tree) compliant with the SpiderMonkey AST structure. You can use Esprima or Acorn for instance (if you installed CASTL as stated above Esprima and Acorn are automatically downloaded as dependencies, you don't need to do anything).
 
+## ES6
+
+CASTL transpiler is not able to parse ES6 code. If you try to do so you'll get a SyntaxError like 'Error: let instruction is not supported yet'. Luckily thanks to the great  [Babel](https://babeljs.io/) library you can transform your code from ES6 to ES5 that will be understood by CASTL transpiler. As a convenience I added an option --babel to the command line tool that'll invoke Babel transform for you before transpiling to Lua.
+
 ## Not Supported yet
 
 * Weak typing of JS when accessing attribute of an object (o[1] is different from o["1"])
 * Property descriptor (enumerable/writable/configurable)
-* Many new ES6 features. And if you use new objects like Map/Set your script will fail only at runtime as those objects are not defined in the runtime library.
+* Many new ES6 features. And if you use new objects like Map/Set your script will fail only at runtime as those objects are not defined in the runtime library. See ES6 section of this README for a workaround.
 
 ## Q&A
 
