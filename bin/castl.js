@@ -177,8 +177,8 @@
         finalCode.push("local _ENV = require(\"castl.runtime\");");
         finalCode.push("return setfenv(function(...)");
         if (program.node) {
-            finalCode.push("local module = _obj({exports = _obj({})})");
-            finalCode.push("local exports = module.exports");
+            finalCode.push("local module = _obj({exports = _obj({})});");
+            finalCode.push("local exports = module.exports;");
         }
         finalCode.push(compiledCode);
         if (program.node) {
