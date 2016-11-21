@@ -64,7 +64,6 @@ Option  | Description
 -v, --verbose        |Verbose, print the compiled code to be run
 -o, --output [name]  |Output the generated Lua code in a file. The default output name is _filename_.lua
 -b, --bytecode       |If -o option is active the outputted code is in Lua/LuaJIT bytecode
--v, --verbose        |Verbose, print the compiled code to be run
 -n, --linenumber     |Print line numbers if -v or --cat options are active
 -a, --annotation     |Use annotations to optimize generated code
 -g, --heuristic      |Enable heuristic compilation
