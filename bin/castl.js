@@ -144,7 +144,10 @@
     try {
         if (program.babel) {
             data = babel.transformFileSync(filename, {
-                "presets": ["es2015"]
+                "presets": ["babel-preset-es2015",
+                    "babel-preset-es2016",
+                    "babel-preset-es2017"
+                ].map(require.resolve)
             }).code;
         } else {
             data = fs.readFileSync(filename, 'utf8');
