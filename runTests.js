@@ -61,18 +61,23 @@
      *
      * ************************/
 
+    function addJsFilesFromFolder(filesList, folderPath) {
+        var dirfiles = fs.readdirSync(folderPath);
+        for (i = 0; i < dirfiles.length; ++i) {
+            file = dirfiles[i];
+            if (path.extname(file) === ".js") {
+                filesList.push(folderPath + file);
+            }
+        }
+    }
+
     var i, file;
     var files = [];
     if (program.args.length > 0) {
         files = program.args;
     } else {
-        var dirfiles = fs.readdirSync("./test/");
-        for (i = 0; i < dirfiles.length; ++i) {
-            file = dirfiles[i];
-            if (path.extname(file) === ".js") {
-                files.push("test/" + file);
-            }
-        }
+        addJsFilesFromFolder(files,"./test/");
+        addJsFilesFromFolder(files,"./test/issues/");
     }
 
     /**************************

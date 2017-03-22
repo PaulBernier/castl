@@ -13,8 +13,7 @@
     along with CASTL. If not, see <http://www.gnu.org/licenses/>.
 */
 (function (root, factory) {
-    'use strict';
-
+    "use strict";
     // Universal Module Definition (UMD) to support AMD, CommonJS/Node.js,
     // Rhino, and plain browser loading.
 
@@ -1317,7 +1316,7 @@
     }
 
     function compileAssignmentExpression(expression, meta) {
-        var compiledAssignmentExpression = ["(function () "];
+        var compiledAssignmentExpression = ["(function() "];
         var mustStore = storeComputedProperty(expression.left);
         var metaLeft = {},
             metaRight = {};
@@ -1594,13 +1593,30 @@
     }
 
     function compileLogicalExpression(expression, meta) {
+
+        var metaLeft = {},
+            metaRight = {};
+        var compiledLeft = compileExpression(expression.left, metaLeft),
+            compiledRight = compileExpression(expression.right, metaRight);
+
+        if (meta) {
+            // if left and right are same type then return type is known
+            if (metaLeft.type === metaRight.type && metaLeft.type !== undefined) {
+                meta.type = metaLeft.type;
+            }
+        }
+
+        if (expression.left.type === "Identifier" || expression.left.type === "Literal") {
+            return compileLogicalExpressionLeftIdentifierOrLiteral(expression, compiledLeft, compiledRight);
+        } else {
+            return compileGenericLogicalExpression(expression, compiledLeft, compiledRight);
+        }
+    }
+
+    function compileLogicalExpressionLeftIdentifierOrLiteral(expression, compiledLeft, compiledRight) {
         var compiledLogicalExpression = ["("];
 
         var leftCondition = compileBooleanExpression(expression.left);
-        var metaLeft = {},
-            metaRight = {};
-        var left = compileExpression(expression.left, metaLeft),
-            right = compileExpression(expression.right, metaRight);
 
         switch (expression.operator) {
         case "&&":
@@ -1608,18 +1624,18 @@
             compiledLogicalExpression.push("(function() if ");
             compiledLogicalExpression.push(leftCondition);
             compiledLogicalExpression.push(" then return ");
-            compiledLogicalExpression.push(right);
-            compiledLogicalExpression.push(";  else return ");
-            compiledLogicalExpression.push(left);
-            compiledLogicalExpression.push(";  end end)()");
+            compiledLogicalExpression.push(compiledRight);
+            compiledLogicalExpression.push("; else return ");
+            compiledLogicalExpression.push(compiledLeft);
+            compiledLogicalExpression.push("; end end)()");
             break;
         case "||":
             // boolean(a) and a or b
             compiledLogicalExpression.push(leftCondition);
             compiledLogicalExpression.push(" and ");
-            compiledLogicalExpression.push(left);
+            compiledLogicalExpression.push(compiledLeft);
             compiledLogicalExpression.push(" or ");
-            compiledLogicalExpression.push(right);
+            compiledLogicalExpression.push(compiledRight);
 
             break;
         default:
@@ -1629,12 +1645,36 @@
 
         compiledLogicalExpression.push(")");
 
-        if (meta) {
-            // if left and right are same type then return type is known
-            if (metaLeft.type === metaRight.type && metaLeft.type !== undefined) {
-                meta.type = metaLeft.type;
-            }
+        return compiledLogicalExpression.join('');
+    }
+
+    function compileGenericLogicalExpression(expression, compiledLeft, compiledRight) {
+        var compiledLogicalExpression = ["("];
+
+        switch (expression.operator) {
+        case "&&":
+            // (function() local _left_eval=a; if boolean(_left_eval) then return b else return _left_eval end end)()
+            compiledLogicalExpression.push("(function() local _lev=");
+            compiledLogicalExpression.push(compiledLeft);
+            compiledLogicalExpression.push("; if _bool(_lev) then return ");
+            compiledLogicalExpression.push(compiledRight);
+            compiledLogicalExpression.push("; else return _lev; end end)()");
+            break;
+        case "||":
+            // (function() local _left_eval=a; boolean(_left_eval) and _left_eval or b
+            compiledLogicalExpression.push("(function() local _lev=");
+            compiledLogicalExpression.push(compiledLeft);
+            compiledLogicalExpression.push("; return _bool(_lev) and _lev or ");
+            compiledLogicalExpression.push(compiledRight);
+            compiledLogicalExpression.push(" end)()");
+
+            break;
+        default:
+            // @string
+            throw new Error("Unknown LogicalOperator: " + expression.operator);
         }
+
+        compiledLogicalExpression.push(")");
 
         return compiledLogicalExpression.join('');
     }
@@ -2368,7 +2408,7 @@
 
         // Params
         // TODO: fun.defaults are ignored for now
-        if (fun.defaults && fun.defaults.length > 0)  {
+        if (fun.defaults && fun.defaults.length > 0) {
             console.log('Warning: default parameters of functions are ignored');
         }
         var i;
