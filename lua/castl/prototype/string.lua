@@ -39,12 +39,12 @@ return function(stringPrototype)
 
     stringPrototype.length = 0
 
-    stringPrototype.valueOf = function (this)
+    stringPrototype.valueOf = coreObjects.func(function(this)
         if type(this) == "string" then
             return this
         end
         return getmetatable(this)._primitive
-    end
+    end)
 
     local valueof = stringPrototype.valueOf
 
@@ -56,7 +56,7 @@ return function(stringPrototype)
         return k
     end
 
-    stringPrototype.anchor = function(this, name)
+    stringPrototype.anchor = coreObjects.func(function(this, name)
         local value = valueof(this)
         local t = {'<a name="'}
         tinsert(t, ToString(name))
@@ -64,24 +64,24 @@ return function(stringPrototype)
         tinsert(t, value)
         tinsert(t, '</a>')
         return concat(t)
-    end
+    end)
 
-    stringPrototype.charAt = function (this, i)
+    stringPrototype.charAt = coreObjects.func(function(this, i)
         local value = valueof(this)
         if type(i) == "number" then
             return sub(value, i + 1, i + 1)
         end
 
         return sub(value, 1, 1)
-    end
+    end)
 
-    stringPrototype.charCodeAt = function (this, i)
+    stringPrototype.charCodeAt = coreObjects.func(function(this, i)
         local value = valueof(this)
         i = i or 0
         return byte(value, tonumber(i) + 1)
-    end
+    end)
 
-    stringPrototype.concat = function (this, ...)
+    stringPrototype.concat = coreObjects.func(function(this, ...)
         local args = pack(...)
         local ret = valueof(this)
 
@@ -90,9 +90,9 @@ return function(stringPrototype)
         end
 
         return ret
-    end
+    end)
 
-    stringPrototype.indexOf = function (this, searchValue, fromIndex)
+    stringPrototype.indexOf = coreObjects.func(function(this, searchValue, fromIndex)
         searchValue = ToString(searchValue)
         local value = valueof(this)
         local length = value.length
@@ -117,9 +117,9 @@ return function(stringPrototype)
         end
 
         return ret - 1
-    end
+    end)
 
-    stringPrototype.lastIndexOf = function (this, searchValue, fromIndex)
+    stringPrototype.lastIndexOf = coreObjects.func(function(this, searchValue, fromIndex)
         searchValue = ToString(searchValue)
         local value = valueof(this)
         local length = value.length
@@ -146,9 +146,9 @@ return function(stringPrototype)
         end
 
         return length - locEnd
-    end
+    end)
 
-    stringPrototype.link = function(this, url)
+    stringPrototype.link = coreObjects.func(function(this, url)
         local value = valueof(this)
         local t = {'<a href="'}
         tinsert(t, ToString(url))
@@ -156,9 +156,9 @@ return function(stringPrototype)
         tinsert(t, value)
         tinsert(t, '</a>')
         return concat(t)
-    end
+    end)
 
-    stringPrototype.substr = function (this, start, length)
+    stringPrototype.substr = coreObjects.func(function(this, start, length)
         local value = valueof(this)
         if start < 0 then
             start = negativeIndex(start, value.length)
@@ -169,9 +169,9 @@ return function(stringPrototype)
         else
             return sub(value, start + 1)
         end
-    end
+    end)
 
-    stringPrototype.substring = function (this, indexA, indexB)
+    stringPrototype.substring = coreObjects.func(function(this, indexA, indexB)
         local value = valueof(this)
         if indexA < 0 then
             indexA = 0
@@ -200,9 +200,9 @@ return function(stringPrototype)
         else
             return sub(value, indexA + 1)
         end
-    end
+    end)
 
-    stringPrototype.slice = function (this, beginSlice, endSlice)
+    stringPrototype.slice = coreObjects.func(function(this, beginSlice, endSlice)
         local value = valueof(this)
         if beginSlice < 0 then
             beginSlice = negativeIndex(beginSlice, value.length)
@@ -217,34 +217,33 @@ return function(stringPrototype)
         end
 
         return sub(value, beginSlice + 1)
+    end)
 
-    end
-
-    stringPrototype.small = function(this)
+    stringPrototype.small = coreObjects.func(function(this)
         local value = valueof(this)
         local t = {'<small>'}
         tinsert(t, value)
         tinsert(t, '</small>')
         return concat(t)
-    end
+    end)
 
-    stringPrototype.toLowerCase = function (this)
+    stringPrototype.toLowerCase = coreObjects.func(function(this)
         return lower(valueof(this))
-    end
+    end)
 
-    stringPrototype.toLocaleLowerCase = function (this)
+    stringPrototype.toLocaleLowerCase = coreObjects.func(function(this)
         return lower(valueof(this))
-    end
+    end)
 
-    stringPrototype.toUpperCase = function (this)
+    stringPrototype.toUpperCase = coreObjects.func(function(this)
         return upper(valueof(this))
-    end
+    end)
 
-    stringPrototype.toLocaleUpperCase = function (this)
+    stringPrototype.toLocaleUpperCase = coreObjects.func(function(this)
         return upper(valueof(this))
-    end
+    end)
 
-    stringPrototype.toString = function (this)
+    stringPrototype.toString = coreObjects.func(function(this)
         local mt = getmetatable(this)
         -- Object String
         if mt and type(mt._primitive) == "string" then
@@ -255,19 +254,19 @@ return function(stringPrototype)
         else
             return "[object Object]"
         end
-    end
+    end)
 
-    stringPrototype.trim = function (this)
+    stringPrototype.trim = coreObjects.func(function(this)
         local value = valueof(this)
         -- http://lua-users.org/wiki/StringTrim
         return match(value,'^()%s*$') and '' or match(value,'^%s*(.*%S)')
-    end
+    end)
 
     --[[
         Functions related to RegExp
     --]]
 
-    stringPrototype.split = function (this, separator, limit)
+    stringPrototype.split = coreObjects.func(function(this, separator, limit)
         local value = valueof(this)
         limit = limit == nil and huge or ToUint32(limit)
 
@@ -338,12 +337,12 @@ return function(stringPrototype)
         rawset(ret, 0, tmp)
 
         return array(ret, length)
-    end
+    end)
 
     local getReplacerRegExp = function(newSubStr)
         local replacer = ""
 
-        if type(newSubStr) == "function" then
+        if getmetatable(newSubStr) == coreObjects.functionMt then
             runtime = runtime or require("castl.runtime")
             replacer = function(...)
                 return ToString(newSubStr(runtime, ...))
@@ -397,7 +396,7 @@ return function(stringPrototype)
         return replacer
     end
 
-    stringPrototype.replace = function (this, match, newSubStr, flags)
+    stringPrototype.replace = coreObjects.func(function(this, match, newSubStr, flags)
         local value = valueof(this)
         local isRegExp = instanceof(match, RegExp)
 
@@ -408,7 +407,7 @@ return function(stringPrototype)
                 match = new(RegExp, match, flags)
                 -- if replacer is a function, match must be converted to a regexp
                 -- to be able to use the regexp gsub
-            elseif type(newSubStr) == "function" then
+            elseif getmetatable(newSubStr) == coreObjects.functionMt then
                 match = new(RegExp, match, "")
             end
         end
@@ -421,9 +420,9 @@ return function(stringPrototype)
             replacer = getReplacerRegExp(newSubStr)
             return (regexpHelper.gsub(value, match, replacer))
         end
-    end
+    end)
 
-    stringPrototype.search = function (this, regexp)
+    stringPrototype.search = coreObjects.func(function(this, regexp)
         local value = valueof(this)
 
         if not instanceof(regexp, RegExp) then
@@ -435,9 +434,9 @@ return function(stringPrototype)
         local found = rex.find(value, regexp.source, 1, cf)
 
         return found and found - 1 or -1
-    end
+    end)
 
-    stringPrototype.match = function (this, regexp)
+    stringPrototype.match = coreObjects.func(function(this, regexp)
         local value = valueof(this)
 
         if not instanceof(regexp, RegExp) then
@@ -485,6 +484,5 @@ return function(stringPrototype)
         rawset(ret, 0, tmp)
 
         return array(ret, length)
-    end
-
+    end)
 end

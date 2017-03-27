@@ -27,6 +27,7 @@ local type, tonumber, tostring, pairs, setmetatable, getmetatable, error, select
 local tinsert = table.insert
 local huge, abs = math.huge, math.abs
 local pcall = pcall
+local require = require
 
 -- Prevent modification of global environment
 _ENV = nil
@@ -255,12 +256,17 @@ function jssupport.modulo(a, b)
     return sign * (abs(a) % abs(b))
 end
 
+local functionMt
 function jssupport.typeof(var)
     if var == nil then
         return "undefined"
     end
     local tvar = type(var)
     if tvar == 'table' then
+        functionMt = functionMt or require("castl.core_objects").functionMt
+        if getmetatable(var) == functionMt then
+            return "function"
+        end
         return "object"
     end
     return tvar
@@ -284,15 +290,17 @@ function jssupport.with(obj, env)
     -- return new environment
     return setmetatable({}, {
         __index = function(self, key)
-            if obj[key] ~= nil then
-                if type(obj[key]) == "function" then
+            local v = obj[key]
+            if v ~= nil then
+                functionMt = functionMt or require("castl.core_objects").functionMt
+                if getmetatable(v) == functionMt then
                     return function(...)
                         -- 'this' argument of the function is the object
                         -- thus the original 'this' is discarded
-                        return obj[key](obj, select(2, ...))
+                        return v(obj, select(2, ...))
                     end
                 end
-                return obj[key]
+                return v
             end
 
             return env[key]

@@ -30,7 +30,7 @@ local get, put, withinNew, ToNumber = internal.get, internal.put, internal.withi
 
 _ENV = nil
 
-Number = function(this, arg)
+Number = coreObjects.func(function(this, arg)
     arg = ToNumber(arg)
     -- Number constructor not called within a new
     if not withinNew(this, numberProto) then
@@ -61,31 +61,31 @@ Number = function(this, arg)
     })
 
     return o
-end
+end)
 
-Number.isFinite = function(this, arg)
+Number.isFinite = coreObjects.func(function(this, arg)
     if type(arg) == 'number' then
         return arg ~= huge and arg ~= -huge and not (arg ~= arg)
     end
 
     return false
-end
+end)
 
-Number.isNaN = function (this, arg)
+Number.isNaN = coreObjects.func(function(this, arg)
     if type(arg) == 'number' then
         return (arg ~= arg)
     end
 
     return false
-end
+end)
 
-Number.parseInt = function (this, str, radix)
+Number.parseInt = coreObjects.func(function(this, str, radix)
     return globalFunctions.parseInt(this, str, radix)
-end
+end)
 
-Number.parseFloat = function (this, str)
+Number.parseFloat = coreObjects.func(function(this, str)
     return globalFunctions.parseFloat(this, str)
-end
+end)
 
 -- Static properties
 Number.NaN = 0/0

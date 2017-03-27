@@ -1,6 +1,6 @@
 local _ENV = require("castl.runtime");
 return setfenv(function(...)
-(function (this, root, factory)
+_func(function(this, root, factory)
 if _bool(((function() local _lev=(_type(define) == "function"); if _bool(_lev) then return define.amd; else return _lev; end end)())) then
 define(_ENV,_arr({[0]="exports"},1),factory);
 elseif (exports ~= undefined) then
@@ -10,9 +10,9 @@ root.castl = _obj({});
 factory(_ENV,root.castl);
 end
 
-end)(_ENV,this,(function (this, exports)
+end)(_ENV,this,_func(function(this, exports)
 local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileComparisonOperator,compileAdditionOperator,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileGenericLogicalExpression,compileLogicalExpressionLeftIdentifierOrLiteral,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,compileUpdateExpressionNoEval,compileAssignmentExpression,compileAssignmentExpressionNoEval,compileCompoundAssignmentNoEval,storeComputedProperty,compileCompoundAssignmentBinaryExpression,compileExpressionStatementNoEval,compileExpressionStatementEvalMode,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,mayBeNumericFor,isComparisonExpressionWith,isNumericCompoundAssignmentExpressionWith,isUpdateExpressionWith,isCompoundAssignment,compileForTest,compileForUpdate,compileForInit,compileIterationStatement,compileIfStatement,compileBooleanExpression,compileListOfStatements,compileStatement,compileAST,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,setMeta,deductions,withTracker,continueNoLabelTracker,labelTracker,annotations,options,luaKeywords;
-setMeta = (function (this, node, meta)
+setMeta = _func(function(this, node, meta)
 if _bool(options.annotation) then
 if _bool(((function() local _lev=annotations[(node.loc.start.line - 1)]; if _bool(_lev) then return meta; else return _lev; end end)())) then
 meta.type = annotations[(node.loc.start.line - 1)];
@@ -29,7 +29,7 @@ end
 end
 
 end);
-ProtectedCallManager = (function (this)
+ProtectedCallManager = _func(function(this)
 this.protectedCallContext = _arr({},0);
 this.mayReturnStack = _arr({},0);
 this.mayBreakStack = _arr({},0);
@@ -37,12 +37,12 @@ this.mayContinueStack = _arr({},0);
 this.iterationStatement = _arr({},0);
 this.switchStatement = _arr({},0);
 end);
-LocalVarManager = (function (this)
+LocalVarManager = _func(function(this)
 this.locals = _arr({},0);
 this.functions = _arr({},0);
 this.args = _arr({},0);
 end);
-compileAST = (function (this, ast, opts, anno)
+compileAST = _func(function(this, ast, opts, anno)
 local i,compiledFunctionsDeclaration,functions,compiledLocalsDeclaration,locals,useArguments,context,topLevelStatements,compiledProgram;
 options = (_bool(opts) and opts or _obj({}));
 annotations = (_bool(anno) and anno or _obj({}));
@@ -57,18 +57,18 @@ compiledProgram:push("local arguments = _args(...);");
 end
 
 locals = context[0];
-if (locals.length>0) then
+if (_gt(locals.length,0)) then
 compiledLocalsDeclaration = buildLocalsDeclarationString(_ENV,locals);
 compiledProgram:push(compiledLocalsDeclaration);
 end
 
 functions = context[2];
-if (functions.length>0) then
+if (_gt(functions.length,0)) then
 compiledFunctionsDeclaration = _arr({},0);
 i = 0;
-while (i<functions.length) do
+while (_lt(i,functions.length)) do
 compiledFunctionsDeclaration:push(functions[i]);
-i = i + 1;
+i = _inc(i);
 end
 
 compiledProgram:push(compiledFunctionsDeclaration:join("\010"));
@@ -86,7 +86,7 @@ do return _obj({
 ["compiled"] = ""
 }); end
 end);
-compileStatement = (function (this, statement)
+compileStatement = _func(function(this, statement)
 local line,compiledStatement;
 repeat
 local _into = false;
@@ -196,36 +196,36 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknown Statement type: " .. statement.type)),0)
+_throw(_new(Error,(_addStr1("Unknown Statement type: ",statement.type))),0)
 _into = true;
 end
 until true
 if (compiledStatement ~= undefined) then
 if _bool(options.debug) then
 line = statement.loc.start.line;
-do return ((("--[[" .. line) .. "--]] ") .. compiledStatement); end
+do return (_addStr1(((_addStr1("--[[",line)) .. "--]] "),compiledStatement)); end
 end
 
 do return compiledStatement; end
 end
 
 end);
-compileListOfStatements = (function (this, statementList)
+compileListOfStatements = _func(function(this, statementList)
 local compiledStatement,i,compiledStatements;
 compiledStatements = _arr({},0);
 i = 0;
-while (i<statementList.length) do
+while (_lt(i,statementList.length)) do
 compiledStatement = compileStatement(_ENV,statementList[i]);
 if ((function() local _lev=(compiledStatement ~= ""); if _bool(_lev) then return (compiledStatement ~= undefined); else return _lev; end end)()) then
 compiledStatements:push(compiledStatement);
 end
 
-i = i + 1;
+i = _inc(i);
 end
 
 do return compiledStatements:join("\010"); end
 end);
-compileBooleanExpression = (function (this, expression)
+compileBooleanExpression = _func(function(this, expression)
 local compiledExpression,meta,compiledBooleanExpression;
 compiledBooleanExpression = _arr({},0);
 meta = _obj({});
@@ -240,7 +240,7 @@ end
 
 do return compiledBooleanExpression:join(""); end
 end);
-compileIfStatement = (function (this, statement, elif)
+compileIfStatement = _func(function(this, statement, elif)
 local compiledIfStatement;
 compiledIfStatement = _arr({},0);
 if _bool(elif) then
@@ -270,7 +270,7 @@ end
 
 do return compiledIfStatement:join(""); end
 end);
-compileIterationStatement = (function (this, statement, compiledLabel)
+compileIterationStatement = _func(function(this, statement, compiledLabel)
 local compiledIterationStatement;
 compiledIterationStatement = "";
 continueNoLabelTracker:push(false);
@@ -305,7 +305,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Not an IterationStatement " .. statement.type)),0)
+_throw(_new(Error,(_addStr1("Not an IterationStatement ",statement.type))),0)
 _into = true;
 end
 until true
@@ -313,7 +313,7 @@ protectedCallManager:closeIterationStatement();
 continueNoLabelTracker:pop();
 do return compiledIterationStatement; end
 end);
-compileForInit = (function (this, init)
+compileForInit = _func(function(this, init)
 local compiledForInit;
 compiledForInit = _arr({},0);
 if (init ~= null) then
@@ -328,7 +328,7 @@ end
 
 do return compiledForInit:join(""); end
 end);
-compileForUpdate = (function (this, update)
+compileForUpdate = _func(function(this, update)
 local compiledForUpdate;
 compiledForUpdate = _arr({},0);
 if (update ~= null) then
@@ -338,34 +338,34 @@ end
 
 do return compiledForUpdate:join(""); end
 end);
-compileForTest = (function (this, test)
+compileForTest = _func(function(this, test)
 if (test ~= null) then
 do return compileBooleanExpression(_ENV,test); end
 end
 
 do return "true"; end
 end);
-isCompoundAssignment = (function (this, expression)
+isCompoundAssignment = _func(function(this, expression)
 if (expression.type == "AssignmentExpression") then
 do return (_gt(_arr({[0]="*=","/=","%=","+=","-=","<<=",">>=",">>>=","&=","^=","|="},11):indexOf(expression.operator),-1)); end
 end
 
 do return false; end
 end);
-isUpdateExpressionWith = (function (this, expression, variables)
+isUpdateExpressionWith = _func(function(this, expression, variables)
 if ((function() local _lev=(expression ~= null); if _bool(_lev) then return (expression.type == "UpdateExpression"); else return _lev; end end)()) then
 if (expression.argument.type == "Identifier") then
-do return (variables:indexOf(expression.argument.name)>-1); end
+do return (_gt(variables:indexOf(expression.argument.name),-1)); end
 end
 
 end
 
 do return false; end
 end);
-isNumericCompoundAssignmentExpressionWith = (function (this, expression, variables)
+isNumericCompoundAssignmentExpressionWith = _func(function(this, expression, variables)
 local metaRight;
 if _bool(((function() local _lev=(expression ~= null); if _bool(_lev) then return isCompoundAssignment(_ENV,expression); else return _lev; end end)())) then
-if ((function() local _lev=(expression.left.type == "Identifier"); if _bool(_lev) then return (variables:indexOf(expression.left.name)>-1); else return _lev; end end)()) then
+if ((function() local _lev=(expression.left.type == "Identifier"); if _bool(_lev) then return (_gt(variables:indexOf(expression.left.name),-1)); else return _lev; end end)()) then
 if (expression.operator == "+=") then
 metaRight = _obj({});
 compileExpression(_ENV,expression.right,metaRight);
@@ -379,17 +379,17 @@ end
 
 do return false; end
 end);
-isComparisonExpressionWith = (function (this, expression, variables)
+isComparisonExpressionWith = _func(function(this, expression, variables)
 if (expression ~= null) then
 if (expression.type == "BinaryExpression") then
-if (_arr({[0]="<","<=",">",">="},4):indexOf(expression.operator)>-1) then
+if (_gt(_arr({[0]="<","<=",">",">="},4):indexOf(expression.operator),-1)) then
 if (expression.left.type == "Identifier") then
-if (variables:indexOf(expression.left.name)>-1) then
+if (_gt(variables:indexOf(expression.left.name),-1)) then
 do return true; end
 end
 
 elseif (expression.right.type == "Identifier") then
-if (variables:indexOf(expression.right.name)>-1) then
+if (_gt(variables:indexOf(expression.right.name),-1)) then
 do return true; end
 end
 
@@ -403,7 +403,7 @@ end
 
 do return false; end
 end);
-mayBeNumericFor = (function (this, statement)
+mayBeNumericFor = _func(function(this, statement)
 local i,declarations,metaRight,init,possibleNumericForVariable;
 possibleNumericForVariable = _arr({},0);
 init = statement.init;
@@ -414,7 +414,7 @@ end
 if (init.type == "VariableDeclaration") then
 declarations = init.declarations;
 i = 0;
-while (i<declarations.length) do
+while (_lt(i,declarations.length)) do
 if (declarations[i].init ~= null) then
 metaRight = _obj({});
 compileExpression(_ENV,declarations[i].init,metaRight);
@@ -424,7 +424,7 @@ end
 
 end
 
-i = i + 1;
+i = _inc(i);
 end
 
 elseif (init.type == "AssignmentExpression") then
@@ -439,7 +439,7 @@ end
 
 end
 
-if (possibleNumericForVariable.length>0) then
+if (_gt(possibleNumericForVariable.length,0)) then
 if _bool(isComparisonExpressionWith(_ENV,statement.test,possibleNumericForVariable)) then
 if _bool(isUpdateExpressionWith(_ENV,statement.update,possibleNumericForVariable)) then
 do return true; end
@@ -455,7 +455,7 @@ end
 
 do return false; end
 end);
-compileForStatement = (function (this, statement, compiledLabel)
+compileForStatement = _func(function(this, statement, compiledLabel)
 local compiledForStatement;
 compiledForStatement = _arr({},0);
 if _bool(options.heuristic) then
@@ -476,14 +476,14 @@ compiledForStatement:push("::_continue::\010");
 end
 
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue; else return compiledLabel; end end)())) then
-compiledForStatement:push((("::" .. compiledLabel) .. "_c::\010"));
+compiledForStatement:push(((_addStr1("::",compiledLabel)) .. "_c::\010"));
 end
 
 compiledForStatement:push(compileForUpdate(_ENV,statement.update));
 compiledForStatement:push("end\010");
 do return compiledForStatement:join(""); end
 end);
-compileForInStatement = (function (this, statement, compiledLabel)
+compileForInStatement = _func(function(this, statement, compiledLabel)
 local compiledLeft,compiledForInStatement;
 compiledForInStatement = _arr({},0);
 compiledForInStatement:push("local _p = _props(");
@@ -506,13 +506,13 @@ compiledForInStatement:push(");\010");
 compiledForInStatement:push(compileStatement(_ENV,statement.body));
 compiledForInStatement:push("::_continue::\010");
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue; else return compiledLabel; end end)())) then
-compiledForInStatement:push((("::" .. compiledLabel) .. "_c::\010"));
+compiledForInStatement:push(((_addStr1("::",compiledLabel)) .. "_c::\010"));
 end
 
 compiledForInStatement:push("end\010");
 do return compiledForInStatement:join(""); end
 end);
-compileWhileStatement = (function (this, statement, compiledLabel)
+compileWhileStatement = _func(function(this, statement, compiledLabel)
 local compiledWhileStatement;
 compiledWhileStatement = _arr({[0]="while "},1);
 compiledWhileStatement:push(compileBooleanExpression(_ENV,statement.test));
@@ -521,20 +521,20 @@ compiledWhileStatement:push(compileStatement(_ENV,statement.body));
 compiledWhileStatement:push("\010");
 compiledWhileStatement:push("::_continue::\010");
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue; else return compiledLabel; end end)())) then
-compiledWhileStatement:push((("::" .. compiledLabel) .. "_c::\010"));
+compiledWhileStatement:push(((_addStr1("::",compiledLabel)) .. "_c::\010"));
 end
 
 compiledWhileStatement:push("end\010");
 do return compiledWhileStatement:join(""); end
 end);
-compileDoWhileStatement = (function (this, statement, compiledLabel)
+compileDoWhileStatement = _func(function(this, statement, compiledLabel)
 local compiledDoWhileStatement;
 compiledDoWhileStatement = _arr({[0]="repeat\010"},1);
 compiledDoWhileStatement:push(compileStatement(_ENV,statement.body));
 compiledDoWhileStatement:push("\010");
 compiledDoWhileStatement:push("::_continue::\010");
 if _bool(((function() if _bool(compiledLabel) then return labelTracker[compiledLabel].mayContinue; else return compiledLabel; end end)())) then
-compiledDoWhileStatement:push((("::" .. compiledLabel) .. "_c::\010"));
+compiledDoWhileStatement:push(((_addStr1("::",compiledLabel)) .. "_c::\010"));
 end
 
 compiledDoWhileStatement:push("until not ");
@@ -542,10 +542,10 @@ compiledDoWhileStatement:push(compileBooleanExpression(_ENV,statement.test));
 compiledDoWhileStatement:push("\010");
 do return compiledDoWhileStatement:join(""); end
 end);
-isIterationStatement = (function (this, statement)
+isIterationStatement = _func(function(this, statement)
 do return ((function() local _lev=((function() local _lev=((function() local _lev=(statement.type == "ForStatement"); return _bool(_lev) and _lev or (statement.type == "DoWhileStatement") end)()); return _bool(_lev) and _lev or (statement.type == "WhileStatement") end)()); return _bool(_lev) and _lev or (statement.type == "ForInStatement") end)()); end
 end);
-compileLabeledStatement = (function (this, statement)
+compileLabeledStatement = _func(function(this, statement)
 local compiledLabel,label,compiledLabeledStatement;
 compiledLabeledStatement = _arr({},0);
 label = statement.label;
@@ -561,14 +561,14 @@ compiledLabeledStatement:push(compileStatement(_ENV,statement.body));
 end
 
 if _bool(labelTracker[compiledLabel].mayBreak) then
-compiledLabeledStatement:push((("::" .. compiledLabel) .. "_b::\010"));
+compiledLabeledStatement:push(((_addStr1("::",compiledLabel)) .. "_b::\010"));
 end
 
 (function () local _r = false; local _g, _s = labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel]; labelTracker["_g" .. compiledLabel], labelTracker["_s" .. compiledLabel] = nil, nil; _r = _g ~= nil or _s ~= nil;
 local _v = labelTracker[compiledLabel]; labelTracker[compiledLabel] = nil; return _r or _v ~= nil; end)();
 do return compiledLabeledStatement:join(""); end
 end);
-compileBreakStatement = (function (this, statement)
+compileBreakStatement = _func(function(this, statement)
 local compiledLabel;
 if (statement.label == null) then
 if _bool(protectedCallManager:breakOutside()) then
@@ -585,9 +585,9 @@ end
 
 compiledLabel = compileIdentifier(_ENV,statement.label);
 labelTracker[compiledLabel].mayBreak = true;
-do return (("goto " .. compiledLabel) .. "_b;"); end
+do return ((_addStr1("goto ",compiledLabel)) .. "_b;"); end
 end);
-compileContinueStatement = (function (this, statement)
+compileContinueStatement = _func(function(this, statement)
 local compiledLabel;
 if (statement.label == null) then
 continueNoLabelTracker[(continueNoLabelTracker.length - 1)] = true;
@@ -600,18 +600,18 @@ end
 
 compiledLabel = compileIdentifier(_ENV,statement.label);
 labelTracker[compiledLabel].mayContinue = true;
-do return (("goto " .. compiledLabel) .. "_c;"); end
+do return ((_addStr1("goto ",compiledLabel)) .. "_c;"); end
 end);
-compileSwitchStatement = (function (this, statement)
+compileSwitchStatement = _func(function(this, statement)
 local hasDefault,compiledTests,caseTablementElement,casesTable,i,compiledSwitchStatement,cases;
 protectedCallManager:openSwitchStatement();
 cases = statement.cases;
-if (cases.length>0) then
+if (_gt(cases.length,0)) then
 compiledSwitchStatement = _arr({[0]="repeat\010local _into = false;\010"},1);
 casesTable = _arr({},0);
 compiledTests = _arr({},0);
 i = 0;
-while (i<cases.length) do
+while (_lt(i,cases.length)) do
 if (cases[i].test ~= null) then
 compiledTests[i] = compileExpression(_ENV,cases[i].test);
 caseTablementElement = _arr({},0);
@@ -621,7 +621,7 @@ caseTablementElement:push("] = true");
 casesTable:push(caseTablementElement:join(""));
 end
 
-i = i + 1;
+i = _inc(i);
 end
 
 compiledSwitchStatement:push("local _cases = {");
@@ -636,7 +636,7 @@ compiledSwitchStatement:push("goto _default\010");
 compiledSwitchStatement:push("end\010");
 hasDefault = false;
 i = 0;
-while (i<cases.length) do
+while (_lt(i,cases.length)) do
 if (cases[i].test ~= null) then
 compiledSwitchStatement:push("if _into or (_v == ");
 compiledSwitchStatement:push(compiledTests[i]);
@@ -651,7 +651,7 @@ compiledSwitchStatement:push(compileListOfStatements(_ENV,cases[i].consequent));
 compiledSwitchStatement:push("\010");
 compiledSwitchStatement:push("_into = true;\010");
 compiledSwitchStatement:push("end\010");
-i = i + 1;
+i = _inc(i);
 end
 
 if not _bool(hasDefault) then
@@ -666,16 +666,16 @@ end
 protectedCallManager:closeSwitchStatement();
 do return ""; end
 end);
-compileTryStatement = (function (this, statement)
+compileTryStatement = _func(function(this, statement)
 if _bool(statement.handlers) then
 do return compileTryStatementFlavored(_ENV,statement,true); end
 end
 
 do return compileTryStatementFlavored(_ENV,statement,false); end
 end);
-compileTryStatementFlavored = (function (this, statement, esprima)
+compileTryStatementFlavored = _func(function(this, statement, esprima)
 local handler,compiledTryStatement,may,finallyStatements,hasFinalizer,hasHandler;
-hasHandler = (function() if _bool(esprima) then return (statement.handlers.length>0); else return (statement.handler ~= null); end end)();
+hasHandler = (function() if _bool(esprima) then return (_gt(statement.handlers.length,0)); else return (statement.handler ~= null); end end)();
 hasFinalizer = (statement.finalizer ~= null);
 protectedCallManager:openContext();
 compiledTryStatement = _arr({[0]="local _status, _return = _pcall(function()\010"},1);
@@ -748,22 +748,22 @@ end
 compiledTryStatement:push("end\010");
 do return compiledTryStatement:join(""); end
 end);
-compileThrowStatement = (function (this, statement)
+compileThrowStatement = _func(function(this, statement)
 local compiledThrowStatement;
 compiledThrowStatement = _arr({[0]="_throw("},1);
 compiledThrowStatement:push(compileExpression(_ENV,statement.argument));
 compiledThrowStatement:push(",0)");
 do return compiledThrowStatement:join(""); end
 end);
-compileReturnStatement = (function (this, statement)
+compileReturnStatement = _func(function(this, statement)
 protectedCallManager:returnStatement();
 if (statement.argument ~= null) then
-do return (("do return " .. compileExpression(_ENV,statement.argument)) .. "; end"); end
+do return ((_addStr1("do return ",compileExpression(_ENV,statement.argument))) .. "; end"); end
 end
 
 do return "do return end"; end
 end);
-compileWithStatement = (function (this, statement)
+compileWithStatement = _func(function(this, statement)
 local compiledWithStatement;
 withTracker:push(true);
 compiledWithStatement = _arr({[0]="do\010"},1);
@@ -784,7 +784,7 @@ compiledWithStatement:push("\010end");
 withTracker:pop();
 do return compiledWithStatement:join(""); end
 end);
-compileExpression = (function (this, expression, meta)
+compileExpression = _func(function(this, expression, meta)
 repeat
 local _into = false;
 local _cases = {["AssignmentExpression"] = true,["FunctionExpression"] = true,["Identifier"] = true,["Literal"] = true,["UnaryExpression"] = true,["BinaryExpression"] = true,["LogicalExpression"] = true,["MemberExpression"] = true,["CallExpression"] = true,["NewExpression"] = true,["ThisExpression"] = true,["ObjectExpression"] = true,["UpdateExpression"] = true,["ArrayExpression"] = true,["ConditionalExpression"] = true,["SequenceExpression"] = true,["ArrowFunctionExpression"] = true,["TemplateLiteral"] = true,["SpreadElement"] = true,["MetaProperty"] = true};
@@ -875,12 +875,12 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknown Expression type: " .. expression.type)),0)
+_throw(_new(Error,(_addStr1("Unknown Expression type: ",expression.type))),0)
 _into = true;
 end
 until true
 end);
-compileExpressionStatement = (function (this, expression, meta)
+compileExpressionStatement = _func(function(this, expression, meta)
 if _bool(options.evalMode) then
 do return compileExpressionStatementEvalMode(_ENV,expression,meta); end
 else
@@ -888,14 +888,14 @@ do return compileExpressionStatementNoEval(_ENV,expression,meta); end
 end
 
 end);
-compileExpressionStatementEvalMode = (function (this, expression, meta)
+compileExpressionStatementEvalMode = _func(function(this, expression, meta)
 local compiledExpressionStatement;
 compiledExpressionStatement = _arr({[0]="_e("},1);
 compiledExpressionStatement:push(compileExpression(_ENV,expression,meta));
 compiledExpressionStatement:push(");");
 do return compiledExpressionStatement:join(""); end
 end);
-compileExpressionStatementNoEval = (function (this, expression, meta)
+compileExpressionStatementNoEval = _func(function(this, expression, meta)
 local compiledUnaryExpressionStatement,compiledExpressionStatement;
 repeat
 local _into = false;
@@ -918,11 +918,11 @@ do return end
 _into = true;
 end
 if _into or (_v == "UpdateExpression") then
-do return (compileUpdateExpressionNoEval(_ENV,expression,meta) .. ";"); end
+do return (_addStr2(compileUpdateExpressionNoEval(_ENV,expression,meta),";")); end
 _into = true;
 end
 if _into or (_v == "AssignmentExpression") then
-do return (compileAssignmentExpressionNoEval(_ENV,expression,meta) .. ";"); end
+do return (_addStr2(compileAssignmentExpressionNoEval(_ENV,expression,meta),";")); end
 _into = true;
 end
 if _into or (_v == "BinaryExpression") then
@@ -956,7 +956,7 @@ compiledUnaryExpressionStatement:push(");");
 do return compiledUnaryExpressionStatement:join(""); end
 end
 
-do return (compileUnaryExpression(_ENV,expression,meta) .. ";"); end
+do return (_addStr2(compileUnaryExpression(_ENV,expression,meta),";")); end
 _into = true;
 end
 if _into or (_v == "CallExpression") then
@@ -976,7 +976,7 @@ if _into or (_v == "ObjectExpression") then
 _into = true;
 end
 if _into or (_v == "SequenceExpression") then
-do return (compileExpression(_ENV,expression,meta) .. ";"); end
+do return (_addStr2(compileExpression(_ENV,expression,meta),";")); end
 _into = true;
 end
 if _into or (_v == "YieldExpression") then
@@ -985,12 +985,12 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknown expression type: " .. expression.type)),0)
+_throw(_new(Error,(_addStr1("Unknown expression type: ",expression.type))),0)
 _into = true;
 end
 until true
 end);
-compileCompoundAssignmentBinaryExpression = (function (this, left, right, operator, metaLeft, metaRight, meta)
+compileCompoundAssignmentBinaryExpression = _func(function(this, left, right, operator, metaLeft, metaRight, meta)
 local compiledCompoundAssignmentBinaryExpression;
 compiledCompoundAssignmentBinaryExpression = _arr({[0]="("},1);
 repeat
@@ -1126,14 +1126,14 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknown BinaryOperator: " .. operator)),0)
+_throw(_new(Error,(_addStr1("Unknown BinaryOperator: ",operator))),0)
 _into = true;
 end
 until true
 compiledCompoundAssignmentBinaryExpression:push(")");
 do return compiledCompoundAssignmentBinaryExpression:join(""); end
 end);
-storeComputedProperty = (function (this, expression)
+storeComputedProperty = _func(function(this, expression)
 local hasComputedProperty;
 hasComputedProperty = ((function() local _lev=(expression.type == "MemberExpression"); if _bool(_lev) then return expression.computed; else return _lev; end end)());
 if _bool(hasComputedProperty) then
@@ -1147,7 +1147,7 @@ end
 
 do return true; end
 end);
-compileCompoundAssignmentNoEval = (function (this, expression)
+compileCompoundAssignmentNoEval = _func(function(this, expression)
 local split,right,left,metaRight,metaLeft,mustStore,compiledAssignmentBinaryExpression;
 compiledAssignmentBinaryExpression = _arr({},0);
 mustStore = storeComputedProperty(_ENV,expression.left);
@@ -1157,7 +1157,7 @@ left = compileExpression(_ENV,expression.left,metaLeft);
 right = compileExpression(_ENV,expression.right,metaRight);
 if _bool(mustStore) then
 split = getBaseMember(_ENV,left);
-left = (split.base .. "[_cp]");
+left = (_addStr2(split.base,"[_cp]"));
 compiledAssignmentBinaryExpression:push("do local _cp = ");
 compiledAssignmentBinaryExpression:push(split.member);
 compiledAssignmentBinaryExpression:push("; ");
@@ -1172,7 +1172,7 @@ end
 
 do return compiledAssignmentBinaryExpression:join(""); end
 end);
-compileAssignmentExpressionNoEval = (function (this, expression)
+compileAssignmentExpressionNoEval = _func(function(this, expression)
 local right,left,compiledAssignmentExpression;
 compiledAssignmentExpression = _arr({},0);
 repeat
@@ -1200,7 +1200,7 @@ end
 until true
 do return compiledAssignmentExpression:join(""); end
 end);
-compileAssignmentExpression = (function (this, expression, meta)
+compileAssignmentExpression = _func(function(this, expression, meta)
 local split,right,left,metaRight,metaLeft,mustStore,compiledAssignmentExpression;
 compiledAssignmentExpression = _arr({[0]="(function() "},1);
 mustStore = storeComputedProperty(_ENV,expression.left);
@@ -1213,7 +1213,7 @@ split = getBaseMember(_ENV,left);
 compiledAssignmentExpression:push("local _cp = ");
 compiledAssignmentExpression:push(split.member);
 compiledAssignmentExpression:push(";");
-left = (split.base .. "[_cp]");
+left = (_addStr2(split.base,"[_cp]"));
 end
 
 compiledAssignmentExpression:push(left);
@@ -1246,7 +1246,7 @@ compiledAssignmentExpression:push(left);
 compiledAssignmentExpression:push(" end)()");
 do return compiledAssignmentExpression:join(""); end
 end);
-compileUpdateExpressionNoEval = (function (this, expression)
+compileUpdateExpressionNoEval = _func(function(this, expression)
 local split,compiledArgument,metaArgument,mustStore,compiledUpdateExpression;
 compiledUpdateExpression = _arr({},0);
 mustStore = storeComputedProperty(_ENV,expression.argument);
@@ -1254,7 +1254,7 @@ metaArgument = _obj({});
 compiledArgument = compileExpression(_ENV,expression.argument,metaArgument);
 if _bool(mustStore) then
 split = getBaseMember(_ENV,compiledArgument);
-compiledArgument = (split.base .. "[_cp]");
+compiledArgument = (_addStr2(split.base,"[_cp]"));
 compiledUpdateExpression:push("do local _cp = ");
 compiledUpdateExpression:push(split.member);
 compiledUpdateExpression:push("; ");
@@ -1298,7 +1298,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknown UpdateOperator: " .. expression.operator)),0)
+_throw(_new(Error,(_addStr1("Unknown UpdateOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
@@ -1308,7 +1308,7 @@ end
 
 do return compiledUpdateExpression:join(""); end
 end);
-compileUpdateExpression = (function (this, expression, meta)
+compileUpdateExpression = _func(function(this, expression, meta)
 local split,compiledArgument,metaArgument,mustStore,compiledUpdateExpression;
 compiledUpdateExpression = _arr({[0]="(function () "},1);
 mustStore = storeComputedProperty(_ENV,expression.argument);
@@ -1319,7 +1319,7 @@ split = getBaseMember(_ENV,compiledArgument);
 compiledUpdateExpression:push("local _cp = ");
 compiledUpdateExpression:push(split.member);
 compiledUpdateExpression:push(";");
-compiledArgument = (split.base .. "[_cp]");
+compiledArgument = (_addStr2(split.base,"[_cp]"));
 end
 
 compiledUpdateExpression:push("local _tmp = ");
@@ -1360,7 +1360,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknown UpdateOperator: " .. expression.operator)),0)
+_throw(_new(Error,(_addStr1("Unknown UpdateOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
@@ -1401,7 +1401,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknown UpdateOperator: " .. expression.operator)),0)
+_throw(_new(Error,(_addStr1("Unknown UpdateOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
@@ -1414,42 +1414,42 @@ end
 
 do return compiledUpdateExpression:join(""); end
 end);
-replaceAt = (function (this, str, index, char)
-do return ((str:substr(0,index) .. char) .. str:substr((index + 1))); end
+replaceAt = _func(function(this, str, index, char)
+do return (_add((_add(str:substr(0,index),char)),str:substr((_addNum2(index,1))))); end
 end);
-lastTopLevelBracketedGroupStartIndex = (function (this, str)
+lastTopLevelBracketedGroupStartIndex = _func(function(this, str)
 local i,count,startIndex;
 startIndex = 0;
 count = 0;
 i = 0;
-while (i<str.length) do
+while (_lt(i,str.length)) do
 if (str[i] == "[") then
 if (count == 0) then
 startIndex = i;
 end
 
-count = count + 1;
+count = _inc(count);
 elseif (str[i] == "]") then
-count = count - 1;
+count = _dec(count);
 end
 
-i = i + 1;
+i = _inc(i);
 end
 
 do return startIndex; end
 end);
-compileCallArguments = (function (this, args)
+compileCallArguments = _func(function(this, args)
 local i,compiledArguments;
 compiledArguments = _arr({},0);
 i = 0;
-while (i<args.length) do
+while (_lt(i,args.length)) do
 compiledArguments:push(compileExpression(_ENV,args[i]));
-i = i + 1;
+i = _inc(i);
 end
 
 do return compiledArguments:join(","); end
 end);
-compileCallExpression = (function (...)
+compileCallExpression = _func(function(...)
 local this, expression, meta = ...;
 local arguments = _args(...);
 local lastPointIndex,member,base,startIndex,compiledArguments,compiledCallee,compiledCallExpression;
@@ -1460,7 +1460,7 @@ if (expression.callee.type == "MemberExpression") then
 if _bool(compiledCallee:match(_regexp("\\]$",""))) then
 startIndex = lastTopLevelBracketedGroupStartIndex(_ENV,compiledCallee);
 base = compiledCallee:substr(0,startIndex);
-member = compiledCallee:substr((startIndex + 1));
+member = compiledCallee:substr((_addNum2(startIndex,1)));
 compiledCallExpression:push("(function() local _this = ");
 compiledCallExpression:push(base);
 compiledCallExpression:push("; local _f = _this[");
@@ -1500,7 +1500,7 @@ end
 setMeta(_ENV,expression,meta);
 do return compiledCallExpression:join(""); end
 end);
-compileLogicalExpression = (function (this, expression, meta)
+compileLogicalExpression = _func(function(this, expression, meta)
 local compiledRight,compiledLeft,metaRight,metaLeft;
 metaLeft = _obj({});
 metaRight = _obj({});
@@ -1520,7 +1520,7 @@ do return compileGenericLogicalExpression(_ENV,expression,compiledLeft,compiledR
 end
 
 end);
-compileLogicalExpressionLeftIdentifierOrLiteral = (function (this, expression, compiledLeft, compiledRight)
+compileLogicalExpressionLeftIdentifierOrLiteral = _func(function(this, expression, compiledLeft, compiledRight)
 local leftCondition,compiledLogicalExpression;
 compiledLogicalExpression = _arr({[0]="("},1);
 leftCondition = compileBooleanExpression(_ENV,expression.left);
@@ -1554,14 +1554,14 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknown LogicalOperator: " .. expression.operator)),0)
+_throw(_new(Error,(_addStr1("Unknown LogicalOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
 compiledLogicalExpression:push(")");
 do return compiledLogicalExpression:join(""); end
 end);
-compileGenericLogicalExpression = (function (this, expression, compiledLeft, compiledRight)
+compileGenericLogicalExpression = _func(function(this, expression, compiledLeft, compiledRight)
 local compiledLogicalExpression;
 compiledLogicalExpression = _arr({[0]="("},1);
 repeat
@@ -1592,40 +1592,40 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknown LogicalOperator: " .. expression.operator)),0)
+_throw(_new(Error,(_addStr1("Unknown LogicalOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
 compiledLogicalExpression:push(")");
 do return compiledLogicalExpression:join(""); end
 end);
-getBaseMember = (function (this, compiledExpression)
+getBaseMember = _func(function(this, compiledExpression)
 local startIndex;
 startIndex = 0;
 if _bool(compiledExpression:match(_regexp("\\]$",""))) then
 startIndex = lastTopLevelBracketedGroupStartIndex(_ENV,compiledExpression);
 do return _obj({
 ["base"] = compiledExpression:slice(0,startIndex),
-["member"] = compiledExpression:slice((startIndex + 1),-1)
+["member"] = compiledExpression:slice((_addNum2(startIndex,1)),-1)
 }); end
 else
 startIndex = compiledExpression:lastIndexOf(".");
 do return _obj({
 ["base"] = compiledExpression:slice(0,startIndex),
-["member"] = (("\"" .. compiledExpression:slice((startIndex + 1))) .. "\"")
+["member"] = ((_addStr1("\"",compiledExpression:slice((_addNum2(startIndex,1))))) .. "\"")
 }); end
 end
 
 end);
-getGetterSetterExpression = (function (this, compiledExpression)
+getGetterSetterExpression = _func(function(this, compiledExpression)
 local split;
 split = getBaseMember(_ENV,compiledExpression);
 do return _obj({
-["getter"] = (((split.base .. "[\"_g\" .. ") .. split.member) .. "]"),
-["setter"] = (((split.base .. "[\"_s\" .. ") .. split.member) .. "]")
+["getter"] = ((_addStr1((_addStr2(split.base,"[\"_g\" .. ")),split.member)) .. "]"),
+["setter"] = ((_addStr1((_addStr2(split.base,"[\"_s\" .. ")),split.member)) .. "]")
 }); end
 end);
-compileUnaryExpression = (function (this, expression, meta)
+compileUnaryExpression = _func(function(this, expression, meta)
 local gs,scope,compiledExpression,metaArgument,compiledUnaryExpression;
 compiledUnaryExpression = _arr({},0);
 metaArgument = _obj({});
@@ -1727,9 +1727,9 @@ compiledUnaryExpression:push(" = nil, nil; _r = _g ~= nil or _s ~= nil;\010");
 end
 
 compiledUnaryExpression:push("local _v = ");
-compiledUnaryExpression:push((scope .. compiledExpression));
+compiledUnaryExpression:push((_add(scope,compiledExpression)));
 compiledUnaryExpression:push("; ");
-compiledUnaryExpression:push((scope .. compiledExpression));
+compiledUnaryExpression:push((_add(scope,compiledExpression)));
 compiledUnaryExpression:push(" = nil; return _r or _v ~= nil; end)()");
 if _bool(meta) then
 meta.type = "boolean";
@@ -1751,7 +1751,7 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknown UnaryOperator: " .. expression.operator)),0)
+_throw(_new(Error,(_addStr1("Unknown UnaryOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
@@ -1761,7 +1761,7 @@ end
 
 do return compiledUnaryExpression:join(""); end
 end);
-compileAdditionOperator = (function (this, left, right, metaLeft, metaRight, meta)
+compileAdditionOperator = _func(function(this, left, right, metaLeft, metaRight, meta)
 local compiledAdditionOperator;
 compiledAdditionOperator = _arr({},0);
 if ((function() local _lev=(metaLeft.type == "number"); if _bool(_lev) then return (metaRight.type == "number"); else return _lev; end end)()) then
@@ -1828,7 +1828,7 @@ end
 
 do return compiledAdditionOperator:join(""); end
 end);
-compileComparisonOperator = (function (this, left, right, operator, metaLeft, metaRight, meta)
+compileComparisonOperator = _func(function(this, left, right, operator, metaLeft, metaRight, meta)
 local compiledComparisonOperator;
 compiledComparisonOperator = _arr({},0);
 if ((function() local _lev=((function() local _lev=(metaLeft.type == "string"); if _bool(_lev) then return (metaRight.type == "string"); else return _lev; end end)()); return _bool(_lev) and _lev or ((function() local _lev=(metaLeft.type == "number"); if _bool(_lev) then return (metaRight.type == "number"); else return _lev; end end)()) end)()) then
@@ -1878,7 +1878,7 @@ end
 
 do return compiledComparisonOperator:join(""); end
 end);
-compileBinaryExpression = (function (this, expression, meta)
+compileBinaryExpression = _func(function(this, expression, meta)
 local right,left,metaRight,metaLeft,compiledBinaryExpression;
 compiledBinaryExpression = _arr({[0]="("},1);
 metaLeft = _obj({});
@@ -2109,19 +2109,19 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknown BinaryOperator: " .. expression.operator)),0)
+_throw(_new(Error,(_addStr1("Unknown BinaryOperator: ",expression.operator))),0)
 _into = true;
 end
 until true
 compiledBinaryExpression:push(")");
 do return compiledBinaryExpression:join(""); end
 end);
-pushSimpleBinaryExpression = (function (this, compiledBinaryExpression, operator, left, right)
+pushSimpleBinaryExpression = _func(function(this, compiledBinaryExpression, operator, left, right)
 compiledBinaryExpression:push(left);
 compiledBinaryExpression:push(operator);
 compiledBinaryExpression:push(right);
 end);
-compileConditionalExpression = (function (this, expression, meta)
+compileConditionalExpression = _func(function(this, expression, meta)
 local metaAlternate,metaConsequent,compiledConditionalExpression;
 compiledConditionalExpression = _arr({[0]="(function() if "},1);
 metaConsequent = _obj({});
@@ -2141,16 +2141,16 @@ end
 
 do return compiledConditionalExpression:join(""); end
 end);
-compileSequenceExpression = (function (this, expression, meta)
+compileSequenceExpression = _func(function(this, expression, meta)
 local metaLast,sequence,expressions,i,compiledSequenceExpression;
 compiledSequenceExpression = _arr({[0]="_seq({"},1);
 expressions = expression.expressions;
 sequence = _arr({},0);
 metaLast = _obj({});
 i = 0;
-while (i<expressions.length) do
+while (_lt(i,expressions.length)) do
 sequence:push(compileExpression(_ENV,expressions[i],metaLast));
-i = i + 1;
+i = _inc(i);
 end
 
 compiledSequenceExpression:push(sequence:join(","));
@@ -2161,7 +2161,7 @@ end
 
 do return compiledSequenceExpression:join(""); end
 end);
-compileObjectExpression = (function (this, expression, meta)
+compileObjectExpression = _func(function(this, expression, meta)
 local compiledKey,compiledProperties,compiledProperty,property,length,i,compiledObjectExpression;
 compiledObjectExpression = _arr({[0]="_obj({"},1);
 length = expression.properties.length;
@@ -2169,28 +2169,28 @@ compiledProperty = _arr({},0);
 compiledProperties = _arr({},0);
 compiledKey = "";
 i = 0;
-while (i<length) do
+while (_lt(i,length)) do
 compiledProperty = _arr({[0]="["},1);
 property = expression.properties[i];
 if (property.key.type == "Literal") then
 compiledKey = compileLiteral(_ENV,property.key);
 elseif (property.key.type == "Identifier") then
 compiledKey = "\"";
-compiledKey = (compiledKey .. sanitizeLiteralString(_ENV,property.key.name));
-compiledKey = (compiledKey .. "\"");
+compiledKey = (_add(compiledKey,sanitizeLiteralString(_ENV,property.key.name)));
+compiledKey = (_addStr2(compiledKey,"\""));
 else
-_throw(_new(Error,("Unexpected property key type: " .. property.key.type)),0)
+_throw(_new(Error,(_addStr1("Unexpected property key type: ",property.key.type))),0)
 end
 
 if (property.kind == "get") then
 if (_type(property.key.value) == "number") then
-compiledKey = (("\"" .. compiledKey) .. "\"");
+compiledKey = ((_addStr1("\"",compiledKey)) .. "\"");
 end
 
 compiledKey = compiledKey:replace(_regexp("^\"",""),"\"_g");
 elseif (property.kind == "set") then
 if (_type(property.key.value) == "number") then
-compiledKey = (("\"" .. compiledKey) .. "\"");
+compiledKey = ((_addStr1("\"",compiledKey)) .. "\"");
 end
 
 compiledKey = compiledKey:replace(_regexp("^\"",""),"\"_s");
@@ -2200,10 +2200,10 @@ compiledProperty:push(compiledKey);
 compiledProperty:push("] = ");
 compiledProperty:push(compileExpression(_ENV,property.value));
 compiledProperties:push(compiledProperty:join(""));
-i = i + 1;
+i = _inc(i);
 end
 
-if (length>0) then
+if (_gt(length,0)) then
 compiledObjectExpression:push("\010");
 compiledObjectExpression:push(compiledProperties:join(",\010"));
 compiledObjectExpression:push("\010");
@@ -2216,12 +2216,12 @@ end
 
 do return compiledObjectExpression:join(""); end
 end);
-compileMemberExpression = (function (this, expression, meta)
+compileMemberExpression = _func(function(this, expression, meta)
 local compiledProperty,compiledObject,compiledMemberExpression;
 compiledMemberExpression = _arr({},0);
 compiledObject = compileExpression(_ENV,expression.object);
 if (expression.object.type == "Literal") then
-compiledObject = (("(" .. compiledObject) .. ")");
+compiledObject = ((_addStr1("(",compiledObject)) .. ")");
 end
 
 compiledMemberExpression:push(compiledObject);
@@ -2245,7 +2245,7 @@ end
 setMeta(_ENV,expression,meta);
 do return compiledMemberExpression:join(""); end
 end);
-compileNewExpression = (function (...)
+compileNewExpression = _func(function(...)
 local this, expression = ...;
 local arguments = _args(...);
 local length,i,newArguments,compiledNewExpression;
@@ -2253,36 +2253,36 @@ compiledNewExpression = _arr({[0]="_new("},1);
 newArguments = _arr({[0]=compileExpression(_ENV,expression.callee)},1);
 length = expression.arguments.length;
 i = 0;
-while (i<length) do
+while (_lt(i,length)) do
 newArguments:push(compileExpression(_ENV,expression.arguments[i]));
-i = i + 1;
+i = _inc(i);
 end
 
 compiledNewExpression:push(newArguments:join(","));
 compiledNewExpression:push(")");
 do return compiledNewExpression:join(""); end
 end);
-compileThisExpression = (function (this)
+compileThisExpression = _func(function(this)
 do return "this"; end
 end);
-compileArrayExpression = (function (this, expression, meta)
+compileArrayExpression = _func(function(this, expression, meta)
 local length,i,compiledElements,compiledArrayExpression;
 compiledArrayExpression = _arr({[0]="_arr({"},1);
 compiledElements = _arr({},0);
 length = expression.elements.length;
-if (length>0) then
+if (_gt(length,0)) then
 compiledArrayExpression:push("[0]=");
 end
 
 i = 0;
-while (i<length) do
+while (_lt(i,length)) do
 if (expression.elements[i] ~= null) then
 compiledElements:push(compileExpression(_ENV,expression.elements[i]));
 else
 compiledElements:push("nil");
 end
 
-i = i + 1;
+i = _inc(i);
 end
 
 compiledArrayExpression:push(compiledElements:join(","));
@@ -2295,7 +2295,7 @@ end
 
 do return compiledArrayExpression:join(""); end
 end);
-compileFunctionDeclaration = (function (this, declaration)
+compileFunctionDeclaration = _func(function(this, declaration)
 local compiledId,compiledFunctionDeclaration;
 compiledFunctionDeclaration = _arr({},0);
 compiledId = compileIdentifier(_ENV,declaration.id);
@@ -2306,7 +2306,7 @@ compiledFunctionDeclaration:push(";");
 localVarManager:pushLocal(compiledId);
 localVarManager:pushFunction(compiledFunctionDeclaration:join(""));
 end);
-compileVariableDeclaration = (function (this, variableDeclaration)
+compileVariableDeclaration = _func(function(this, variableDeclaration)
 local compiledDeclarationInit,expression,pattern,declarator,i,declarations,compiledDeclarations;
 compiledDeclarations = _arr({},0);
 repeat
@@ -2324,7 +2324,7 @@ end
 if _into or (_v == "var") then
 declarations = variableDeclaration.declarations;
 i = 0;
-while (i<declarations.length) do
+while (_lt(i,declarations.length)) do
 declarator = declarations[i];
 pattern = compilePattern(_ENV,declarator.id);
 localVarManager:pushLocal(pattern);
@@ -2338,7 +2338,7 @@ compiledDeclarationInit:push(";");
 compiledDeclarations:push(compiledDeclarationInit:join(""));
 end
 
-i = i + 1;
+i = _inc(i);
 end
 
 do break end;
@@ -2352,7 +2352,7 @@ end
 until true
 do return compiledDeclarations:join("\010"); end
 end);
-compilePattern = (function (this, pattern, meta)
+compilePattern = _func(function(this, pattern, meta)
 repeat
 local _into = false;
 local _cases = {["Identifier"] = true,["RestElement"] = true};
@@ -2371,14 +2371,14 @@ _into = true;
 end
 ::_default::
 if _into then
-_throw(_new(Error,("Unknwown Pattern type: " .. pattern.type)),0)
+_throw(_new(Error,(_addStr1("Unknwown Pattern type: ",pattern.type))),0)
 _into = true;
 end
 until true
 end);
-compileFunction = (function (this, fun)
+compileFunction = _func(function(this, fun)
 local compiledFunctionsDeclaration,functions,compiledLocalsDeclaration,useArguments,locals,context,compiledParams,params,i,compiledBody,compiledFunction;
-compiledFunction = _arr({[0]="(function ("},1);
+compiledFunction = _arr({[0]="_func(function("},1);
 compiledBody = "";
 localVarManager:createLocalContext();
 if (fun.body.type == "BlockStatement") then
@@ -2394,9 +2394,9 @@ end
 params = fun.params;
 compiledParams = _arr({[0]="this"},1);
 i = 0;
-while (i<params.length) do
+while (_lt(i,params.length)) do
 compiledParams:push(compilePattern(_ENV,params[i]));
-i = i + 1;
+i = _inc(i);
 end
 
 context = localVarManager:popLocalContext();
@@ -2404,7 +2404,7 @@ locals = context[0];
 useArguments = ((function() local _lev=context[1]; if _bool(_lev) then return (compiledParams:indexOf("arguments") == -1); else return _lev; end end)());
 if _bool(useArguments) then
 compiledFunction:push("...)\010");
-compiledFunction:push((("local " .. compiledParams:join(", ")) .. " = ...;\010"));
+compiledFunction:push(((_addStr1("local ",compiledParams:join(", "))) .. " = ...;\010"));
 compiledFunction:push("local arguments = _args(...);\010");
 compiledParams:push("arguments");
 else
@@ -2412,18 +2412,18 @@ compiledFunction:push(compiledParams:join(", "));
 compiledFunction:push(")\010");
 end
 
-if (locals.length>0) then
+if (_gt(locals.length,0)) then
 compiledLocalsDeclaration = buildLocalsDeclarationString(_ENV,locals,compiledParams);
 compiledFunction:push(compiledLocalsDeclaration);
 end
 
 functions = context[2];
-if (functions.length>0) then
+if (_gt(functions.length,0)) then
 compiledFunctionsDeclaration = _arr({},0);
 i = 0;
-while (i<functions.length) do
+while (_lt(i,functions.length)) do
 compiledFunctionsDeclaration:push(functions[i]);
-i = i + 1;
+i = _inc(i);
 end
 
 compiledFunction:push(compiledFunctionsDeclaration:join("\010"));
@@ -2434,22 +2434,22 @@ compiledFunction:push("\010");
 compiledFunction:push("end)");
 do return compiledFunction:join(""); end
 end);
-buildLocalsDeclarationString = (function (this, locals, ignore)
+buildLocalsDeclarationString = _func(function(this, locals, ignore)
 local compiledLocalsDeclaration,length,_g_local,i,namesSequence;
 ignore = (_bool(ignore) and ignore or _arr({},0));
 namesSequence = _arr({},0);
 length = locals.length;
 i = 0;
-while (i<length) do
+while (_lt(i,length)) do
 _g_local = locals:pop();
 if ((function() local _lev=(ignore:indexOf(_g_local) == -1); if _bool(_lev) then return (namesSequence:indexOf(_g_local) == -1); else return _lev; end end)()) then
 namesSequence:push(_g_local);
 end
 
-i = i + 1;
+i = _inc(i);
 end
 
-if (namesSequence.length>0) then
+if (_gt(namesSequence.length,0)) then
 compiledLocalsDeclaration = _arr({[0]="local "},1);
 compiledLocalsDeclaration:push(namesSequence:join(","));
 compiledLocalsDeclaration:push(";\010");
@@ -2458,16 +2458,16 @@ end
 
 do return ""; end
 end);
-sanitizeIdentifier = (function (this, id)
-if (luaKeywords:indexOf(id)>-1) then
-do return ("_g_" .. id); end
+sanitizeIdentifier = _func(function(this, id)
+if (_gt(luaKeywords:indexOf(id),-1)) then
+do return (_addStr1("_g_",id)); end
 end
 
-do return id:replace(_regexp("_","g"),"__"):replace(_regexp("\\$","g"),"S"):replace(_regexp("[\194\128-\239\191\191]","g"),(function (this, c)
-do return ("_" .. c:charCodeAt(0)); end
+do return id:replace(_regexp("_","g"),"__"):replace(_regexp("\\$","g"),"S"):replace(_regexp("[\194\128-\239\191\191]","g"),_func(function(this, c)
+do return (_addStr1("_",c:charCodeAt(0))); end
 end)); end
 end);
-compileIdentifier = (function (this, identifier, meta)
+compileIdentifier = _func(function(this, identifier, meta)
 if (identifier.name == "arguments") then
 localVarManager:useArguments();
 end
@@ -2475,47 +2475,47 @@ end
 setMeta(_ENV,identifier,meta);
 do return sanitizeIdentifier(_ENV,identifier.name); end
 end);
-toUTF8Array = (function (this, str)
+toUTF8Array = _func(function(this, str)
 local charcode,i,utf8;
 utf8 = _arr({},0);
 i = 0;
-while (i<str.length) do
+while (_lt(i,str.length)) do
 charcode = str:charCodeAt(i);
-if (charcode<128) then
+if (_lt(charcode,128)) then
 utf8:push(charcode);
-elseif (charcode<2048) then
+elseif (_lt(charcode,2048)) then
 utf8:push((_bor(192,(_arshift(charcode,6)))),(_bor(128,(_band(charcode,63)))));
-elseif ((function() local _lev=(charcode<55296); return _bool(_lev) and _lev or (charcode>=57344) end)()) then
+elseif ((function() local _lev=(_lt(charcode,55296)); return _bool(_lev) and _lev or (_ge(charcode,57344)) end)()) then
 utf8:push((_bor(224,(_arshift(charcode,12)))),(_bor(128,(_band((_arshift(charcode,6)),63)))),(_bor(128,(_band(charcode,63)))));
 else
-i = i + 1;
+i = _inc(i);
 charcode = (65536 + (_bor((_lshift((_band(charcode,1023)),10)),(_band(str:charCodeAt(i),1023)))));
 utf8:push((_bor(240,(_arshift(charcode,18)))),(_bor(128,(_band((_arshift(charcode,12)),63)))),(_bor(128,(_band((_arshift(charcode,6)),63)))),(_bor(128,(_band(charcode,63)))));
 end
 
-i = i + 1;
+i = _inc(i);
 end
 
 do return utf8; end
 end);
-sanitizeLiteralString = (function (this, str)
-do return str:replace(_regexp("\\\\","g"),"\\\\"):replace(_regexp("\"","g"),"\\\""):replace(_regexp("\194\160","g")," "):replace(_regexp("[\\0-\31\127-\237\159\191\240\144\128\128-\239\191\191]|[\240\144\128\128-\244\143\176\128][\240\144\128\128-\244\143\176\128]|[\240\144\128\128-\244\143\176\128]","g"),(function (this, str)
+sanitizeLiteralString = _func(function(this, str)
+do return str:replace(_regexp("\\\\","g"),"\\\\"):replace(_regexp("\"","g"),"\\\""):replace(_regexp("\194\160","g")," "):replace(_regexp("[\\0-\31\127-\237\159\191\240\144\128\128-\239\191\191]|[\240\144\128\128-\244\143\176\128][\240\144\128\128-\244\143\176\128]|[\240\144\128\128-\244\143\176\128]","g"),_func(function(this, str)
 local ut8bytes;
 ut8bytes = toUTF8Array(_ENV,str);
-ut8bytes = ut8bytes:map((function (this, e)
-do return ("\\" .. ("00" .. e):slice(-3)); end
+ut8bytes = ut8bytes:map(_func(function(this, e)
+do return (_addStr1("\\",(_addStr1("00",e)):slice(-3))); end
 end));
 do return ut8bytes:join(""); end
 end)); end
 end);
-sanitizeRegExpSource = (function (this, str)
-do return str:replace(_regexp("\\\\","g"),"\\\\"):replace(_regexp("\"","g"),"\\\""):replace(_regexp("\\\\\\\\u([0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])","g"),(function (this, str, hexaCode)
+sanitizeRegExpSource = _func(function(this, str)
+do return str:replace(_regexp("\\\\","g"),"\\\\"):replace(_regexp("\"","g"),"\\\""):replace(_regexp("\\\\\\\\u([0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])","g"),_func(function(this, str, hexaCode)
 local chars;
 chars = String:fromCharCode(parseInt(_ENV,hexaCode,16));
-do return ("\\" .. toUTF8Array(_ENV,chars):join("\\")); end
+do return (_addStr1("\\",toUTF8Array(_ENV,chars):join("\\"))); end
 end)); end
 end);
-compileLiteral = (function (this, literal, meta)
+compileLiteral = _func(function(this, literal, meta)
 local flags,source,compiledRegExp,regexp,ret;
 ret = literal.raw;
 if (_instanceof(literal.value,RegExp)) then
@@ -2525,9 +2525,9 @@ source = sanitizeRegExpSource(_ENV,regexp.source);
 compiledRegExp:push(source);
 compiledRegExp:push("\",\"");
 flags = "";
-flags = (flags .. (function() if _bool(regexp.global) then return "g"; else return ""; end end)());
-flags = (flags .. (function() if _bool(regexp.ignoreCase) then return "i"; else return ""; end end)());
-flags = (flags .. (function() if _bool(regexp.multiline) then return "m"; else return ""; end end)());
+flags = (_addStr2(flags,(function() if _bool(regexp.global) then return "g"; else return ""; end end)()));
+flags = (_addStr2(flags,(function() if _bool(regexp.ignoreCase) then return "i"; else return ""; end end)()));
+flags = (_addStr2(flags,(function() if _bool(regexp.multiline) then return "m"; else return ""; end end)()));
 compiledRegExp:push(flags);
 compiledRegExp:push("\")");
 ret = compiledRegExp:join("");
@@ -2547,7 +2547,7 @@ _into = true;
 goto _default
 end
 if _into or (_v == "string") then
-ret = (("\"" .. sanitizeLiteralString(_ENV,literal.value)) .. "\"");
+ret = ((_addStr1("\"",sanitizeLiteralString(_ENV,literal.value))) .. "\"");
 if _bool(meta) then
 meta.type = "string";
 end
@@ -2581,27 +2581,27 @@ continueNoLabelTracker = _arr({},0);
 withTracker = _arr({},0);
 deductions = _arr({},0);
 ProtectedCallManager.prototype = _obj({
-["isInProtectedCallContext"] = (function (this)
-if (this.protectedCallContext.length>0) then
+["isInProtectedCallContext"] = _func(function(this)
+if (_gt(this.protectedCallContext.length,0)) then
 do return true; end
 end
 
 do return false; end
 end),
-["noInsideIteration"] = (function (this)
+["noInsideIteration"] = _func(function(this)
 do return (this.iterationStatement[(this.iterationStatement.length - 1)].length == 0); end
 end),
-["noInsideSwitch"] = (function (this)
+["noInsideSwitch"] = _func(function(this)
 do return (this.switchStatement[(this.switchStatement.length - 1)].length == 0); end
 end),
-["may"] = (function (this)
+["may"] = _func(function(this)
 do return _obj({
 ["mayReturn"] = this.mayReturnStack[(this.mayReturnStack.length - 1)],
 ["mayBreak"] = this.mayBreakStack[(this.mayBreakStack.length - 1)],
 ["mayContinue"] = this.mayContinueStack[(this.mayContinueStack.length - 1)]
 }); end
 end),
-["openContext"] = (function (this)
+["openContext"] = _func(function(this)
 this.protectedCallContext:push(true);
 this.iterationStatement:push(_arr({},0));
 this.switchStatement:push(_arr({},0));
@@ -2609,7 +2609,7 @@ this.mayBreakStack:push(false);
 this.mayContinueStack:push(false);
 this.mayReturnStack:push(false);
 end),
-["closeContext"] = (function (this)
+["closeContext"] = _func(function(this)
 this.protectedCallContext:pop();
 this.iterationStatement:pop();
 this.switchStatement:pop();
@@ -2617,37 +2617,37 @@ this.mayBreakStack:pop();
 this.mayContinueStack:pop();
 this.mayReturnStack:pop();
 end),
-["openIterationStatement"] = (function (this)
+["openIterationStatement"] = _func(function(this)
 if _bool(this:isInProtectedCallContext()) then
 this.iterationStatement[(this.iterationStatement.length - 1)]:push(true);
 end
 
 end),
-["closeIterationStatement"] = (function (this)
+["closeIterationStatement"] = _func(function(this)
 if _bool(this:isInProtectedCallContext()) then
 this.iterationStatement[(this.iterationStatement.length - 1)]:pop();
 end
 
 end),
-["openSwitchStatement"] = (function (this)
+["openSwitchStatement"] = _func(function(this)
 if _bool(this:isInProtectedCallContext()) then
 this.switchStatement[(this.iterationStatement.length - 1)]:push(true);
 end
 
 end),
-["closeSwitchStatement"] = (function (this)
+["closeSwitchStatement"] = _func(function(this)
 if _bool(this:isInProtectedCallContext()) then
 this.switchStatement[(this.iterationStatement.length - 1)]:pop();
 end
 
 end),
-["returnStatement"] = (function (this)
+["returnStatement"] = _func(function(this)
 if _bool(this:isInProtectedCallContext()) then
 this.mayReturnStack[(this.mayReturnStack.length - 1)] = true;
 end
 
 end),
-["breakOutside"] = (function (this)
+["breakOutside"] = _func(function(this)
 if _bool(((function() local _lev=((function() local _lev=this:isInProtectedCallContext(); if _bool(_lev) then return this:noInsideIteration(); else return _lev; end end)()); if _bool(_lev) then return this:noInsideSwitch(); else return _lev; end end)())) then
 this.mayBreakStack[(this.mayBreakStack.length - 1)] = true;
 do return true; end
@@ -2655,7 +2655,7 @@ end
 
 do return false; end
 end),
-["continueOutside"] = (function (this)
+["continueOutside"] = _func(function(this)
 if _bool(((function() local _lev=this:isInProtectedCallContext(); if _bool(_lev) then return this:noInsideIteration(); else return _lev; end end)())) then
 this.mayContinueStack[(this.mayContinueStack.length - 1)] = true;
 do return true; end
@@ -2666,36 +2666,36 @@ end)
 });
 protectedCallManager = _new(ProtectedCallManager);
 LocalVarManager.prototype = _obj({
-["popLocalContext"] = (function (this)
-if (this.locals.length>0) then
+["popLocalContext"] = _func(function(this)
+if (_gt(this.locals.length,0)) then
 do return _arr({[0]=this.locals:pop(),this.args:pop(),this.functions:pop()},3); end
 end
 
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)
 end),
-["createLocalContext"] = (function (this)
+["createLocalContext"] = _func(function(this)
 this.locals:push(_arr({},0));
 this.functions:push(_arr({},0));
 this.args:push(false);
 end),
-["pushLocal"] = (function (this, varName)
-if (this.locals.length>0) then
+["pushLocal"] = _func(function(this, varName)
+if (_gt(this.locals.length,0)) then
 this.locals[(this.locals.length - 1)]:push(varName);
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)
 end
 
 end),
-["pushFunction"] = (function (this, functionDeclaration)
-if (this.functions.length>0) then
+["pushFunction"] = _func(function(this, functionDeclaration)
+if (_gt(this.functions.length,0)) then
 this.functions[(this.functions.length - 1)]:push(functionDeclaration);
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)
 end
 
 end),
-["useArguments"] = (function (this)
-if (this.args.length>0) then
+["useArguments"] = _func(function(this)
+if (_gt(this.args.length,0)) then
 this.args[(this.args.length - 1)] = true;
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)

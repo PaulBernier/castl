@@ -19,6 +19,7 @@
 local RegExp
 
 local regexpProto = require("castl.protos").regexpProto
+local coreObjects = require("castl.core_objects")
 local internal = require("castl.internal")
 local errorHelper = require("castl.modules.error_helper")
 local throw = require("castl.jssupport").throw
@@ -29,7 +30,7 @@ local ToString, get, put, withinNew, ToNumber = internal.ToString, internal.get,
 
 _ENV = nil
 
-RegExp = function(this, pattern, flags)
+RegExp = coreObjects.func(function(this, pattern, flags)
     local patternIsRegexp = (getmetatable(pattern) or {})._prototype == regexpProto
 
     if patternIsRegexp and flags ~= nil then
@@ -75,8 +76,7 @@ RegExp = function(this, pattern, flags)
     })
 
     return o
-
-end
+end)
 
 RegExp.prototype = regexpProto
 regexpProto.constructor = RegExp

@@ -18,6 +18,7 @@
 
 local SyntaxError
 
+local coreObjects = require("castl.core_objects")
 local Error = require("castl.constructor.error.error")
 local syntaxErrorProto = require("castl.protos").syntaxErrorProto
 local internal = require("castl.internal")
@@ -27,7 +28,7 @@ local get, put, ToNumber = internal.get, internal.put, internal.ToNumber
 
 _ENV = nil
 
-SyntaxError = function(this, message)
+SyntaxError = coreObjects.func(function(this, message)
     local o = {}
     o.message = message
 
@@ -53,7 +54,7 @@ SyntaxError = function(this, message)
     Error:captureStackTrace(o, SyntaxError)
 
     return o
-end
+end)
 
 SyntaxError.prototype = syntaxErrorProto
 syntaxErrorProto.constructor = SyntaxError

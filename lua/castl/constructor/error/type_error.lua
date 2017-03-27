@@ -18,6 +18,7 @@
 
 local TypeError
 
+local coreObjects = require("castl.core_objects")
 local Error = require("castl.constructor.error.error")
 local typeErrorProto = require("castl.protos").typeErrorProto
 local internal = require("castl.internal")
@@ -27,7 +28,7 @@ local get, put, ToNumber = internal.get, internal.put, internal.ToNumber
 
 _ENV = nil
 
-TypeError = function(this, message)
+TypeError = coreObjects.func(function(this, message)
     local o = {}
     o.message = message
 
@@ -53,7 +54,7 @@ TypeError = function(this, message)
     Error:captureStackTrace(o, TypeError)
 
     return o
-end
+end)
 
 TypeError.prototype = typeErrorProto
 typeErrorProto.constructor = TypeError

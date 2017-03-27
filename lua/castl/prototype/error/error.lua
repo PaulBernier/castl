@@ -17,17 +17,18 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/prototype
 
 return function(errorPrototype)
+    local coreObjects = require("castl.core_objects")
+
     _ENV = nil
 
     errorPrototype.name = "Error"
     errorPrototype.message = ""
 
-    errorPrototype.toString = function (this)
+    errorPrototype.toString = coreObjects.func(function (this)
         if this.message ~= "" then
             return this.name .. ": " .. this.message
         else
             return this.name
         end
-    end
-
+    end)
 end

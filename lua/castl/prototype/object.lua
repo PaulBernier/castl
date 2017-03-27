@@ -22,6 +22,8 @@ return function(objectPrototype)
     local arrayProto = protos.arrayProto
     local regexpProto = protos.regexpProto
     local dateProto = protos.dateProto
+    local coreObjects = require("castl.core_objects")
+    local functionMt = coreObjects.functionMt
 
     local type, rawget = type, rawget
     local getmetatable = getmetatable
@@ -29,7 +31,7 @@ return function(objectPrototype)
 
     _ENV = nil
 
-    objectPrototype.toString = function (this)
+    objectPrototype.toString = coreObjects.func(function(this)
         local mt = getmetatable(this)
         local tthis = type(this)
         if this == nil then
@@ -50,20 +52,20 @@ return function(objectPrototype)
             return "[object Date]"
         elseif mt and mt._arguments then
             return "[object Arguments]"
-        elseif tthis == "function" then
+        elseif mt == functionMt then
             return "[object Function]"
         end
 
         return '[object Object]'
-    end
+    end)
 
     objectPrototype.toLocaleString = objectPrototype.toString
 
-    objectPrototype.valueOf = function (this)
+    objectPrototype.valueOf = coreObjects.func(function(this)
         return this
-    end
+    end)
 
-    objectPrototype.hasOwnProperty = function (this, p)
+    objectPrototype.hasOwnProperty = coreObjects.func(function(this, p)
         local tthis = type(this)
         if tthis == "string" then
             return p == "length"
@@ -74,14 +76,14 @@ return function(objectPrototype)
         if tthis == "boolean" then
             return false
         end
-        if tthis == "function" then
+        if getmetatable(this) == functionMt then
             this = getFunctionProxy(this)
         end
 
         return rawget(this, p) ~= nil
-    end
+    end)
 
-    objectPrototype.isPrototypeOf = function(this, object)
+    objectPrototype.isPrototypeOf = coreObjects.func(function(this, object)
         if this ~= nil then
             local classPrototypeAttribute = this
             local objProto = getPrototype(object)
@@ -94,11 +96,10 @@ return function(objectPrototype)
             end
         end
         return false
-    end
+    end)
 
     -- TODO: enumerability
-    objectPrototype.propertyIsEnumerable = function(this, prop)
+    objectPrototype.propertyIsEnumerable = coreObjects.func(function(this, prop)
         return this[prop] ~= nil
-    end
-
+    end)
 end

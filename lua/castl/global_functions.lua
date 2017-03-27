@@ -16,6 +16,7 @@
 local globalFunctions = {}
 
 local internal = require("castl.internal")
+local coreObjects = require("castl.core_objects")
 
 -- Dependencies
 local null, ToNumber, ToString = internal.null, internal.ToNumber, internal.ToString
@@ -25,24 +26,24 @@ local gsub, sub, match, format, sbyte, find, char = string.gsub, string.sub, str
 
 _ENV = nil
 
-function globalFunctions.isNaN(this, n)
+globalFunctions.isNaN = coreObjects.func(function(this, n)
     local tonum = ToNumber(n)
     return tonum ~= tonum
-end
+end)
 
-function globalFunctions.isFinite(this, arg)
+globalFunctions.isFinite = coreObjects.func(function(this, arg)
     arg = ToNumber(arg)
     return arg ~= huge and arg ~= -huge and not (arg ~= arg)
-end
+end)
 
-function globalFunctions.parseFloat(this, str)
+globalFunctions.parseFloat = coreObjects.func(function(this, str)
     local v = tonumber(ToString(str))
     if v == nil then
         return 0/0
     else
         return v
     end
-end
+end)
 
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.2
 local radixDigit = {
@@ -83,7 +84,7 @@ local radixDigit = {
     [36] = "[^0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ]"
 }
 
-function globalFunctions.parseInt(this, str, radix)
+globalFunctions.parseInt = coreObjects.func(function(this, str, radix)
     radix = radix or 10
     local tstr = type(str)
 
@@ -141,7 +142,7 @@ function globalFunctions.parseInt(this, str, radix)
     end
 
     return 0/0
-end
+end)
 
 -- URI
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.3
@@ -164,15 +165,15 @@ local encode = function(str, unescapedSet)
     ))
 end
 
-globalFunctions.encodeURI = function (this, uri)
+globalFunctions.encodeURI = coreObjects.func(function(this, uri)
     uri = ToString(uri)
     return encode(uri, patternEncodeURI)
-end
+end)
 
-globalFunctions.encodeURIComponent = function (this, uri)
+globalFunctions.encodeURIComponent = coreObjects.func(function(this, uri)
     uri = ToString(uri)
     return encode(uri, patternEncodeURIComponent)
-end
+end)
 
 -- Decoding
 
@@ -190,14 +191,14 @@ end
 
 local reservedURISet = ";/?:@&=+$,#"
 
-globalFunctions.decodeURI = function (this, uri)
+globalFunctions.decodeURI = coreObjects.func(function(this, uri)
     uri = ToString(uri)
     return decode(uri, reservedURISet)
-end
+end)
 
-globalFunctions.decodeURIComponent = function (this, uri)
+globalFunctions.decodeURIComponent = coreObjects.func(function(this, uri)
     uri = ToString(uri)
     return decode(uri, "")
-end
+end)
 
 return globalFunctions

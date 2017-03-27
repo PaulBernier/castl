@@ -19,6 +19,7 @@
 local Object
 
 local coreObjects = require("castl.core_objects")
+local functionMt = coreObjects.functionMt
 local internal = require("castl.internal")
 local objectProto = require("castl.protos").objectProto
 local errorHelper = require("castl.modules.error_helper")
@@ -31,17 +32,17 @@ local getFunctionProxy = internal.getFunctionProxy
 
 _ENV = nil
 
-Object = function (this, obj)
+Object = coreObjects.func(function(this, obj)
     if obj == nil or obj == null then
         return coreObjects.obj({})
     end
 
     return ToObject(obj)
-end
+end)
 
-Object.create = function (this, prototype, props)
+Object.create = coreObjects.func(function(this, prototype, props)
     -- get function proxy
-    if type(prototype) == "function" then
+    if getmetatable(prototype) == coreObjects.functionMt then
         prototype = getFunctionProxy(prototype)
     end
     if type(prototype) ~= 'table' then
@@ -59,19 +60,19 @@ Object.create = function (this, prototype, props)
     end
 
     return o
-end
+end)
 
-Object.defineProperties = function (this, obj, props)
+Object.defineProperties = coreObjects.func(function(this, obj, props)
     if props ~= nil then
         for k, v in pairs(props) do
             Object:defineProperty(obj, k, v)
         end
     end
     return obj
-end
+end)
 
-Object.defineProperty = function(this, obj, prop, descriptor)
-    local isFunction = type(obj) == 'function'
+Object.defineProperty = coreObjects.func(function(this, obj, prop, descriptor)
+    local isFunction = getmetatable(obj) == functionMt
     local originalObj = obj
     -- get function proxy
     if isFunction then
@@ -119,17 +120,17 @@ Object.defineProperty = function(this, obj, prop, descriptor)
     end
 
     return obj
-end
+end)
 
 -- TODO
-Object.freeze = function (this, obj)
+Object.freeze = coreObjects.func(function(this, obj)
     -- not really frozen...
     return obj
-end
+end)
 
-Object.getOwnPropertyDescriptor = function (this, obj, prop)
+Object.getOwnPropertyDescriptor = coreObjects.func(function(this, obj, prop)
     -- get function proxy
-    if type(obj) == 'function' then
+    if getmetatable(obj) == functionMt then
         obj = getFunctionProxy(obj)
     end
     if type(obj) ~= 'table' or obj == null then
@@ -148,11 +149,11 @@ Object.getOwnPropertyDescriptor = function (this, obj, prop)
     end
 
     return nil
-end
+end)
 
-Object.getOwnPropertyNames = function (this, obj)
+Object.getOwnPropertyNames = coreObjects.func(function(this, obj)
     -- get function proxy
-    if type(obj) == 'function' then
+    if getmetatable(obj) == functionMt then
         obj = getFunctionProxy(obj)
     end
     if type(obj) ~= 'table' or obj == null then
@@ -168,10 +169,10 @@ Object.getOwnPropertyNames = function (this, obj)
     end
 
     return coreObjects.array(ret, i)
-end
+end)
 
-Object.getPrototypeOf = function (this, obj)
-    if type(obj) == 'function' then
+Object.getPrototypeOf = coreObjects.func(function(this, obj)
+    if getmetatable(obj) == functionMt then
         -- return functionProto
         return getmetatable(obj)._prototype
     end
@@ -185,26 +186,26 @@ Object.getPrototypeOf = function (this, obj)
     end
 
     return nil
-end
+end)
 
 -- TODO
-Object.isExtensible = function (this, obj)
+Object.isExtensible = coreObjects.func(function(this, obj)
     return true
-end
+end)
 
 -- TODO
-Object.isFrozen = function (this, obj)
+Object.isFrozen = coreObjects.func(function(this, obj)
     return false
-end
+end)
 
 -- TODO
-Object.isSealed = function (this, obj)
+Object.isSealed = coreObjects.func(function(this, obj)
     return false
-end
+end)
 
-Object.keys = function (this, obj)
+Object.keys = coreObjects.func(function(this, obj)
     -- get function proxy
-    if type(obj) == 'function' then
+    if getmetatable(obj) == functionMt then
         obj = getFunctionProxy(obj)
     end
 
@@ -221,17 +222,17 @@ Object.keys = function (this, obj)
     end
 
     return coreObjects.array(ret, i)
-end
+end)
 
 -- TODO
-Object.preventExtensions = function (this, obj)
+Object.preventExtensions = coreObjects.func(function(this, obj)
     return obj
-end
+end)
 
 -- TODO
-Object.seal = function (this, obj)
+Object.seal = coreObjects.func(function(this, obj)
     return obj
-end
+end)
 
 Object.prototype = objectProto
 objectProto.constructor = Object

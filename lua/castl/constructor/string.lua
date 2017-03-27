@@ -31,7 +31,7 @@ local ToString, withinNew, get, put, ToNumber, ToUint16 = internal.ToString, int
 
 _ENV = nil
 
-String = function(this, ...)
+String = coreObjects.func(function(this, ...)
     local arg = pack(...).n > 0 and ToString(...) or "";
 
     -- String constructor not called within a new
@@ -67,7 +67,7 @@ String = function(this, ...)
     })
 
     return o
-end
+end)
 
 local toUTF8Array = function (charcode)
     local utf8 = {}
@@ -86,7 +86,7 @@ local toUTF8Array = function (charcode)
     return utf8
 end
 
-String.fromCharCode = function(this, ...)
+String.fromCharCode = coreObjects.func(function(this, ...)
     local args = pack(...)
     local str = {}
     for i = 1, args.n do
@@ -97,7 +97,7 @@ String.fromCharCode = function(this, ...)
     end
 
     return concat(str)
-end
+end)
 
 String.prototype = stringProto
 stringProto.constructor = String

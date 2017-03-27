@@ -87,6 +87,7 @@ local export = {
 
     -- core object
     _obj = coreObjects.obj,
+    _func = coreObjects.func,
     _arr = coreObjects.array,
     _regexp = coreObjects.regexp,
     _args = coreObjects.arguments,

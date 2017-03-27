@@ -17,15 +17,16 @@
 
 local CallSite
 
+local coreObjects = require("castl.core_objects")
 local callSiteProto = require("castl.protos").callSiteProto
 
 _ENV = nil
 
-CallSite = function(this, receiver, fun, pos, strict_mode)
+CallSite = coreObjects.func(function(this, receiver, fun, pos, strict_mode)
     this.receiver = receiver
     this.fun = fun
     this.pos = pos
-end
+end)
 
 CallSite.prototype = callSiteProto
 callSiteProto.constructor = CallSite

@@ -27,7 +27,7 @@ local JSON = {}
 
 _ENV = nil
 
-JSON.parse = function(this, text)
+JSON.parse = coreObjects.func(function(this, text)
     text = ToString(text)
     local obj, pos, err = json.decode(text, 1, null, coreObjects.objectMt, coreObjects.arrayMt)
     if err then
@@ -35,11 +35,11 @@ JSON.parse = function(this, text)
     end
 
     return obj
-end
+end)
 
-JSON.stringify = function(this, value)
+JSON.stringify = coreObjects.func(function(this, value)
     if value == nil then return nil end
     return json.encode(value)
-end
+end)
 
 return JSON

@@ -2393,7 +2393,7 @@
 
     function compileFunction(fun) {
 
-        var compiledFunction = ["(function ("];
+        var compiledFunction = ["_func(function("];
         var compiledBody = "";
 
         // New context

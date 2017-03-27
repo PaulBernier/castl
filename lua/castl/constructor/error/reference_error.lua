@@ -18,6 +18,7 @@
 
 local ReferenceError
 
+local coreObjects = require("castl.core_objects")
 local Error = require("castl.constructor.error.error")
 local referenceErrorProto = require("castl.protos").referenceErrorProto
 local internal = require("castl.internal")
@@ -27,7 +28,7 @@ local get, put, ToNumber = internal.get, internal.put, internal.ToNumber
 
 _ENV = nil
 
-ReferenceError = function(this, message)
+ReferenceError = coreObjects.func(function(this, message)
     local o = {}
     o.message = message
 
@@ -53,7 +54,7 @@ ReferenceError = function(this, message)
     Error:captureStackTrace(o, ReferenceError)
 
     return o
-end
+end)
 
 ReferenceError.prototype = referenceErrorProto
 referenceErrorProto.constructor = ReferenceError

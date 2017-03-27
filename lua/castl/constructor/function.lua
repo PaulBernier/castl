@@ -20,6 +20,8 @@ local esprima, castl, runtime
 local luajit = jit ~= nil
 
 local errorHelper = require("castl.modules.error_helper")
+local coreObjects = require("castl.core_objects")
+local func = coreObjects.func
 local throw = require("castl.jssupport").throw
 local functionProto = require("castl.protos").functionProto
 
@@ -30,7 +32,7 @@ local require, assert, load, tinsert, concat = require, assert, load, table.inse
 
 _ENV = nil
 
-Function = function(this, ...)
+Function = func(function(this, ...)
     if ... then
         local args = pack(...)
         local body = args[args.n]
@@ -70,11 +72,11 @@ Function = function(this, ...)
             throw(errorHelper.newEvalError("Function(): Failed to compile AST to Lua code"))
         end
 
-        return compiledFunction
+        return func(compiledFunction)
     end
 
-    return function () end
-end
+    return func(function () end)
+end)
 
 Function.prototype = functionProto
 functionProto.constructor = Function

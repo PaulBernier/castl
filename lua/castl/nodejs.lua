@@ -25,7 +25,7 @@ local find, sub, len = string.find, string.sub, string.len
 
 _ENV = nil
 
-nodejs.require = function(this, packagename)
+nodejs.require = coreObjects.func(function(this, packagename)
     local index = find(packagename, "/[^/]*$")
     if index then
         local path = sub(packagename, 1, index)
@@ -39,6 +39,6 @@ nodejs.require = function(this, packagename)
     end
 
     return require(packagename)
-end
+end)
 
 return nodejs

@@ -32,7 +32,7 @@ local ipairs, remove = ipairs, table.remove
 
 _ENV = nil
 
-Error = function(this, message)
+Error = coreObjects.func(function(this, message)
     local o = {}
     o.message = message
 
@@ -59,9 +59,9 @@ Error = function(this, message)
     Error:captureStackTrace(o, Error)
 
     return o
-end
+end)
 
-Error.captureStackTrace = function(this, error, constructorOpt)
+Error.captureStackTrace = coreObjects.func(function(this, error, constructorOpt)
     local frames = {}
     local frame_idx = 1
 
@@ -102,7 +102,7 @@ Error.captureStackTrace = function(this, error, constructorOpt)
         end
         return s
     end
-end
+end)
 
 Error.stackTraceLimit = 10
 
