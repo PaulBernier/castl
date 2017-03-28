@@ -1,6 +1,6 @@
 local _ENV = require("castl.runtime");
 return setfenv(function(...)
-(function (this, root, factory)
+_func(function(this, root, factory)
 if _bool(((function() local _lev=(_type(define) == "function"); if _bool(_lev) then return define.amd; else return _lev; end end)())) then
 define(_ENV,_arr({[0]="exports"},1),factory);
 elseif (_type(exports) ~= "undefined") then
@@ -9,24 +9,24 @@ else
 factory(_ENV,(function() root.esprima = _obj({}); return root.esprima end)());
 end
 
-end)(_ENV,this,(function (this, exports)
+end)(_ENV,this,_func(function(this, exports)
 local parse,tokenize,filterTokenLocation,parseProgram,parseScriptBody,parseImportDeclaration,parseImportNamespaceSpecifier,parseImportDefaultSpecifier,parseNamedImports,parseImportSpecifier,parseExportDeclaration,parseExportAllDeclaration,parseExportDefaultDeclaration,parseExportNamedDeclaration,parseExportSpecifier,parseModuleSpecifier,parseClassExpression,parseClassDeclaration,parseClassBody,parseFunctionExpression,parseFunctionDeclaration,parseParams,parseParam,validateParam,parseFunctionSourceElements,parseStatement,parseDebuggerStatement,parseTryStatement,parseCatchClause,parseThrowStatement,parseSwitchStatement,parseSwitchCase,parseWithStatement,parseReturnStatement,parseBreakStatement,parseContinueStatement,parseForStatement,parseWhileStatement,parseDoWhileStatement,parseIfStatement,parseExpressionStatement,parseEmptyStatement,parseRestElement,parseLexicalDeclaration,isLexicalDeclaration,resetTokenizerState,tokenizerState,parseBindingList,parseLexicalBinding,parseVariableStatement,parseVariableDeclarationList,parseVariableDeclaration,parseVariableIdentifier,parseBlock,parseStatementList,parseStatementListItem,parseExpression,parseAssignmentExpression,parseYieldExpression,parseArrowFunctionExpression,reinterpretAsCoverFormalsList,checkPatternParam,parseConciseBody,parseConditionalExpression,parseBinaryExpression,binaryPrecedence,parseUnaryExpression,parsePostfixExpression,parseLeftHandSideExpression,parseLeftHandSideExpressionAllowCall,parseNewExpression,parseComputedMember,parseNonComputedMember,parseNonComputedProperty,parseArguments,parsePrimaryExpression,parseGroupExpression,parseTemplateLiteral,parseTemplateElement,reinterpretExpressionAsPattern,parseObjectInitializer,parseObjectProperty,tryParseMethodDefinition,lookaheadPropertyName,parseObjectPropertyKey,parsePropertyMethodFunction,parsePropertyFunction,parseArrayInitializer,parsePatternWithDefault,parsePattern,parseObjectPattern,parsePropertyPattern,parseArrayPattern,inheritCoverGrammar,isolateCoverGrammar,consumeSemicolon,matchAssign,matchContextualKeyword,matchKeyword,match,expectKeyword,expectCommaSeparator,expect,tolerateUnexpectedToken,throwUnexpectedToken,unexpectedTokenError,tolerateError,throwError,createError,constructError,recordError,WrappingNode,Node,WrappingSourceLocation,SourceLocation,Position,peek,lex,collectToken,advance,advanceSlash,isIdentifierName,collectRegex,scanRegExp,scanRegExpFlags,scanRegExpBody,testRegExp,scanTemplate,scanStringLiteral,scanNumericLiteral,isImplicitOctalLiteral,scanOctalLiteral,scanBinaryLiteral,scanHexLiteral,scanPunctuator,scanIdentifier,getIdentifier,getComplexIdentifier,codePointAt,scanUnicodeCodePointEscape,scanHexEscape,skipComment,skipMultiLineComment,skipSingleLineComment,addComment,isKeyword,isRestrictedWord,isStrictModeReservedWord,isFutureReservedWord,isIdentifierPart,isIdentifierStart,fromCodePoint,isLineTerminator,isWhiteSpace,octalToDecimal,isOctalDigit,isHexDigit,isDecimalDigit,assert,firstCoverInitializedNameError,isAssignmentTarget,isBindingElement,extra,state,lookahead,length,scanning,startLineStart,startLineNumber,startIndex,lastLineStart,lastLineNumber,lastIndex,hasLineTerminator,lineStart,lineNumber,index,strict,source,Regex,Messages,PlaceHolders,Syntax,FnExprTokens,TokenName,Token;
-assert = (function (this, condition, message)
+assert = _func(function(this, condition, message)
 if not _bool(condition) then
 _throw(_new(Error,(_addStr1("ASSERT: ",message))),0)
 end
 
 end);
-isDecimalDigit = (function (this, ch)
+isDecimalDigit = _func(function(this, ch)
 do return ((function() local _lev=(_ge(ch,48)); if _bool(_lev) then return (_le(ch,57)); else return _lev; end end)()); end
 end);
-isHexDigit = (function (this, ch)
+isHexDigit = _func(function(this, ch)
 do return (_ge(("0123456789abcdefABCDEF"):indexOf(ch),0)); end
 end);
-isOctalDigit = (function (this, ch)
+isOctalDigit = _func(function(this, ch)
 do return (_ge(("01234567"):indexOf(ch),0)); end
 end);
-octalToDecimal = (function (this, ch)
+octalToDecimal = _func(function(this, ch)
 local code,octal;
 octal = (ch ~= "0");
 code = ("01234567"):indexOf(ch);
@@ -44,22 +44,22 @@ do return _obj({
 ["octal"] = octal
 }); end
 end);
-isWhiteSpace = (function (this, ch)
+isWhiteSpace = _func(function(this, ch)
 do return ((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=(ch == 32); return _bool(_lev) and _lev or (ch == 9) end)()); return _bool(_lev) and _lev or (ch == 11) end)()); return _bool(_lev) and _lev or (ch == 12) end)()); return _bool(_lev) and _lev or (ch == 160) end)()); return _bool(_lev) and _lev or ((function() local _lev=(_ge(ch,5760)); if _bool(_lev) then return (_ge(_arr({[0]=5760,6158,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8239,8287,12288,65279},17):indexOf(ch),0)); else return _lev; end end)()) end)()); end
 end);
-isLineTerminator = (function (this, ch)
+isLineTerminator = _func(function(this, ch)
 do return ((function() local _lev=((function() local _lev=((function() local _lev=(ch == 10); return _bool(_lev) and _lev or (ch == 13) end)()); return _bool(_lev) and _lev or (ch == 8232) end)()); return _bool(_lev) and _lev or (ch == 8233) end)()); end
 end);
-fromCodePoint = (function (this, cp)
+fromCodePoint = _func(function(this, cp)
 do return (function() if (_lt(cp,65536)) then return String:fromCharCode(cp); else return (_add(String:fromCharCode((55296 + (_arshift((cp - 65536),10)))),String:fromCharCode((56320 + (_band((cp - 65536),1023)))))); end end)(); end
 end);
-isIdentifierStart = (function (this, ch)
+isIdentifierStart = _func(function(this, ch)
 do return ((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=(ch == 36); return _bool(_lev) and _lev or (ch == 95) end)()); return _bool(_lev) and _lev or ((function() local _lev=(_ge(ch,65)); if _bool(_lev) then return (_le(ch,90)); else return _lev; end end)()) end)()); return _bool(_lev) and _lev or ((function() local _lev=(_ge(ch,97)); if _bool(_lev) then return (_le(ch,122)); else return _lev; end end)()) end)()); return _bool(_lev) and _lev or (ch == 92) end)()); return _bool(_lev) and _lev or ((function() local _lev=(_ge(ch,128)); if _bool(_lev) then return Regex.NonAsciiIdentifierStart:test(fromCodePoint(_ENV,ch)); else return _lev; end end)()) end)()); end
 end);
-isIdentifierPart = (function (this, ch)
+isIdentifierPart = _func(function(this, ch)
 do return ((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=(ch == 36); return _bool(_lev) and _lev or (ch == 95) end)()); return _bool(_lev) and _lev or ((function() local _lev=(_ge(ch,65)); if _bool(_lev) then return (_le(ch,90)); else return _lev; end end)()) end)()); return _bool(_lev) and _lev or ((function() local _lev=(_ge(ch,97)); if _bool(_lev) then return (_le(ch,122)); else return _lev; end end)()) end)()); return _bool(_lev) and _lev or ((function() local _lev=(_ge(ch,48)); if _bool(_lev) then return (_le(ch,57)); else return _lev; end end)()) end)()); return _bool(_lev) and _lev or (ch == 92) end)()); return _bool(_lev) and _lev or ((function() local _lev=(_ge(ch,128)); if _bool(_lev) then return Regex.NonAsciiIdentifierPart:test(fromCodePoint(_ENV,ch)); else return _lev; end end)()) end)()); end
 end);
-isFutureReservedWord = (function (this, id)
+isFutureReservedWord = _func(function(this, id)
 repeat
 local _into = false;
 local _cases = {["enum"] = true,["export"] = true,["import"] = true,["super"] = true};
@@ -91,7 +91,7 @@ _into = true;
 end
 until true
 end);
-isStrictModeReservedWord = (function (this, id)
+isStrictModeReservedWord = _func(function(this, id)
 repeat
 local _into = false;
 local _cases = {["implements"] = true,["interface"] = true,["package"] = true,["private"] = true,["protected"] = true,["public"] = true,["static"] = true,["yield"] = true,["let"] = true};
@@ -143,10 +143,10 @@ _into = true;
 end
 until true
 end);
-isRestrictedWord = (function (this, id)
+isRestrictedWord = _func(function(this, id)
 do return ((function() local _lev=(id == "eval"); return _bool(_lev) and _lev or (id == "arguments") end)()); end
 end);
-isKeyword = (function (this, id)
+isKeyword = _func(function(this, id)
 repeat
 local _into = false;
 local _cases = {[2] = true,[3] = true,[4] = true,[5] = true,[6] = true,[7] = true,[8] = true,[10] = true};
@@ -194,7 +194,7 @@ _into = true;
 end
 until true
 end);
-addComment = (function (this, type, value, start, _g_end, loc)
+addComment = _func(function(this, type, value, start, _g_end, loc)
 local comment;
 assert(_ENV,(_type(start) == "number"),"Comment must have valid position");
 state.lastCommentStart = start;
@@ -226,7 +226,7 @@ extra.tokens:push(comment);
 end
 
 end);
-skipSingleLineComment = (function (this, offset)
+skipSingleLineComment = _func(function(this, offset)
 local comment,ch,loc,start;
 start = (index - offset);
 loc = _obj({
@@ -271,7 +271,7 @@ addComment(_ENV,"Line",comment,start,index,loc);
 end
 
 end);
-skipMultiLineComment = (function (this)
+skipMultiLineComment = _func(function(this)
 local comment,ch,loc,start;
 if _bool(extra.comments) then
 start = (index - 2);
@@ -329,7 +329,7 @@ end
 
 tolerateUnexpectedToken(_ENV);
 end);
-skipComment = (function (this)
+skipComment = _func(function(this)
 local start,ch;
 hasLineTerminator = false;
 start = (index == 0);
@@ -389,12 +389,12 @@ end
 end
 
 end);
-scanHexEscape = (function (this, prefix)
+scanHexEscape = _func(function(this, prefix)
 local code,ch,len,i;
 code = 0;
 len = (function() if (prefix == "u") then return 4; else return 2; end end)();
 i = 0;
-while (i<len) do
+while (_lt(i,len)) do
 if _bool(((function() local _lev=(_lt(index,length)); if _bool(_lev) then return isHexDigit(_ENV,source[index]); else return _lev; end end)())) then
 ch = source[(function () local _tmp = index; index = _inc(_tmp); return _tmp; end)()];
 code = (_addNum1((code * 16),("0123456789abcdef"):indexOf(ch:toLowerCase())));
@@ -402,12 +402,12 @@ else
 do return ""; end
 end
 
-i = i + 1;
+i = _inc(i);
 end
 
 do return String:fromCharCode(code); end
 end);
-scanUnicodeCodePointEscape = (function (this)
+scanUnicodeCodePointEscape = _func(function(this)
 local code,ch;
 ch = source[index];
 code = 0;
@@ -431,7 +431,7 @@ end
 
 do return fromCodePoint(_ENV,code); end
 end);
-codePointAt = (function (this, i)
+codePointAt = _func(function(this, i)
 local second,first,cp;
 cp = source:charCodeAt(i);
 if ((function() local _lev=(_ge(cp,55296)); if _bool(_lev) then return (_le(cp,56319)); else return _lev; end end)()) then
@@ -445,7 +445,7 @@ end
 
 do return cp; end
 end);
-getComplexIdentifier = (function (this)
+getComplexIdentifier = _func(function(this)
 local id,ch,cp;
 cp = codePointAt(_ENV,index);
 id = fromCodePoint(_ENV,cp);
@@ -507,7 +507,7 @@ end
 
 do return id; end
 end);
-getIdentifier = (function (this)
+getIdentifier = _func(function(this)
 local ch,start;
 start = (function () local _tmp = index; index = _inc(_tmp); return _tmp; end)();
 while (_lt(index,length)) do
@@ -531,7 +531,7 @@ end
 
 do return source:slice(start,index); end
 end);
-scanIdentifier = (function (this)
+scanIdentifier = _func(function(this)
 local type,id,start;
 start = index;
 id = (function() if (source:charCodeAt(index) == 92) then return getComplexIdentifier(_ENV); else return getIdentifier(_ENV); end end)();
@@ -556,7 +556,7 @@ do return _obj({
 ["end"] = index
 }); end
 end);
-scanPunctuator = (function (this)
+scanPunctuator = _func(function(this)
 local str,token;
 token = _obj({
 ["type"] = Token.Punctuator,
@@ -679,7 +679,7 @@ token["end"] = index;
 token.value = str;
 do return token; end
 end);
-scanHexLiteral = (function (this, start)
+scanHexLiteral = _func(function(this, start)
 local number;
 number = "";
 while (_lt(index,length)) do
@@ -708,7 +708,7 @@ do return _obj({
 ["end"] = index
 }); end
 end);
-scanBinaryLiteral = (function (this, start)
+scanBinaryLiteral = _func(function(this, start)
 local number,ch;
 number = "";
 while (_lt(index,length)) do
@@ -742,7 +742,7 @@ do return _obj({
 ["end"] = index
 }); end
 end);
-scanOctalLiteral = (function (this, prefix, start)
+scanOctalLiteral = _func(function(this, prefix, start)
 local octal,number;
 if _bool(isOctalDigit(_ENV,prefix)) then
 octal = true;
@@ -780,7 +780,7 @@ do return _obj({
 ["end"] = index
 }); end
 end);
-isImplicitOctalLiteral = (function (this)
+isImplicitOctalLiteral = _func(function(this)
 local ch,i;
 i = (_addNum2(index,1));
 while (_lt(i,length)) do
@@ -798,7 +798,7 @@ end
 
 do return true; end
 end);
-scanNumericLiteral = (function (this)
+scanNumericLiteral = _func(function(this)
 local ch,start,number;
 ch = source[index];
 assert(_ENV,((function() local _lev=isDecimalDigit(_ENV,ch:charCodeAt(0)); return _bool(_lev) and _lev or (ch == ".") end)()),"Numeric literal must start with a decimal digit or a decimal point");
@@ -881,7 +881,7 @@ do return _obj({
 ["end"] = index
 }); end
 end);
-scanStringLiteral = (function (this)
+scanStringLiteral = _func(function(this)
 local octal,octToDec,unescaped,ch,start,quote,str;
 str = "";
 octal = false;
@@ -1012,7 +1012,7 @@ do return _obj({
 ["end"] = index
 }); end
 end);
-scanTemplate = (function (this)
+scanTemplate = _func(function(this)
 local unescaped,restore,tail,head,terminated,rawOffset,start,ch,cooked;
 cooked = "";
 terminated = false;
@@ -1165,12 +1165,12 @@ do return _obj({
 ["end"] = index
 }); end
 end);
-testRegExp = (function (this, pattern, flags)
+testRegExp = _func(function(this, pattern, flags)
 local tmp,astralSubstitute;
 astralSubstitute = "\239\191\191";
 tmp = pattern;
 if (_ge(flags:indexOf("u"),0)) then
-tmp = tmp:replace(_regexp("\\\\u\\{([0-9a-fA-F]+)\\}|\\\\u([a-fA-F0-9]{4})","g"),(function (this, S0, S1, S2)
+tmp = tmp:replace(_regexp("\\\\u\\{([0-9a-fA-F]+)\\}|\\\\u([a-fA-F0-9]{4})","g"),_func(function(this, S0, S1, S2)
 local codePoint;
 codePoint = parseInt(_ENV,(_bool(S1) and S1 or S2),16);
 if (_gt(codePoint,1114111)) then
@@ -1213,7 +1213,7 @@ else _throw(_creturn,0); end
 end
 
 end);
-scanRegExpBody = (function (this)
+scanRegExpBody = _func(function(this)
 local body,terminated,classMarker,str,ch;
 ch = source[index];
 assert(_ENV,(ch == "/"),"Regular expression literal must start with a slash");
@@ -1260,7 +1260,7 @@ do return _obj({
 ["literal"] = str
 }); end
 end);
-scanRegExpFlags = (function (this)
+scanRegExpFlags = _func(function(this)
 local restore,flags,str,ch;
 str = "";
 flags = "";
@@ -1310,7 +1310,7 @@ do return _obj({
 ["literal"] = str
 }); end
 end);
-scanRegExp = (function (this)
+scanRegExp = _func(function(this)
 local value,flags,body,start;
 scanning = true;
 lookahead = null;
@@ -1346,7 +1346,7 @@ do return _obj({
 ["end"] = index
 }); end
 end);
-collectRegex = (function (this)
+collectRegex = _func(function(this)
 local token,regex,loc,pos;
 skipComment(_ENV);
 pos = index;
@@ -1384,14 +1384,14 @@ end
 
 do return regex; end
 end);
-isIdentifierName = (function (this, token)
+isIdentifierName = _func(function(this, token)
 do return ((function() local _lev=((function() local _lev=((function() local _lev=(token.type == Token.Identifier); return _bool(_lev) and _lev or (token.type == Token.Keyword) end)()); return _bool(_lev) and _lev or (token.type == Token.BooleanLiteral) end)()); return _bool(_lev) and _lev or (token.type == Token.NullLiteral) end)()); end
 end);
-advanceSlash = (function (this)
+advanceSlash = _func(function(this)
 local testKeyword,check,previous,regex;
-testKeyword = (function (this, value)
+testKeyword = _func(function(this, value)
 do return ((function() local _lev=((function() local _lev=((function() if _bool(value) then return (_gt(value.length,1)); else return value; end end)()); if _bool(_lev) then return (_ge(value[0],"a")); else return _lev; end end)()); if _bool(_lev) then return (_le(value[0],"z")); else return _lev; end end)()); end
-end);previous = extra.tokenValues[(extra.tokenValues.length - 1)];
+end);previous = extra.tokenValues[(extra.tokens.length - 1)];
 regex = (previous ~= null);
 repeat
 local _into = false;
@@ -1432,7 +1432,7 @@ end
 until true
 do return (function() if _bool(regex) then return collectRegex(_ENV); else return scanPunctuator(_ENV); end end)(); end
 end);
-advance = (function (this)
+advance = _func(function(this)
 local token,cp;
 if (_ge(index,length)) then
 do return _obj({
@@ -1492,7 +1492,7 @@ end
 
 do return scanPunctuator(_ENV); end
 end);
-collectToken = (function (this)
+collectToken = _func(function(this)
 local entry,value,token,loc;
 loc = _obj({
 ["start"] = _obj({
@@ -1546,7 +1546,7 @@ end
 
 do return token; end
 end);
-lex = (function (this)
+lex = _func(function(this)
 local token;
 scanning = true;
 lastIndex = index;
@@ -1561,7 +1561,7 @@ lookahead = (function() if (_type(extra.tokens) ~= "undefined") then return coll
 scanning = false;
 do return token; end
 end);
-peek = (function (this)
+peek = _func(function(this)
 scanning = true;
 skipComment(_ENV);
 lastIndex = index;
@@ -1573,22 +1573,22 @@ startLineStart = lineStart;
 lookahead = (function() if (_type(extra.tokens) ~= "undefined") then return collectToken(_ENV); else return advance(_ENV); end end)();
 scanning = false;
 end);
-Position = (function (this)
+Position = _func(function(this)
 this.line = startLineNumber;
 this.column = (startIndex - startLineStart);
 end);
-SourceLocation = (function (this)
+SourceLocation = _func(function(this)
 this.start = _new(Position);
 this["end"] = null;
 end);
-WrappingSourceLocation = (function (this, startToken)
+WrappingSourceLocation = _func(function(this, startToken)
 this.start = _obj({
 ["line"] = startToken.lineNumber,
 ["column"] = (startToken.start - startToken.lineStart)
 });
 this["end"] = null;
 end);
-Node = (function (this)
+Node = _func(function(this)
 if _bool(extra.range) then
 this.range = _arr({[0]=startIndex,0},2);
 end
@@ -1598,7 +1598,7 @@ this.loc = _new(SourceLocation);
 end
 
 end);
-WrappingNode = (function (this, startToken)
+WrappingNode = _func(function(this, startToken)
 if _bool(extra.range) then
 this.range = _arr({[0]=startToken.start,0},2);
 end
@@ -1608,21 +1608,21 @@ this.loc = _new(WrappingSourceLocation,startToken);
 end
 
 end);
-recordError = (function (this, error)
+recordError = _func(function(this, error)
 local existing,e;
 e = 0;
-while (e<extra.errors.length) do
+while (_lt(e,extra.errors.length)) do
 existing = extra.errors[e];
 if ((function() local _lev=(existing.index == error.index); if _bool(_lev) then return (existing.message == error.message); else return _lev; end end)()) then
 do return end
 end
 
-e = e + 1;
+e = _inc(e);
 end
 
 extra.errors:push(error);
 end);
-constructError = (function (this, msg, column)
+constructError = _func(function(this, msg, column)
 local error;
 error = _new(Error,msg);
 local _status, _return = _pcall(function()
@@ -1647,7 +1647,7 @@ else _throw(_creturn,0); end
 end
 
 end);
-createError = (function (this, line, pos, description)
+createError = _func(function(this, line, pos, description)
 local error,column,msg;
 msg = (_addStr1(((_addStr1("Line ",line)) .. ": "),description));
 column = ((pos - (function() if _bool(scanning) then return lineStart; else return lastLineStart; end end)()) + 1);
@@ -1657,23 +1657,23 @@ error.description = description;
 error.index = pos;
 do return error; end
 end);
-throwError = (function (...)
+throwError = _func(function(...)
 local this, messageFormat = ...;
 local arguments = _args(...);
 local msg,args;
 args = Array.prototype.slice:call(arguments,1);
-msg = messageFormat:replace(_regexp("%(\\d)","g"),(function (this, whole, idx)
+msg = messageFormat:replace(_regexp("%(\\d)","g"),_func(function(this, whole, idx)
 assert(_ENV,(_lt(idx,args.length)),"Message reference must be in range");
 do return args[idx]; end
 end));
 _throw(createError(_ENV,lastLineNumber,lastIndex,msg),0)
 end);
-tolerateError = (function (...)
+tolerateError = _func(function(...)
 local this, messageFormat = ...;
 local arguments = _args(...);
 local error,msg,args;
 args = Array.prototype.slice:call(arguments,1);
-msg = messageFormat:replace(_regexp("%(\\d)","g"),(function (this, whole, idx)
+msg = messageFormat:replace(_regexp("%(\\d)","g"),_func(function(this, whole, idx)
 assert(_ENV,(_lt(idx,args.length)),"Message reference must be in range");
 do return args[idx]; end
 end));
@@ -1685,7 +1685,7 @@ _throw(error,0)
 end
 
 end);
-unexpectedTokenError = (function (this, token, message)
+unexpectedTokenError = _func(function(this, token, message)
 local msg,value;
 msg = (_bool(message) and message or Messages.UnexpectedToken);
 if _bool(token) then
@@ -1710,10 +1710,10 @@ end
 msg = msg:replace("%0",value);
 do return (function() if _bool(((function() if _bool(token) then return (_type(token.lineNumber) == "number"); else return token; end end)())) then return createError(_ENV,token.lineNumber,token.start,msg); else return createError(_ENV,(function() if _bool(scanning) then return lineNumber; else return lastLineNumber; end end)(),(function() if _bool(scanning) then return index; else return lastIndex; end end)(),msg); end end)(); end
 end);
-throwUnexpectedToken = (function (this, token, message)
+throwUnexpectedToken = _func(function(this, token, message)
 _throw(unexpectedTokenError(_ENV,token,message),0)
 end);
-tolerateUnexpectedToken = (function (this, token, message)
+tolerateUnexpectedToken = _func(function(this, token, message)
 local error;
 error = unexpectedTokenError(_ENV,token,message);
 if _bool(extra.errors) then
@@ -1723,7 +1723,7 @@ _throw(error,0)
 end
 
 end);
-expect = (function (this, value)
+expect = _func(function(this, value)
 local token;
 token = lex(_ENV);
 if ((function() local _lev=(token.type ~= Token.Punctuator); return _bool(_lev) and _lev or (token.value ~= value) end)()) then
@@ -1731,7 +1731,7 @@ throwUnexpectedToken(_ENV,token);
 end
 
 end);
-expectCommaSeparator = (function (this)
+expectCommaSeparator = _func(function(this)
 local token;
 if _bool(extra.errors) then
 token = lookahead;
@@ -1749,7 +1749,7 @@ expect(_ENV,",");
 end
 
 end);
-expectKeyword = (function (this, keyword)
+expectKeyword = _func(function(this, keyword)
 local token;
 token = lex(_ENV);
 if ((function() local _lev=(token.type ~= Token.Keyword); return _bool(_lev) and _lev or (token.value ~= keyword) end)()) then
@@ -1757,16 +1757,16 @@ throwUnexpectedToken(_ENV,token);
 end
 
 end);
-match = (function (this, value)
+match = _func(function(this, value)
 do return ((function() local _lev=(lookahead.type == Token.Punctuator); if _bool(_lev) then return (lookahead.value == value); else return _lev; end end)()); end
 end);
-matchKeyword = (function (this, keyword)
+matchKeyword = _func(function(this, keyword)
 do return ((function() local _lev=(lookahead.type == Token.Keyword); if _bool(_lev) then return (lookahead.value == keyword); else return _lev; end end)()); end
 end);
-matchContextualKeyword = (function (this, keyword)
+matchContextualKeyword = _func(function(this, keyword)
 do return ((function() local _lev=(lookahead.type == Token.Identifier); if _bool(_lev) then return (lookahead.value == keyword); else return _lev; end end)()); end
 end);
-matchAssign = (function (this)
+matchAssign = _func(function(this)
 local op;
 if (lookahead.type ~= Token.Punctuator) then
 do return false; end
@@ -1775,7 +1775,7 @@ end
 op = lookahead.value;
 do return ((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=((function() local _lev=(op == "="); return _bool(_lev) and _lev or (op == "*=") end)()); return _bool(_lev) and _lev or (op == "/=") end)()); return _bool(_lev) and _lev or (op == "%=") end)()); return _bool(_lev) and _lev or (op == "+=") end)()); return _bool(_lev) and _lev or (op == "-=") end)()); return _bool(_lev) and _lev or (op == "<<=") end)()); return _bool(_lev) and _lev or (op == ">>=") end)()); return _bool(_lev) and _lev or (op == ">>>=") end)()); return _bool(_lev) and _lev or (op == "&=") end)()); return _bool(_lev) and _lev or (op == "^=") end)()); return _bool(_lev) and _lev or (op == "|=") end)()); end
 end);
-consumeSemicolon = (function (this)
+consumeSemicolon = _func(function(this)
 if _bool(((function() local _lev=(source:charCodeAt(startIndex) == 59); return _bool(_lev) and _lev or match(_ENV,";") end)())) then
 lex(_ENV);
 do return end
@@ -1793,7 +1793,7 @@ throwUnexpectedToken(_ENV,lookahead);
 end
 
 end);
-isolateCoverGrammar = (function (this, parser)
+isolateCoverGrammar = _func(function(this, parser)
 local result,oldFirstCoverInitializedNameError,oldIsAssignmentTarget,oldIsBindingElement;
 oldIsBindingElement = isBindingElement;
 oldIsAssignmentTarget = isAssignmentTarget;
@@ -1811,7 +1811,7 @@ isAssignmentTarget = oldIsAssignmentTarget;
 firstCoverInitializedNameError = oldFirstCoverInitializedNameError;
 do return result; end
 end);
-inheritCoverGrammar = (function (this, parser)
+inheritCoverGrammar = _func(function(this, parser)
 local result,oldFirstCoverInitializedNameError,oldIsAssignmentTarget,oldIsBindingElement;
 oldIsBindingElement = isBindingElement;
 oldIsAssignmentTarget = isAssignmentTarget;
@@ -1825,7 +1825,7 @@ isAssignmentTarget = ((function() if _bool(isAssignmentTarget) then return oldIs
 firstCoverInitializedNameError = (_bool(oldFirstCoverInitializedNameError) and oldFirstCoverInitializedNameError or firstCoverInitializedNameError);
 do return result; end
 end);
-parseArrayPattern = (function (this, params, kind)
+parseArrayPattern = _func(function(this, params, kind)
 local restNode,rest,elements,node;
 node = _new(Node);
 elements = _arr({},0);
@@ -1858,7 +1858,7 @@ end
 expect(_ENV,"]");
 do return node:finishArrayPattern(elements); end
 end);
-parsePropertyPattern = (function (this, params, kind)
+parsePropertyPattern = _func(function(this, params, kind)
 local init,computed,keyToken,key,node;
 node = _new(Node);
 computed = match(_ENV,"[");
@@ -1883,7 +1883,7 @@ expect(_ENV,":");
 init = parsePatternWithDefault(_ENV,params,kind);
 do return node:finishProperty("init",key,computed,init,false,false); end
 end);
-parseObjectPattern = (function (this, params, kind)
+parseObjectPattern = _func(function(this, params, kind)
 local properties,node;
 node = _new(Node);
 properties = _arr({},0);
@@ -1900,7 +1900,7 @@ end
 lex(_ENV);
 do return node:finishObjectPattern(properties); end
 end);
-parsePattern = (function (this, params, kind)
+parsePattern = _func(function(this, params, kind)
 if _bool(match(_ENV,"[")) then
 do return parseArrayPattern(_ENV,params,kind); end
 elseif _bool(match(_ENV,"{")) then
@@ -1915,7 +1915,7 @@ end
 params:push(lookahead);
 do return parseVariableIdentifier(_ENV,kind); end
 end);
-parsePatternWithDefault = (function (this, params, kind)
+parsePatternWithDefault = _func(function(this, params, kind)
 local right,previousAllowYield,pattern,startToken;
 startToken = lookahead;
 pattern = parsePattern(_ENV,params,kind);
@@ -1930,7 +1930,7 @@ end
 
 do return pattern; end
 end);
-parseArrayInitializer = (function (this)
+parseArrayInitializer = _func(function(this)
 local restSpread,node,elements;
 elements = _arr({},0);
 node = _new(Node);
@@ -1963,7 +1963,7 @@ end
 lex(_ENV);
 do return node:finishArrayExpression(elements); end
 end);
-parsePropertyFunction = (function (this, node, paramInfo, isGenerator)
+parsePropertyFunction = _func(function(this, node, paramInfo, isGenerator)
 local body,previousStrict;
 isAssignmentTarget = (function() isBindingElement = false; return isBindingElement end)();
 previousStrict = strict;
@@ -1979,7 +1979,7 @@ end
 strict = previousStrict;
 do return node:finishFunctionExpression(null,paramInfo.params,paramInfo.defaults,body,isGenerator); end
 end);
-parsePropertyMethodFunction = (function (this)
+parsePropertyMethodFunction = _func(function(this)
 local previousAllowYield,node,method,params;
 node = _new(Node);
 previousAllowYield = state.allowYield;
@@ -1991,7 +1991,7 @@ method = parsePropertyFunction(_ENV,node,params,false);
 state.allowYield = previousAllowYield;
 do return method; end
 end);
-parseObjectPropertyKey = (function (this)
+parseObjectPropertyKey = _func(function(this)
 local expr,node,token;
 node = _new(Node);
 token = lex(_ENV);
@@ -2045,7 +2045,7 @@ end
 until true
 throwUnexpectedToken(_ENV,token);
 end);
-lookaheadPropertyName = (function (this)
+lookaheadPropertyName = _func(function(this)
 repeat
 local _into = false;
 local _cases = {[Token.Identifier] = true,[Token.StringLiteral] = true,[Token.BooleanLiteral] = true,[Token.NullLiteral] = true,[Token.NumericLiteral] = true,[Token.Keyword] = true,[Token.Punctuator] = true};
@@ -2086,7 +2086,7 @@ end
 until true
 do return false; end
 end);
-tryParseMethodDefinition = (function (this, token, key, computed, node)
+tryParseMethodDefinition = _func(function(this, token, key, computed, node)
 local previousAllowYield,params,methodNode,options,value;
 previousAllowYield = state.allowYield;
 if (token.type == Token.Identifier) then
@@ -2157,7 +2157,7 @@ end
 
 do return null; end
 end);
-parseObjectProperty = (function (this, hasProto)
+parseObjectProperty = _func(function(this, hasProto)
 local value,proto,maybeMethod,key,computed,node,token;
 token = lookahead;
 node = _new(Node);
@@ -2205,7 +2205,7 @@ end
 
 throwUnexpectedToken(_ENV,lookahead);
 end);
-parseObjectInitializer = (function (this)
+parseObjectInitializer = _func(function(this)
 local node,hasProto,properties;
 properties = _arr({},0);
 hasProto = _obj({
@@ -2225,7 +2225,7 @@ end
 expect(_ENV,"}");
 do return node:finishObjectExpression(properties); end
 end);
-reinterpretExpressionAsPattern = (function (this, expr)
+reinterpretExpressionAsPattern = _func(function(this, expr)
 local i;
 repeat
 local _into = false;
@@ -2260,12 +2260,12 @@ end
 if _into or (_v == Syntax.ArrayExpression) then
 expr.type = Syntax.ArrayPattern;
 i = 0;
-while (i<expr.elements.length) do
+while (_lt(i,expr.elements.length)) do
 if (expr.elements[i] ~= null) then
 reinterpretExpressionAsPattern(_ENV,expr.elements[i]);
 end
 
-i = i + 1;
+i = _inc(i);
 end
 
 do break end;
@@ -2274,9 +2274,9 @@ end
 if _into or (_v == Syntax.ObjectExpression) then
 expr.type = Syntax.ObjectPattern;
 i = 0;
-while (i<expr.properties.length) do
+while (_lt(i,expr.properties.length)) do
 reinterpretExpressionAsPattern(_ENV,expr.properties[i].value);
-i = i + 1;
+i = _inc(i);
 end
 
 do break end;
@@ -2295,7 +2295,7 @@ _into = true;
 end
 until true
 end);
-parseTemplateElement = (function (this, option)
+parseTemplateElement = _func(function(this, option)
 local token,node;
 if _bool(((function() local _lev=(lookahead.type ~= Token.Template); return _bool(_lev) and _lev or ((function() local _lev=option.head; if _bool(_lev) then return not _bool(lookahead.head); else return _lev; end end)()) end)())) then
 throwUnexpectedToken(_ENV);
@@ -2308,7 +2308,7 @@ do return node:finishTemplateElement(_obj({
 ["cooked"] = token.value.cooked
 }),token.tail); end
 end);
-parseTemplateLiteral = (function (this)
+parseTemplateLiteral = _func(function(this)
 local node,expressions,quasis,quasi;
 node = _new(Node);
 quasi = parseTemplateElement(_ENV,_obj({
@@ -2327,7 +2327,7 @@ end
 
 do return node:finishTemplateLiteral(quasis,expressions); end
 end);
-parseGroupExpression = (function (this)
+parseGroupExpression = _func(function(this)
 local params,i,startToken,expressions,expr;
 params = _arr({},0);
 expect(_ENV,"(");
@@ -2382,9 +2382,9 @@ end
 
 isBindingElement = false;
 i = 0;
-while (i<expressions.length) do
+while (_lt(i,expressions.length)) do
 reinterpretExpressionAsPattern(_ENV,expressions[i]);
-i = i + 1;
+i = _inc(i);
 end
 
 do return _obj({
@@ -2415,9 +2415,9 @@ end
 
 if (expr.type == Syntax.SequenceExpression) then
 i = 0;
-while (i<expr.expressions.length) do
+while (_lt(i,expr.expressions.length)) do
 reinterpretExpressionAsPattern(_ENV,expr.expressions[i]);
-i = i + 1;
+i = _inc(i);
 end
 
 else
@@ -2433,7 +2433,7 @@ end
 isBindingElement = false;
 do return expr; end
 end);
-parsePrimaryExpression = (function (this)
+parsePrimaryExpression = _func(function(this)
 local node,expr,token,type;
 if _bool(match(_ENV,"(")) then
 isBindingElement = false;
@@ -2516,7 +2516,7 @@ end
 
 do return expr; end
 end);
-parseArguments = (function (this)
+parseArguments = _func(function(this)
 local expr,args;
 args = _arr({},0);
 expect(_ENV,"(");
@@ -2544,7 +2544,7 @@ end
 expect(_ENV,")");
 do return args; end
 end);
-parseNonComputedProperty = (function (this)
+parseNonComputedProperty = _func(function(this)
 local node,token;
 node = _new(Node);
 token = lex(_ENV);
@@ -2554,18 +2554,18 @@ end
 
 do return node:finishIdentifier(token.value); end
 end);
-parseNonComputedMember = (function (this)
+parseNonComputedMember = _func(function(this)
 expect(_ENV,".");
 do return parseNonComputedProperty(_ENV); end
 end);
-parseComputedMember = (function (this)
+parseComputedMember = _func(function(this)
 local expr;
 expect(_ENV,"[");
 expr = isolateCoverGrammar(_ENV,parseExpression);
 expect(_ENV,"]");
 do return expr; end
 end);
-parseNewExpression = (function (this)
+parseNewExpression = _func(function(this)
 local node,args,callee;
 node = _new(Node);
 expectKeyword(_ENV,"new");
@@ -2587,7 +2587,7 @@ args = (function() if _bool(match(_ENV,"(")) then return parseArguments(_ENV); e
 isAssignmentTarget = (function() isBindingElement = false; return isBindingElement end)();
 do return node:finishNewExpression(callee,args); end
 end);
-parseLeftHandSideExpressionAllowCall = (function (this)
+parseLeftHandSideExpressionAllowCall = _func(function(this)
 local previousAllowIn,startToken,property,args,expr,quasi;
 previousAllowIn = state.allowIn;
 startToken = lookahead;
@@ -2632,7 +2632,7 @@ end
 state.allowIn = previousAllowIn;
 do return expr; end
 end);
-parseLeftHandSideExpression = (function (this)
+parseLeftHandSideExpression = _func(function(this)
 local startToken,property,expr,quasi;
 assert(_ENV,state.allowIn,"callee of new expression always allow in keyword.");
 startToken = lookahead;
@@ -2670,7 +2670,7 @@ end
 
 do return expr; end
 end);
-parsePostfixExpression = (function (this)
+parsePostfixExpression = _func(function(this)
 local startToken,token,expr;
 startToken = lookahead;
 expr = inheritCoverGrammar(_ENV,parseLeftHandSideExpressionAllowCall);
@@ -2693,7 +2693,7 @@ end
 
 do return expr; end
 end);
-parseUnaryExpression = (function (this)
+parseUnaryExpression = _func(function(this)
 local startToken,expr,token;
 if ((function() local _lev=(lookahead.type ~= Token.Punctuator); if _bool(_lev) then return (lookahead.type ~= Token.Keyword); else return _lev; end end)()) then
 expr = parsePostfixExpression(_ENV);
@@ -2733,7 +2733,7 @@ end
 
 do return expr; end
 end);
-binaryPrecedence = (function (this, token, allowIn)
+binaryPrecedence = _func(function(this, token, allowIn)
 local prec;
 prec = 0;
 if ((function() local _lev=(token.type ~= Token.Punctuator); if _bool(_lev) then return (token.type ~= Token.Keyword); else return _lev; end end)()) then
@@ -2859,7 +2859,7 @@ end
 until true
 do return prec; end
 end);
-parseBinaryExpression = (function (this)
+parseBinaryExpression = _func(function(this)
 local i,left,operator,right,stack,prec,token,expr,markers,marker;
 marker = lookahead;
 left = inheritCoverGrammar(_ENV,parseUnaryExpression);
@@ -2906,7 +2906,7 @@ end
 
 do return expr; end
 end);
-parseConditionalExpression = (function (this)
+parseConditionalExpression = _func(function(this)
 local startToken,alternate,consequent,previousAllowIn,expr;
 startToken = lookahead;
 expr = inheritCoverGrammar(_ENV,parseBinaryExpression);
@@ -2924,14 +2924,14 @@ end
 
 do return expr; end
 end);
-parseConciseBody = (function (this)
+parseConciseBody = _func(function(this)
 if _bool(match(_ENV,"{")) then
 do return parseFunctionSourceElements(_ENV); end
 end
 
 do return isolateCoverGrammar(_ENV,parseAssignmentExpression); end
 end);
-checkPatternParam = (function (this, options, param)
+checkPatternParam = _func(function(this, options, param)
 local i;
 repeat
 local _into = false;
@@ -2958,12 +2958,12 @@ _into = true;
 end
 if _into or (_v == Syntax.ArrayPattern) then
 i = 0;
-while (i<param.elements.length) do
+while (_lt(i,param.elements.length)) do
 if (param.elements[i] ~= null) then
 checkPatternParam(_ENV,options,param.elements[i]);
 end
 
-i = i + 1;
+i = _inc(i);
 end
 
 do break end;
@@ -2977,9 +2977,9 @@ end
 if _into then
 assert(_ENV,(param.type == Syntax.ObjectPattern),"Invalid type");
 i = 0;
-while (i<param.properties.length) do
+while (_lt(i,param.properties.length)) do
 checkPatternParam(_ENV,options,param.properties[i].value);
-i = i + 1;
+i = _inc(i);
 end
 
 do break end;
@@ -2987,7 +2987,7 @@ _into = true;
 end
 until true
 end);
-reinterpretAsCoverFormalsList = (function (this, expr)
+reinterpretAsCoverFormalsList = _func(function(this, expr)
 local token,options,defaultCount,defaults,params,param,len,i;
 defaults = _arr({},0);
 defaultCount = 0;
@@ -3092,7 +3092,7 @@ do return _obj({
 ["message"] = options.message
 }); end
 end);
-parseArrowFunctionExpression = (function (this, options, node)
+parseArrowFunctionExpression = _func(function(this, options, node)
 local body,previousAllowYield,previousStrict;
 if _bool(hasLineTerminator) then
 tolerateUnexpectedToken(_ENV,lookahead);
@@ -3115,7 +3115,7 @@ strict = previousStrict;
 state.allowYield = previousAllowYield;
 do return node:finishArrowFunctionExpression(options.params,options.defaults,body,(body.type ~= Syntax.BlockStatement)); end
 end);
-parseYieldExpression = (function (this)
+parseYieldExpression = _func(function(this)
 local previousAllowYield,delegate,expr,argument;
 argument = null;
 expr = _new(Node);
@@ -3140,7 +3140,7 @@ end
 
 do return expr:finishYieldExpression(argument,delegate); end
 end);
-parseAssignmentExpression = (function (this)
+parseAssignmentExpression = _func(function(this)
 local startToken,list,right,expr,token;
 startToken = lookahead;
 token = lookahead;
@@ -3190,7 +3190,7 @@ end
 
 do return expr; end
 end);
-parseExpression = (function (this)
+parseExpression = _func(function(this)
 local expressions,startToken,expr;
 startToken = lookahead;
 expr = isolateCoverGrammar(_ENV,parseAssignmentExpression);
@@ -3211,7 +3211,7 @@ end
 
 do return expr; end
 end);
-parseStatementListItem = (function (this)
+parseStatementListItem = _func(function(this)
 if (lookahead.type == Token.Keyword) then
 repeat
 local _into = false;
@@ -3263,7 +3263,7 @@ end
 
 do return parseStatement(_ENV); end
 end);
-parseStatementList = (function (this)
+parseStatementList = _func(function(this)
 local list;
 list = _arr({},0);
 while (_lt(startIndex,length)) do
@@ -3277,7 +3277,7 @@ end
 
 do return list; end
 end);
-parseBlock = (function (this)
+parseBlock = _func(function(this)
 local node,block;
 node = _new(Node);
 expect(_ENV,"{");
@@ -3285,7 +3285,7 @@ block = parseStatementList(_ENV);
 expect(_ENV,"}");
 do return node:finishBlockStatement(block); end
 end);
-parseVariableIdentifier = (function (this, kind)
+parseVariableIdentifier = _func(function(this, kind)
 local node,token;
 node = _new(Node);
 token = lex(_ENV);
@@ -3314,7 +3314,7 @@ end
 
 do return node:finishIdentifier(token.value); end
 end);
-parseVariableDeclaration = (function (this, options)
+parseVariableDeclaration = _func(function(this, options)
 local params,node,id,init;
 init = null;
 node = _new(Node);
@@ -3333,7 +3333,7 @@ end
 
 do return node:finishVariableDeclarator(id,init); end
 end);
-parseVariableDeclarationList = (function (this, options)
+parseVariableDeclarationList = _func(function(this, options)
 local list,opt;
 opt = _obj({
 ["inFor"] = options.inFor
@@ -3347,7 +3347,7 @@ end
 
 do return list; end
 end);
-parseVariableStatement = (function (this, node)
+parseVariableStatement = _func(function(this, node)
 local declarations;
 expectKeyword(_ENV,"var");
 declarations = parseVariableDeclarationList(_ENV,_obj({
@@ -3356,7 +3356,7 @@ declarations = parseVariableDeclarationList(_ENV,_obj({
 consumeSemicolon(_ENV);
 do return node:finishVariableDeclaration(declarations); end
 end);
-parseLexicalBinding = (function (this, kind, options)
+parseLexicalBinding = _func(function(this, kind, options)
 local params,node,id,init;
 init = null;
 node = _new(Node);
@@ -3379,7 +3379,7 @@ end
 
 do return node:finishVariableDeclarator(id,init); end
 end);
-parseBindingList = (function (this, kind, options)
+parseBindingList = _func(function(this, kind, options)
 local list;
 list = _arr({[0]=parseLexicalBinding(_ENV,kind,options)},1);
 while _bool(match(_ENV,",")) do
@@ -3390,7 +3390,7 @@ end
 
 do return list; end
 end);
-tokenizerState = (function (this)
+tokenizerState = _func(function(this)
 do return _obj({
 ["index"] = index,
 ["lineNumber"] = lineNumber,
@@ -3406,7 +3406,7 @@ do return _obj({
 ["tokenCount"] = (function() if _bool(extra.tokens) then return extra.tokens.length; else return 0; end end)()
 }); end
 end);
-resetTokenizerState = (function (this, ts)
+resetTokenizerState = _func(function(this, ts)
 index = ts.index;
 lineNumber = ts.lineNumber;
 lineStart = ts.lineStart;
@@ -3423,7 +3423,7 @@ extra.tokens:splice(ts.tokenCount,extra.tokens.length);
 end
 
 end);
-isLexicalDeclaration = (function (this)
+isLexicalDeclaration = _func(function(this)
 local ts,lexical;
 ts = tokenizerState(_ENV);
 lex(_ENV);
@@ -3431,7 +3431,7 @@ lexical = ((function() local _lev=((function() local _lev=((function() local _le
 resetTokenizerState(_ENV,ts);
 do return lexical; end
 end);
-parseLexicalDeclaration = (function (this, options)
+parseLexicalDeclaration = _func(function(this, options)
 local node,declarations,kind;
 node = _new(Node);
 kind = lex(_ENV).value;
@@ -3440,7 +3440,7 @@ declarations = parseBindingList(_ENV,kind,options);
 consumeSemicolon(_ENV);
 do return node:finishLexicalDeclaration(declarations,kind); end
 end);
-parseRestElement = (function (this, params)
+parseRestElement = _func(function(this, params)
 local node,param;
 node = _new(Node);
 lex(_ENV);
@@ -3460,17 +3460,17 @@ end
 
 do return node:finishRestElement(param); end
 end);
-parseEmptyStatement = (function (this, node)
+parseEmptyStatement = _func(function(this, node)
 expect(_ENV,";");
 do return node:finishEmptyStatement(); end
 end);
-parseExpressionStatement = (function (this, node)
+parseExpressionStatement = _func(function(this, node)
 local expr;
 expr = parseExpression(_ENV);
 consumeSemicolon(_ENV);
 do return node:finishExpressionStatement(expr); end
 end);
-parseIfStatement = (function (this, node)
+parseIfStatement = _func(function(this, node)
 local alternate,consequent,test;
 expectKeyword(_ENV,"if");
 expect(_ENV,"(");
@@ -3486,7 +3486,7 @@ end
 
 do return node:finishIfStatement(test,consequent,alternate); end
 end);
-parseDoWhileStatement = (function (this, node)
+parseDoWhileStatement = _func(function(this, node)
 local oldInIteration,test,body;
 expectKeyword(_ENV,"do");
 oldInIteration = state.inIteration;
@@ -3503,7 +3503,7 @@ end
 
 do return node:finishDoWhileStatement(body,test); end
 end);
-parseWhileStatement = (function (this, node)
+parseWhileStatement = _func(function(this, node)
 local oldInIteration,body,test;
 expectKeyword(_ENV,"while");
 expect(_ENV,"(");
@@ -3515,7 +3515,7 @@ body = parseStatement(_ENV);
 state.inIteration = oldInIteration;
 do return node:finishWhileStatement(test,body); end
 end);
-parseForStatement = (function (this, node)
+parseForStatement = _func(function(this, node)
 local previousAllowIn,oldInIteration,body,declarations,kind,right,left,update,test,initStartToken,initSeq,forIn,init;
 previousAllowIn = state.allowIn;
 init = (function() test = (function() update = null; return update end)(); return test end)();
@@ -3650,7 +3650,7 @@ body = isolateCoverGrammar(_ENV,parseStatement);
 state.inIteration = oldInIteration;
 do return (function() if (_type(left) == "undefined") then return node:finishForStatement(init,test,update,body); else return (function() if _bool(forIn) then return node:finishForInStatement(left,right,body); else return node:finishForOfStatement(left,right,body); end end)(); end end)(); end
 end);
-parseContinueStatement = (function (this, node)
+parseContinueStatement = _func(function(this, node)
 local key,label;
 label = null;
 expectKeyword(_ENV,"continue");
@@ -3687,7 +3687,7 @@ end
 
 do return node:finishContinueStatement(label); end
 end);
-parseBreakStatement = (function (this, node)
+parseBreakStatement = _func(function(this, node)
 local key,label;
 label = null;
 expectKeyword(_ENV,"break");
@@ -3721,7 +3721,7 @@ end
 
 do return node:finishBreakStatement(label); end
 end);
-parseReturnStatement = (function (this, node)
+parseReturnStatement = _func(function(this, node)
 local argument;
 argument = null;
 expectKeyword(_ENV,"return");
@@ -3752,7 +3752,7 @@ end
 consumeSemicolon(_ENV);
 do return node:finishReturnStatement(argument); end
 end);
-parseWithStatement = (function (this, node)
+parseWithStatement = _func(function(this, node)
 local body,object;
 if _bool(strict) then
 tolerateError(_ENV,Messages.StrictModeWith);
@@ -3765,7 +3765,7 @@ expect(_ENV,")");
 body = parseStatement(_ENV);
 do return node:finishWithStatement(object,body); end
 end);
-parseSwitchCase = (function (this)
+parseSwitchCase = _func(function(this)
 local node,statement,consequent,test;
 consequent = _arr({},0);
 node = _new(Node);
@@ -3790,7 +3790,7 @@ end
 
 do return node:finishSwitchCase(test,consequent); end
 end);
-parseSwitchStatement = (function (this, node)
+parseSwitchStatement = _func(function(this, node)
 local defaultFound,oldInSwitch,clause,cases,discriminant;
 expectKeyword(_ENV,"switch");
 expect(_ENV,"(");
@@ -3828,7 +3828,7 @@ state.inSwitch = oldInSwitch;
 expect(_ENV,"}");
 do return node:finishSwitchStatement(discriminant,cases); end
 end);
-parseThrowStatement = (function (this, node)
+parseThrowStatement = _func(function(this, node)
 local argument;
 expectKeyword(_ENV,"throw");
 if _bool(hasLineTerminator) then
@@ -3839,7 +3839,7 @@ argument = parseExpression(_ENV);
 consumeSemicolon(_ENV);
 do return node:finishThrowStatement(argument); end
 end);
-parseCatchClause = (function (this)
+parseCatchClause = _func(function(this)
 local node,body,i,key,paramMap,params,param;
 params = _arr({},0);
 paramMap = _obj({});
@@ -3852,14 +3852,14 @@ end
 
 param = parsePattern(_ENV,params);
 i = 0;
-while (i<params.length) do
+while (_lt(i,params.length)) do
 key = (_addStr1("$",params[i].value));
 if _bool(Object.prototype.hasOwnProperty:call(paramMap,key)) then
 tolerateError(_ENV,Messages.DuplicateBinding,params[i].value);
 end
 
 paramMap[key] = true;
-i = i + 1;
+i = _inc(i);
 end
 
 if _bool(((function() if _bool(strict) then return isRestrictedWord(_ENV,param.name); else return strict; end end)())) then
@@ -3870,7 +3870,7 @@ expect(_ENV,")");
 body = parseBlock(_ENV);
 do return node:finishCatchClause(param,body); end
 end);
-parseTryStatement = (function (this, node)
+parseTryStatement = _func(function(this, node)
 local finalizer,handler,block;
 handler = null;
 finalizer = null;
@@ -3891,12 +3891,12 @@ end
 
 do return node:finishTryStatement(block,handler,finalizer); end
 end);
-parseDebuggerStatement = (function (this, node)
+parseDebuggerStatement = _func(function(this, node)
 expectKeyword(_ENV,"debugger");
 consumeSemicolon(_ENV);
 do return node:finishDebuggerStatement(); end
 end);
-parseStatement = (function (this)
+parseStatement = _func(function(this)
 local node,key,labeledBody,expr,type;
 type = lookahead.type;
 if (type == Token.EOF) then
@@ -4023,7 +4023,7 @@ end
 consumeSemicolon(_ENV);
 do return node:finishExpressionStatement(expr); end
 end);
-parseFunctionSourceElements = (function (this)
+parseFunctionSourceElements = _func(function(this)
 local node,oldInFunctionBody,oldInSwitch,oldInIteration,oldLabelSet,firstRestricted,directive,token,body,statement;
 body = _arr({},0);
 node = _new(Node);
@@ -4081,7 +4081,7 @@ state.inSwitch = oldInSwitch;
 state.inFunctionBody = oldInFunctionBody;
 do return node:finishBlockStatement(body); end
 end);
-validateParam = (function (this, options, param, name)
+validateParam = _func(function(this, options, param, name)
 local key;
 key = (_addStr1("$",name));
 if _bool(strict) then
@@ -4111,7 +4111,7 @@ end
 
 options.paramSet[key] = true;
 end);
-parseParam = (function (this, options)
+parseParam = _func(function(this, options)
 local def,i,params,param,token;
 params = _arr({},0);
 token = lookahead;
@@ -4125,9 +4125,9 @@ end
 
 param = parsePatternWithDefault(_ENV,params);
 i = 0;
-while (i<params.length) do
+while (_lt(i,params.length)) do
 validateParam(_ENV,options,params[i],params[i].value);
-i = i + 1;
+i = _inc(i);
 end
 
 if (param.type == Syntax.AssignmentPattern) then
@@ -4140,7 +4140,7 @@ options.params:push(param);
 options.defaults:push(def);
 do return not _bool(match(_ENV,")")); end
 end);
-parseParams = (function (this, firstRestricted)
+parseParams = _func(function(this, firstRestricted)
 local options;
 options = _obj({
 ["params"] = _arr({},0),
@@ -4175,7 +4175,7 @@ do return _obj({
 ["message"] = options.message
 }); end
 end);
-parseFunctionDeclaration = (function (this, node, identifierIsOptional)
+parseFunctionDeclaration = _func(function(this, node, identifierIsOptional)
 local previousAllowYield,isGenerator,previousStrict,message,firstRestricted,tmp,stricted,token,body,defaults,params,id;
 id = null;
 params = _arr({},0);
@@ -4232,7 +4232,7 @@ strict = previousStrict;
 state.allowYield = previousAllowYield;
 do return node:finishFunctionDeclaration(id,params,defaults,body,isGenerator); end
 end);
-parseFunctionExpression = (function (this)
+parseFunctionExpression = _func(function(this)
 local previousAllowYield,isGenerator,node,previousStrict,body,defaults,params,tmp,message,firstRestricted,stricted,id,token;
 id = null;
 params = _arr({},0);
@@ -4290,7 +4290,7 @@ strict = previousStrict;
 state.allowYield = previousAllowYield;
 do return node:finishFunctionExpression(id,params,defaults,body,isGenerator); end
 end);
-parseClassBody = (function (this)
+parseClassBody = _func(function(this)
 local key,computed,method,body,hasConstructor,isStatic,token,classBody;
 hasConstructor = false;
 classBody = _new(Node);
@@ -4369,7 +4369,7 @@ end
 lex(_ENV);
 do return classBody:finishClassBody(body); end
 end);
-parseClassDeclaration = (function (this, identifierIsOptional)
+parseClassDeclaration = _func(function(this, identifierIsOptional)
 local previousStrict,classBody,classNode,superClass,id;
 id = null;
 superClass = null;
@@ -4390,7 +4390,7 @@ classBody = parseClassBody(_ENV);
 strict = previousStrict;
 do return classNode:finishClassDeclaration(id,superClass,classBody); end
 end);
-parseClassExpression = (function (this)
+parseClassExpression = _func(function(this)
 local previousStrict,classBody,classNode,superClass,id;
 id = null;
 superClass = null;
@@ -4411,7 +4411,7 @@ classBody = parseClassBody(_ENV);
 strict = previousStrict;
 do return classNode:finishClassExpression(id,superClass,classBody); end
 end);
-parseModuleSpecifier = (function (this)
+parseModuleSpecifier = _func(function(this)
 local node;
 node = _new(Node);
 if (lookahead.type ~= Token.StringLiteral) then
@@ -4420,7 +4420,7 @@ end
 
 do return node:finishLiteral(lex(_ENV)); end
 end);
-parseExportSpecifier = (function (this)
+parseExportSpecifier = _func(function(this)
 local def,node,_g_local,exported;
 node = _new(Node);
 if _bool(matchKeyword(_ENV,"default")) then
@@ -4438,7 +4438,7 @@ end
 
 do return node:finishExportSpecifier(_g_local,exported); end
 end);
-parseExportNamedDeclaration = (function (this, node)
+parseExportNamedDeclaration = _func(function(this, node)
 local specifiers,src,isExportFromIdentifier,declaration;
 declaration = null;
 src = null;
@@ -4508,7 +4508,7 @@ end
 
 do return node:finishExportNamedDeclaration(declaration,specifiers,src); end
 end);
-parseExportDefaultDeclaration = (function (this, node)
+parseExportDefaultDeclaration = _func(function(this, node)
 local expression,declaration;
 declaration = null;
 expression = null;
@@ -4538,7 +4538,7 @@ end
 consumeSemicolon(_ENV);
 do return node:finishExportDefaultDeclaration(expression); end
 end);
-parseExportAllDeclaration = (function (this, node)
+parseExportAllDeclaration = _func(function(this, node)
 local src;
 expect(_ENV,"*");
 if not _bool(matchContextualKeyword(_ENV,"from")) then
@@ -4550,7 +4550,7 @@ src = parseModuleSpecifier(_ENV);
 consumeSemicolon(_ENV);
 do return node:finishExportAllDeclaration(src); end
 end);
-parseExportDeclaration = (function (this)
+parseExportDeclaration = _func(function(this)
 local node;
 node = _new(Node);
 if _bool(state.inFunctionBody) then
@@ -4568,7 +4568,7 @@ end
 
 do return parseExportNamedDeclaration(_ENV,node); end
 end);
-parseImportSpecifier = (function (this)
+parseImportSpecifier = _func(function(this)
 local node,imported,_g_local;
 node = _new(Node);
 imported = parseNonComputedProperty(_ENV);
@@ -4579,7 +4579,7 @@ end
 
 do return node:finishImportSpecifier(_g_local,imported); end
 end);
-parseNamedImports = (function (this)
+parseNamedImports = _func(function(this)
 local specifiers;
 specifiers = _arr({},0);
 expect(_ENV,"{");
@@ -4599,13 +4599,13 @@ end
 expect(_ENV,"}");
 do return specifiers; end
 end);
-parseImportDefaultSpecifier = (function (this)
+parseImportDefaultSpecifier = _func(function(this)
 local node,_g_local;
 node = _new(Node);
 _g_local = parseNonComputedProperty(_ENV);
 do return node:finishImportDefaultSpecifier(_g_local); end
 end);
-parseImportNamespaceSpecifier = (function (this)
+parseImportNamespaceSpecifier = _func(function(this)
 local node,_g_local;
 node = _new(Node);
 expect(_ENV,"*");
@@ -4617,7 +4617,7 @@ lex(_ENV);
 _g_local = parseNonComputedProperty(_ENV);
 do return node:finishImportNamespaceSpecifier(_g_local); end
 end);
-parseImportDeclaration = (function (this)
+parseImportDeclaration = _func(function(this)
 local node,src,specifiers;
 specifiers = _arr({},0);
 node = _new(Node);
@@ -4662,7 +4662,7 @@ end
 consumeSemicolon(_ENV);
 do return node:finishImportDeclaration(specifiers,src); end
 end);
-parseScriptBody = (function (this)
+parseScriptBody = _func(function(this)
 local firstRestricted,directive,token,body,statement;
 body = _arr({},0);
 while (_lt(startIndex,length)) do
@@ -4706,18 +4706,18 @@ end
 
 do return body; end
 end);
-parseProgram = (function (this)
+parseProgram = _func(function(this)
 local node,body;
 peek(_ENV);
 node = _new(Node);
 body = parseScriptBody(_ENV);
 do return node:finishProgram(body,state.sourceType); end
 end);
-filterTokenLocation = (function (this)
+filterTokenLocation = _func(function(this)
 local tokens,token,entry,i;
 tokens = _arr({},0);
 i = 0;
-while (i<extra.tokens.length) do
+while (_lt(i,extra.tokens.length)) do
 entry = extra.tokens[i];
 token = _obj({
 ["type"] = entry.type,
@@ -4739,12 +4739,12 @@ token.loc = entry.loc;
 end
 
 tokens:push(token);
-i = i + 1;
+i = _inc(i);
 end
 
 extra.tokens = tokens;
 end);
-tokenize = (function (this, code, options, delegate)
+tokenize = _func(function(this, code, options, delegate)
 local tokens,toString;
 toString = String;
 if ((function() local _lev=(_type(code) ~= "string"); if _bool(_lev) then return not (_instanceof(code,String)); else return _lev; end end)()) then
@@ -4840,7 +4840,7 @@ end
 
 do return tokens; end
 end);
-parse = (function (this, code, options)
+parse = _func(function(this, code, options)
 local toString,program;
 toString = String;
 if ((function() local _lev=(_type(code) ~= "string"); if _bool(_lev) then return not (_instanceof(code,String)); else return _lev; end end)()) then
@@ -5080,7 +5080,7 @@ Regex = _obj({
 ["NonAsciiIdentifierPart"] = _regexp("[\\xAA\\xB5\\xB7\\xBA\\xC0-\\xD6\\xD8-\\xF6\\xF8-\203\129\203\134-\203\145\203\160-\203\164\203\172\203\174\204\128-\205\180\205\182\205\183\205\186-\205\189\205\191\206\134-\206\138\206\140\206\142-\206\161\206\163-\207\181\207\183-\210\129\210\131-\210\135\210\138-\212\175\212\177-\213\150\213\153\213\161-\214\135\214\145-\214\189\214\191\215\129\215\130\215\132\215\133\215\135\215\144-\215\170\215\176-\215\178\216\144-\216\154\216\160-\217\169\217\174-\219\147\219\149-\219\156\219\159-\219\168\219\170-\219\188\219\191\220\144-\221\138\221\141-\222\177\223\128-\223\181\223\186\224\160\128-\224\160\173\224\161\128-\224\161\155\224\162\160-\224\162\178\224\163\164-\224\165\163\224\165\166-\224\165\175\224\165\177-\224\166\131\224\166\133-\224\166\140\224\166\143\224\166\144\224\166\147-\224\166\168\224\166\170-\224\166\176\224\166\178\224\166\182-\224\166\185\224\166\188-\224\167\132\224\167\135\224\167\136\224\167\139-\224\167\142\224\167\151\224\167\156\224\167\157\224\167\159-\224\167\163\224\167\166-\224\167\177\224\168\129-\224\168\131\224\168\133-\224\168\138\224\168\143\224\168\144\224\168\147-\224\168\168\224\168\170-\224\168\176\224\168\178\224\168\179\224\168\181\224\168\182\224\168\184\224\168\185\224\168\188\224\168\190-\224\169\130\224\169\135\224\169\136\224\169\139-\224\169\141\224\169\145\224\169\153-\224\169\156\224\169\158\224\169\166-\224\169\181\224\170\129-\224\170\131\224\170\133-\224\170\141\224\170\143-\224\170\145\224\170\147-\224\170\168\224\170\170-\224\170\176\224\170\178\224\170\179\224\170\181-\224\170\185\224\170\188-\224\171\133\224\171\135-\224\171\137\224\171\139-\224\171\141\224\171\144\224\171\160-\224\171\163\224\171\166-\224\171\175\224\172\129-\224\172\131\224\172\133-\224\172\140\224\172\143\224\172\144\224\172\147-\224\172\168\224\172\170-\224\172\176\224\172\178\224\172\179\224\172\181-\224\172\185\224\172\188-\224\173\132\224\173\135\224\173\136\224\173\139-\224\173\141\224\173\150\224\173\151\224\173\156\224\173\157\224\173\159-\224\173\163\224\173\166-\224\173\175\224\173\177\224\174\130\224\174\131\224\174\133-\224\174\138\224\174\142-\224\174\144\224\174\146-\224\174\149\224\174\153\224\174\154\224\174\156\224\174\158\224\174\159\224\174\163\224\174\164\224\174\168-\224\174\170\224\174\174-\224\174\185\224\174\190-\224\175\130\224\175\134-\224\175\136\224\175\138-\224\175\141\224\175\144\224\175\151\224\175\166-\224\175\175\224\176\128-\224\176\131\224\176\133-\224\176\140\224\176\142-\224\176\144\224\176\146-\224\176\168\224\176\170-\224\176\185\224\176\189-\224\177\132\224\177\134-\224\177\136\224\177\138-\224\177\141\224\177\149\224\177\150\224\177\152\224\177\153\224\177\160-\224\177\163\224\177\166-\224\177\175\224\178\129-\224\178\131\224\178\133-\224\178\140\224\178\142-\224\178\144\224\178\146-\224\178\168\224\178\170-\224\178\179\224\178\181-\224\178\185\224\178\188-\224\179\132\224\179\134-\224\179\136\224\179\138-\224\179\141\224\179\149\224\179\150\224\179\158\224\179\160-\224\179\163\224\179\166-\224\179\175\224\179\177\224\179\178\224\180\129-\224\180\131\224\180\133-\224\180\140\224\180\142-\224\180\144\224\180\146-\224\180\186\224\180\189-\224\181\132\224\181\134-\224\181\136\224\181\138-\224\181\142\224\181\151\224\181\160-\224\181\163\224\181\166-\224\181\175\224\181\186-\224\181\191\224\182\130\224\182\131\224\182\133-\224\182\150\224\182\154-\224\182\177\224\182\179-\224\182\187\224\182\189\224\183\128-\224\183\134\224\183\138\224\183\143-\224\183\148\224\183\150\224\183\152-\224\183\159\224\183\166-\224\183\175\224\183\178\224\183\179\224\184\129-\224\184\186\224\185\128-\224\185\142\224\185\144-\224\185\153\224\186\129\224\186\130\224\186\132\224\186\135\224\186\136\224\186\138\224\186\141\224\186\148-\224\186\151\224\186\153-\224\186\159\224\186\161-\224\186\163\224\186\165\224\186\167\224\186\170\224\186\171\224\186\173-\224\186\185\224\186\187-\224\186\189\224\187\128-\224\187\132\224\187\134\224\187\136-\224\187\141\224\187\144-\224\187\153\224\187\156-\224\187\159\224\188\128\224\188\152\224\188\153\224\188\160-\224\188\169\224\188\181\224\188\183\224\188\185\224\188\190-\224\189\135\224\189\137-\224\189\172\224\189\177-\224\190\132\224\190\134-\224\190\151\224\190\153-\224\190\188\224\191\134\225\128\128-\225\129\137\225\129\144-\225\130\157\225\130\160-\225\131\133\225\131\135\225\131\141\225\131\144-\225\131\186\225\131\188-\225\137\136\225\137\138-\225\137\141\225\137\144-\225\137\150\225\137\152\225\137\154-\225\137\157\225\137\160-\225\138\136\225\138\138-\225\138\141\225\138\144-\225\138\176\225\138\178-\225\138\181\225\138\184-\225\138\190\225\139\128\225\139\130-\225\139\133\225\139\136-\225\139\150\225\139\152-\225\140\144\225\140\146-\225\140\149\225\140\152-\225\141\154\225\141\157-\225\141\159\225\141\169-\225\141\177\225\142\128-\225\142\143\225\142\160-\225\143\180\225\144\129-\225\153\172\225\153\175-\225\153\191\225\154\129-\225\154\154\225\154\160-\225\155\170\225\155\174-\225\155\184\225\156\128-\225\156\140\225\156\142-\225\156\148\225\156\160-\225\156\180\225\157\128-\225\157\147\225\157\160-\225\157\172\225\157\174-\225\157\176\225\157\178\225\157\179\225\158\128-\225\159\147\225\159\151\225\159\156\225\159\157\225\159\160-\225\159\169\225\160\139-\225\160\141\225\160\144-\225\160\153\225\160\160-\225\161\183\225\162\128-\225\162\170\225\162\176-\225\163\181\225\164\128-\225\164\158\225\164\160-\225\164\171\225\164\176-\225\164\187\225\165\134-\225\165\173\225\165\176-\225\165\180\225\166\128-\225\166\171\225\166\176-\225\167\137\225\167\144-\225\167\154\225\168\128-\225\168\155\225\168\160-\225\169\158\225\169\160-\225\169\188\225\169\191-\225\170\137\225\170\144-\225\170\153\225\170\167\225\170\176-\225\170\189\225\172\128-\225\173\139\225\173\144-\225\173\153\225\173\171-\225\173\179\225\174\128-\225\175\179\225\176\128-\225\176\183\225\177\128-\225\177\137\225\177\141-\225\177\189\225\179\144-\225\179\146\225\179\148-\225\179\182\225\179\184\225\179\185\225\180\128-\225\183\181\225\183\188-\225\188\149\225\188\152-\225\188\157\225\188\160-\225\189\133\225\189\136-\225\189\141\225\189\144-\225\189\151\225\189\153\225\189\155\225\189\157\225\189\159-\225\189\189\225\190\128-\225\190\180\225\190\182-\225\190\188\225\190\190\225\191\130-\225\191\132\225\191\134-\225\191\140\225\191\144-\225\191\147\225\191\150-\225\191\155\225\191\160-\225\191\172\225\191\178-\225\191\180\225\191\182-\225\191\188\226\128\140\226\128\141\226\128\191\226\129\128\226\129\148\226\129\177\226\129\191\226\130\144-\226\130\156\226\131\144-\226\131\156\226\131\161\226\131\165-\226\131\176\226\132\130\226\132\135\226\132\138-\226\132\147\226\132\149\226\132\152-\226\132\157\226\132\164\226\132\166\226\132\168\226\132\170-\226\132\185\226\132\188-\226\132\191\226\133\133-\226\133\137\226\133\142\226\133\160-\226\134\136\226\176\128-\226\176\174\226\176\176-\226\177\158\226\177\160-\226\179\164\226\179\171-\226\179\179\226\180\128-\226\180\165\226\180\167\226\180\173\226\180\176-\226\181\167\226\181\175\226\181\191-\226\182\150\226\182\160-\226\182\166\226\182\168-\226\182\174\226\182\176-\226\182\182\226\182\184-\226\182\190\226\183\128-\226\183\134\226\183\136-\226\183\142\226\183\144-\226\183\150\226\183\152-\226\183\158\226\183\160-\226\183\191\227\128\133-\227\128\135\227\128\161-\227\128\175\227\128\177-\227\128\181\227\128\184-\227\128\188\227\129\129-\227\130\150\227\130\153-\227\130\159\227\130\161-\227\131\186\227\131\188-\227\131\191\227\132\133-\227\132\173\227\132\177-\227\134\142\227\134\160-\227\134\186\227\135\176-\227\135\191\227\144\128-\228\182\181\228\184\128-\233\191\140\234\128\128-\234\146\140\234\147\144-\234\147\189\234\148\128-\234\152\140\234\152\144-\234\152\171\234\153\128-\234\153\175\234\153\180-\234\153\189\234\153\191-\234\154\157\234\154\159-\234\155\177\234\156\151-\234\156\159\234\156\162-\234\158\136\234\158\139-\234\158\142\234\158\144-\234\158\173\234\158\176\234\158\177\234\159\183-\234\160\167\234\161\128-\234\161\179\234\162\128-\234\163\132\234\163\144-\234\163\153\234\163\160-\234\163\183\234\163\187\234\164\128-\234\164\173\234\164\176-\234\165\147\234\165\160-\234\165\188\234\166\128-\234\167\128\234\167\143-\234\167\153\234\167\160-\234\167\190\234\168\128-\234\168\182\234\169\128-\234\169\141\234\169\144-\234\169\153\234\169\160-\234\169\182\234\169\186-\234\171\130\234\171\155-\234\171\157\234\171\160-\234\171\175\234\171\178-\234\171\182\234\172\129-\234\172\134\234\172\137-\234\172\142\234\172\145-\234\172\150\234\172\160-\234\172\166\234\172\168-\234\172\174\234\172\176-\234\173\154\234\173\156-\234\173\159\234\173\164\234\173\165\234\175\128-\234\175\170\234\175\172\234\175\173\234\175\176-\234\175\185\234\176\128-\237\158\163\237\158\176-\237\159\134\237\159\139-\237\159\187\239\164\128-\239\169\173\239\169\176-\239\171\153\239\172\128-\239\172\134\239\172\147-\239\172\151\239\172\157-\239\172\168\239\172\170-\239\172\182\239\172\184-\239\172\188\239\172\190\239\173\128\239\173\129\239\173\131\239\173\132\239\173\134-\239\174\177\239\175\147-\239\180\189\239\181\144-\239\182\143\239\182\146-\239\183\135\239\183\176-\239\183\187\239\184\128-\239\184\143\239\184\160-\239\184\173\239\184\179\239\184\180\239\185\141-\239\185\143\239\185\176-\239\185\180\239\185\182-\239\187\188\239\188\144-\239\188\153\239\188\161-\239\188\186\239\188\191\239\189\129-\239\189\154\239\189\166-\239\190\190\239\191\130-\239\191\135\239\191\138-\239\191\143\239\191\146-\239\191\151\239\191\154-\239\191\156]|\240\144\128\128[\240\144\128\128-\240\146\176\128\240\147\144\128-\240\153\160\128\240\154\128\128-\240\158\160\128\240\159\128\128\240\159\144\128\240\159\176\128-\240\163\144\128\240\164\128\128-\240\167\144\128\240\176\128\128-\241\142\160\128\241\160\128\128-\241\173\128\128\242\143\144\128\242\176\128\128-\242\183\128\128\242\184\128\128-\243\132\128\128\243\136\128\128\243\144\128\128-\243\151\176\128\243\156\128\128-\243\162\160\128\243\164\128\128-\243\174\160\128\243\176\128\128-\243\183\144\128\243\184\128\128-\244\128\176\128\244\130\128\128-\244\131\176\128\244\132\144\128-\244\133\144\128]|\240\144\144\128[\240\144\128\128-\240\183\144\128\240\184\128\128-\240\186\144\128\241\144\128\128-\241\153\176\128\241\156\128\128-\241\168\176\128\242\144\128\128-\243\157\160\128\243\160\128\128-\243\165\144\128\243\168\128\128-\243\169\176\128]|\240\144\160\128[\240\144\128\128-\240\145\144\128\240\146\128\128\240\146\160\128-\240\157\144\128\240\157\176\128\240\158\128\128\240\159\128\128\240\159\176\128-\240\165\144\128\240\168\128\128-\240\173\160\128\240\176\128\128-\240\183\160\128\241\144\128\128-\241\149\144\128\241\152\128\128-\241\158\144\128\241\176\128\128-\241\189\176\128\241\191\160\128\241\191\176\128\242\144\128\128-\242\144\176\128\242\145\144\128\242\145\160\128\242\147\128\128-\242\148\176\128\242\149\144\128-\242\149\176\128\242\150\144\128-\242\156\176\128\242\158\128\128-\242\158\160\128\242\159\176\128\242\168\128\128-\242\175\128\128\242\176\128\128-\242\183\128\128\243\128\128\128-\243\129\176\128\243\130\144\128-\243\137\160\128\243\144\128\128-\243\157\144\128\243\160\128\128-\243\165\144\128\243\168\128\128-\243\172\160\128\243\176\128\128-\243\180\144\128]|\240\144\176\128[\240\144\128\128-\240\162\128\128]|\240\145\128\128[\240\144\128\128-\240\161\160\128\240\169\160\128-\240\171\176\128\240\175\176\128-\240\190\160\128\241\132\128\128-\241\138\128\128\241\140\128\128-\241\142\144\128\241\144\128\128-\241\157\128\128\241\157\160\128-\241\159\176\128\241\164\128\128-\241\172\176\128\241\173\160\128\241\176\128\128-\242\129\128\128\242\132\128\128-\242\134\160\128\242\144\128\128-\242\148\144\128\242\148\176\128-\242\157\176\128\242\188\128\128-\243\138\160\128\243\140\128\128-\243\142\144\128\243\144\144\128-\243\144\176\128\243\145\144\128-\243\147\128\128\243\147\176\128\243\148\128\128\243\148\176\128-\243\154\128\128\243\154\160\128-\243\156\128\128\243\156\160\128\243\156\176\128\243\157\144\128-\243\158\144\128\243\159\128\128-\243\161\128\128\243\161\176\128\243\162\128\128\243\162\176\128-\243\163\144\128\243\165\176\128\243\167\144\128-\243\168\176\128\243\169\160\128-\243\171\128\128\243\172\128\128-\243\173\128\128]|\240\145\144\128[\240\176\128\128-\241\129\144\128\241\129\176\128\241\132\128\128-\241\134\144\128\241\176\128\128-\241\189\144\128\241\190\128\128-\242\128\128\128\242\144\128\128-\242\160\128\128\242\161\128\128\242\164\128\128-\242\166\144\128\242\176\128\128-\242\189\176\128\243\128\128\128-\243\130\144\128]|\240\145\160\128[\240\184\128\128-\241\138\144\128\241\143\176\128\243\128\128\128-\243\142\128\128]|\240\146\128\128[\240\144\128\128-\243\182\128\128]|\240\146\144\128[\240\144\128\128-\240\171\160\128]|[\240\147\128\128\240\160\128\128-\240\170\128\128\240\170\160\128-\240\171\128\128][\240\144\128\128-\244\143\176\128]|\240\147\144\128[\240\144\128\128-\240\155\160\128]|\240\150\160\128[\240\144\128\128-\242\158\128\128\242\160\128\128-\242\167\160\128\242\168\128\128-\242\170\144\128\243\132\128\128-\243\139\144\128\243\140\128\128-\243\141\128\128\243\144\128\128-\243\157\160\128\243\160\128\128-\243\160\176\128\243\164\128\128-\243\166\144\128\243\168\176\128-\243\173\176\128\243\175\144\128-\243\179\176\128]|\240\150\176\128[\243\144\128\128-\243\161\128\128\243\164\128\128-\243\175\160\128\243\179\176\128-\243\183\176\128]|\240\155\128\128[\240\144\128\128\240\144\144\128]|\240\155\176\128[\240\144\128\128-\240\170\160\128\240\172\128\128-\240\175\128\128\240\176\128\128-\240\178\128\128\240\180\128\128-\240\182\144\128\240\183\144\128\240\183\160\128]|\240\157\128\128[\241\169\144\128-\241\170\144\128\241\171\144\128-\241\172\160\128\241\174\176\128-\241\176\160\128\241\177\144\128-\241\178\176\128\241\186\160\128-\241\187\144\128\242\160\160\128-\242\161\128\128]|\240\157\144\128[\240\144\128\128-\240\165\128\128\240\165\160\128-\240\183\128\128\240\183\160\128\240\183\176\128\240\184\160\128\240\185\144\128\240\185\160\128\240\186\144\128-\240\187\128\128\240\187\160\128-\240\190\144\128\240\190\176\128\240\191\144\128-\241\128\176\128\241\129\144\128-\241\145\144\128\241\145\176\128-\241\146\160\128\241\147\144\128-\241\149\128\128\241\149\160\128-\241\151\128\128\241\151\160\128-\241\158\144\128\241\158\176\128-\241\159\160\128\241\160\128\128-\241\161\128\128\241\161\160\128\241\162\160\128-\241\164\128\128\241\164\160\128-\242\185\144\128\242\186\128\128-\243\128\128\128\243\128\160\128-\243\134\160\128\243\135\128\128-\243\142\160\128\243\143\128\128-\243\149\128\128\243\149\160\128-\243\157\128\128\243\157\160\128-\243\163\160\128\243\164\128\128-\243\171\160\128\243\172\128\128-\243\178\128\128\243\178\160\128-\243\186\128\128\243\186\160\128-\244\128\160\128\244\129\128\128-\244\130\176\128\244\131\160\128-\244\143\176\128]|\240\158\160\128[\240\144\128\128-\241\129\128\128\241\132\128\128-\241\133\160\128]|\240\158\176\128[\242\144\128\128-\242\144\176\128\242\145\144\128-\242\151\176\128\242\152\144\128\242\152\160\128\242\153\128\128\242\153\176\128\242\154\144\128-\242\156\160\128\242\157\128\128-\242\157\176\128\242\158\144\128\242\158\176\128\242\160\160\128\242\161\176\128\242\162\144\128\242\162\176\128\242\163\144\128-\242\163\176\128\242\164\144\128\242\164\160\128\242\165\128\128\242\165\176\128\242\166\144\128\242\166\176\128\242\167\144\128\242\167\176\128\242\168\144\128\242\168\160\128\242\169\128\128\242\169\176\128-\242\170\160\128\242\171\128\128-\242\172\160\128\242\173\128\128-\242\173\176\128\242\174\144\128-\242\175\128\128\242\175\160\128\242\176\128\128-\242\178\144\128\242\178\176\128-\242\182\176\128\242\184\144\128-\242\184\176\128\242\185\144\128-\242\186\144\128\242\186\176\128-\242\190\176\128]|\240\170\144\128[\240\144\128\128-\243\133\160\128\243\144\128\128-\244\143\176\128]|\240\171\144\128[\240\144\128\128-\243\157\128\128\243\160\128\128-\244\143\176\128]|\240\171\160\128[\240\144\128\128-\240\151\144\128]|\240\175\160\128[\240\144\128\128-\242\151\144\128]|\243\160\128\128[\241\144\128\128-\242\139\176\128]","")
 });
 WrappingNode.prototype = (function() Node.prototype = _obj({
-["processComment"] = (function (this)
+["processComment"] = _func(function(this)
 local last,comment,i,bottomRight,trailingComments,leadingComments,innerComments,lastChild;
 bottomRight = extra.bottomRightStack;
 last = bottomRight[(bottomRight.length - 1)];
@@ -5094,7 +5094,7 @@ end
 if ((function() local _lev=(this.type == Syntax.BlockStatement); if _bool(_lev) then return (this.body.length == 0); else return _lev; end end)()) then
 innerComments = _arr({},0);
 i = (extra.leadingComments.length - 1);
-while (i>=0) do
+while (_ge(i,0)) do
 comment = extra.leadingComments[i];
 if (_ge(this.range[1],comment.range[1])) then
 innerComments:unshift(comment);
@@ -5102,7 +5102,7 @@ extra.leadingComments:splice(i,1);
 extra.trailingComments:splice(i,1);
 end
 
-i = i - 1;
+i = _dec(i);
 end
 
 if _bool(innerComments.length) then
@@ -5115,14 +5115,14 @@ end
 if (_gt(extra.trailingComments.length,0)) then
 trailingComments = _arr({},0);
 i = (extra.trailingComments.length - 1);
-while (i>=0) do
+while (_ge(i,0)) do
 comment = extra.trailingComments[i];
 if (_ge(comment.range[0],this.range[1])) then
 trailingComments:unshift(comment);
 extra.trailingComments:splice(i,1);
 end
 
-i = i - 1;
+i = _dec(i);
 end
 
 extra.trailingComments = _arr({},0);
@@ -5145,14 +5145,14 @@ if _bool(lastChild) then
 if _bool(lastChild.leadingComments) then
 leadingComments = _arr({},0);
 i = (lastChild.leadingComments.length - 1);
-while (i>=0) do
+while (_ge(i,0)) do
 comment = lastChild.leadingComments[i];
 if (_le(comment.range[1],this.range[0])) then
 leadingComments:unshift(comment);
 lastChild.leadingComments:splice(i,1);
 end
 
-i = i - 1;
+i = _dec(i);
 end
 
 if not _bool(lastChild.leadingComments.length) then
@@ -5164,14 +5164,14 @@ end
 elseif (_gt(extra.leadingComments.length,0)) then
 leadingComments = _arr({},0);
 i = (extra.leadingComments.length - 1);
-while (i>=0) do
+while (_ge(i,0)) do
 comment = extra.leadingComments[i];
 if (_le(comment.range[1],this.range[0])) then
 leadingComments:unshift(comment);
 extra.leadingComments:splice(i,1);
 end
 
-i = i - 1;
+i = _dec(i);
 end
 
 end
@@ -5186,7 +5186,7 @@ end
 
 bottomRight:push(this);
 end),
-["finish"] = (function (this)
+["finish"] = _func(function(this)
 if _bool(extra.range) then
 this.range[1] = lastIndex;
 end
@@ -5207,19 +5207,19 @@ this:processComment();
 end
 
 end),
-["finishArrayExpression"] = (function (this, elements)
+["finishArrayExpression"] = _func(function(this, elements)
 this.type = Syntax.ArrayExpression;
 this.elements = elements;
 this:finish();
 do return this; end
 end),
-["finishArrayPattern"] = (function (this, elements)
+["finishArrayPattern"] = _func(function(this, elements)
 this.type = Syntax.ArrayPattern;
 this.elements = elements;
 this:finish();
 do return this; end
 end),
-["finishArrowFunctionExpression"] = (function (this, params, defaults, body, expression)
+["finishArrowFunctionExpression"] = _func(function(this, params, defaults, body, expression)
 this.type = Syntax.ArrowFunctionExpression;
 this.id = null;
 this.params = params;
@@ -5230,7 +5230,7 @@ this.expression = expression;
 this:finish();
 do return this; end
 end),
-["finishAssignmentExpression"] = (function (this, operator, left, right)
+["finishAssignmentExpression"] = _func(function(this, operator, left, right)
 this.type = Syntax.AssignmentExpression;
 this.operator = operator;
 this.left = left;
@@ -5238,14 +5238,14 @@ this.right = right;
 this:finish();
 do return this; end
 end),
-["finishAssignmentPattern"] = (function (this, left, right)
+["finishAssignmentPattern"] = _func(function(this, left, right)
 this.type = Syntax.AssignmentPattern;
 this.left = left;
 this.right = right;
 this:finish();
 do return this; end
 end),
-["finishBinaryExpression"] = (function (this, operator, left, right)
+["finishBinaryExpression"] = _func(function(this, operator, left, right)
 this.type = (function() if ((function() local _lev=(operator == "||"); return _bool(_lev) and _lev or (operator == "&&") end)()) then return Syntax.LogicalExpression; else return Syntax.BinaryExpression; end end)();
 this.operator = operator;
 this.left = left;
@@ -5253,19 +5253,19 @@ this.right = right;
 this:finish();
 do return this; end
 end),
-["finishBlockStatement"] = (function (this, body)
+["finishBlockStatement"] = _func(function(this, body)
 this.type = Syntax.BlockStatement;
 this.body = body;
 this:finish();
 do return this; end
 end),
-["finishBreakStatement"] = (function (this, label)
+["finishBreakStatement"] = _func(function(this, label)
 this.type = Syntax.BreakStatement;
 this.label = label;
 this:finish();
 do return this; end
 end),
-["finishCallExpression"] = (function (...)
+["finishCallExpression"] = _func(function(...)
 local this, callee, args = ...;
 local arguments = _args(...);
 this.type = Syntax.CallExpression;
@@ -5274,20 +5274,20 @@ this.arguments = args;
 this:finish();
 do return this; end
 end),
-["finishCatchClause"] = (function (this, param, body)
+["finishCatchClause"] = _func(function(this, param, body)
 this.type = Syntax.CatchClause;
 this.param = param;
 this.body = body;
 this:finish();
 do return this; end
 end),
-["finishClassBody"] = (function (this, body)
+["finishClassBody"] = _func(function(this, body)
 this.type = Syntax.ClassBody;
 this.body = body;
 this:finish();
 do return this; end
 end),
-["finishClassDeclaration"] = (function (this, id, superClass, body)
+["finishClassDeclaration"] = _func(function(this, id, superClass, body)
 this.type = Syntax.ClassDeclaration;
 this.id = id;
 this.superClass = superClass;
@@ -5295,7 +5295,7 @@ this.body = body;
 this:finish();
 do return this; end
 end),
-["finishClassExpression"] = (function (this, id, superClass, body)
+["finishClassExpression"] = _func(function(this, id, superClass, body)
 this.type = Syntax.ClassExpression;
 this.id = id;
 this.superClass = superClass;
@@ -5303,7 +5303,7 @@ this.body = body;
 this:finish();
 do return this; end
 end),
-["finishConditionalExpression"] = (function (this, test, consequent, alternate)
+["finishConditionalExpression"] = _func(function(this, test, consequent, alternate)
 this.type = Syntax.ConditionalExpression;
 this.test = test;
 this.consequent = consequent;
@@ -5311,36 +5311,36 @@ this.alternate = alternate;
 this:finish();
 do return this; end
 end),
-["finishContinueStatement"] = (function (this, label)
+["finishContinueStatement"] = _func(function(this, label)
 this.type = Syntax.ContinueStatement;
 this.label = label;
 this:finish();
 do return this; end
 end),
-["finishDebuggerStatement"] = (function (this)
+["finishDebuggerStatement"] = _func(function(this)
 this.type = Syntax.DebuggerStatement;
 this:finish();
 do return this; end
 end),
-["finishDoWhileStatement"] = (function (this, body, test)
+["finishDoWhileStatement"] = _func(function(this, body, test)
 this.type = Syntax.DoWhileStatement;
 this.body = body;
 this.test = test;
 this:finish();
 do return this; end
 end),
-["finishEmptyStatement"] = (function (this)
+["finishEmptyStatement"] = _func(function(this)
 this.type = Syntax.EmptyStatement;
 this:finish();
 do return this; end
 end),
-["finishExpressionStatement"] = (function (this, expression)
+["finishExpressionStatement"] = _func(function(this, expression)
 this.type = Syntax.ExpressionStatement;
 this.expression = expression;
 this:finish();
 do return this; end
 end),
-["finishForStatement"] = (function (this, init, test, update, body)
+["finishForStatement"] = _func(function(this, init, test, update, body)
 this.type = Syntax.ForStatement;
 this.init = init;
 this.test = test;
@@ -5349,7 +5349,7 @@ this.body = body;
 this:finish();
 do return this; end
 end),
-["finishForOfStatement"] = (function (this, left, right, body)
+["finishForOfStatement"] = _func(function(this, left, right, body)
 this.type = Syntax.ForOfStatement;
 this.left = left;
 this.right = right;
@@ -5357,7 +5357,7 @@ this.body = body;
 this:finish();
 do return this; end
 end),
-["finishForInStatement"] = (function (this, left, right, body)
+["finishForInStatement"] = _func(function(this, left, right, body)
 this.type = Syntax.ForInStatement;
 this.left = left;
 this.right = right;
@@ -5366,7 +5366,7 @@ this.each = false;
 this:finish();
 do return this; end
 end),
-["finishFunctionDeclaration"] = (function (this, id, params, defaults, body, generator)
+["finishFunctionDeclaration"] = _func(function(this, id, params, defaults, body, generator)
 this.type = Syntax.FunctionDeclaration;
 this.id = id;
 this.params = params;
@@ -5377,7 +5377,7 @@ this.expression = false;
 this:finish();
 do return this; end
 end),
-["finishFunctionExpression"] = (function (this, id, params, defaults, body, generator)
+["finishFunctionExpression"] = _func(function(this, id, params, defaults, body, generator)
 this.type = Syntax.FunctionExpression;
 this.id = id;
 this.params = params;
@@ -5388,13 +5388,13 @@ this.expression = false;
 this:finish();
 do return this; end
 end),
-["finishIdentifier"] = (function (this, name)
+["finishIdentifier"] = _func(function(this, name)
 this.type = Syntax.Identifier;
 this.name = name;
 this:finish();
 do return this; end
 end),
-["finishIfStatement"] = (function (this, test, consequent, alternate)
+["finishIfStatement"] = _func(function(this, test, consequent, alternate)
 this.type = Syntax.IfStatement;
 this.test = test;
 this.consequent = consequent;
@@ -5402,14 +5402,14 @@ this.alternate = alternate;
 this:finish();
 do return this; end
 end),
-["finishLabeledStatement"] = (function (this, label, body)
+["finishLabeledStatement"] = _func(function(this, label, body)
 this.type = Syntax.LabeledStatement;
 this.label = label;
 this.body = body;
 this:finish();
 do return this; end
 end),
-["finishLiteral"] = (function (this, token)
+["finishLiteral"] = _func(function(this, token)
 this.type = Syntax.Literal;
 this.value = token.value;
 this.raw = source:slice(token.start,token["end"]);
@@ -5420,7 +5420,7 @@ end
 this:finish();
 do return this; end
 end),
-["finishMemberExpression"] = (function (this, accessor, object, property)
+["finishMemberExpression"] = _func(function(this, accessor, object, property)
 this.type = Syntax.MemberExpression;
 this.computed = (accessor == "[");
 this.object = object;
@@ -5428,14 +5428,14 @@ this.property = property;
 this:finish();
 do return this; end
 end),
-["finishMetaProperty"] = (function (this, meta, property)
+["finishMetaProperty"] = _func(function(this, meta, property)
 this.type = Syntax.MetaProperty;
 this.meta = meta;
 this.property = property;
 this:finish();
 do return this; end
 end),
-["finishNewExpression"] = (function (...)
+["finishNewExpression"] = _func(function(...)
 local this, callee, args = ...;
 local arguments = _args(...);
 this.type = Syntax.NewExpression;
@@ -5444,19 +5444,19 @@ this.arguments = args;
 this:finish();
 do return this; end
 end),
-["finishObjectExpression"] = (function (this, properties)
+["finishObjectExpression"] = _func(function(this, properties)
 this.type = Syntax.ObjectExpression;
 this.properties = properties;
 this:finish();
 do return this; end
 end),
-["finishObjectPattern"] = (function (this, properties)
+["finishObjectPattern"] = _func(function(this, properties)
 this.type = Syntax.ObjectPattern;
 this.properties = properties;
 this:finish();
 do return this; end
 end),
-["finishPostfixExpression"] = (function (this, operator, argument)
+["finishPostfixExpression"] = _func(function(this, operator, argument)
 this.type = Syntax.UpdateExpression;
 this.operator = operator;
 this.argument = argument;
@@ -5464,14 +5464,14 @@ this.prefix = false;
 this:finish();
 do return this; end
 end),
-["finishProgram"] = (function (this, body, sourceType)
+["finishProgram"] = _func(function(this, body, sourceType)
 this.type = Syntax.Program;
 this.body = body;
 this.sourceType = sourceType;
 this:finish();
 do return this; end
 end),
-["finishProperty"] = (function (this, kind, key, computed, value, method, shorthand)
+["finishProperty"] = _func(function(this, kind, key, computed, value, method, shorthand)
 this.type = Syntax.Property;
 this.key = key;
 this.computed = computed;
@@ -5482,82 +5482,82 @@ this.shorthand = shorthand;
 this:finish();
 do return this; end
 end),
-["finishRestElement"] = (function (this, argument)
+["finishRestElement"] = _func(function(this, argument)
 this.type = Syntax.RestElement;
 this.argument = argument;
 this:finish();
 do return this; end
 end),
-["finishReturnStatement"] = (function (this, argument)
+["finishReturnStatement"] = _func(function(this, argument)
 this.type = Syntax.ReturnStatement;
 this.argument = argument;
 this:finish();
 do return this; end
 end),
-["finishSequenceExpression"] = (function (this, expressions)
+["finishSequenceExpression"] = _func(function(this, expressions)
 this.type = Syntax.SequenceExpression;
 this.expressions = expressions;
 this:finish();
 do return this; end
 end),
-["finishSpreadElement"] = (function (this, argument)
+["finishSpreadElement"] = _func(function(this, argument)
 this.type = Syntax.SpreadElement;
 this.argument = argument;
 this:finish();
 do return this; end
 end),
-["finishSwitchCase"] = (function (this, test, consequent)
+["finishSwitchCase"] = _func(function(this, test, consequent)
 this.type = Syntax.SwitchCase;
 this.test = test;
 this.consequent = consequent;
 this:finish();
 do return this; end
 end),
-["finishSuper"] = (function (this)
+["finishSuper"] = _func(function(this)
 this.type = Syntax.Super;
 this:finish();
 do return this; end
 end),
-["finishSwitchStatement"] = (function (this, discriminant, cases)
+["finishSwitchStatement"] = _func(function(this, discriminant, cases)
 this.type = Syntax.SwitchStatement;
 this.discriminant = discriminant;
 this.cases = cases;
 this:finish();
 do return this; end
 end),
-["finishTaggedTemplateExpression"] = (function (this, tag, quasi)
+["finishTaggedTemplateExpression"] = _func(function(this, tag, quasi)
 this.type = Syntax.TaggedTemplateExpression;
 this.tag = tag;
 this.quasi = quasi;
 this:finish();
 do return this; end
 end),
-["finishTemplateElement"] = (function (this, value, tail)
+["finishTemplateElement"] = _func(function(this, value, tail)
 this.type = Syntax.TemplateElement;
 this.value = value;
 this.tail = tail;
 this:finish();
 do return this; end
 end),
-["finishTemplateLiteral"] = (function (this, quasis, expressions)
+["finishTemplateLiteral"] = _func(function(this, quasis, expressions)
 this.type = Syntax.TemplateLiteral;
 this.quasis = quasis;
 this.expressions = expressions;
 this:finish();
 do return this; end
 end),
-["finishThisExpression"] = (function (this)
+["finishThisExpression"] = _func(function(this)
 this.type = Syntax.ThisExpression;
 this:finish();
 do return this; end
 end),
-["finishThrowStatement"] = (function (this, argument)
+["finishThrowStatement"] = _func(function(this, argument)
 this.type = Syntax.ThrowStatement;
 this.argument = argument;
 this:finish();
 do return this; end
 end),
-["finishTryStatement"] = (function (this, block, handler, finalizer)
+["finishTryStatement"] = _func(function(this, block, handler, finalizer)
 this.type = Syntax.TryStatement;
 this.block = block;
 this.guardedHandlers = _arr({},0);
@@ -5567,7 +5567,7 @@ this.finalizer = finalizer;
 this:finish();
 do return this; end
 end),
-["finishUnaryExpression"] = (function (this, operator, argument)
+["finishUnaryExpression"] = _func(function(this, operator, argument)
 this.type = (function() if ((function() local _lev=(operator == "++"); return _bool(_lev) and _lev or (operator == "--") end)()) then return Syntax.UpdateExpression; else return Syntax.UnaryExpression; end end)();
 this.operator = operator;
 this.argument = argument;
@@ -5575,61 +5575,61 @@ this.prefix = true;
 this:finish();
 do return this; end
 end),
-["finishVariableDeclaration"] = (function (this, declarations)
+["finishVariableDeclaration"] = _func(function(this, declarations)
 this.type = Syntax.VariableDeclaration;
 this.declarations = declarations;
 this.kind = "var";
 this:finish();
 do return this; end
 end),
-["finishLexicalDeclaration"] = (function (this, declarations, kind)
+["finishLexicalDeclaration"] = _func(function(this, declarations, kind)
 this.type = Syntax.VariableDeclaration;
 this.declarations = declarations;
 this.kind = kind;
 this:finish();
 do return this; end
 end),
-["finishVariableDeclarator"] = (function (this, id, init)
+["finishVariableDeclarator"] = _func(function(this, id, init)
 this.type = Syntax.VariableDeclarator;
 this.id = id;
 this.init = init;
 this:finish();
 do return this; end
 end),
-["finishWhileStatement"] = (function (this, test, body)
+["finishWhileStatement"] = _func(function(this, test, body)
 this.type = Syntax.WhileStatement;
 this.test = test;
 this.body = body;
 this:finish();
 do return this; end
 end),
-["finishWithStatement"] = (function (this, object, body)
+["finishWithStatement"] = _func(function(this, object, body)
 this.type = Syntax.WithStatement;
 this.object = object;
 this.body = body;
 this:finish();
 do return this; end
 end),
-["finishExportSpecifier"] = (function (this, _g_local, exported)
+["finishExportSpecifier"] = _func(function(this, _g_local, exported)
 this.type = Syntax.ExportSpecifier;
 this.exported = (_bool(exported) and exported or _g_local);
 this["local"] = _g_local;
 this:finish();
 do return this; end
 end),
-["finishImportDefaultSpecifier"] = (function (this, _g_local)
+["finishImportDefaultSpecifier"] = _func(function(this, _g_local)
 this.type = Syntax.ImportDefaultSpecifier;
 this["local"] = _g_local;
 this:finish();
 do return this; end
 end),
-["finishImportNamespaceSpecifier"] = (function (this, _g_local)
+["finishImportNamespaceSpecifier"] = _func(function(this, _g_local)
 this.type = Syntax.ImportNamespaceSpecifier;
 this["local"] = _g_local;
 this:finish();
 do return this; end
 end),
-["finishExportNamedDeclaration"] = (function (this, declaration, specifiers, src)
+["finishExportNamedDeclaration"] = _func(function(this, declaration, specifiers, src)
 this.type = Syntax.ExportNamedDeclaration;
 this.declaration = declaration;
 this.specifiers = specifiers;
@@ -5637,33 +5637,33 @@ this.source = src;
 this:finish();
 do return this; end
 end),
-["finishExportDefaultDeclaration"] = (function (this, declaration)
+["finishExportDefaultDeclaration"] = _func(function(this, declaration)
 this.type = Syntax.ExportDefaultDeclaration;
 this.declaration = declaration;
 this:finish();
 do return this; end
 end),
-["finishExportAllDeclaration"] = (function (this, src)
+["finishExportAllDeclaration"] = _func(function(this, src)
 this.type = Syntax.ExportAllDeclaration;
 this.source = src;
 this:finish();
 do return this; end
 end),
-["finishImportSpecifier"] = (function (this, _g_local, imported)
+["finishImportSpecifier"] = _func(function(this, _g_local, imported)
 this.type = Syntax.ImportSpecifier;
 this["local"] = (_bool(_g_local) and _g_local or imported);
 this.imported = imported;
 this:finish();
 do return this; end
 end),
-["finishImportDeclaration"] = (function (this, specifiers, src)
+["finishImportDeclaration"] = _func(function(this, specifiers, src)
 this.type = Syntax.ImportDeclaration;
 this.specifiers = specifiers;
 this.source = src;
 this:finish();
 do return this; end
 end),
-["finishYieldExpression"] = (function (this, argument, delegate)
+["finishYieldExpression"] = _func(function(this, argument, delegate)
 this.type = Syntax.YieldExpression;
 this.argument = argument;
 this.delegate = delegate;
@@ -5671,10 +5671,10 @@ this:finish();
 do return this; end
 end)
 }); return Node.prototype end)();
-exports.version = "2.7.3";
+exports.version = "2.7.2";
 exports.tokenize = tokenize;
 exports.parse = parse;
-exports.Syntax = (function (this)
+exports.Syntax = _func(function(this)
 local types,name;
 types = _obj({});
 if (_type(Object.create) == "function") then

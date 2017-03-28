@@ -20,16 +20,18 @@ return function(functionPrototype)
     local pack = table.pack or function(...) return {n = select('#',...),...} end
     local unpack = table.unpack or unpack
 
+    local coreObjects = require("castl.core_objects")
+
     _ENV = nil
 
-    functionPrototype.call = function(this, thisArg, ...)
+    functionPrototype.call = coreObjects.func(function(this, thisArg, ...)
         return this(thisArg, ...)
-    end
+    end)
 
-    functionPrototype.bind = function(this, thisArg, ...)
+    functionPrototype.bind = coreObjects.func(function(this, thisArg, ...)
         local argsToPrepend = pack(...)
 
-        return function(_, ...)
+        return coreObjects.func(function(_, ...)
             local argset, j = {}, 1
             local argsToAppend = pack(...)
 
@@ -44,10 +46,10 @@ return function(functionPrototype)
             end
 
             return this(thisArg, unpack(argset, 1, argsToPrepend.n + argsToAppend.n))
-        end
-    end
+        end)
+    end)
 
-    functionPrototype.apply = function(this, thisArg, argsArray)
+    functionPrototype.apply = coreObjects.func(function(this, thisArg, argsArray)
         local args, length = {}, 0
 
         if argsArray ~= nil then
@@ -58,10 +60,9 @@ return function(functionPrototype)
         end
 
         return this(thisArg, unpack(args, 1, length))
-    end
+    end)
 
-    functionPrototype.toString = function(this)
+    functionPrototype.toString = coreObjects.func(function(this)
         return "function (){}"
-    end
-
+    end)
 end

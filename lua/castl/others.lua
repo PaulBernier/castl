@@ -24,19 +24,19 @@ local print, type = print, type
 _ENV = nil
 
 others.console = coreObjects.obj({
-    log = function (self, ...)
+    log = coreObjects.func(function(self, ...)
         print(...)
-    end,
-    info = function (self, ...)
+    end),
+    info = coreObjects.func(function(self, ...)
         print(...)
-    end,
-    warn = function (self, ...)
+    end),
+    warn = coreObjects.func(function(self, ...)
         print(...)
-    end,
-    error = function (self, ...)
+    end),
+    error = coreObjects.func(function(self, ...)
         print(...)
-    end,
-    dir = function(self, o)
+    end),
+    dir = coreObjects.func(function(self, o)
         if type(o) == "string" then
             o = gsub(o, "\\", "\\\\")
             o = gsub(o, "\n", "\\n")
@@ -47,7 +47,7 @@ others.console = coreObjects.obj({
             o = "'" .. o .. "'";
         end
         print(o)
-    end
+    end)
 })
 
 return others

@@ -17,7 +17,7 @@ local internal = {}
 
 local errorHelper = require("castl.modules.error_helper")
 
-local Boolean, Number, String, new, objectToString, obj, throw
+local Boolean, Number, String, new, objectToString, obj, throw, functionMt
 
 local getmetatable, setmetatable, type, tostring, tonumber, require, rawget, rawset = getmetatable, setmetatable, type, tostring, tonumber, require, rawget, rawset
 local gsub = string.gsub
@@ -54,13 +54,14 @@ local isPrimitiveValue = internal.isPrimitiveValue
 
 -- http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.8
 function internal.defaultValueString(o)
-    if type(o.toString) == "function" then
+    functionMt = functionMt or require("castl.core_objects").functionMt
+    if getmetatable(o.toString) == functionMt then
         local value = o:toString()
         if isPrimitiveValue(value) then
             return value
         end
     end
-    if type(o.valueOf) == "function" then
+    if getmetatable(o.valueOf) == functionMt then
         local value = o:valueOf()
         if isPrimitiveValue(value) then
             return value
@@ -72,13 +73,14 @@ function internal.defaultValueString(o)
 end
 
 function internal.defaultValueNumber(o)
-    if type(o.valueOf) == "function" then
+    functionMt = functionMt or require("castl.core_objects").functionMt
+    if getmetatable(o.valueOf) == functionMt then
         local value = o:valueOf()
         if isPrimitiveValue(value) then
             return value
         end
     end
-    if type(o.toString) == "function" then
+    if getmetatable(o.toString) == functionMt then
         local value = o:toString()
         if isPrimitiveValue(value) then
             return value
@@ -171,10 +173,12 @@ setmetatable(internal.null,{
 function internal.get(self, prototype, key)
     local getterName, getter = "_g" .. tostring(key)
 
+    functionMt = functionMt or require("castl.core_objects").functionMt
+
     -- self == nil => case of built-in types: boolean, string and number
     -- they are immutable, so we don't have to look for a getter
     if self ~= nil then
-        if type(self) == "function" then self = getFunctionProxy(self) end
+        if getmetatable(self) == functionMt then self = getFunctionProxy(self) end
         getter = rawget(self, getterName)
         if getter then
             return getter(self)
@@ -183,7 +187,7 @@ function internal.get(self, prototype, key)
 
     local current, att = prototype
     while current do
-        if type(current) == "function" then current = getFunctionProxy(current) end
+        if getmetatable(current) == functionMt then current = getFunctionProxy(current) end
         -- try to get attribute
         att = rawget(current, key)
         if att ~= nil then
@@ -203,10 +207,11 @@ end
 
 function internal.put(self, key, value)
     if key == nil then return end
+    functionMt = functionMt or require("castl.core_objects").functionMt
     -- try to find a setter in
     local setterName, current, setter = "_s" .. tostring(key), self
     while current do
-        if type(current) == "function" then current = getFunctionProxy(current) end
+        if getmetatable(current) == functionMt then current = getFunctionProxy(current) end
         setter = rawget(current, setterName)
         if setter ~= nil then
             -- call setter with the good this (self, and not current)

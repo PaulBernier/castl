@@ -17,10 +17,11 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
 
-local objectToString = require("castl.core_objects").objectToString
+local coreObjects = require("castl.core_objects")
 local booleanProto = require("castl.protos").booleanProto
 local internal = require("castl.internal")
 
+local objectToString = coreObjects.objectToString
 local Boolean
 
 local setmetatable = setmetatable
@@ -38,7 +39,7 @@ local booleanPrimitive = function(var)
     end
 end
 
-Boolean = function(this, arg)
+Boolean = coreObjects.func(function(this, arg)
     -- Boolean constructor not called within a new
     if not withinNew(this, booleanProto) then
         return booleanPrimitive(arg)
@@ -68,7 +69,7 @@ Boolean = function(this, arg)
     })
 
     return o
-end
+end)
 
 Boolean.prototype = booleanProto
 booleanProto.constructor = Boolean

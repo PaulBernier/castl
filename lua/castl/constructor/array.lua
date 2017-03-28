@@ -26,7 +26,7 @@ local pack = table.pack or function(...) return {n = select('#',...),...} end
 
 _ENV = nil
 
-Array = function (this, ...)
+Array = coreObjects.func(function(this, ...)
     local args = pack(...)
     local newArray = {}
 
@@ -40,13 +40,13 @@ Array = function (this, ...)
     end
 
     return coreObjects.array(newArray, newArray.length)
-end
+end)
 
 Array.length = 1
 
-Array.isArray = function (this, arr)
+Array.isArray = coreObjects.func(function(this, arr)
     return (getmetatable(arr) or {})._prototype == arrayProto
-end
+end)
 
 Array.prototype = arrayProto
 arrayProto.constructor = Array

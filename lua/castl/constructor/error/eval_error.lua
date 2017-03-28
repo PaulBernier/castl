@@ -18,6 +18,7 @@
 
 local EvalError
 
+local coreObjects = require("castl.core_objects")
 local Error = require("castl.constructor.error.error")
 local evalErrorProto = require("castl.protos").evalErrorProto
 local internal = require("castl.internal")
@@ -27,7 +28,7 @@ local get, put, ToNumber = internal.get, internal.put, internal.ToNumber
 
 _ENV = nil
 
-EvalError = function(this, message)
+EvalError = coreObjects.func(function(this, message)
     local o = {}
     o.message = message
 
@@ -53,7 +54,7 @@ EvalError = function(this, message)
     Error:captureStackTrace(o, EvalError)
 
     return o
-end
+end)
 
 EvalError.prototype = evalErrorProto
 evalErrorProto.constructor = EvalError

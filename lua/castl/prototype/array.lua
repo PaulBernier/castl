@@ -18,7 +18,8 @@
 
 return function(arrayPrototype)
     local runtime
-    local makeArray = require("castl.core_objects").array
+    local coreObjects = require("castl.core_objects")
+    local makeArray = coreObjects.array
     local boolean = require("castl.jssupport").boolean
     local internal = require("castl.internal")
     local errorHelper = require("castl.modules.error_helper")
@@ -42,13 +43,13 @@ return function(arrayPrototype)
         return k
     end
 
-    arrayPrototype.toString = function (this)
+    arrayPrototype.toString = coreObjects.func(function(this)
         return arrayPrototype.join(this)
-    end
+    end)
 
     arrayPrototype.toLocaleString = arrayPrototype.toString
 
-    arrayPrototype.push = function (this, ...)
+    arrayPrototype.push = coreObjects.func(function(this, ...)
         local args = pack(...)
         local length = this.length
 
@@ -60,9 +61,9 @@ return function(arrayPrototype)
         rawset(this, "length", length)
 
         return length
-    end
+    end)
 
-    arrayPrototype.pop = function (this)
+    arrayPrototype.pop = coreObjects.func(function(this)
         local length = this.length
         if length == 0 then
             return nil
@@ -72,9 +73,9 @@ return function(arrayPrototype)
         rawset(this, length - 1, nil)
         rawset(this, "length", length - 1)
         return value
-    end
+    end)
 
-    arrayPrototype.shift = function (this)
+    arrayPrototype.shift = coreObjects.func(function(this)
         local length = this.length
 
         if length > 0 then
@@ -85,9 +86,9 @@ return function(arrayPrototype)
         end
 
         return nil
-    end
+    end)
 
-    arrayPrototype.unshift = function (this, ...)
+    arrayPrototype.unshift = coreObjects.func(function(this, ...)
         local args = pack(...)
         local newLength = this["length"] + args.n
 
@@ -99,9 +100,9 @@ return function(arrayPrototype)
         rawset(this, 'length', newLength)
 
         return newLength
-    end
+    end)
 
-    arrayPrototype.splice = function (this, index, howMany, ...)
+    arrayPrototype.splice = coreObjects.func(function(this, index, howMany, ...)
         local elements = pack(...)
         local length = this.length
 
@@ -141,9 +142,9 @@ return function(arrayPrototype)
 
         -- return array object
         return makeArray(ret, howMany)
-    end
+    end)
 
-    arrayPrototype.reverse = function (this)
+    arrayPrototype.reverse = coreObjects.func(function(this)
         local length = this.length
 
         for i = 0, floor(length / 2) - 1 do
@@ -153,9 +154,9 @@ return function(arrayPrototype)
             this[length - 1 - i] = tmp
         end
         return this
-    end
+    end)
 
-    arrayPrototype.slice = function (this, beginSlice, endSlice)
+    arrayPrototype.slice = coreObjects.func(function(this, beginSlice, endSlice)
         local length = this.length
         beginSlice = beginSlice or 0
         endSlice = endSlice or length
@@ -176,9 +177,9 @@ return function(arrayPrototype)
         end
 
         return makeArray(ret, j)
-    end
+    end)
 
-    arrayPrototype.concat = function (this, ...)
+    arrayPrototype.concat = coreObjects.func(function(this, ...)
         local ret = {}
         local length
         local args = pack(...)
@@ -214,10 +215,10 @@ return function(arrayPrototype)
 
         -- convert to array object
         return makeArray(ret, length)
-    end
+    end)
 
     -- doesn't work if two nil follow in the array
-    arrayPrototype.sort = function (this, compareFunction)
+    arrayPrototype.sort = coreObjects.func(function(this, compareFunction)
         -- shift from 0-based to 1-based index
         insert(this, 1, this[0])
         rawset(this, 0, nil)
@@ -254,9 +255,9 @@ return function(arrayPrototype)
         rawset(this, 0, tmp)
 
         return this
-    end
+    end)
 
-    arrayPrototype.join = function (this, arg)
+    arrayPrototype.join = coreObjects.func(function(this, arg)
         local separator = ","
         if arg ~= nil then
             separator = ToString(arg)
@@ -275,9 +276,9 @@ return function(arrayPrototype)
         end
 
         return str
-    end
+    end)
 
-    arrayPrototype.lastIndexOf = function(this, searchElement, fromIndex)
+    arrayPrototype.lastIndexOf = coreObjects.func(function(this, searchElement, fromIndex)
         local length = this.length
         local n = fromIndex ~= nil and ToInteger(fromIndex) or length - 1
 
@@ -294,9 +295,9 @@ return function(arrayPrototype)
         end
 
         return -1
-    end
+    end)
 
-    arrayPrototype.indexOf = function (this, searchElement, fromIndex)
+    arrayPrototype.indexOf = coreObjects.func(function(this, searchElement, fromIndex)
         local length = this.length
         local n = fromIndex ~= nil and ToNumber(fromIndex) or 0
 
@@ -314,7 +315,7 @@ return function(arrayPrototype)
         end
 
         return -1
-    end
+    end)
 
     local getThisArg = function(arg)
         -- if thisArg's not defined, use default this
@@ -326,7 +327,7 @@ return function(arrayPrototype)
         return arg
     end
 
-    arrayPrototype.map = function (this, callback, thisArg)
+    arrayPrototype.map = coreObjects.func(function(this, callback, thisArg)
         local ret = {}
 
         thisArg = getThisArg(thisArg)
@@ -345,9 +346,9 @@ return function(arrayPrototype)
 
         -- convert to array object
         return makeArray(ret, this.length)
-    end
+    end)
 
-    arrayPrototype.filter = function (this, callback, thisArg)
+    arrayPrototype.filter = coreObjects.func(function(this, callback, thisArg)
         local ret, length = {}, 0
 
         thisArg = getThisArg(thisArg)
@@ -367,13 +368,13 @@ return function(arrayPrototype)
 
         -- convert to array object
         return makeArray(ret, length)
-    end
+    end)
 
     local empty = function(array)
         return array.length == 0 or array:every(function(_,e) return e == nil end)
     end
 
-    arrayPrototype.reduce = function (this, callback, initialValue)
+    arrayPrototype.reduce = coreObjects.func(function(this, callback, initialValue)
         if empty(this) and initialValue == nil then
             throw(errorHelper.newTypeError("Reduce of empty array with no initial value"))
         end
@@ -390,9 +391,9 @@ return function(arrayPrototype)
         end
 
         return value
-    end
+    end)
 
-    arrayPrototype.reduceRight = function (this, callback, initialValue)
+    arrayPrototype.reduceRight = coreObjects.func(function(this, callback, initialValue)
         if empty(this) and initialValue == nil then
             throw(errorHelper.newTypeError("Reduce of empty array with no initial value"))
         end
@@ -408,9 +409,9 @@ return function(arrayPrototype)
         end
 
         return value
-    end
+    end)
 
-    arrayPrototype.forEach = function (this, callback, thisArg)
+    arrayPrototype.forEach = coreObjects.func(function(this, callback, thisArg)
         thisArg = getThisArg(thisArg)
 
         local tthis = type(this)
@@ -422,9 +423,9 @@ return function(arrayPrototype)
                 end
             end
         end
-    end
+    end)
 
-    arrayPrototype.some = function (this, callback, thisArg)
+    arrayPrototype.some = coreObjects.func(function(this, callback, thisArg)
         thisArg = getThisArg(thisArg)
 
         for i = 0, this.length - 1 do
@@ -434,9 +435,9 @@ return function(arrayPrototype)
         end
 
         return false
-    end
+    end)
 
-    arrayPrototype.every = function (this, callback, thisArg)
+    arrayPrototype.every = coreObjects.func(function(this, callback, thisArg)
         thisArg = getThisArg(thisArg)
 
         for i = 0, this.length - 1 do
@@ -446,6 +447,5 @@ return function(arrayPrototype)
         end
 
         return true
-    end
-
+    end)
 end

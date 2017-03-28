@@ -2014,19 +2014,43 @@
             compiledBinaryExpression.push(compileAdditionOperator(left, right, metaLeft, metaRight, meta));
             break;
         case "-":
-            pushSimpleBinaryExpression(compiledBinaryExpression, " - ", left, right);
+            if (metaLeft.type === "number" && metaRight.type === "number") {
+                pushSimpleBinaryExpression(compiledBinaryExpression, " - ", left, right);
+            } else {
+                compiledBinaryExpression.push("_sub(");
+                compiledBinaryExpression.push(left);
+                compiledBinaryExpression.push(",");
+                compiledBinaryExpression.push(right);
+                compiledBinaryExpression.push(")");
+            }
             if (meta) {
                 meta.type = "number";
             }
             break;
         case "*":
-            pushSimpleBinaryExpression(compiledBinaryExpression, " * ", left, right);
+            if (metaLeft.type === "number" && metaRight.type === "number") {
+                pushSimpleBinaryExpression(compiledBinaryExpression, " * ", left, right);
+            } else {
+                compiledBinaryExpression.push("_mul(");
+                compiledBinaryExpression.push(left);
+                compiledBinaryExpression.push(",");
+                compiledBinaryExpression.push(right);
+                compiledBinaryExpression.push(")");
+            }
             if (meta) {
                 meta.type = "number";
             }
             break;
         case "/":
-            pushSimpleBinaryExpression(compiledBinaryExpression, " / ", left, right);
+            if (metaLeft.type === "number" && metaRight.type === "number") {
+                pushSimpleBinaryExpression(compiledBinaryExpression, " / ", left, right);
+            } else {
+                compiledBinaryExpression.push("_div(");
+                compiledBinaryExpression.push(left);
+                compiledBinaryExpression.push(",");
+                compiledBinaryExpression.push(right);
+                compiledBinaryExpression.push(")");
+            }
             if (meta) {
                 meta.type = "number";
             }
@@ -2393,7 +2417,7 @@
 
     function compileFunction(fun) {
 
-        var compiledFunction = ["(function ("];
+        var compiledFunction = ["_func(function("];
         var compiledBody = "";
 
         // New context

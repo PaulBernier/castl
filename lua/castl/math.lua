@@ -45,23 +45,23 @@ local san = function(x)
     return ((x == null) and 0 or tonumber(x)) or 0/0
 end
 
-Math.abs = function(this, x) return math.abs(san(x)) end
-Math.acos = function(this,x) return math.acos(san(x)) end
-Math.asin = function(this,x) return math.asin(san(x)) end
-Math.atan = function(this,x) return math.atan(san(x)) end
-Math.atan2 = function(this,x,y) return math.atan2(san(x),san(y)) end
-Math.ceil = function(this,x) return math.ceil(san(x)) end
-Math.cos = function(this,x) return math.cos(san(x)) end
-Math.exp = function(this,x) return math.exp(san(x)) end
-Math.floor = function(this,x) return math.floor(san(x)) end
-Math.log = function(this,x) return math.log(san(x)) end
-Math.max = function(this,x,y) return math.max(san(x), san(y)) end
-Math.min = function(this,x,y) return math.min(san(x), san(y)) end
-Math.pow = function(this,x,y) return (san(x) ^ san(y)) end
-Math.random = function(this) return math.random() end
-Math.round = function(this, x) return math.floor(san(x) + 0.5) end
-Math.sin = function(this,x) return math.sin(san(x)) end
-Math.sqrt = function(this,x) return math.sqrt(san(x)) end
-Math.tan = function(this,x) return math.tan(san(x)) end
+Math.abs = coreObjects.func(function(this, x) return math.abs(san(x)) end)
+Math.acos = coreObjects.func(function(this,x) return math.acos(san(x)) end)
+Math.asin = coreObjects.func(function(this,x) return math.asin(san(x)) end)
+Math.atan = coreObjects.func(function(this,x) return math.atan(san(x)) end)
+Math.atan2 = coreObjects.func(function(this,x,y) return math.atan2(san(x),san(y)) end)
+Math.ceil = coreObjects.func(function(this,x) return math.ceil(san(x)) end)
+Math.cos = coreObjects.func(function(this,x) return math.cos(san(x)) end)
+Math.exp = coreObjects.func(function(this,x) return math.exp(san(x)) end)
+Math.floor = coreObjects.func(function(this,x) return math.floor(san(x)) end)
+Math.log = coreObjects.func(function(this,x) return math.log(san(x)) end)
+Math.max = coreObjects.func(function(this,x,y) return math.max(san(x), san(y)) end)
+Math.min = coreObjects.func(function(this,x,y) return math.min(san(x), san(y)) end)
+Math.pow = coreObjects.func(function(this,x,y) return (san(x) ^ san(y)) end)
+Math.random = coreObjects.func(function(this) return math.random() end)
+Math.round = coreObjects.func(function(this, x) return math.floor(san(x) + 0.5) end)
+Math.sin = coreObjects.func(function(this,x) return math.sin(san(x)) end)
+Math.sqrt = coreObjects.func(function(this,x) return math.sqrt(san(x)) end)
+Math.tan = coreObjects.func(function(this,x) return math.tan(san(x)) end)
 
 return coreObjects.obj(Math)

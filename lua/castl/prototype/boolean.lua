@@ -17,20 +17,20 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean/prototype
 
 return function(booleanPrototype)
+    local coreObjects = require("castl.core_objects")
     local getmetatable, tostring, type = getmetatable, tostring, type
 
     _ENV = nil
 
-    booleanPrototype.toString = function (this)
+    booleanPrototype.toString = coreObjects.func(function(this)
         return tostring(this:valueOf())
-    end
+    end)
 
-    booleanPrototype.valueOf = function (this)
+    booleanPrototype.valueOf = coreObjects.func(function (this)
         if type(this) == "boolean" then
             return this
         else
             return getmetatable(this)._primitive
         end
-    end
-
+    end)
 end

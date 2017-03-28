@@ -17,6 +17,7 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/prototype
 
 return function(numberPrototype)
+    local coreObjects = require("castl.core_objects")
     local errorHelper = require("castl.modules.error_helper")
     local throw = require("castl.jssupport").throw
 
@@ -25,17 +26,17 @@ return function(numberPrototype)
 
     _ENV = nil
 
-    numberPrototype.valueOf = function (this)
+    numberPrototype.valueOf = coreObjects.func(function(this)
         if type(this) == "number" then
             return this
         else
             return getmetatable(this)._primitive
         end
-    end
+    end)
 
     local valueof = numberPrototype.valueOf
 
-    numberPrototype.toString = function(this, radix)
+    numberPrototype.toString = coreObjects.func(function(this, radix)
         local value = valueof(this)
 
         if not radix or radix == 10 then
@@ -59,17 +60,17 @@ return function(numberPrototype)
         until n == 0
 
         return sign .. concat(t, "")
-    end
+    end)
 
     numberPrototype.toLocaleString = numberPrototype.toString
 
-    numberPrototype.toFixed = function(this, digits)
+    numberPrototype.toFixed = coreObjects.func(function(this, digits)
         local value = valueof(this)
         digits = digits or 0
         return format("%." .. tonumber(digits) .. "f", value)
-    end
+    end)
 
-    numberPrototype.toExponential = function(this, fractionDigits)
+    numberPrototype.toExponential = coreObjects.func(function(this, fractionDigits)
         local value = valueof(this)
         if fractionDigits == nil then
             fractionDigits = strlen(tostring(value)) - 1
@@ -82,9 +83,9 @@ return function(numberPrototype)
         end
         local formatted = format("%." .. fractionDigits .. "e", value)
         return (gsub(formatted, "%+0", "+"))
-    end
+    end)
 
-    numberPrototype.toPrecision = function(this, precision)
+    numberPrototype.toPrecision = coreObjects.func(function(this, precision)
         local value = valueof(this)
         if precision == nil then return tostring(value) end
         if precision < 1 or precision > 21 then
@@ -92,6 +93,5 @@ return function(numberPrototype)
         end
         local formatted = format("%." .. precision .. "g", value)
         return (gsub(formatted, "%+0", "+"))
-    end
-
+    end)
 end

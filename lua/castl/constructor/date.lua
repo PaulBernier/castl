@@ -19,6 +19,7 @@
 local Date
 
 local internal = require("castl.internal")
+local coreObjects = require("castl.core_objects")
 local dateparser = require("castl.modules.dateparser")
 local dateProto = require("castl.protos").dateProto
 
@@ -30,7 +31,7 @@ local get, put, withinNew, ToNumber = internal.get, internal.put, internal.withi
 
 _ENV = nil
 
-Date = function(this, ...)
+Date = coreObjects.func(function(this, ...)
     -- Date constructor not called within a new
     if not withinNew(this, dateProto) then
         return date("%a %h %d %Y %H:%M:%S GMT%z (%Z)")
@@ -88,7 +89,7 @@ Date = function(this, ...)
     })
 
     return o
-end
+end)
 
 Date._timestamp = 0
 
@@ -105,23 +106,23 @@ if luajit then
 
     local te = ffi.new("timeval[1]")
 
-    Date.now = function(this)
+    Date.now = coreObjects.func(function(this)
         ffi.C.gettimeofday(te, nil);
         return tonumber(te[0].tv_sec * 1000 + te[0].tv_usec / 1000);
-    end
+    end)
 else
-    Date.now = function(this)
+    Date.now = coreObjects.func(function(this)
         -- TODO: write a C function to get milliseconds
         return time() * 1000
-    end
+    end)
 end
 
-Date.parse = function(this, str)
+Date.parse = coreObjects.func(function(this, str)
     -- TODO: parse RFC2822 only for now
     return dateparser.parse(str, 'RFC2822') * 1000
-end
+end)
 
-Date.UTC = function(this, year, month, day, hrs, min, sec, ms)
+Date.UTC = coreObjects.func(function(this, year, month, day, hrs, min, sec, ms)
     local timestamp = time{year=year,
         month = month + 1,
         day = day or 1,
@@ -132,7 +133,7 @@ Date.UTC = function(this, year, month, day, hrs, min, sec, ms)
     timestamp = (timestamp + dateProto.getTimezoneOffset()) * 1000 + (ms or 0)
 
     return timestamp
-end
+end)
 
 Date.length = 7
 

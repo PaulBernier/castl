@@ -18,6 +18,7 @@
 
 local URIError
 
+local coreObjects = require("castl.core_objects")
 local Error = require("castl.constructor.error.error")
 local uriErrorProto = require("castl.protos").uriErrorProto
 local internal = require("castl.internal")
@@ -27,7 +28,7 @@ local get, put, ToNumber = internal.get, internal.put, internal.ToNumber
 
 _ENV = nil
 
-URIError = function(this, message)
+URIError = coreObjects.func(function(this, message)
     local o = {}
     o.message = message
 
@@ -53,7 +54,7 @@ URIError = function(this, message)
     Error:captureStackTrace(o, URIError)
 
     return o
-end
+end)
 
 URIError.prototype = uriErrorProto
 uriErrorProto.constructor = URIError

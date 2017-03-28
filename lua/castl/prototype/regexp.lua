@@ -17,7 +17,8 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/prototype
 
 return function(regexpPrototype)
-    local array = require("castl.core_objects").array
+    local coreObjects = require("castl.core_objects")
+    local array = coreObjects.array
     local internal = require("castl.internal")
     local regexpHelper = require("castl.modules.regexphelper")
 
@@ -34,7 +35,7 @@ return function(regexpPrototype)
     regexpPrototype.source = ""
     regexpPrototype.lastIndex = 0
 
-    regexpPrototype.exec = function(this, str)
+    regexpPrototype.exec = coreObjects.func(function(this, str)
         str = ToString(str)
         -- add a global capture to get the entire match
         -- (find don't return the entire match, only  the captures)
@@ -79,18 +80,18 @@ return function(regexpPrototype)
         rawset(ret, 0, tmp)
 
         return array(ret, length)
-    end
+    end)
 
-    regexpPrototype.toString = function(this)
+    regexpPrototype.toString = coreObjects.func(function(this)
         local flags = ""
         if rawget(this, "global") then flags = flags .. 'g' end
         if rawget(this, "ignoreCase") then flags = flags .. 'i' end
         if rawget(this, "multiline") then flags = flags .. 'm' end
 
         return '/' .. this.source .. '/' .. flags
-    end
+    end)
 
-    regexpPrototype.test = function(this, str)
+    regexpPrototype.test = coreObjects.func(function(this, str)
         str = ToString(str)
         local cf = regexpHelper.getPCRECompilationFlag(this)
 
@@ -111,5 +112,5 @@ return function(regexpPrototype)
         end
 
         return ret
-    end
+    end)
 end

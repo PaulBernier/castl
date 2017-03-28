@@ -121,6 +121,12 @@ end
     Function metatable
 --]]
 
+local function_magic_key = {}
+
+functionMt.__call = function(self, ...)
+    return self[function_magic_key](...)
+end
+
 functionMt.__index = function(self, key)
     local proxy = getFunctionProxy(self)
 
@@ -152,8 +158,6 @@ end
 functionMt.__div = function(a, b)
     return ToNumber(a) / ToNumber(b)
 end
-
-debug.setmetatable((function () end), functionMt)
 
 --[[
     Array metatable
@@ -221,18 +225,6 @@ end
 -- immutable
 booleanMt.__newindex = function() end
 
-booleanMt.__sub = function(a, b)
-    return ToNumber(a) - ToNumber(b)
-end
-
-booleanMt.__mul = function(a, b)
-    return ToNumber(a) * ToNumber(b)
-end
-
-booleanMt.__div = function(a, b)
-    return ToNumber(a) / ToNumber(b)
-end
-
 debug.setmetatable(true, booleanMt)
 
 --[[
@@ -274,18 +266,6 @@ end
 -- immutable
 stringMt.__newindex = function() end
 
-stringMt.__sub = function(a, b)
-    return ToNumber(a) - ToNumber(b)
-end
-
-stringMt.__mul = function(a, b)
-    return ToNumber(a) * ToNumber(b)
-end
-
-stringMt.__div = function(a, b)
-    return ToNumber(a) / ToNumber(b)
-end
-
 debug.setmetatable("", stringMt)
 
 --[[
@@ -304,16 +284,6 @@ undefinedMt.__tostring = function ()
     return "undefined"
 end
 
-undefinedMt.__sub = function ()
-    return 0/0
-end
-undefinedMt.__mul = function ()
-    return 0/0
-end
-undefinedMt.__div = function ()
-    return 0/0
-end
-
 debug.setmetatable(nil, undefinedMt)
 
 --[[
@@ -323,6 +293,10 @@ debug.setmetatable(nil, undefinedMt)
 -- Inline creation of object: {att1: "...", att2: ...}
 function coreObjects.obj(o)
     return setmetatable(o, objectMt)
+end
+
+function coreObjects.func(f)
+    return setmetatable({[function_magic_key] = f}, functionMt)
 end
 
 -- Inline creation of array: [..., ...]
@@ -339,7 +313,7 @@ end
 
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
 function coreObjects.new(f, ...)
-    if type(f) ~= "function" then
+    if getmetatable(f) ~= functionMt then
         throw(errorHelper.newTypeError(typeof(f) .. " is not a function"))
     end
 
@@ -349,7 +323,7 @@ function coreObjects.new(f, ...)
 
     -- http://stackoverflow.com/a/3658673
     local tr = type(ret)
-    if tr == "table" or tr == "function" then
+    if tr == "table" then
         return ret
     end
 
@@ -385,7 +359,7 @@ function coreObjects.arguments(...)
 end
 
 function coreObjects.instanceof(object, class)
-    if type(class) ~= "function" then
+    if getmetatable(class) ~= functionMt then
         throw(errorHelper.newTypeError("Expecting a function in instanceof check, but got " .. tostring(class)))
     end
 
@@ -404,7 +378,7 @@ function coreObjects.instanceof(object, class)
 end
 
 function coreObjects.props (arg, inherited, enumAll)
-    if type(arg) == 'function' then
+    if getmetatable(arg) == functionMt then
         arg = getFunctionProxy(arg)
     end
 
@@ -550,6 +524,8 @@ err(evalErrorProto)
 
 coreObjects.objectMt = objectMt
 coreObjects.arrayMt = arrayMt
+
+coreObjects.functionMt = functionMt
 
 -- global this
 coreObjects.this = coreObjects.obj({})
