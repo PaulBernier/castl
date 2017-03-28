@@ -14,8 +14,8 @@ end)(_ENV,this,_func(function(this, exports)
 local compileLiteral,sanitizeRegExpSource,sanitizeLiteralString,toUTF8Array,compileIdentifier,sanitizeIdentifier,buildLocalsDeclarationString,compileFunction,compilePattern,compileVariableDeclaration,compileFunctionDeclaration,compileArrayExpression,compileThisExpression,compileNewExpression,compileMemberExpression,compileObjectExpression,compileSequenceExpression,compileConditionalExpression,pushSimpleBinaryExpression,compileBinaryExpression,compileComparisonOperator,compileAdditionOperator,compileUnaryExpression,getGetterSetterExpression,getBaseMember,compileGenericLogicalExpression,compileLogicalExpressionLeftIdentifierOrLiteral,compileLogicalExpression,compileCallExpression,compileCallArguments,lastTopLevelBracketedGroupStartIndex,replaceAt,compileUpdateExpression,compileUpdateExpressionNoEval,compileAssignmentExpression,compileAssignmentExpressionNoEval,compileCompoundAssignmentNoEval,storeComputedProperty,compileCompoundAssignmentBinaryExpression,compileExpressionStatementNoEval,compileExpressionStatementEvalMode,compileExpressionStatement,compileExpression,compileWithStatement,compileReturnStatement,compileThrowStatement,compileTryStatementFlavored,compileTryStatement,compileSwitchStatement,compileContinueStatement,compileBreakStatement,compileLabeledStatement,isIterationStatement,compileDoWhileStatement,compileWhileStatement,compileForInStatement,compileForStatement,mayBeNumericFor,isComparisonExpressionWith,isNumericCompoundAssignmentExpressionWith,isUpdateExpressionWith,isCompoundAssignment,compileForTest,compileForUpdate,compileForInit,compileIterationStatement,compileIfStatement,compileBooleanExpression,compileListOfStatements,compileStatement,compileAST,localVarManager,LocalVarManager,protectedCallManager,ProtectedCallManager,setMeta,deductions,withTracker,continueNoLabelTracker,labelTracker,annotations,options,luaKeywords;
 setMeta = _func(function(this, node, meta)
 if _bool(options.annotation) then
-if _bool(((function() local _lev=annotations[(node.loc.start.line - 1)]; if _bool(_lev) then return meta; else return _lev; end end)())) then
-meta.type = annotations[(node.loc.start.line - 1)];
+if _bool(((function() local _lev=annotations[(_sub(node.loc.start.line,1))]; if _bool(_lev) then return meta; else return _lev; end end)())) then
+meta.type = annotations[(_sub(node.loc.start.line,1))];
 do return end
 end
 
@@ -471,7 +471,7 @@ compiledForStatement:push(compileForTest(_ENV,statement.test));
 compiledForStatement:push(" do\010");
 compiledForStatement:push(compileStatement(_ENV,statement.body));
 compiledForStatement:push("\010");
-if _bool(continueNoLabelTracker[(continueNoLabelTracker.length - 1)]) then
+if _bool(continueNoLabelTracker[(_sub(continueNoLabelTracker.length,1))]) then
 compiledForStatement:push("::_continue::\010");
 end
 
@@ -590,7 +590,7 @@ end);
 compileContinueStatement = _func(function(this, statement)
 local compiledLabel;
 if (statement.label == null) then
-continueNoLabelTracker[(continueNoLabelTracker.length - 1)] = true;
+continueNoLabelTracker[(_sub(continueNoLabelTracker.length,1))] = true;
 if _bool(protectedCallManager:continueOutside()) then
 do return "do return _continue; end"; end
 end
@@ -1999,7 +1999,16 @@ do break end;
 _into = true;
 end
 if _into or (_v == "-") then
+if ((function() local _lev=(metaLeft.type == "number"); if _bool(_lev) then return (metaRight.type == "number"); else return _lev; end end)()) then
 pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," - ",left,right);
+else
+compiledBinaryExpression:push("_sub(");
+compiledBinaryExpression:push(left);
+compiledBinaryExpression:push(",");
+compiledBinaryExpression:push(right);
+compiledBinaryExpression:push(")");
+end
+
 if _bool(meta) then
 meta.type = "number";
 end
@@ -2008,7 +2017,16 @@ do break end;
 _into = true;
 end
 if _into or (_v == "*") then
+if ((function() local _lev=(metaLeft.type == "number"); if _bool(_lev) then return (metaRight.type == "number"); else return _lev; end end)()) then
 pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," * ",left,right);
+else
+compiledBinaryExpression:push("_mul(");
+compiledBinaryExpression:push(left);
+compiledBinaryExpression:push(",");
+compiledBinaryExpression:push(right);
+compiledBinaryExpression:push(")");
+end
+
 if _bool(meta) then
 meta.type = "number";
 end
@@ -2017,7 +2035,16 @@ do break end;
 _into = true;
 end
 if _into or (_v == "/") then
+if ((function() local _lev=(metaLeft.type == "number"); if _bool(_lev) then return (metaRight.type == "number"); else return _lev; end end)()) then
 pushSimpleBinaryExpression(_ENV,compiledBinaryExpression," / ",left,right);
+else
+compiledBinaryExpression:push("_div(");
+compiledBinaryExpression:push(left);
+compiledBinaryExpression:push(",");
+compiledBinaryExpression:push(right);
+compiledBinaryExpression:push(")");
+end
+
 if _bool(meta) then
 meta.type = "number";
 end
@@ -2589,16 +2616,16 @@ end
 do return false; end
 end),
 ["noInsideIteration"] = _func(function(this)
-do return (this.iterationStatement[(this.iterationStatement.length - 1)].length == 0); end
+do return (this.iterationStatement[(_sub(this.iterationStatement.length,1))].length == 0); end
 end),
 ["noInsideSwitch"] = _func(function(this)
-do return (this.switchStatement[(this.switchStatement.length - 1)].length == 0); end
+do return (this.switchStatement[(_sub(this.switchStatement.length,1))].length == 0); end
 end),
 ["may"] = _func(function(this)
 do return _obj({
-["mayReturn"] = this.mayReturnStack[(this.mayReturnStack.length - 1)],
-["mayBreak"] = this.mayBreakStack[(this.mayBreakStack.length - 1)],
-["mayContinue"] = this.mayContinueStack[(this.mayContinueStack.length - 1)]
+["mayReturn"] = this.mayReturnStack[(_sub(this.mayReturnStack.length,1))],
+["mayBreak"] = this.mayBreakStack[(_sub(this.mayBreakStack.length,1))],
+["mayContinue"] = this.mayContinueStack[(_sub(this.mayContinueStack.length,1))]
 }); end
 end),
 ["openContext"] = _func(function(this)
@@ -2619,37 +2646,37 @@ this.mayReturnStack:pop();
 end),
 ["openIterationStatement"] = _func(function(this)
 if _bool(this:isInProtectedCallContext()) then
-this.iterationStatement[(this.iterationStatement.length - 1)]:push(true);
+this.iterationStatement[(_sub(this.iterationStatement.length,1))]:push(true);
 end
 
 end),
 ["closeIterationStatement"] = _func(function(this)
 if _bool(this:isInProtectedCallContext()) then
-this.iterationStatement[(this.iterationStatement.length - 1)]:pop();
+this.iterationStatement[(_sub(this.iterationStatement.length,1))]:pop();
 end
 
 end),
 ["openSwitchStatement"] = _func(function(this)
 if _bool(this:isInProtectedCallContext()) then
-this.switchStatement[(this.iterationStatement.length - 1)]:push(true);
+this.switchStatement[(_sub(this.iterationStatement.length,1))]:push(true);
 end
 
 end),
 ["closeSwitchStatement"] = _func(function(this)
 if _bool(this:isInProtectedCallContext()) then
-this.switchStatement[(this.iterationStatement.length - 1)]:pop();
+this.switchStatement[(_sub(this.iterationStatement.length,1))]:pop();
 end
 
 end),
 ["returnStatement"] = _func(function(this)
 if _bool(this:isInProtectedCallContext()) then
-this.mayReturnStack[(this.mayReturnStack.length - 1)] = true;
+this.mayReturnStack[(_sub(this.mayReturnStack.length,1))] = true;
 end
 
 end),
 ["breakOutside"] = _func(function(this)
 if _bool(((function() local _lev=((function() local _lev=this:isInProtectedCallContext(); if _bool(_lev) then return this:noInsideIteration(); else return _lev; end end)()); if _bool(_lev) then return this:noInsideSwitch(); else return _lev; end end)())) then
-this.mayBreakStack[(this.mayBreakStack.length - 1)] = true;
+this.mayBreakStack[(_sub(this.mayBreakStack.length,1))] = true;
 do return true; end
 end
 
@@ -2657,7 +2684,7 @@ do return false; end
 end),
 ["continueOutside"] = _func(function(this)
 if _bool(((function() local _lev=this:isInProtectedCallContext(); if _bool(_lev) then return this:noInsideIteration(); else return _lev; end end)())) then
-this.mayContinueStack[(this.mayContinueStack.length - 1)] = true;
+this.mayContinueStack[(_sub(this.mayContinueStack.length,1))] = true;
 do return true; end
 end
 
@@ -2680,7 +2707,7 @@ this.args:push(false);
 end),
 ["pushLocal"] = _func(function(this, varName)
 if (_gt(this.locals.length,0)) then
-this.locals[(this.locals.length - 1)]:push(varName);
+this.locals[(_sub(this.locals.length,1))]:push(varName);
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)
 end
@@ -2688,7 +2715,7 @@ end
 end),
 ["pushFunction"] = _func(function(this, functionDeclaration)
 if (_gt(this.functions.length,0)) then
-this.functions[(this.functions.length - 1)]:push(functionDeclaration);
+this.functions[(_sub(this.functions.length,1))]:push(functionDeclaration);
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)
 end
@@ -2696,7 +2723,7 @@ end
 end),
 ["useArguments"] = _func(function(this)
 if (_gt(this.args.length,0)) then
-this.args[(this.args.length - 1)] = true;
+this.args[(_sub(this.args.length,1))] = true;
 else
 _throw(_new(Error,"LocalVarManager error: no current local context"),0)
 end

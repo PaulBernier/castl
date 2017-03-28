@@ -134,6 +134,18 @@ function jssupport.addNumber2(other, num)
     end
 end
 
+function jssupport.sub(x, y)
+    return ToNumber(x) - ToNumber(y)
+end
+
+function jssupport.mul(x, y)
+    return ToNumber(x) * ToNumber(y)
+end
+
+function jssupport.div(x, y)
+    return ToNumber(x) / ToNumber(y)
+end
+
 if luajit then
     function jssupport.lt(x, y)
         local px, py = ToPrimitiveNumber(x), ToPrimitiveNumber(y)
