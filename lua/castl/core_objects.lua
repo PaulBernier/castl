@@ -225,18 +225,6 @@ end
 -- immutable
 booleanMt.__newindex = function() end
 
-booleanMt.__sub = function(a, b)
-    return ToNumber(a) - ToNumber(b)
-end
-
-booleanMt.__mul = function(a, b)
-    return ToNumber(a) * ToNumber(b)
-end
-
-booleanMt.__div = function(a, b)
-    return ToNumber(a) / ToNumber(b)
-end
-
 debug.setmetatable(true, booleanMt)
 
 --[[
@@ -278,18 +266,6 @@ end
 -- immutable
 stringMt.__newindex = function() end
 
-stringMt.__sub = function(a, b)
-    return ToNumber(a) - ToNumber(b)
-end
-
-stringMt.__mul = function(a, b)
-    return ToNumber(a) * ToNumber(b)
-end
-
-stringMt.__div = function(a, b)
-    return ToNumber(a) / ToNumber(b)
-end
-
 debug.setmetatable("", stringMt)
 
 --[[
@@ -306,16 +282,6 @@ end
 
 undefinedMt.__tostring = function ()
     return "undefined"
-end
-
-undefinedMt.__sub = function ()
-    return 0/0
-end
-undefinedMt.__mul = function ()
-    return 0/0
-end
-undefinedMt.__div = function ()
-    return 0/0
 end
 
 debug.setmetatable(nil, undefinedMt)
